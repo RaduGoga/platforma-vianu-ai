@@ -4,7 +4,7 @@ Clubul de inteligență artificială de la Colegiul Național Tudor Vianu și
 programa lui: module cu lecții complete și o bibliotecă de resurse. Deschisă
 oricui se pregătește pentru olimpiada de AI.
 
-Live: https://vianu-ai-platforma.vercel.app
+Live: https://vianu-ai.ro
 
 ## Stack
 

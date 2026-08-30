@@ -7,6 +7,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { ScrollTop } from "@/components/scroll-top";
 import { LangProvider } from "@/components/lang-provider";
 import { LOCALES, isLocale, altLanguages, type Locale } from "@/lib/i18n";
+import { SITE_URL } from "@/lib/site";
 
 // latin-ext e obligatoriu: ă, ș, ț nu sunt în subsetul "latin", iar fără el
 // site-ul cade pe fontul de sistem exact pe diacriticele românești.
@@ -67,7 +68,7 @@ export async function generateMetadata({
   const l: Locale = isLocale(lang) ? lang : "ro";
   const c = COPY[l];
   return {
-    metadataBase: new URL("https://vianu-ai-platforma.vercel.app"),
+    metadataBase: new URL(SITE_URL),
     // tab-ul arată doar numele paginii ("Programa", "Resurse"...); pe acasă,
     // doar numele mărcii. Titlul lung rămâne pentru OG/Twitter, mai jos.
     title: { default: "Vianu AI", template: "%s" },

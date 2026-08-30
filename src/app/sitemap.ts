@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { modules } from "@/data/curriculum";
 import { LOCALES, altLanguages } from "@/lib/i18n";
+import { SITE_URL } from "@/lib/site";
 
-const BASE = "https://vianu-ai-platforma.vercel.app";
+const BASE = SITE_URL;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const paths = ["", "/programa", "/resurse", "/despre", ...modules.map((m) => `/programa/${m.slug}`)];

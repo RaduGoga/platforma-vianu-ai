@@ -1,0 +1,1679 @@
+// AUTO-GENERAT din content/lessons/*.ro.md — NU edita direct.
+// Editează fișierele markdown din content/lessons/, apoi rulează `npm run lessons`
+// (se rulează oricum automat înainte de dev și build).
+import type { Lesson } from "./lesson-types";
+export type { Block, LessonSection, Lesson } from "./lesson-types";
+
+export const lessons: Lesson[] = [
+  {
+    "moduleCode": "S1",
+    "duration": "~2h",
+    "objective": "Știi ce e inteligența artificială și unde se folosește, ai mediul de lucru pus la punct și o primă submisie validă pe MLCompete.",
+    "intro": "Prima sesiune are două jumătăți. Întâi limpezim ce înseamnă inteligența artificială, ca să știi despre ce vorbim tot anul. Apoi facem logistica: un loc unde scrii cod și un loc unde trimiți răspunsuri. Partea de setup pare plictisitoare, dar mai toate punctele pierdute prostește la prima etapă vin de aici: un mediu care nu pornește, un fișier de submisie prost formatat, o bibliotecă lipsă. O faci o dată, temeinic, și scapi de ea.",
+    "sections": [
+      {
+        "heading": "Ce e AI și unde se folosește",
+        "blocks": [
+          {
+            "p": "Inteligența artificială e ideea de a face un program care rezolvă probleme fără să-i scrii tu, pas cu pas, regula pentru fiecare caz. În loc să-i spui „dacă e așa, fă asta”, îi arăți multe exemple și îl lași să găsească singur regula. Partea asta, de învățat din exemple, se numește machine learning, și e aproape tot ce faci la olimpiadă."
+          },
+          {
+            "p": "Un exemplu face diferența limpede. Ca să deosebești un email spam de unul normal cu reguli scrise de mână, ai scrie sute de „dacă conține cuvântul X”. Cu machine learning, îi dai câteva mii de emailuri deja marcate spam sau nu, și modelul învață singur ce combinații de cuvinte prezic spamul. Nu-i spui regula, i-o extragi din date."
+          },
+          {
+            "list": [
+              "Clasificare: pui o etichetă (spam sau nu, ce cifră e în imagine, ce boală arată o analiză).",
+              "Regresie: prezici un număr (prețul unei case, temperatura de mâine).",
+              "Grupare: găsești structura din date fără etichete (ce clienți seamănă între ei)."
+            ]
+          },
+          {
+            "note": "La concursurile de AI, aproape orice problemă se reduce la asta: primești date cu exemple, antrenezi un model care învață din ele, și îl pui să prezică pe date noi. Restul programei sunt uneltele care fac asta bine."
+          }
+        ]
+      },
+      {
+        "heading": "Ce e Python și de ce el",
+        "blocks": [
+          {
+            "p": "Python e limbajul standard în care se scrie cod de inteligență artificială. Nu pentru că ar fi cel mai rapid, ci pentru că are bibliotecile pe care le vrei deja scrise: NumPy pentru calcul numeric, Pandas pentru tabele, scikit-learn pentru modele clasice, PyTorch pentru rețele neuronale. La olimpiadă totul se scrie în Python, deci aici începi."
+          },
+          {
+            "p": "O bibliotecă e cod scris de altcineva, pe care îl imporți și îl folosești. În loc să scrii tu algoritmul de sortare sau înmulțirea de matrice, chemi funcția potrivită. Cea mai mare parte din munca ta va fi să legi bibliotecile astea între ele corect."
+          },
+          {
+            "note": "Instalează Python 3.11 (o versiune stabilă, larg suportată) și JupyterLab. Jupyter îți dă un caiet interactiv unde rulezi cod bucată cu bucată și vezi rezultatul imediat, exact ce vrei când explorezi date."
+          }
+        ]
+      },
+      {
+        "heading": "Pune mediul la punct",
+        "blocks": [
+          {
+            "p": "Un mediu virtual e o cutie separată pentru bibliotecile unui proiect, ca să nu se bată cap în cap cu altele. Îl creezi o dată și lucrezi mereu în el. Pașii de mai jos îți dau un mediu curat cu tot ce ai nevoie la început."
+          },
+          {
+            "steps": [
+              "Deschide un terminal în folderul de lucru.",
+              "Creează mediul: python3.11 -m venv .venv",
+              "Activează-l: source .venv/bin/activate (pe Windows: .venv\\Scripts\\activate).",
+              "Instalează uneltele: pip install numpy pandas matplotlib scikit-learn jupyterlab",
+              "Pornește Jupyter: jupyter lab"
+            ]
+          },
+          {
+            "p": "Verifică din prima că totul se importă fără erori. Dacă ceva pică, rezolvă acum, la tine acasă, cu internet, nu în sala de concurs unde nu ai nici net, nici timp."
+          },
+          {
+            "code": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LogisticRegression\n\nprint(\"numpy\", np.__version__)\nprint(\"pandas\", pd.__version__)\nprint(\"totul merge\")",
+            "caption": "Dacă rulează fără eroare, ești gata de treabă."
+          }
+        ]
+      },
+      {
+        "heading": "Documentația offline",
+        "blocks": [
+          {
+            "p": "La concurs, mai toate etapele sunt offline: fără internet, fără Stack Overflow, fără să întrebi un model. Singurul lucru la care te poți uita e documentația locală, adică fișierele de ajutor ale bibliotecilor, salvate pe calculator."
+          },
+          {
+            "p": "Obișnuiește-te din timp să cauți în documentația offline. În Jupyter, pui un semn de întrebare după o funcție și îți arată ce face și ce argumente ia. E reflexul care îți salvează minute prețioase."
+          },
+          {
+            "code": "pd.read_csv?      # deschide ajutorul pentru read_csv\nnp.mean?          # ce face, ce argumente ia",
+            "caption": "Semnul întrebării deschide documentația fără internet."
+          }
+        ]
+      },
+      {
+        "heading": "Prima submisie, bucla completă",
+        "blocks": [
+          {
+            "p": "MLCompete (platform.olimpiada-ai.ro) e platforma pe care te antrenezi tot anul. Nitro AI Judge (judge.nitro-ai.org) e alta, pentru probleme de tip hackathon NLP. Fă-ți cont pe amândouă acum."
+          },
+          {
+            "p": "O competiție funcționează așa: descarci un set de date, antrenezi un model, produci un fișier cu predicțiile tale pentru datele de test, îl încarci, și primești un scor pe un clasament. Scopul primei tale submisii nu e scorul. E să vezi bucla întreagă măcar o dată."
+          },
+          {
+            "steps": [
+              "Intră într-o competiție de antrenament și citește ce metrică se punctează.",
+              "Descarcă datele și deschide fișierul de exemplu de submisie, ca să vezi exact ce coloane și ce format cere.",
+              "Produ un fișier în același format, chiar și cu răspunsuri la întâmplare.",
+              "Încarcă-l și uită-te la scor."
+            ]
+          },
+          {
+            "note": "Un model bun cu un fișier prost formatat ia zero. Formatul submisiei nu e un detaliu, e o condiție. Verifică-l de fiecare dată: numele coloanelor, ordinea, separatorul, dacă are sau nu antet."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Lași instalarea pe ultima seară. Ceva pică, și pierzi timp în loc să înveți.",
+      "Nu verifici formatul submisiei. Un fișier bun ca model dar prost formatat ia zero.",
+      "Te bazezi pe internet la antrenament, apoi la concurs offline ești pierdut."
+    ],
+    "practice": [
+      "Trimite o submisie validă pe o competiție de antrenament de pe MLCompete.",
+      "Salvează documentația offline pentru numpy și pandas și caută în ea fără internet.",
+      "Scrie de memorie pașii de la date la fișierul de submisie, fără să te uiți."
+    ],
+    "keyTakeaways": [
+      "AI la olimpiadă înseamnă machine learning: modelul învață regula din exemple, nu i-o scrii tu.",
+      "Python plus câteva biblioteci fac tot: NumPy, Pandas, scikit-learn, PyTorch.",
+      "Mediul și documentația offline se pregătesc acasă, nu în ziua concursului.",
+      "Bucla de concurs: date in, fișier de predicții out, scor pe clasament.",
+      "Formatul submisiei e o condiție de punctare, nu un detaliu."
+    ]
+  },
+  {
+    "moduleCode": "S2",
+    "duration": "~2h",
+    "objective": "Citești corect o problemă de concurs: știi ce sunt datele, ce metrică te punctează, cum arată submisia, și ce îți spune (și ce nu îți spune) leaderboardul.",
+    "intro": "Înainte să înveți vreun model, merită să înțelegi jocul. O problemă de concurs de AI are mereu aceleași piese: niște date, o țintă de prezis, o metrică de punctare și un fișier de submisie. Cine citește piesele astea corect pleacă cu un avans mare, fiindcă jumătate din greșelile de concurs nu-s de model, ci de citit enunțul pe fugă.",
+    "sections": [
+      {
+        "heading": "Anatomia unei probleme",
+        "blocks": [
+          {
+            "p": "Primești două seturi de date. Unul de antrenament, care are și răspunsurile corecte (numite etichete sau țintă), și unul de test, care are aceleași coloane dar fără răspuns. Sarcina ta e să prezici răspunsul pentru setul de test, pornind de la ce ai învățat pe cel de antrenament."
+          },
+          {
+            "list": [
+              "Date de antrenament: rândurile pe care le vezi complet, cu tot cu răspuns. De aici învață modelul.",
+              "Date de test: aceleași coloane, dar coloana-țintă lipsește. Aici trebuie să completezi tu.",
+              "Ținta: ce prezici. Poate fi o etichetă (spam sau nu) sau un număr (un preț).",
+              "Fișierul de submisie: un tabel cu predicțiile tale, în formatul exact cerut de platformă."
+            ]
+          },
+          {
+            "note": "Primul lucru pe care îl faci la o problemă nouă nu e să antrenezi ceva. E să deschizi datele și fișierul de exemplu de submisie și să te uiți la ele: câte rânduri, ce coloane, ce lipsește, cum arată răspunsul cerut."
+          }
+        ]
+      },
+      {
+        "heading": "Metrica e regula jocului",
+        "blocks": [
+          {
+            "p": "Fiecare problemă are o metrică, adică formula după care se calculează scorul tău. E scrisă în enunț și e singura care contează. Nu ești punctat după cât de deștept pare modelul, ci după numărul pe care îl scoate metrica. Dacă metrica e F1 și tu optimizezi acuratețea, poți urca pe un scor care nu-ți aduce puncte."
+          },
+          {
+            "list": [
+              "Acuratețe: procentul de răspunsuri corecte. Simplă, dar înșelătoare când clasele sunt dezechilibrate.",
+              "F1: echilibrează precizia cu recallul, bună când clasele sunt inegale.",
+              "RMSE sau MAE: pentru numere, cât de departe ești în medie de răspunsul real."
+            ]
+          },
+          {
+            "p": "Regula practică: citește metrica înainte de orice, și antrenează cu ea în minte. Dacă se punctează F1, validează local tot pe F1, nu pe altceva."
+          }
+        ]
+      },
+      {
+        "heading": "Submisie și leaderboard",
+        "blocks": [
+          {
+            "p": "Când ai predicțiile, le pui în fișierul cerut și îl încarci. Platforma îl compară cu răspunsurile corecte, pe care tu nu le vezi, și îți dă un scor pe un clasament. Ai de obicei un număr limitat de submisii pe zi, deci nu le irosi pe încercări la întâmplare."
+          },
+          {
+            "p": "Leaderboardul are două fețe. Cel public se calculează pe o parte din datele de test și îl vezi cât ține concursul. Cel privat se calculează pe restul și se dezvăluie abia la final. Clasamentul care contează e cel privat. Splitul ăsta există dintr-un motiv anume, și el te duce la capcana următoare."
+          }
+        ]
+      },
+      {
+        "heading": "Capcana leaderboardului public",
+        "blocks": [
+          {
+            "p": "Dacă îți alegi modelul după scorul public, ajungi să te potrivești pe acea bucată mică de date, nu pe problema reală. Se cheamă overfitting pe leaderboard: urci frumos pe public, apoi cazi pe privat, unde se împart de fapt punctele."
+          },
+          {
+            "note": "Apărarea e o validare locală serioasă. Îți ții o parte din datele de antrenament deoparte, ca test propriu, și te încrezi în scorul de acolo mai mult decât în leaderboardul public. La final alegi submisiile pe scorul local, nu pe cel public."
+          }
+        ]
+      },
+      {
+        "heading": "Unde te antrenezi",
+        "blocks": [
+          {
+            "p": "Sunt trei locuri de care ai nevoie tot anul. Nu-s interschimbabile, fiecare are rostul lui."
+          },
+          {
+            "list": [
+              "ONIA (olimpiada-ai.ro): olimpiada oficială de inteligență artificială, cu etapă locală, județeană și națională. Câștigătorii merg în lotul pentru IOAI.",
+              "MLCompete (platform.olimpiada-ai.ro): platforma pe care se ține olimpiada și pe care exersezi între etape, cu probleme de arhivă și competiții de antrenament.",
+              "Nitro NLP (nitro-ai.org): un hackathon de procesare a limbajului pe română, în echipe, bun ca să lucrezi pe text real."
+            ]
+          },
+          {
+            "p": "Nu trebuie să le atingi pe toate azi. Trebuie doar să știi la ce folosește fiecare, ca să nu te trezești în ianuarie fără cont și fără o submisie făcută vreodată."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Sari la model fără să citești metrica și formatul submisiei. Pierzi puncte pe lucruri care nu țin de AI.",
+      "Îți urmărești obsesiv scorul public și îți alegi modelul după el. Cazi pe privat.",
+      "Irosești submisiile zilei pe încercări la nimereală, apoi n-ai cu ce testa ideea bună."
+    ],
+    "practice": [
+      "Ia o problemă de arhivă de pe MLCompete și scrie în trei rânduri: care e ținta, care e metrica, cum arată submisia.",
+      "Fă-ți un split local de validare și compară scorul lui cu leaderboardul public pe aceeași submisie.",
+      "Explică-i unui coleg diferența dintre leaderboardul public și cel privat, cu un exemplu."
+    ],
+    "keyTakeaways": [
+      "O problemă are patru piese: date de antrenament cu etichete, date de test fără, o țintă, o metrică.",
+      "Te punctează exact metrica din enunț. Optimizezi ce se punctează, nu ce ți se pare frumos.",
+      "Leaderboardul privat decide clasamentul, cel public doar te tentează.",
+      "Alegi submisiile finale pe validarea ta locală, nu pe scorul public."
+    ]
+  },
+  {
+    "moduleCode": "S3",
+    "duration": "~3 săptămâni",
+    "objective": "Manevrezi date cu NumPy și Pandas fără să te gândești la sintaxă, ca să dai timpul pe model, nu pe cum scrii o filtrare.",
+    "intro": "NumPy și Pandas sunt uneltele pe care le folosești în fiecare problemă, indiferent de model. Dacă te împiedici de ele, pierzi timp prețios. Scopul aici nu e doar să scrii cod care merge, ci să-l scrii repede și din reflex. Le înveți o dată bine și le folosești tot restul anului.",
+    "sections": [
+      {
+        "heading": "De ce nu ajunge Python simplu",
+        "blocks": [
+          {
+            "p": "În Python obișnuit, o listă de un milion de numere pe care vrei s-o aduni element cu element se face cu o buclă for. Merge, dar e lent, pentru că Python verifică tipul fiecărui element la fiecare pas. Când ai date reale, asta devine insuportabil."
+          },
+          {
+            "p": "NumPy rezolvă problema cu o structură nouă: ndarray, o grilă de numere de același tip, cu formă fixă. Operațiile se aplică pe tot vectorul deodată, într-un cod compilat rapid, fără buclă în Python. Ideea se numește vectorizare și e de zeci de ori mai rapidă."
+          },
+          {
+            "code": "import numpy as np\n\n# lent, în Python pur\ntotal = 0\nfor x in range(1_000_000):\n    total += x * x\n\n# rapid, vectorizat\nv = np.arange(1_000_000)\ntotal = (v * v).sum()",
+            "caption": "Aceeași sumă, dar a doua variantă e mult mai rapidă."
+          }
+        ]
+      },
+      {
+        "heading": "ndarray: formă, axe, indexare",
+        "blocks": [
+          {
+            "p": "Un ndarray are o formă (shape): câte rânduri, câte coloane, câte dimensiuni. O imagine alb-negru e o matrice 2D, una color e 3D (înălțime, lățime, canale). Prima ta grijă la orice bug e să tipărești forma și să verifici că e ce credeai."
+          },
+          {
+            "p": "Axele sunt direcțiile pe care operezi. axis=0 merge pe rânduri (pe verticală, rezultatul e câte o valoare pe coloană), axis=1 merge pe coloane (pe orizontală). Confuzia dintre axe e printre cele mai frecvente greșeli de început."
+          },
+          {
+            "code": "x = np.array([[1, 2, 3],\n              [4, 5, 6]])\n\nx.shape          # (2, 3): 2 rânduri, 3 coloane\nx.mean(axis=0)   # media pe fiecare coloană -> [2.5, 3.5, 4.5]\nx.mean(axis=1)   # media pe fiecare rând    -> [2.0, 5.0]"
+          },
+          {
+            "p": "Indexarea cu mască booleană e o unealtă pe care o folosești zilnic: construiești un vector de True/False și selectezi doar elementele unde e True. Așa filtrezi date fără buclă."
+          },
+          {
+            "code": "x[x > 3]         # doar elementele mai mari ca 3 -> [4, 5, 6]\nx[x > 3] = 0     # și le poți și schimba pe loc"
+          }
+        ]
+      },
+      {
+        "heading": "Broadcasting: cum potrivește NumPy forme diferite",
+        "blocks": [
+          {
+            "p": "Broadcasting e regula prin care NumPy face operații între vectori de forme diferite, întinzând automat pe cel mic ca să se potrivească. E de aur când o înțelegi și sursă de bug-uri ciudate când nu. Jumătate din erorile de început vin din forme care nu se potrivesc cum credeai."
+          },
+          {
+            "p": "Regula, simplu: NumPy compară formele de la dreapta la stânga. Două dimensiuni se potrivesc dacă sunt egale sau dacă una e 1 (aia se întinde). Un scalar se potrivește cu orice."
+          },
+          {
+            "code": "X = np.array([[1, 2, 3],\n              [4, 5, 6]])      # forma (2, 3)\nmedii = X.mean(axis=0)         # forma (3,): [2.5, 3.5, 4.5]\nX_centrat = X - medii          # (2,3) - (3,) se potrivește, scade pe coloane",
+            "caption": "Centrarea unei matrice pe medii, fără nicio buclă."
+          },
+          {
+            "note": "Când o operație dă eroare de shape, tipărește formele celor doi operanzi și aplică regula de la dreapta la stânga. De 9 din 10 ori vezi imediat unde nu se potrivesc."
+          }
+        ]
+      },
+      {
+        "heading": "Pandas: date cu etichete",
+        "blocks": [
+          {
+            "p": "NumPy e bun la numere, dar datele reale au nume: coloana vârstă, coloana scor, coloana clasă. Pandas adaugă etichete peste NumPy. Un DataFrame e un tabel cu nume de coloane și un index pe rânduri. E structura în care ajung mai toate seturile de concurs."
+          },
+          {
+            "p": "Citești un fișier CSV cu o singură linie. Apoi te uiți la el înainte de orice: primele rânduri, tipurile coloanelor, câte valori lipsesc."
+          },
+          {
+            "code": "import pandas as pd\n\ndf = pd.read_csv(\"date.csv\")\ndf.head()        # primele 5 rânduri\ndf.info()        # tipuri și câte valori non-nule\ndf.describe()    # statistici pe coloanele numerice"
+          }
+        ]
+      },
+      {
+        "heading": "Selecție: loc vs iloc",
+        "blocks": [
+          {
+            "p": "Sunt două feluri de a selecta dintr-un DataFrame, și amestecarea lor e o greșeală clasică. loc selectează după etichetă (numele coloanei, valoarea indexului). iloc selectează după poziție (al câtelea rând, a câta coloană, numărând de la 0)."
+          },
+          {
+            "code": "df.loc[10, \"scor\"]        # valoarea de la indexul 10, coloana \"scor\"\ndf.iloc[0, 2]             # rândul 0, coloana 2, după poziție\ndf.loc[df[\"scor\"] > 8]    # toate rândurile cu scor peste 8"
+          },
+          {
+            "note": "Capcana apare când indexul nu e 0,1,2,... De exemplu după o filtrare, indexul are goluri. Atunci iloc[0] și loc[0] pot fi rânduri complet diferite. Alege conștient care vrei."
+          }
+        ]
+      },
+      {
+        "heading": "groupby, merge, pivot: cele trei pe care le folosești mereu",
+        "blocks": [
+          {
+            "p": "groupby împarte datele pe grupuri și calculează ceva pe fiecare grup: media pe clasă, suma pe categorie. E tiparul split-apply-combine: împarți, aplici o funcție, lipești rezultatele la loc."
+          },
+          {
+            "code": "df.groupby(\"clasa\")[\"scor\"].mean()      # media scorului pe fiecare clasă\ndf.groupby(\"clasa\").size()             # câte rânduri are fiecare clasă"
+          },
+          {
+            "p": "merge lipește două tabele după o coloană comună, exact ca un JOIN din baze de date. how spune ce faci cu rândurile fără pereche: left păstrează tot din stânga, inner doar potrivirile."
+          },
+          {
+            "code": "df.merge(alt_tabel, on=\"id\", how=\"left\")"
+          },
+          {
+            "p": "pivot_table rearanjează un tabel lung într-unul lat, cu o coloană devenită antet. E util la rapoarte și la văzut tipare pe două dimensiuni deodată."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Bucle Python peste rânduri de DataFrame. E lent și inutil, aproape mereu există o variantă vectorizată.",
+      "Confuzia loc/iloc, mai ales când indexul nu e 0, 1, 2.",
+      "Ignori erorile de shape în loc să tipărești formele și să aplici regula de broadcasting."
+    ],
+    "practice": [
+      "Ia un CSV și răspunde la cinci întrebări despre el folosind doar groupby și filtrări cu măști.",
+      "Rescrie o buclă Python cu o operație vectorizată și compară timpii.",
+      "Centrează o matrice pe mediile coloanelor folosind broadcasting, fără buclă."
+    ],
+    "keyTakeaways": [
+      "Vectorizarea înlocuiește buclele: operezi pe tot vectorul deodată, mult mai rapid.",
+      "Forma și axele sunt primul lucru de verificat la un bug de NumPy.",
+      "Broadcasting potrivește forme comparând de la dreapta la stânga; una din dimensiuni trebuie să fie egală sau 1.",
+      "loc după etichetă, iloc după poziție, nu le amesteca.",
+      "groupby, merge, pivot_table apar în aproape orice problemă tabelară."
+    ]
+  },
+  {
+    "moduleCode": "S6",
+    "duration": "~2 săptămâni",
+    "objective": "Te uiți la date înainte să antrenezi și le pregătești corect pentru un model, fără să introduci scurgeri de informație.",
+    "intro": "Înainte să antrenezi orice, uită-te la date. La distribuții, la ce lipsește, la cum sunt scalate coloanele. Sună plictisitor, dar jumătate din câștig vine de aici, nu din modelul ales. Etapa asta se numește EDA, analiză exploratorie, și e prima pe care o faci la orice problemă nouă.",
+    "sections": [
+      {
+        "heading": "Ce cauți când te uiți la date",
+        "blocks": [
+          {
+            "p": "EDA înseamnă să pui întrebări simple datelor și să te uiți la răspuns înainte să tragi vreo concluzie. Câte rânduri și coloane sunt. Ce tip are fiecare coloană. Cum arată ținta, adică ce vrei să prezici. Ce lipsește și cât de mult."
+          },
+          {
+            "p": "Trasează distribuția fiecărei coloane numerice cu o histogramă. Vezi imediat dacă e simetrică, dacă are o coadă lungă, dacă are valori imposibile (o vârstă de 200, un preț negativ). Astea sunt semne de erori în date pe care le prinzi din ochi."
+          },
+          {
+            "code": "df[\"varsta\"].hist(bins=30)\ndf[\"tinta\"].value_counts()     # câte exemple din fiecare clasă"
+          }
+        ]
+      },
+      {
+        "heading": "Clase dezechilibrate: de ce contează devreme",
+        "blocks": [
+          {
+            "p": "Dacă prezici o clasă care apare în 2% din cazuri (fraudă, o boală rară), un model care spune mereu nu are 98% acuratețe și e complet inutil. De asta te uiți la echilibrul claselor de la început: schimbă ce metrică folosești și cum îți împarți datele."
+          },
+          {
+            "note": "Când o clasă e rară, acuratețea minte. Reține pentru modulul de evaluare: vei avea nevoie de precizie, recall și F1, nu de acuratețe simplă."
+          }
+        ]
+      },
+      {
+        "heading": "Corelații: ce coloane spun același lucru",
+        "blocks": [
+          {
+            "p": "Corelația măsoară cât de mult merg două coloane împreună, de la -1 (invers) prin 0 (deloc) până la 1 (identic ca tendință). Două coloane aproape identice îți spun ceva: poate una e derivată din alta, poate poți arunca una fără să pierzi informație."
+          },
+          {
+            "code": "df.corr(numeric_only=True)     # matricea de corelații între coloane"
+          },
+          {
+            "p": "Corelația nu înseamnă cauzalitate. Două lucruri pot crește împreună fără ca unul să-l provoace pe celălalt. E doar un indiciu unde să te uiți, nu o concluzie."
+          }
+        ]
+      },
+      {
+        "heading": "Valori lipsă: întâi de ce, apoi cum",
+        "blocks": [
+          {
+            "p": "Înainte să umpli o valoare lipsă, întreabă-te de ce lipsește. Uneori lipsa e o eroare de colectare. Alteori lipsa e chiar informație: un câmp gol la venit poate însemna că persoana a refuzat să răspundă, ceea ce e semnificativ. În cazul ăsta, adaugă o coloană separată care marchează lipsa."
+          },
+          {
+            "p": "Umplerea (imputarea) se face cu media, mediana sau valoarea cea mai frecventă, ori cu un model. Mediana e mai sigură ca media când sunt outlieri, pentru că nu e trasă de valorile extreme."
+          },
+          {
+            "code": "from sklearn.impute import SimpleImputer\nimp = SimpleImputer(strategy=\"median\").fit(X_train)\nX_train = imp.transform(X_train)\nX_val = imp.transform(X_val)    # aceiași parametri, învățați pe train"
+          }
+        ]
+      },
+      {
+        "heading": "Scalarea: de ce și cum",
+        "blocks": [
+          {
+            "p": "Multe modele măsoară distanțe (kNN, K-Means) sau folosesc gradient (regresie, rețele). Pentru ele, o coloană cu valori mari (venitul, în mii) domină una cu valori mici (vârsta, zeci) doar prin scală, nu prin importanță. Scalarea le aduce la aceeași măsură."
+          },
+          {
+            "formula": "z = (x - μ) / σ",
+            "explain": "Standardizarea: scazi media μ și împarți la deviația standard σ. Rezultatul are media 0 și deviația 1."
+          },
+          {
+            "p": "Normalizarea min-max aduce, în schimb, valorile în intervalul 0 până la 1. Standardizarea e mai des folosită. Important nu e care, ci regula de mai jos."
+          },
+          {
+            "note": "Regula de bază a preprocesării: învață parametrii (medie, deviație, mediană) doar pe setul de antrenare, apoi aplică-i pe validare și test. Niciodată invers. Altfel test-ul se scurge în antrenare și scorul tău e o minciună."
+          },
+          {
+            "code": "from sklearn.preprocessing import StandardScaler\nsc = StandardScaler().fit(X_train)      # învață μ și σ pe TRAIN\nX_train = sc.transform(X_train)\nX_val = sc.transform(X_val)             # aplică aceiași μ și σ"
+          }
+        ]
+      },
+      {
+        "heading": "Variabile categorice",
+        "blocks": [
+          {
+            "p": "Un model vrea numere, dar multe coloane sunt categorii: oraș, culoare, tip. Nu le poți da direct ca text și nici nu le poți numerota 1,2,3 la întâmplare, pentru că modelul ar crede că 3 e mai mare ca 1, ceea ce n-are sens pentru culori."
+          },
+          {
+            "p": "One-hot encoding rezolvă asta: face din fiecare categorie o coloană separată de 0 și 1. Roșu devine [1,0,0], verde [0,1,0]. Nicio categorie nu e mai mare ca alta."
+          },
+          {
+            "code": "pd.get_dummies(df, columns=[\"oras\", \"culoare\"])"
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Scalezi sau imputezi pe tot setul înainte de split. E o scurgere de informație, cea mai frecventă greșeală.",
+      "Umpli valorile lipsă cu media calculată inclusiv pe test.",
+      "Numerotezi categoriile 1,2,3 și modelul crede că există o ordine care nu există."
+    ],
+    "practice": [
+      "Fă un raport de completitudine pe un set și decide ce coloane păstrezi.",
+      "Compară trei strategii de imputare (medie, mediană, cea mai frecventă) pe aceeași problemă.",
+      "Standardizează corect: fit pe train, transform pe val, și verifică că mediile pe train sunt aproape 0."
+    ],
+    "keyTakeaways": [
+      "EDA înseamnă să te uiți la date (distribuții, lipsuri, echilibrul claselor) înainte de orice model.",
+      "Clasele dezechilibrate schimbă metrica și modul de împărțire a datelor.",
+      "Întreabă de ce lipsește o valoare înainte s-o umpli; uneori lipsa e informație.",
+      "Scalarea aduce coloanele la aceeași măsură pentru modele bazate pe distanță sau gradient.",
+      "Învață parametrii de preprocesare doar pe train, aplică-i pe val/test."
+    ]
+  },
+  {
+    "moduleCode": "S8",
+    "duration": "~3 săptămâni",
+    "objective": "Alegi și antrenezi modele clasice de clasificare și regresie, și înțelegi ce optimizează fiecare, nu doar cum îl chemi.",
+    "intro": "Aici înveți uneltele de bază ale învățării supervizate: regresie liniară și logistică, Naïve Bayes, arbori de decizie, SVM. Supervizat înseamnă că ai exemple cu răspunsul corect (etichete) și modelul învață din ele. Nu te opri la cum le chemi din scikit-learn. Înțelege ce optimizează fiecare și când se potrivește, pentru că asta te face să alegi bine la concurs.",
+    "sections": [
+      {
+        "heading": "Ce înseamnă a antrena un model",
+        "blocks": [
+          {
+            "p": "Un model are niște parametri (numere interne) pe care îi ajustează ca să greșească cât mai puțin pe exemplele de antrenare. Măsura greșelii se numește funcție de cost sau loss. A antrena înseamnă a găsi parametrii care minimizează loss-ul."
+          },
+          {
+            "p": "În scikit-learn tiparul e mereu același: creezi modelul, îl antrenezi cu fit pe datele de antrenare, apoi prezici cu predict pe date noi. Simplu la suprafață, dar sub capotă fiecare model face ceva diferit."
+          },
+          {
+            "code": "model = LogisticRegression()\nmodel.fit(X_train, y_train)     # învață parametrii\ny_pred = model.predict(X_val)   # prezice pe date noi"
+          }
+        ]
+      },
+      {
+        "heading": "Regresie liniară: prezici un număr",
+        "blocks": [
+          {
+            "p": "Regresia liniară prezice o valoare continuă (un preț, o temperatură) ca o combinație liniară a trăsăturilor. Caută linia (sau planul, în mai multe dimensiuni) care trece cel mai bine prin date."
+          },
+          {
+            "formula": "ŷ = w₁x₁ + w₂x₂ + ... + b",
+            "explain": "Fiecare trăsătură x are o greutate w care spune cât contează. b e termenul liber. Modelul învață w-urile și b."
+          },
+          {
+            "p": "Minimizează eroarea pătratică: suma pătratelor diferențelor dintre predicție și adevăr. Pătratul pedepsește greșelile mari mai tare. Un avantaj mare al regresiei liniare: coeficienții se pot citi. Un w pozitiv mare înseamnă că trăsătura aia împinge predicția în sus."
+          }
+        ]
+      },
+      {
+        "heading": "Regresie logistică: prezici o clasă",
+        "blocks": [
+          {
+            "p": "În ciuda numelui, regresia logistică e pentru clasificare, nu regresie. Ia aceeași combinație liniară și o trece printr-o funcție sigmoidă, care strânge orice număr în intervalul 0 până la 1. Rezultatul e o probabilitate: cât de sigur e modelul că exemplul e din clasa pozitivă."
+          },
+          {
+            "formula": "σ(z) = 1 / (1 + e^(-z))",
+            "explain": "Sigmoida: transformă scorul liniar z într-o probabilitate între 0 și 1."
+          },
+          {
+            "p": "Din probabilitate iei decizia cu un prag. Pragul nu e obligatoriu 0.5. Dacă îți pasă mai mult să prinzi toate cazurile pozitive (recall mare), cobori pragul. Dacă vrei să fii sigur când spui pozitiv (precizie mare), îl urci. Pragul e un buton pe care îl reglezi după metrica problemei."
+          },
+          {
+            "code": "m = LogisticRegression(max_iter=1000).fit(X_train, y_train)\nproba = m.predict_proba(X_val)[:, 1]   # probabilitatea clasei pozitive\npred = (proba > 0.3).astype(int)       # prag mutat la 0.3 pentru recall mai mare"
+          }
+        ]
+      },
+      {
+        "heading": "Naïve Bayes: rapid și surprinzător de bun",
+        "blocks": [
+          {
+            "p": "Naïve Bayes aplică teorema lui Bayes presupunând, naiv, că trăsăturile sunt independente între ele. Presupunerea e aproape mereu falsă, dar modelul merge des foarte bine, mai ales pe text. E rapid, are nevoie de puține date, și e un baseline greu de bătut la clasificarea de documente."
+          }
+        ]
+      },
+      {
+        "heading": "Arbori de decizie",
+        "blocks": [
+          {
+            "p": "Un arbore de decizie pune întrebări simple, una după alta, ca un joc de 20 de întrebări: e vârsta peste 30? e venitul sub o valoare? La fiecare pas împarte datele ca să separe cât mai bine clasele. Măsura separării e impuritatea Gini sau entropia: cât de amestecate sunt clasele într-un nod."
+          },
+          {
+            "p": "Arborii sunt ușor de citit și nu au nevoie de scalare. Problema lor: lăsați să crească nelimitat, memorează antrenarea până la ultimul exemplu și generalizează prost pe date noi. Asta se numește overfitting. Îl limitezi punând o adâncime maximă sau un minim de exemple pe frunză."
+          },
+          {
+            "note": "Un arbore care merge perfect pe antrenare și slab pe validare a memorat, n-a învățat. Semnul clasic de overfitting. Taie-i adâncimea."
+          }
+        ]
+      },
+      {
+        "heading": "SVM: marginea cea mai mare",
+        "blocks": [
+          {
+            "p": "SVM (mașină cu vectori suport) caută granița dintre clase care lasă marginea cea mai mare de o parte și de alta, adică e cât mai departe de cele mai apropiate exemple din fiecare clasă. Ideea e că o graniță cu margine mare generalizează mai bine."
+          },
+          {
+            "p": "Când datele nu se pot separa cu o linie dreaptă, intervine trucul kernel: proiectează datele într-un spațiu cu mai multe dimensiuni, unde devin separabile, fără să calculeze explicit acel spațiu. Kernelul RBF e cel mai folosit. SVM cere date scalate ca să funcționeze bine."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Interpretezi coeficienții regresiei fără să fi scalat trăsăturile.",
+      "Lași arborele să crească nelimitat și te miri că merge perfect pe antrenare și slab pe validare.",
+      "Folosești SVM pe date nescalate și merge inexplicabil de prost."
+    ],
+    "practice": [
+      "Compară regresie logistică, arbore și SVM pe aceeași problemă tabelară, cu aceeași metrică.",
+      "Mișcă pragul regresiei logistice de la 0.5 în jos și urmărește cum cresc recall-ul și scad precizia.",
+      "Limitează adâncimea unui arbore și vezi cum se apropie scorul de antrenare de cel de validare."
+    ],
+    "keyTakeaways": [
+      "A antrena = a găsi parametrii care minimizează funcția de cost.",
+      "Regresie liniară prezice numere și dă coeficienți citibili; logistică prezice probabilități de clasă.",
+      "Pragul regresiei logistice se reglează după metrică, nu e fix 0.5.",
+      "Arborii sunt citibili dar fac overfitting fără limitare de adâncime.",
+      "SVM maximizează marginea; kernelul îl lasă să separe date neliniare."
+    ]
+  },
+  {
+    "moduleCode": "S11",
+    "duration": "~2 săptămâni",
+    "objective": "Măsori corect un model și eviți să te păcălești singur, ca scorul tău local să prezică scorul real de pe clasamentul ascuns.",
+    "intro": "Aici se câștigă sau se pierde concursul. Un model care pare bun pe clasamentul public poate fi slab pe cel ascuns, care contează la final. Modulul ăsta e despre cum să ai încredere justificată în scorul tău. E cea mai puțin spectaculoasă parte și cea care face diferența dintre un top 10 și un mijloc de clasament.",
+    "sections": [
+      {
+        "heading": "De ce acuratețea te minte",
+        "blocks": [
+          {
+            "p": "Acuratețea e procentul de predicții corecte. Sună rezonabil, dar pe clase dezechilibrate e înșelătoare. Dacă 98% din exemple sunt clasa nu, un model care spune mereu nu are 98% acuratețe și zero valoare. De asta ai nevoie de metrici care se uită la fiecare clasă separat."
+          }
+        ]
+      },
+      {
+        "heading": "Matricea de confuzie: temelia",
+        "blocks": [
+          {
+            "p": "Matricea de confuzie numără cele patru feluri de rezultat pentru o clasificare binară. E baza din care se calculează toate celelalte metrici, deci merită înțeleasă bine."
+          },
+          {
+            "list": [
+              "TP (adevărat pozitiv): era pozitiv, ai zis pozitiv. Corect.",
+              "TN (adevărat negativ): era negativ, ai zis negativ. Corect.",
+              "FP (fals pozitiv): era negativ, ai zis pozitiv. Alarmă falsă.",
+              "FN (fals negativ): era pozitiv, ai zis negativ. L-ai ratat."
+            ]
+          },
+          {
+            "p": "Ce te doare mai tare depinde de problemă. La un test de boală, un fals negativ (bolnav trimis acasă) e mai grav decât un fals pozitiv. La un filtru de spam, invers. Metrica bună reflectă ce cost real are fiecare tip de greșeală."
+          }
+        ]
+      },
+      {
+        "heading": "Precizie, recall, F1",
+        "blocks": [
+          {
+            "formula": "precizie = TP / (TP + FP)",
+            "explain": "Din câte ai zis că sunt pozitive, câte chiar erau. Precizie mare = puține alarme false."
+          },
+          {
+            "formula": "recall = TP / (TP + FN)",
+            "explain": "Din câte erau de fapt pozitive, câte ai prins. Recall mare = ratezi puține."
+          },
+          {
+            "p": "Precizia și recall-ul trag în direcții opuse. Dacă spui pozitiv doar când ești foarte sigur, precizia crește dar recall-ul scade. Dacă spui pozitiv des, invers. F1 le împacă într-un singur număr, media lor armonică, care e mică dacă oricare din ele e mică."
+          },
+          {
+            "formula": "F1 = 2 · (precizie · recall) / (precizie + recall)",
+            "explain": "Media armonică. Pedepsește dezechilibrul: nu poți avea F1 mare cu recall minuscul."
+          },
+          {
+            "note": "Când ai multe clase, F1 se agregă. Macro-F1 face media pe clase tratându-le egal (bun când îți pasă de clasele rare). Weighted-F1 ține cont de mărimea fiecărei clase. Citește în regulament care se punctează și optimizează exact pe aia."
+          }
+        ]
+      },
+      {
+        "heading": "Validare fără scurgeri",
+        "blocks": [
+          {
+            "p": "O scurgere de informație (data leakage) e când, fără să vrei, informație din test ajunge în antrenare. Rezultatul: scor local grozav care se prăbușește pe clasamentul real. E cel mai perfid mod de a pierde puncte, pentru că totul pare în regulă."
+          },
+          {
+            "p": "Aperi-te împărțind datele corect. Ține un set de validare pe care modelul nu-l vede la antrenare și pe care îl folosești ca să estimezi scorul real. Mai bine, folosește k-fold: împarți datele în k părți, antrenezi pe k-1 și testezi pe una, rotind, apoi mediezi. Așa folosești toate datele și ai o estimare mai stabilă."
+          },
+          {
+            "p": "Când clasele sunt dezechilibrate, folosește k-fold stratificat, care păstrează proporția claselor în fiecare fold. Altfel un fold poate să nu conțină deloc clasa rară. Când datele au timp sau grupuri (același pacient în mai multe rânduri), split-ul trebuie să le respecte, altfel modelul trage cu ochiul."
+          },
+          {
+            "code": "from sklearn.model_selection import StratifiedKFold, cross_val_score\ncv = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)\nscoruri = cross_val_score(model, X, y, cv=cv, scoring=\"f1_macro\")\nprint(scoruri.mean(), scoruri.std())"
+          }
+        ]
+      },
+      {
+        "heading": "Bias, varianță și curba de învățare",
+        "blocks": [
+          {
+            "p": "Două boli opuse. Bias mare (underfitting): modelul e prea simplu, merge slab și pe antrenare, și pe validare. Varianță mare (overfitting): modelul e prea complex, merge grozav pe antrenare dar slab pe validare, pentru că a memorat."
+          },
+          {
+            "p": "Curba de învățare le diagnostichează: desenezi scorul de antrenare și cel de validare pe măsură ce crești datele. Dacă amândouă sunt joase și apropiate, ai bias, îți trebuie model mai puternic. Dacă e o prăpastie mare între ele, ai varianță, îți trebuie mai multe date sau regularizare."
+          }
+        ]
+      },
+      {
+        "heading": "Cele două submisii finale",
+        "blocks": [
+          {
+            "note": "Regula de aur: la final alege conștient cele două submisii. Una pe scorul tău local (validarea) cel mai bun, una pe clasamentul public cel mai bun. Dacă local și public sunt de acord, ai încredere. Dacă diferă mult, ai o scurgere sau un split prost. Nu lăsa submisiile finale pe ultimele trimise din reflex."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Optimizezi pe clasamentul public și te trezești că ai făcut overfit pe el.",
+      "K-fold nestratificat pe clase rare: unele fold-uri nu conțin clasa deloc.",
+      "Raportezi acuratețea pe o problemă dezechilibrată și crezi că modelul e bun."
+    ],
+    "practice": [
+      "Desenează o curbă de învățare și decide dacă modelul suferă de bias sau de varianță.",
+      "Găsește o scurgere de informație într-un pipeline dat și repar-o.",
+      "Calculează manual precizie, recall și F1 dintr-o matrice de confuzie dată."
+    ],
+    "keyTakeaways": [
+      "Acuratețea minte pe clase dezechilibrate; folosește precizie, recall, F1.",
+      "Matricea de confuzie (TP, TN, FP, FN) e baza tuturor metricilor.",
+      "Precizia și recall-ul se bat cap în cap; F1 le împacă.",
+      "K-fold stratificat estimează scorul stabil, fără scurgeri.",
+      "Curba de învățare distinge bias (underfitting) de varianță (overfitting).",
+      "Alege cele două submisii finale: una pe local, una pe public."
+    ]
+  },
+  {
+    "moduleCode": "S13",
+    "duration": "~1 săptămână",
+    "objective": "Combini modele prin bagging și boosting și reglezi hiperparametrii care contează, în ordinea corectă.",
+    "intro": "De multe ori câștigătorul la o problemă tabelară e un ensemble, nu un singur model. Ideea e simplă și puternică: mai multe modele împreună greșesc mai puțin decât unul singur, cu condiția să greșească în locuri diferite. Modulul ăsta îți dă cele două rețete mari, bagging și boosting, și disciplina de a regla parametrii fără să te pierzi.",
+    "sections": [
+      {
+        "heading": "De ce funcționează combinarea",
+        "blocks": [
+          {
+            "p": "Dacă ai trei modele care greșesc fiecare în alte locuri, votul majorității e mai bun decât oricare singur: acolo unde unul se înșeală, celelalte două îl corectează. Cheia e diversitatea. Trei modele care fac exact aceleași greșeli nu ajută cu nimic combinate."
+          },
+          {
+            "p": "Sunt două moduri mari de a construi diversitate: bagging (antrenezi modele în paralel pe date ușor diferite și le mediezi) și boosting (antrenezi modele pe rând, fiecare reparând greșelile celui dinainte)."
+          }
+        ]
+      },
+      {
+        "heading": "Bagging și Random Forest",
+        "blocks": [
+          {
+            "p": "Bagging înseamnă că antrenezi fiecare model pe un eșantion aleator (cu repetiție) din date, apoi mediezi predicțiile. Un singur arbore adânc are varianță mare (overfit). Mediind mulți arbori antrenați pe date diferite, varianța scade fără să crească biasul."
+          },
+          {
+            "p": "Random Forest e bagging pe arbori, cu un truc în plus: la fiecare împărțire, arborele alege dintr-un subset aleator de trăsături. Asta îi face pe arbori și mai diferiți între ei. E robust, greu de stricat, și un prim model excelent pe date tabelare."
+          },
+          {
+            "code": "from sklearn.ensemble import RandomForestClassifier\nrf = RandomForestClassifier(n_estimators=400, max_depth=None, n_jobs=-1)\nrf.fit(X_train, y_train)"
+          },
+          {
+            "note": "Feature importance de la Random Forest e util, dar nu îl crede orbește: favorizează trăsăturile cu multe valori distincte. Folosește-l ca indiciu, nu ca adevăr."
+          }
+        ]
+      },
+      {
+        "heading": "Boosting: XGBoost și LightGBM",
+        "blocks": [
+          {
+            "p": "Boosting construiește arbori pe rând. Primul face o predicție aproximativă, al doilea învață să corecteze greșelile primului, al treilea greșelile rămase, și tot așa. Fiecare arbore e mic, dar împreună formează un model puternic. E des câștigătorul la probleme tabelare."
+          },
+          {
+            "p": "XGBoost și LightGBM sunt implementările rapide și de referință. Sunt mai puternice decât Random Forest, dar și mai ușor de dus în overfitting, deci cer reglare atentă. Verifică întâi regulamentul concursului: nu la orice etapă sunt permise bibliotecile externe."
+          }
+        ]
+      },
+      {
+        "heading": "Reglarea hiperparametrilor, în ordine",
+        "blocks": [
+          {
+            "p": "Hiperparametrii sunt setările pe care le alegi tu înainte de antrenare (câți arbori, cât de adânci), spre deosebire de parametrii pe care modelul îi învață singur. Greșeala clasică e să reglezi zeci deodată și să nu mai știi ce a ajutat. Mergi în ordine, un lucru pe rând."
+          },
+          {
+            "steps": [
+              "Pornește cu un learning rate mic-moderat și un număr rezonabil de arbori.",
+              "Reglează întâi adâncimea arborilor (complexitatea fiecăruia).",
+              "Apoi numărul de arbori (n_estimators), cu early stopping pe validare.",
+              "La final, coboară learning rate-ul și crește numărul de arbori proporțional, pentru un plus de scor."
+            ]
+          },
+          {
+            "note": "Learning rate mic plus mai mulți arbori dă aproape mereu un scor mai bun decât learning rate mare, dar antrenează mai lent. E compromisul clasic timp contra scor."
+          }
+        ]
+      },
+      {
+        "heading": "Voting și stacking",
+        "blocks": [
+          {
+            "p": "Cel mai simplu ensemble între modele diferite e votul: pui un Random Forest, un boosting și o regresie logistică să voteze, sau le mediezi probabilitățile. Merge cel mai bine când modelele sunt de tipuri diferite, deci greșesc diferit."
+          },
+          {
+            "p": "Stacking merge mai departe: antrenează un model final care învață cum să combine predicțiile celorlalte. E mai puternic, dar și mai ușor de dus în scurgeri dacă nu ai grijă să folosești predicții out-of-fold. Începe cu voting simplu, treci la stacking doar dacă ai timp."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Reglezi zeci de hiperparametri deodată și nu mai știi ce a ajutat.",
+      "Te bazezi pe feature importance ca pe un adevăr absolut.",
+      "Folosești boosting extern la o etapă unde regulamentul nu-l permite."
+    ],
+    "practice": [
+      "Antrenează un Random Forest și un gradient boosting pe aceeași problemă și compară scorurile.",
+      "Fă un voting între trei modele diferite și vezi dacă bate cel mai bun singur model.",
+      "Reglează learning rate-ul cu early stopping și observă compromisul timp contra scor."
+    ],
+    "keyTakeaways": [
+      "Ensemble-urile funcționează dacă modelele greșesc diferit; diversitatea e cheia.",
+      "Bagging (Random Forest) reduce varianța mediind arbori antrenați pe date diferite.",
+      "Boosting (XGBoost, LightGBM) construiește arbori care corectează pe rând greșelile.",
+      "Reglează hiperparametrii pe rând: adâncime, apoi număr de arbori, apoi learning rate.",
+      "Voting-ul între modele diferite bate des cel mai bun model singur."
+    ]
+  },
+  {
+    "moduleCode": "S14",
+    "duration": "~1 săptămână",
+    "objective": "Grupezi date fără etichete și reduci dimensionalitatea pentru vizualizare și preprocesare.",
+    "intro": "Nu toate problemele au etichete. Uneori vrei doar să vezi structura din date: grupuri naturale, outlieri, o proiecție în două dimensiuni pe care s-o poți desena. Asta e învățarea nesupervizată: modelul găsește tipare fără să i se spună răspunsul corect. E utilă și de sine stătător, și ca pas de pregătire înainte de un model supervizat.",
+    "sections": [
+      {
+        "heading": "Supervizat vs nesupervizat",
+        "blocks": [
+          {
+            "p": "La supervizat aveai perechi (exemplu, etichetă) și învățai să prezici eticheta. La nesupervizat ai doar exemplele, fără răspuns. Modelul caută singur structură: care puncte seamănă între ele, pe ce direcții variază datele cel mai mult. Nu poți măsura corectitudinea la fel de simplu, pentru că nu ai cu ce compara."
+          }
+        ]
+      },
+      {
+        "heading": "K-Means: grupare pe centre",
+        "blocks": [
+          {
+            "p": "K-Means împarte datele în k grupuri, fiecare cu un centru. Fiecare punct e atribuit celui mai apropiat centru, apoi centrele se mută în media punctelor lor, și se repetă până se stabilizează. Simplu, rapid, dar trebuie să alegi tu k și e sensibil la scală."
+          },
+          {
+            "p": "Cum alegi k? Metoda cotului: rulezi pentru mai multe valori de k și desenezi cât de strânse sunt grupurile. Unde curba se îndoaie ca un cot, ai un k rezonabil. Scorul siluetă e o alternativă numerică, măsoară cât de bine se separă grupurile."
+          },
+          {
+            "note": "K-Means măsoară distanțe, deci scalarea e obligatorie. Fără ea, coloana cu numerele cele mai mari domină gruparea și restul nu contează."
+          },
+          {
+            "code": "from sklearn.cluster import KMeans\nkm = KMeans(n_clusters=4, n_init=10, random_state=0)\nlabels = km.fit_predict(X_scalat)"
+          }
+        ]
+      },
+      {
+        "heading": "DBSCAN și clustering ierarhic",
+        "blocks": [
+          {
+            "p": "DBSCAN grupează după densitate: unde punctele sunt înghesuite formează un grup, iar punctele izolate le marchează ca zgomot. Avantaje: nu trebuie să spui numărul de grupuri și găsește singur outlierii. Depinde de doi parametri, raza de vecinătate și câți vecini minim, pe care trebuie să-i reglezi."
+          },
+          {
+            "p": "Clustering-ul ierarhic construiește un arbore de grupuri, de la fiecare punct separat până la un singur grup mare. Îl desenezi ca dendrogramă și îl tai la nivelul care îți dă numărul de grupuri pe care îl vrei. Util când vrei să vezi structura la mai multe niveluri."
+          }
+        ]
+      },
+      {
+        "heading": "PCA: reducerea dimensionalității",
+        "blocks": [
+          {
+            "p": "Când ai zeci sau sute de coloane, e greu de vizualizat și modelele suferă (blestemul dimensionalității). PCA (analiza componentelor principale) găsește direcțiile pe care datele variază cel mai mult și le proiectează pe ele, păstrând cât mai multă informație în mai puține dimensiuni."
+          },
+          {
+            "p": "PCA îți spune cât din varianță păstrezi cu fiecare componentă. Poți reduce de la 100 de coloane la 10 care păstrează, să zicem, 95% din informație. E util și ca preprocesare înainte de un model, nu doar ca desen. Cere date scalate."
+          },
+          {
+            "code": "from sklearn.decomposition import PCA\np = PCA(n_components=0.95).fit(X_scalat)   # păstrează 95% din varianță\nX_redus = p.transform(X_scalat)\nprint(X_redus.shape[1], \"componente\")"
+          }
+        ]
+      },
+      {
+        "heading": "t-SNE și UMAP: doar pentru vizualizare",
+        "blocks": [
+          {
+            "p": "t-SNE și UMAP fac proiecții în 2D care arată frumos și scot în evidență grupuri. Sunt excelente ca să te uiți la structura datelor. Dar au o capcană importantă: distanțele și mărimile grupurilor din desen nu sunt de încredere. Două grupuri apropiate în desen nu sunt neapărat apropiate în realitate."
+          },
+          {
+            "note": "Folosește t-SNE și UMAP ca să te uiți, nu ca să tragi concluzii dure. Pentru preprocesare de încredere, PCA e alegerea sigură."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "K-Means pe date nescalate: coloana cu numere mari domină totul.",
+      "Interpretezi distanțele dintr-un grafic t-SNE ca și cum ar fi reale.",
+      "Alegi k la întâmplare fără cot sau siluetă."
+    ],
+    "practice": [
+      "Aplică K-Means și DBSCAN pe același set și compară grupurile găsite.",
+      "Redu la 2D cu PCA și cu UMAP și vezi ce diferă între ele.",
+      "Folosește metoda cotului ca să alegi k pe un set și justifică alegerea."
+    ],
+    "keyTakeaways": [
+      "Nesupervizat = găsești structură fără etichete (grupuri, direcții de variație).",
+      "K-Means cere să alegi k și date scalate; alegi k cu cotul sau silueta.",
+      "DBSCAN găsește singur numărul de grupuri și outlierii, după densitate.",
+      "PCA reduce dimensiunile păstrând varianța; bun și ca preprocesare.",
+      "t-SNE și UMAP sunt doar pentru privit, distanțele din ele nu sunt de încredere."
+    ]
+  },
+  {
+    "moduleCode": "S15",
+    "duration": "~2 săptămâni",
+    "objective": "Rezolvi probleme de căutare în spațiul stărilor cu BFS, DFS, A*, minimax și CSP, și știi când se potrivește fiecare.",
+    "intro": "Partea asta de AI nu are date de antrenare. Ai o stare de start, un scop, și niște mutări permise. Întrebarea e cum ajungi la scop eficient. E algoritmică, aproape ca la informatică, și apare în probleme de tip puzzle, planificare și jocuri. O rezolvi cu structuri de date, nu cu modele.",
+    "sections": [
+      {
+        "heading": "Spațiul stărilor: limbajul comun",
+        "blocks": [
+          {
+            "p": "Orice problemă de căutare se descrie la fel: o stare de start, un set de acțiuni care duc dintr-o stare în alta, un test de scop care spune dacă ai ajuns, și opțional un cost pe fiecare mutare. Un labirint: starea e poziția, acțiunile sunt pașii în cele patru direcții, scopul e ieșirea."
+          },
+          {
+            "p": "Toate stările la care poți ajunge formează un graf, unde nodurile sunt stări și muchiile sunt mutări. Căutarea înseamnă să explorezi graful ăsta inteligent, fără să-l construiești tot, pentru că de obicei e uriaș."
+          },
+          {
+            "note": "Marchează mereu stările vizitate. Fără asta te învârți în cerc la infinit, revizitând aceleași stări. E cea mai frecventă cauză a unei căutări care nu se termină."
+          }
+        ]
+      },
+      {
+        "heading": "Căutare neinformată: BFS, DFS, cost uniform",
+        "blocks": [
+          {
+            "p": "Căutarea neinformată explorează orbește, fără să știe încotro e scopul. BFS (căutare în lățime) explorează nivel cu nivel, folosind o coadă. Găsește mereu drumul cu cele mai puține mutări, dar consumă multă memorie. DFS (căutare în adâncime) merge cât poate pe un drum, cu o stivă. Consumă puțină memorie, dar poate să nu găsească cel mai scurt drum și se poate pierde adânc."
+          },
+          {
+            "p": "Cost uniform (Dijkstra) e ca BFS, dar ține cont de costul mutărilor: extinde mereu starea cu costul total cel mai mic până la ea. Când mutările au costuri diferite, el găsește drumul cel mai ieftin, nu cel mai scurt ca număr de pași."
+          },
+          {
+            "list": [
+              "BFS: coadă, drum minim în număr de pași, memorie mare.",
+              "DFS: stivă, memorie mică, nu garantează drumul minim.",
+              "Cost uniform: coadă de priorități pe cost, drum de cost minim."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "A*: căutare informată cu euristică",
+        "blocks": [
+          {
+            "p": "A* e vedeta modulului. Adaugă o euristică, adică o estimare a distanței rămase până la scop, ca să meargă direct spre țintă în loc să exploreze orbește. Combină costul deja plătit cu estimarea a ce mai are de plătit."
+          },
+          {
+            "formula": "f(n) = g(n) + h(n)",
+            "explain": "g(n) = costul real de la start până la starea n. h(n) = estimarea (euristica) de la n până la scop. A* extinde mereu starea cu f cel mai mic."
+          },
+          {
+            "p": "Ca A* să garanteze drumul optim, euristica trebuie să fie admisibilă: să nu supraestimeze niciodată distanța reală rămasă. Dacă h e admisibilă, A* nu poate rata soluția optimă. Dacă supraestimează, poate găsi un drum, dar nu neapărat cel mai scurt."
+          },
+          {
+            "p": "Euristici clasice pentru puzzle-uri: distanța Manhattan (suma diferențelor pe orizontală și verticală) și numărul de piese greșit plasate. Amândouă nu supraestimează niciodată, deci sunt admisibile."
+          }
+        ]
+      },
+      {
+        "heading": "Jocuri: minimax și alpha-beta",
+        "blocks": [
+          {
+            "p": "La jocurile cu doi jucători pe rând (X și 0, șah simplificat), nu cauți un drum, cauți cea mai bună mutare presupunând că adversarul joacă cel mai bine împotriva ta. Asta face minimax: tu maximizezi scorul, adversarul îl minimizează, și analizezi arborele de mutări până la o adâncime."
+          },
+          {
+            "p": "Arborele crește exploziv: fiecare mutare deschide multe altele. Alpha-beta pruning taie ramurile care oricum nu pot schimba rezultatul, fără să piardă corectitudinea. Cu el ajungi mai adânc în același timp de calcul."
+          },
+          {
+            "note": "Alpha-beta dă exact același rezultat ca minimax, doar mai repede. Nu schimbă mutarea aleasă, doar sare peste ramuri pe care le-a demonstrat inutile."
+          }
+        ]
+      },
+      {
+        "heading": "CSP: probleme cu constrângeri",
+        "blocks": [
+          {
+            "p": "Un CSP (problemă de satisfacere a constrângerilor) cere o atribuire de valori la niște variabile care respectă toate regulile. Colorarea unei hărți cu trei culori astfel încât vecinii să difere, Sudoku, orarul: toate sunt CSP."
+          },
+          {
+            "p": "Le rezolvi cu backtracking: atribui o valoare, mergi mai departe, iar dacă te blochezi te întorci și încerci altceva. Fără îmbunătățiri, e lent. Două tehnici îl accelerează mult:"
+          },
+          {
+            "list": [
+              "Forward checking: după fiecare atribuire, elimini din vecini valorile care acum nu mai sunt posibile. Prinzi înfundările devreme.",
+              "MRV (minimum remaining values): alegi mereu variabila cu cele mai puține valori rămase. Ataci întâi partea cea mai constrânsă, unde e mai probabil să dai de contradicție."
+            ]
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Euristică neadmisibilă la A*: găsești o soluție, dar nu cea optimă.",
+      "Uiți să marchezi stările vizitate și intri în bucle infinite.",
+      "Aplici minimax fără limită de adâncime pe un joc mare și rămâi fără timp."
+    ],
+    "practice": [
+      "Implementează A* pentru 8-puzzle cu două euristici (Manhattan și piese greșite) și compară numărul de stări extinse.",
+      "Rezolvă o colorare de hartă ca CSP cu forward checking și MRV.",
+      "Scrie minimax cu alpha-beta pentru X și 0 și verifică că nu pierde niciodată."
+    ],
+    "keyTakeaways": [
+      "Orice căutare se descrie la fel: start, acțiuni, test de scop, cost.",
+      "BFS dă drum minim în pași, DFS economisește memorie, cost uniform dă drum de cost minim.",
+      "A* folosește f = g + h; cu euristică admisibilă, găsește soluția optimă.",
+      "Minimax alege mutarea împotriva unui adversar optim; alpha-beta o face mai repede fără să schimbe rezultatul.",
+      "CSP se rezolvă cu backtracking plus forward checking și MRV."
+    ]
+  },
+  {
+    "moduleCode": "S16",
+    "duration": "~1 săptămână",
+    "objective": "Transformi text în vectori și antrenezi un clasificator de text solid, fără rețele neuronale.",
+    "intro": "Se poate face NLP serios fără deep learning. TF-IDF plus un model liniar rezolvă multe probleme de clasificare de text, rapid, explicabil, și e un baseline greu de bătut. Înainte să scoți artileria grea, construiește ăsta. De multe ori e suficient, și mereu e reperul față de care judeci orice model mai complicat.",
+    "sections": [
+      {
+        "heading": "Problema: modelele vor numere, tu ai text",
+        "blocks": [
+          {
+            "p": "Un model matematic lucrează cu numere, dar textul e șir de caractere. Tot NLP-ul clasic e despre cum transformi text în vectori de numere care păstrează sensul, ca să poți pune un model obișnuit deasupra. Pașii sunt: cureți textul, îl tai în unități, îl transformi în numere."
+          }
+        ]
+      },
+      {
+        "heading": "Preprocesarea textului",
+        "blocks": [
+          {
+            "p": "Tokenizarea taie textul în unități, de obicei cuvinte. Apoi scoți stopwords, cuvintele foarte frecvente și fără conținut (și, sau, de, la), care doar adaugă zgomot. Lematizarea aduce cuvintele la forma de bază: mergeam, mergi, mers devin merge, ca să nu le trateze modelul ca lucruri complet diferite."
+          },
+          {
+            "note": "La română, atenție la diacritice și la flexiunea bogată. Același cuvânt apare scris cu și fără diacritice și în multe forme. Normalizează consecvent (de exemplu, tratezi la fel ș și s), altfel pierzi potriviri și împrăștii semnalul pe forme separate."
+          }
+        ]
+      },
+      {
+        "heading": "Bag-of-words și TF-IDF",
+        "blocks": [
+          {
+            "p": "Bag-of-words (sac de cuvinte) reprezintă un document prin câte apariții are fiecare cuvânt din vocabular, ignorând ordinea. Simplu, dar cuvintele comune (care apar peste tot) îneacă semnalul, pentru că au numere mari fără să fie informative."
+          },
+          {
+            "p": "TF-IDF repară asta cântărind fiecare cuvânt după două lucruri: cât de des apare în document (TF, term frequency) și cât de rar e în restul documentelor (IDF, inverse document frequency). Un cuvânt care apare des într-un document dar rar în rest primește greutate mare, pentru că e caracteristic acelui document."
+          },
+          {
+            "formula": "tf-idf(cuvânt, doc) = tf(cuvânt, doc) · log(N / df(cuvânt))",
+            "explain": "tf = de câte ori apare cuvântul în document. N = numărul total de documente. df = în câte documente apare cuvântul. Cuvintele omniprezente primesc IDF aproape 0."
+          },
+          {
+            "code": "from sklearn.feature_extraction.text import TfidfVectorizer\nvec = TfidfVectorizer(ngram_range=(1, 2), min_df=2)\nX = vec.fit_transform(texte_train)      # fit DOAR pe train\nX_val = vec.transform(texte_val)        # transform pe val",
+            "caption": "ngram_range=(1,2) prinde și perechi de cuvinte, nu doar cuvinte izolate."
+          }
+        ]
+      },
+      {
+        "heading": "Clasificarea textului",
+        "blocks": [
+          {
+            "p": "Peste vectorii TF-IDF, două modele merg surprinzător de bine: Naïve Bayes multinomial (rapid, potrivit pentru numărători de cuvinte) și regresia logistică (des cel mai bun baseline). Amândouă sunt rapide și explicabile: poți vedea ce cuvinte împing spre fiecare clasă."
+          },
+          {
+            "p": "Pentru căutare și potrivire de texte, folosești similaritatea cosinus: unghiul dintre doi vectori de documente. Cu cât unghiul e mai mic, cu atât textele sunt mai apropiate ca conținut. E baza motoarelor de căutare simple și a găsirii de duplicate."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Uiți de română: tratezi diacriticele inconsistent și pierzi potriviri.",
+      "Construiești vocabularul (fit) pe tot setul, inclusiv pe test. Scurgere.",
+      "Sari direct la rețele fără să faci întâi baseline-ul TF-IDF de comparație."
+    ],
+    "practice": [
+      "Clasifică texte în română cu TF-IDF și regresie logistică, cu fit doar pe train.",
+      "Găsește cele mai apropiate două documente dintr-un set prin similaritate cosinus.",
+      "Compară bag-of-words simplu cu TF-IDF pe aceeași problemă și vezi diferența."
+    ],
+    "keyTakeaways": [
+      "NLP clasic = transformi text în vectori, apoi pui un model obișnuit deasupra.",
+      "Preprocesare: tokenizare, stopwords, lematizare; la română grijă la diacritice și flexiune.",
+      "TF-IDF cântărește cuvintele: mult dacă sunt caracteristice, puțin dacă sunt omniprezente.",
+      "Naïve Bayes și regresia logistică peste TF-IDF sunt un baseline greu de bătut.",
+      "Similaritatea cosinus măsoară cât de apropiate sunt două texte."
+    ]
+  },
+  {
+    "moduleCode": "S17",
+    "duration": "~1 săptămână",
+    "objective": "Lucrezi cu imagini ca tensori și aplici augmentări potrivite problemei, fără să strici eticheta.",
+    "intro": "O imagine e doar un tensor de numere. Înainte de rețele, merită să înțelegi ce faci cu ea: cum o reprezinți, ce e un filtru de convoluție, și ce augmentare ajută fără să strice eticheta. Modulul ăsta e puntea spre CNN-uri: dacă înțelegi imaginea ca tensor și convoluția de mână, straturile convoluționale de mai târziu nu mai sunt magie.",
+    "sections": [
+      {
+        "heading": "Imaginea ca tensor",
+        "blocks": [
+          {
+            "p": "Un tensor e o grilă de numere cu mai multe dimensiuni, generalizarea unei matrice. O imagine alb-negru e o matrice 2D: fiecare număr e intensitatea unui pixel. O imagine color e un tensor 3D: înălțime, lățime și 3 canale (roșu, verde, albastru). Fiecare pixel color e trei numere."
+          },
+          {
+            "note": "Ai grijă la dtype și la interval. Pixelii vin fie ca întregi de la 0 la 255, fie ca zecimale de la 0 la 1. Nu le amesteca: un model antrenat pe 0 până la 1 primește gunoi dacă îi dai 0 până la 255. Normalizarea la același interval e prima grijă."
+          },
+          {
+            "code": "img.shape       # (H, W, 3): înălțime, lățime, 3 canale color\nimg = img / 255.0   # aduci de la 0..255 la 0..1"
+          }
+        ]
+      },
+      {
+        "heading": "Convoluția: filtre care se plimbă peste imagine",
+        "blocks": [
+          {
+            "p": "Un filtru de convoluție e o matrice mică (de exemplu 3x3) pe care o plimbi peste imagine. La fiecare poziție, înmulțești filtrul cu bucata de imagine de sub el și aduni. Rezultatul e o nouă imagine care scoate în evidență un anumit tipar: margini, blur, contrast."
+          },
+          {
+            "p": "Merită să scrii de mână câteva filtre clasice o dată. Blur mediază vecinii (netezește). Sharpen accentuează diferențele. Sobel detectează margini, unde intensitatea se schimbă brusc. Când le-ai scris o dată, înțelegi exact ce face un strat convoluțional dintr-o rețea: aceeași operație, doar că filtrele sunt învățate, nu scrise de tine."
+          },
+          {
+            "code": "sobel_x = np.array([[-1, 0, 1],\n                    [-2, 0, 2],\n                    [-1, 0, 1]])\n# plimbi sobel_x peste imagine ca să scoți marginile verticale"
+          }
+        ]
+      },
+      {
+        "heading": "Augmentarea datelor",
+        "blocks": [
+          {
+            "p": "Când ai puține imagini, modelul memorează. Augmentarea mărește artificial setul creând variante ale imaginilor: le întorci, le rotești, le decupezi, le schimbi puțin culorile. Modelul vede aceeași etichetă în forme ușor diferite și învață să generalizeze, nu să memoreze."
+          },
+          {
+            "list": [
+              "Flip orizontal: oglindește imaginea stânga-dreapta.",
+              "Rotație și decupare aleatoare: schimbă poziția și cadrul.",
+              "Color jitter: variază ușor luminozitatea și culoarea.",
+              "Cutout: acoperă o bucată aleatoare, forțând modelul să nu se bazeze pe un singur detaliu."
+            ]
+          },
+          {
+            "note": "Un singur lucru contează la augmentare: transformarea trebuie să păstreze eticheta. Un flip orizontal la o pisică e tot o pisică, deci e valid. Dar la cifra 2 sau la litera b, flip-ul schimbă sensul, deci NU e valid. Gândește-te mereu dacă transformarea ar schimba răspunsul corect."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Augmentări care schimbă înțelesul: flip pe caractere, rotații mari pe obiecte cu orientare fixă.",
+      "Amesteci intervale de intensitate și modelul primește date inconsistente.",
+      "Augmentezi și setul de validare, nu doar antrenarea. Validarea rămâne curată."
+    ],
+    "practice": [
+      "Scrie de mână un filtru Sobel și aplică-l pe o imagine ca să-i scoți marginile.",
+      "Testează dacă un set de augmentări îmbunătățește scorul pe o problemă mică de clasificare.",
+      "Ia o listă de augmentări și decide pentru fiecare dacă păstrează eticheta pe o problemă cu cifre."
+    ],
+    "keyTakeaways": [
+      "O imagine e un tensor: 2D alb-negru, 3D color (H, W, canale).",
+      "Ai grijă la interval: 0..255 întreg sau 0..1 zecimal, nu le amesteca.",
+      "Convoluția plimbă un filtru mic peste imagine; e exact ce fac straturile CNN, cu filtre învățate.",
+      "Augmentarea mărește setul și combate overfitting-ul.",
+      "Augmentarea validă păstrează eticheta; flip pe cifre sau litere o strică."
+    ]
+  },
+  {
+    "moduleCode": "S18",
+    "duration": "~1 săptămână",
+    "objective": "Înțelegi backpropagation din temelii și construiești o rețea simplă în PyTorch, știind ce face fiecare linie.",
+    "intro": "Aici începe deep learning-ul. O rețea neuronală e un lanț de straturi, iar antrenarea e ajustarea greutăților ca să scadă eroarea. Cheia modulului e să înțelegi ce face backpropagation, nu doar s-o chemi. Când pricepi cum curge gradientul înapoi prin rețea, restul deep learning-ului devine reglaj, nu mister.",
+    "sections": [
+      {
+        "heading": "De la perceptron la rețea",
+        "blocks": [
+          {
+            "p": "Un perceptron, cărămida de bază, ia intrările, le înmulțește cu niște greutăți, le adună cu un termen liber, și trece rezultatul printr-o funcție de activare. Singur, învață doar granițe liniare, la fel ca regresia logistică."
+          },
+          {
+            "p": "Puterea apare când pui multe straturi de neuroni unul după altul: un MLP (perceptron multistrat). Fiecare strat transformă ieșirea celui dinainte. Cu straturi și activări neliniare între ele, rețeaua poate învăța relații oricât de complicate. Fără neliniaritate, oricâte straturi ai pune ar colapsa într-unul singur."
+          },
+          {
+            "p": "Funcția de activare aduce neliniaritatea. ReLU (păstrează pozitivul, taie negativul la zero) e cea mai folosită, e simplă și antrenează rapid. Sigmoida și tanh se mai folosesc, dar ReLU e alegerea implicită în straturile ascunse."
+          }
+        ]
+      },
+      {
+        "heading": "Funcția de cost și gradientul",
+        "blocks": [
+          {
+            "p": "Antrenarea are nevoie de o măsură a greșelii: funcția de cost (loss). Pentru regresie, eroarea pătratică. Pentru clasificare, cross-entropy, care pedepsește tare încrederea greșită. Scopul e să găsești greutățile care fac loss-ul cât mai mic."
+          },
+          {
+            "p": "Cum? Gradientul loss-ului față de fiecare greutate îți spune în ce direcție să miști greutatea ca să crească loss-ul; tu mergi în direcția opusă. Ideea se numește coborâre pe gradient (gradient descent): pas cu pas, cobori panta către minim."
+          },
+          {
+            "formula": "w ← w - η · ∂L/∂w",
+            "explain": "Fiecare greutate w se mută cu un pas mic (learning rate η) în direcția opusă gradientului ∂L/∂w. Repeți de mii de ori."
+          }
+        ]
+      },
+      {
+        "heading": "Backpropagation: regula lanțului",
+        "blocks": [
+          {
+            "p": "O rețea e un lanț de operații. Ca să afli gradientul loss-ului față de o greutate din primul strat, aplici regula lanțului din analiză: înmulțești gradienții pas cu pas, de la ieșire înapoi spre intrare. Asta e backpropagation, propagarea înapoi a erorii."
+          },
+          {
+            "p": "Concret: fiecare operație din rețea știe cum să-și transmită gradientul înapoi. Pornești de la loss, mergi înapoi strat cu strat, și la final ai gradientul pentru fiecare greutate din rețea, dintr-o singură trecere. E ce face eficient antrenarea rețelelor mari."
+          },
+          {
+            "note": "Backpropagation calculează gradienții. NU actualizează greutățile. Actualizarea o face optimizatorul, într-un pas separat. Confuzia asta e frecventă, ține minte că sunt două lucruri diferite."
+          }
+        ]
+      },
+      {
+        "heading": "PyTorch: cum arată în cod",
+        "blocks": [
+          {
+            "p": "PyTorch lucrează cu tensori care își rețin gradientul automat. Tu definești rețeaua ca nn.Module, împachetezi datele într-un Dataset și un DataLoader (care le dă în loturi), și la fiecare pas faci patru lucruri, mereu în aceeași ordine."
+          },
+          {
+            "steps": [
+              "Treci datele prin model și calculezi loss-ul (forward).",
+              "loss.backward(): backpropagation calculează gradienții.",
+              "optimizer.step(): optimizatorul actualizează greutățile cu gradienții.",
+              "optimizer.zero_grad(): ștergi gradienții, ca să nu se adune la pasul următor."
+            ]
+          },
+          {
+            "code": "for x, y in dataloader:\n    pred = model(x)                # forward\n    loss = criterion(pred, y)\n    loss.backward()                # calculează gradienții\n    optimizer.step()               # actualizează greutățile\n    optimizer.zero_grad()          # curăță pentru pasul următor"
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Uiți optimizer.zero_grad() și gradienții se adună de la un pas la altul.",
+      "Crezi că .backward() antrenează modelul. Doar calculează gradienți, pasul îl face optimizatorul.",
+      "Pui straturi liniare fără activări între ele și te miri că nu învață nimic neliniar."
+    ],
+    "practice": [
+      "Construiește backpropagation de mână pentru o rețea cu un strat ascuns, pe hârtie.",
+      "Antrenează un MLP pe un set mic în PyTorch și urmărește loss-ul cum scade.",
+      "Scoate intenționat zero_grad() și observă cum o ia razna antrenarea."
+    ],
+    "keyTakeaways": [
+      "Un MLP e straturi de neuroni cu activări neliniare între ele; fără neliniaritate colapsează la un strat.",
+      "ReLU e activarea implicită în straturile ascunse.",
+      "Antrenarea = coborâre pe gradient: muți greutățile opus gradientului loss-ului.",
+      "Backpropagation e regula lanțului aplicată înapoi prin rețea; calculează gradienții.",
+      "În PyTorch: forward, backward, step, zero_grad, în ordinea asta."
+    ]
+  },
+  {
+    "moduleCode": "S19",
+    "duration": "~1 săptămână",
+    "objective": "Scrii singur bucla de antrenare și reglezi optimizator, learning rate și regularizare, ca modelul să învețe stabil.",
+    "intro": "Un model bun antrenat prost nu învață. Modulul ăsta e despre bucla de antrenare: cum alegi optimizatorul, cum reglezi learning rate-ul (butonul cel mai important), și cum ții overfitting-ul sub control. Aceleași straturi, antrenate cu grijă sau la nimereală, dau rezultate complet diferite.",
+    "sections": [
+      {
+        "heading": "Epoci, loturi, pași",
+        "blocks": [
+          {
+            "p": "Trei cuvinte de fixat. Un lot (batch) e un grup mic de exemple pe care le procesezi deodată. O epocă e o trecere completă prin tot setul de antrenare. Un pas (step) e o actualizare a greutăților, adică un lot procesat. Antrenezi de obicei multe epoci, fiecare cu mulți pași."
+          },
+          {
+            "p": "De ce loturi și nu tot setul deodată? Pentru că e mai rapid și adaugă un zgomot util care ajută modelul să nu se blocheze. De ce nu câte un exemplu? Pentru că loturile folosesc mai bine hardware-ul. Un batch size între 32 și 256 e tipic."
+          }
+        ]
+      },
+      {
+        "heading": "Optimizatoare",
+        "blocks": [
+          {
+            "p": "Optimizatorul decide cum folosește gradienții ca să actualizeze greutățile. SGD (coborâre pe gradient stochastică) cu momentum e solid și de încredere: momentum-ul adaugă inerție, ca o bilă care se rostogolește, ca să treacă peste denivelări mici."
+          },
+          {
+            "p": "Adam și AdamW se adaptează singure: dau pași mai mari unde e nevoie și mai mici unde nu. Pornesc mai ușor și cer mai puțin reglaj, de aceea sunt alegerea implicită pentru mulți. AdamW gestionează mai corect weight decay-ul. Începe cu Adam/AdamW dacă nu ești sigur."
+          }
+        ]
+      },
+      {
+        "heading": "Learning rate, butonul cel mai important",
+        "blocks": [
+          {
+            "p": "Learning rate-ul (η) e mărimea pasului la fiecare actualizare. E cel mai important hiperparametru din tot deep learning-ul. Prea mare: loss-ul sare haotic sau explodează, modelul diverge. Prea mic: învață dureros de lent sau se blochează înainte să ajungă undeva bun."
+          },
+          {
+            "p": "Nu-l ghici, caută-l. Încearcă valori pe o scară logaritmică (de exemplu 0.1, 0.01, 0.001) și uită-te la curba de loss. Vrei cel mai mare learning rate cu care loss-ul încă scade lin, nu haotic."
+          },
+          {
+            "p": "Scheduler-ele schimbă learning rate-ul în timpul antrenării. O rețetă care merge des: un warmup scurt la început (crești rata treptat, ca să nu destabilizezi), urmat de o scădere lină (cosine) spre final, ca să te așezi fin în minim."
+          },
+          {
+            "note": "Dacă antrenarea o ia razna sau loss-ul devine NaN, primul lucru pe care îl încerci e să scazi learning rate-ul. De cele mai multe ori asta e cauza."
+          }
+        ]
+      },
+      {
+        "heading": "Regularizarea: ține overfitting-ul în frâu",
+        "blocks": [
+          {
+            "p": "Regularizarea e orice tehnică prin care împiedici modelul să memoreze antrenarea. Fără ea, o rețea mare învață pe de rost exemplele și cade pe date noi. Ai mai multe unelte, folosite des împreună:"
+          },
+          {
+            "list": [
+              "Dropout: la antrenare, oprește aleator o parte din neuroni la fiecare pas. Forțează rețeaua să nu se bazeze pe un singur drum, deci generalizează mai bine.",
+              "Weight decay: penalizează greutățile mari, ținându-le mici și modelul simplu.",
+              "Batch normalization: normalizează activările în fiecare lot, stabilizează și accelerează antrenarea.",
+              "Early stopping: oprești când scorul pe validare începe să se înrăutățească, chiar dacă cel pe antrenare încă scade."
+            ]
+          },
+          {
+            "p": "Inițializarea greutăților contează mai mult decât pare la început. Greutăți pornite prost pot bloca antrenarea de la zero. Din fericire, straturile din PyTorch au inițializări bune implicit, deci rar trebuie să intervii, dar merită să știi că e un factor."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Cauți arhitecturi mai mari când de fapt learning rate-ul e greșit.",
+      "Lași antrenarea să meargă mult după ce validarea a început să crească.",
+      "Vezi loss NaN și schimbi arhitectura în loc să scazi întâi learning rate-ul."
+    ],
+    "practice": [
+      "Testează trei learning rate-uri pe o scară logaritmică și desenează curbele de loss.",
+      "Adaugă dropout și early stopping la o rețea și vezi efectul pe validare.",
+      "Compară SGD cu momentum și Adam pe aceeași problemă mică."
+    ],
+    "keyTakeaways": [
+      "Lot, epocă, pas: un lot procesat = un pas; o trecere prin tot setul = o epocă.",
+      "Adam/AdamW pornesc ușor și cer puțin reglaj; SGD cu momentum e solid.",
+      "Learning rate-ul e butonul cel mai important; caută-l pe scară logaritmică.",
+      "Warmup plus scădere cosine e o rețetă bună de scheduler.",
+      "Dropout, weight decay, batch norm și early stopping țin overfitting-ul în frâu."
+    ]
+  },
+  {
+    "moduleCode": "S20",
+    "duration": "~1 săptămână",
+    "objective": "Depanezi sistematic o rețea care nu învață, în loc să schimbi lucruri la întâmplare.",
+    "intro": "Mai devreme sau mai târziu, o rețea refuză să învețe: loss-ul stă pe loc, sau scorul e la nivel de ghicit. Panica și schimbatul la nimereală nu ajută. Ai o listă de verificări, în ordine, de la simplu la complex. De cele mai multe ori problema e banală și e pe la începutul listei.",
+    "sections": [
+      {
+        "heading": "Testul care rezolvă jumătate din cazuri",
+        "blocks": [
+          {
+            "p": "Înainte de orice, verifică dacă modelul poate face overfit pe 10 exemple. Iei zece exemple, oprești orice regularizare, și antrenezi până ar trebui să le memoreze perfect. Dacă loss-ul ajunge aproape de zero, mecanismul de învățare funcționează și problema e în altă parte (date, regularizare prea agresivă)."
+          },
+          {
+            "note": "Dacă nici pe zece exemple modelul nu ajunge la loss aproape zero, ai un BUG, nu o problemă de capacitate sau de date. Nu are rost să antrenezi mai mult sau să mărești rețeaua. Ceva e stricat în cod, în date sau în conexiuni."
+          }
+        ]
+      },
+      {
+        "heading": "Lista de verificări, în ordine",
+        "blocks": [
+          {
+            "p": "Dacă testul de overfit pe 10 exemple pică, treci prin lista asta, de sus în jos. Sunt cauzele cele mai frecvente, ordonate cam după cât de des apar."
+          },
+          {
+            "steps": [
+              "Learning rate: prea mare (loss haotic sau NaN) sau prea mic (nu se mișcă). Încearcă altă valoare întâi.",
+              "Normalizarea datelor: intrările sunt scalate? O rețea primește greu date pe intervale uriașe sau inconsistente.",
+              "Etichetele: sunt aliniate corect cu intrările? Ai amestecat ordinea? Ai funcția de loss potrivită tipului de problemă?",
+              "zero_grad: chemi optimizer.zero_grad() la fiecare pas? Fără el, gradienții se adună și antrenarea o ia razna.",
+              "Inițializare și gradienți: verifică dacă gradienții explodează (devin uriași) sau dispar (devin zero). Batch norm și inițializarea bună ajută."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Cum citești curba de loss",
+        "blocks": [
+          {
+            "p": "Curba de loss e principalul instrument de diagnostic. Uită-te la ea, nu doar la scorul final. Fiecare formă îți spune altceva."
+          },
+          {
+            "list": [
+              "Loss plat de la început: învățarea nu pornește. Cel mai des, learning rate sau date.",
+              "Loss care explodează sau devine NaN: learning rate prea mare sau gradienți care explodează.",
+              "Loss de antrenare scade, cel de validare crește: overfitting, adaugă regularizare.",
+              "Loss zgomotos dar în scădere: probabil normal, poate un batch size prea mic."
+            ]
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Cauți vina în arhitectură când de fapt datele nu sunt normalizate.",
+      "Antrenezi ore în șir sperând că se rezolvă de la sine.",
+      "Schimbi cinci lucruri deodată și nu mai știi care a fost problema."
+    ],
+    "practice": [
+      "Ia o rețea care nu învață și găsește cauza trecând prin listă, un pas pe rând.",
+      "Reprodu overfitting-ul pe 10 exemple ca test de sănătate înainte de antrenarea reală.",
+      "Desenează câteva curbe de loss (bune și rele) și învață să le recunoști din formă."
+    ],
+    "keyTakeaways": [
+      "Primul test: poate modelul să facă overfit pe 10 exemple? Dacă nu, e un bug.",
+      "Depanează în ordine: learning rate, normalizare, etichete, zero_grad, gradienți.",
+      "Nu schimba lucruri la întâmplare; mergi pe listă, un lucru pe rând.",
+      "Curba de loss îți spune cauza: formă plată, explozie, sau prăpastie train-validare."
+    ]
+  },
+  {
+    "moduleCode": "S21",
+    "duration": "~1 săptămână",
+    "objective": "Înțelegi cum funcționează o rețea convoluțională și arhitecturile clasice, și știi să calculezi dimensiunile.",
+    "intro": "CNN-urile (rețele convoluționale) sunt uneltele pentru imagini. În loc să conecteze fiecare pixel la fiecare neuron, ceea ce ar fi enorm, folosesc filtre mici care se plimbă peste imagine. Așa învață trăsături locale (margini, colțuri, apoi forme) eficient și cu puține greutăți. Ai văzut convoluția de mână la S17; aici o rețeaua o învață singură.",
+    "sections": [
+      {
+        "heading": "De ce nu un MLP obișnuit pe imagini",
+        "blocks": [
+          {
+            "p": "Dacă ai lega fiecare pixel dintr-o imagine de 224x224 color la fiecare neuron, ai avea sute de mii de greutăți doar în primul strat. Prea multe: model uriaș, lent, care face overfitting imediat. În plus, un MLP tratează fiecare pixel independent și pierde faptul că pixelii vecini formează structuri."
+          },
+          {
+            "p": "CNN-urile exploatează două idei. Localitate: trăsăturile utile (o margine) sunt locale, deci un filtru mic ajunge. Partajarea greutăților: același filtru se plimbă peste toată imaginea, deci o margine e recunoscută oriunde apare, cu aceleași greutăți. Puține greutăți, multă putere."
+          }
+        ]
+      },
+      {
+        "heading": "Stratul convoluțional: kernel, stride, padding",
+        "blocks": [
+          {
+            "p": "Un strat convoluțional aplică mai multe filtre învățate peste intrare, fiecare producând o hartă de trăsături care evidențiază un anumit tipar. Trei setări definesc cum se plimbă filtrul."
+          },
+          {
+            "list": [
+              "Kernel: mărimea filtrului (de obicei 3x3). Cât de mare e fereastra care se plimbă.",
+              "Stride: cu cât sare filtrul la fiecare pas. Stride 2 sare din doi în doi, micșorând ieșirea.",
+              "Padding: cât umpli cu zerouri marginile, ca ieșirea să nu se micșoreze prea repede și colțurile să conteze."
+            ]
+          },
+          {
+            "p": "Trebuie să știi să calculezi dimensiunea ieșirii, altfel nu poți lega straturile corect. E o formulă simplă pe care o aplici pentru fiecare strat."
+          },
+          {
+            "formula": "ieșire = (intrare - kernel + 2·padding) / stride + 1",
+            "explain": "Pentru o intrare de 32, kernel 3, padding 1, stride 1: (32 - 3 + 2) / 1 + 1 = 32. Dimensiunea se păstrează."
+          }
+        ]
+      },
+      {
+        "heading": "Pooling și câmpul receptiv",
+        "blocks": [
+          {
+            "p": "Pooling-ul micșorează harta de trăsături, luând de exemplu maximul din fiecare fereastră 2x2 (max pooling). Reduce dimensiunea, deci calculul, și mărește câmpul receptiv: cât din imaginea originală vede un neuron. Straturile de sus, cu câmp receptiv mare, văd forme întregi, nu doar margini."
+          },
+          {
+            "p": "Global average pooling e o alternativă curată la straturile dense de la final: mediază fiecare hartă de trăsături într-un singur număr. Are mai puține greutăți și face mai puțin overfitting decât straturile dense mari."
+          }
+        ]
+      },
+      {
+        "heading": "Arhitecturi clasice și ResNet",
+        "blocks": [
+          {
+            "p": "Tiparul clasic al unui CNN: alternezi straturi convoluționale și pooling, care extrag trăsături din ce în ce mai abstracte, apoi la final un cap de clasificare care dă clasa. LeNet (cifre) și VGG (stive de convoluții 3x3) sunt punctele de plecare istorice."
+          },
+          {
+            "p": "Problema rețelelor foarte adânci: gradientul dispare pe drumul înapoi prin multe straturi, iar rețeaua nu mai învață. ResNet a rezolvat asta cu conexiuni reziduale: o scurtătură care sare peste câteva straturi și adună intrarea la ieșire. Gradientul poate curge direct prin scurtătură, deci rețele de zeci sau sute de straturi devin antrenabile. De aici pornesc majoritatea modelelor moderne de imagini."
+          },
+          {
+            "note": "Conexiunea reziduală e ideea de reținut din modul. Fără ea, rețelele foarte adânci nu învață. Cu ea, adâncimea devine un avantaj, nu un blocaj."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Greșești calculul dimensiunilor și straturile nu se potrivesc.",
+      "Rețele adânci fără conexiuni reziduale: gradientul dispare și nu învață.",
+      "Pui straturi dense uriașe la final și faci overfitting; global average pooling e mai curat."
+    ],
+    "practice": [
+      "Calculează pe hârtie dimensiunile ieșirii pentru o mică rețea convoluțională, strat cu strat.",
+      "Antrenează o rețea convoluțională simplă pe un set de imagini mic.",
+      "Adaugă o conexiune reziduală într-o rețea și compară antrenarea cu și fără ea."
+    ],
+    "keyTakeaways": [
+      "CNN-urile folosesc filtre mici partajate: puține greutăți, recunosc trăsături oriunde apar.",
+      "Stratul convoluțional are kernel, stride, padding; ieșirea se calculează cu o formulă simplă.",
+      "Pooling-ul micșorează harta și mărește câmpul receptiv.",
+      "Tiparul: convoluții plus pooling pentru trăsături, apoi cap de clasificare.",
+      "Conexiunile reziduale (ResNet) lasă gradientul să treacă prin rețele adânci."
+    ]
+  },
+  {
+    "moduleCode": "S22",
+    "duration": "~1 săptămână",
+    "objective": "Folosești modele preantrenate și le adaptezi la problema ta, ca să obții scoruri bune cu puține date.",
+    "intro": "Rar antrenezi o rețea de imagini de la zero. Iei un model deja antrenat pe milioane de imagini (ImageNet) și îl adaptezi la problema ta. Cu date puține, asta e diferența dintre un scor bun și unul jalnic. Modelul a învățat deja să vadă margini, texturi și forme; tu doar îl reorientezi spre clasele tale.",
+    "sections": [
+      {
+        "heading": "De ce funcționează transferul",
+        "blocks": [
+          {
+            "p": "Un CNN antrenat pe multe imagini învață în straturile de jos trăsături generale: margini, colțuri, texturi. Astea sunt utile pentru aproape orice problemă de imagini, nu doar pentru cea pe care a fost antrenat. Straturile de sus învață trăsături specifice (forme de câini, de mașini). Ideea transferului: păstrezi partea generală și rescrii doar partea specifică."
+          },
+          {
+            "p": "Așa, în loc să antrenezi milioane de greutăți de la zero, cu milioane de imagini de care nu dispui, folosești ce a învățat deja modelul și antrenezi doar puțin, cu puține date. E cea mai practică tehnică din tot deep learning-ul de imagini."
+          }
+        ]
+      },
+      {
+        "heading": "Feature extraction vs fine-tuning",
+        "blocks": [
+          {
+            "p": "Sunt două moduri de a adapta un model preantrenat, în funcție de cât de multe date ai."
+          },
+          {
+            "list": [
+              "Feature extraction: îngheți toată rețeaua (nu se mai antrenează) și înlocuiești doar capul de clasificare, pe care îl antrenezi pe clasele tale. Rapid, potrivit când ai foarte puține date.",
+              "Fine-tuning: dezgheți și straturile de sus ale rețelei și le antrenezi cu un learning rate mic, ca să le ajustezi fin spre problema ta. Mai puternic, potrivit când ai date ceva mai multe."
+            ]
+          },
+          {
+            "code": "from torchvision import models\nimport torch.nn as nn\n\nnet = models.resnet18(weights=\"DEFAULT\")\nfor p in net.parameters():\n    p.requires_grad = False          # îngheață tot (feature extraction)\nnet.fc = nn.Linear(net.fc.in_features, NUM_CLASE)   # cap nou, antrenabil"
+          }
+        ]
+      },
+      {
+        "heading": "Normalizarea: aceeași cu cea de la antrenare",
+        "blocks": [
+          {
+            "p": "Un model preantrenat a văzut imagini normalizate într-un anumit fel: scăzute și împărțite cu statisticile ImageNet (mediile și deviațiile pe cele trei canale). Dacă îi dai imagini normalizate altfel, intrarea nu seamănă cu ce a văzut el la antrenare și merge prost, uneori inexplicabil de prost."
+          },
+          {
+            "note": "Când folosești un model preantrenat, normalizează imaginile exact cu statisticile pe care a fost antrenat (pentru ImageNet, mediile și deviațiile standard cunoscute). E o greșeală tăcută și frecventă."
+          }
+        ]
+      },
+      {
+        "heading": "Learning rate mic la fine-tuning",
+        "blocks": [
+          {
+            "p": "La fine-tuning, straturile preantrenate au deja greutăți bune. Dacă le antrenezi cu un learning rate mare, pașii mari strică exact trăsăturile valoroase pe care voiai să le păstrezi. Folosește un learning rate mic pentru ele, uneori și mai mic decât pentru capul nou. Așa le ajustezi fin, nu le distrugi."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Uiți normalizarea ImageNet și modelul preantrenat merge prost fără motiv aparent.",
+      "Fine-tuning cu learning rate mare: strici trăsăturile deja bune.",
+      "Faci fine-tuning pe tot modelul cu foarte puține date și overfiți; mai bine feature extraction."
+    ],
+    "practice": [
+      "Adaptează un ResNet la o problemă cu puține imagini prin feature extraction.",
+      "Compară feature extraction cu fine-tuning pe același set și vezi când merită fiecare.",
+      "Verifică ce se întâmplă cu scorul dacă scoți normalizarea corectă a imaginilor."
+    ],
+    "keyTakeaways": [
+      "Modelele preantrenate au învățat trăsături generale reutilizabile în alte probleme.",
+      "Feature extraction (îngheți tot, antrenezi doar capul) e pentru foarte puține date.",
+      "Fine-tuning (dezgheți straturile de sus, learning rate mic) e pentru date ceva mai multe.",
+      "Normalizează imaginile cu aceleași statistici ca la preantrenare (ImageNet).",
+      "Learning rate mare la fine-tuning strică trăsăturile bune deja învățate."
+    ]
+  },
+  {
+    "moduleCode": "S23",
+    "duration": "~1 săptămână",
+    "objective": "Reprezinți cuvintele ca vectori denși care poartă sens și înțelegi cum procesează rețelele secvențe de text.",
+    "intro": "One-hot tratează fiecare cuvânt ca pe ceva izolat: câine și pisică sunt la fel de diferite ca și câine și televizor. Embeddings pun cuvintele într-un spațiu unde apropierea înseamnă sens apropiat. E ideea pe care stă tot NLP-ul modern. Modulul ăsta îți dă intuiția, ca modelele mari de mai târziu să nu fie magie.",
+    "sections": [
+      {
+        "heading": "Problema reprezentării one-hot",
+        "blocks": [
+          {
+            "p": "În NLP clasic (S16), un cuvânt era o poziție într-un vector uriaș de zerouri cu un singur 1. Problema: toți vectorii sunt la fel de departe unul de altul. Modelul nu are cum să știe că rege și regină sunt înrudite, sau că bun și excelent sunt apropiate. Sensul se pierde complet."
+          },
+          {
+            "p": "Vectorii sunt și enormi (cât vocabularul, zeci de mii de dimensiuni) și rari (aproape numai zerouri). Ineficient și fără sens semantic. Embeddings rezolvă ambele probleme."
+          }
+        ]
+      },
+      {
+        "heading": "Embeddings: sens ca poziție în spațiu",
+        "blocks": [
+          {
+            "p": "Un embedding e un vector dens, scurt (de exemplu 100-300 de numere), învățat pentru fiecare cuvânt, astfel încât cuvintele cu sens apropiat să aibă vectori apropiați. Se învață din contexte: cuvintele care apar în contexte similare primesc vectori similari. Câine și pisică apar amândouă lângă hrană, blană, animal, deci ajung aproape."
+          },
+          {
+            "p": "Word2Vec învață astfel de vectori în două variante: skip-gram (din cuvânt prezici contextul) sau CBOW (din context prezici cuvântul). Un rezultat celebru: aritmetica vectorilor funcționează. Vectorul rege minus bărbat plus femeie cade aproape de regină. Sensul devine geometrie."
+          },
+          {
+            "formula": "vec(rege) - vec(bărbat) + vec(femeie) ≈ vec(regină)",
+            "explain": "Relațiile de sens devin direcții în spațiu. Diferența bărbat-femeie e aceeași direcție ca rege-regină."
+          }
+        ]
+      },
+      {
+        "heading": "FastText: important pentru română",
+        "blocks": [
+          {
+            "p": "Word2Vec tratează fiecare cuvânt ca un tot. FastText merge pe subcuvinte (bucăți de litere): reprezintă un cuvânt din fragmentele lui. Asta contează enorm la română, cu flexiunea ei bogată. Merg, mergem, mergeau împart subcuvinte, deci primesc vectori înrudiți, chiar dacă una din forme e rară sau nevăzută la antrenare."
+          },
+          {
+            "note": "La română, preferă FastText sau embeddings care folosesc subcuvinte. Modelele care tratează fiecare formă flexionată ca un cuvânt complet separat pierd legăturile și se împotmolesc pe formele rare."
+          },
+          {
+            "p": "Poți folosi vectori preantrenați (Word2Vec, FastText, GloVe gata antrenați) ca extractoare de trăsături, fără să antrenezi nimic: iei vectorii cuvintelor și pui un model simplu deasupra. Cu puține date, e mult mai bine decât să pornești de la zero."
+          }
+        ]
+      },
+      {
+        "heading": "Secvențe: RNN, LSTM, GRU",
+        "blocks": [
+          {
+            "p": "Un embedding dă sens unui cuvânt, dar o propoziție e o secvență în care ordinea contează. Rețelele recurente (RNN) procesează textul cuvânt cu cuvânt, ținând o stare care rezumă ce au văzut până acum. Problema: pe secvențe lungi, gradientul dispare și rețeaua uită începutul propoziției."
+          },
+          {
+            "p": "LSTM și GRU rezolvă asta cu porți: mecanisme care decid ce informație rețin, ce uită și ce lasă să treacă. Așa pot ține minte context de mai departe. Nu trebuie să le implementezi de la zero, dar înțelege conceptual de ce funcționează: porțile protejează informația importantă de la a fi ștearsă pas cu pas."
+          },
+          {
+            "p": "RNN-urile și LSTM-urile au fost înlocuite în mare parte de transformere în NLP-ul de vârf, dar rămân importante ca să înțelegi ideea de procesare a secvenței și problema memoriei pe distanță lungă, care e exact ce au venit transformerele să rezolve mai bine."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "La română folosești vectori care ignoră subcuvintele și pierzi formele flexionate.",
+      "Aștepți de la un RNN simplu să țină minte contextul de acum 200 de cuvinte.",
+      "Antrenezi embeddings de la zero cu puține date în loc să folosești unele preantrenate."
+    ],
+    "practice": [
+      "Explorează aritmetica vectorilor (rege - bărbat + femeie) pe un set de embeddings preantrenate.",
+      "Compară FastText cu Word2Vec pe cuvinte flexionate din română.",
+      "Folosește embeddings preantrenate ca trăsături și pune o regresie logistică deasupra."
+    ],
+    "keyTakeaways": [
+      "One-hot pierde sensul; toate cuvintele sunt la fel de departe.",
+      "Embeddings sunt vectori denși unde apropierea = sens apropiat, învățați din context.",
+      "Aritmetica vectorilor de cuvinte funcționează: relațiile de sens devin direcții.",
+      "FastText folosește subcuvinte, esențial pentru flexiunea bogată a românei.",
+      "RNN procesează secvențe dar uită pe distanță lungă; LSTM/GRU rețin cu porți."
+    ]
+  },
+  {
+    "moduleCode": "S24",
+    "duration": "~1 săptămână",
+    "objective": "Rezolvi probleme de reinforcement learning tabelar și recunoști sursele de bias și problemele de corectitudine.",
+    "intro": "Reinforcement learning (învățare prin recompensă) e cerut la clasele mari. Un agent învață ce să facă din recompense, prin încercare și eroare, fără să i se spună răspunsul corect la fiecare pas. La final atingem și etica: modelele pot fi nedrepte cu anumite grupuri, și merită să știi de ce se întâmplă și cum se măsoară.",
+    "sections": [
+      {
+        "heading": "Ce e diferit la RL",
+        "blocks": [
+          {
+            "p": "La supervizat aveai răspunsul corect pentru fiecare exemplu. La RL nu-l ai. Agentul ia acțiuni într-un mediu, primește recompense (pozitive sau negative), și trebuie să învețe singur ce șir de acțiuni aduce cea mai mare recompensă pe termen lung. Provocarea: o acțiune bună acum poate aduce recompensa abia peste mulți pași."
+          },
+          {
+            "p": "Exemplu clasic: un agent într-un grid-world (o hartă cu căsuțe) trebuie să ajungă la o țintă evitând capcane. Nu i se spune drumul; primește o recompensă mică negativă la fiecare pas și una mare pozitivă la țintă, și învață singur drumul bun."
+          }
+        ]
+      },
+      {
+        "heading": "MDP: limbajul RL",
+        "blocks": [
+          {
+            "p": "Un MDP (proces de decizie Markov) descrie problema formal. Are stări (unde poate fi agentul), acțiuni (ce poate face), recompense (ce primește), un factor de discount (cât de mult contează viitorul față de prezent), și o politică (regula după care agentul alege acțiunea în fiecare stare). Scopul: găsești politica ce maximizează recompensa totală așteptată."
+          },
+          {
+            "p": "Două funcții măsoară cât de bine stai. V(s) spune cât de bună e o stare (câtă recompensă aștepți de acolo încolo). Q(s,a) spune cât de bună e o pereche stare-acțiune (câtă recompensă aștepți dacă faci acțiunea a în starea s, apoi joci bine). Ecuațiile Bellman le leagă între ele recursiv: valoarea unei stări depinde de valorile stărilor următoare."
+          }
+        ]
+      },
+      {
+        "heading": "Q-learning tabelar",
+        "blocks": [
+          {
+            "p": "Q-learning învață funcția Q din experiență, ținând un tabel cu o valoare pentru fiecare pereche stare-acțiune. După fiecare acțiune, actualizează valoarea din tabel apropiind-o de recompensa primită plus cea mai bună valoare din starea următoare. Cu destule încercări, tabelul converge și politica bună iese: în fiecare stare, alegi acțiunea cu Q cel mai mare."
+          },
+          {
+            "formula": "Q(s,a) ← Q(s,a) + α · [r + γ · max Q(s',a') - Q(s,a)]",
+            "explain": "α = rata de învățare, r = recompensa, γ = factorul de discount, s' = starea următoare. Muți Q spre recompensa reală plus valoarea viitoare."
+          },
+          {
+            "p": "O dilemă centrală: explorare contra exploatare. Dacă agentul alege mereu ce pare cel mai bun acum (exploatare), poate rata un drum mai bun pe care nu l-a încercat. Dacă explorează prea mult, pierde vremea. Strategia ε-greedy echilibrează: cu probabilitate ε face o acțiune la întâmplare (explorare), altfel alege ce e mai bun (exploatare). De obicei începi cu ε mare și îl scazi treptat."
+          },
+          {
+            "note": "ε prea mic prea devreme e o capcană clasică: agentul se fixează pe primul drum decent găsit și nu mai explorează, rămânând blocat într-o soluție mediocră. Lasă-l să exploreze destul la început."
+          }
+        ]
+      },
+      {
+        "heading": "Bias și corectitudine",
+        "blocks": [
+          {
+            "p": "Un model învață din date, deci moștenește tiparele din ele, inclusiv pe cele nedrepte. Bias-ul intră pe mai multe uși: date istorice care reflectă discriminări trecute, etichetare părtinitoare, sau alegerea unei metrici care ascunde problema. Un model poate merge bine în medie și prost pe un subgrup, iar media ascunde asta."
+          },
+          {
+            "p": "De aceea măsori performanța și pe subgrupuri, nu doar în total. Corectitudinea are mai multe definiții, și aici e partea grea: nu poți mereu să le ai pe toate deodată."
+          },
+          {
+            "list": [
+              "Paritate demografică: modelul dă rezultate pozitive în aceeași proporție pentru fiecare grup.",
+              "Șanse egale: modelul are aceeași rată de adevărat pozitiv pentru fiecare grup (prinde la fel de bine cazurile reale în fiecare grup)."
+            ]
+          },
+          {
+            "p": "Cele două definiții pot fi incompatibile matematic: satisfăcând-o pe una, o încalci pe cealaltă. Nu există un răspuns pur tehnic. Alegerea depinde de context și de ce cost are fiecare tip de greșeală pentru oameni. Important e să fii conștient de compromis și să-l faci explicit, nu să raportezi doar media și să ascunzi restul."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "ε prea mic prea devreme: agentul nu explorează destul și rămâne blocat.",
+      "Raportezi doar scorul mediu și ascunzi că modelul e slab pe un subgrup.",
+      "Crezi că există o singură definiție corectă a corectitudinii."
+    ],
+    "practice": [
+      "Implementează Q-learning pe un grid-world și urmărește politica cum se formează.",
+      "Măsoară performanța unui model pe subgrupuri și discută ce definiție de corectitudine folosești.",
+      "Variază ε (explorarea) și observă cum se schimbă ce politică învață agentul."
+    ],
+    "keyTakeaways": [
+      "La RL agentul învață din recompense, nu din răspunsuri corecte date.",
+      "Un MDP are stări, acțiuni, recompense, discount și politică; V și Q măsoară cât de bine stai.",
+      "Q-learning învață un tabel de valori din experiență și scoate politica bună.",
+      "ε-greedy echilibrează explorarea și exploatarea; explorează destul la început.",
+      "Bias-ul intră prin date și etichete; măsoară pe subgrupuri, nu doar media.",
+      "Definițiile de corectitudine pot fi incompatibile; alegerea e contextuală, nu pur tehnică."
+    ]
+  }
+];
+
+export const lessonByModule = (code: string): Lesson | undefined =>
+  lessons.find((l) => l.moduleCode === code);

@@ -1,0 +1,369 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/*
+  Platforma Vianu AI.
+  Alb curat, titluri Montserrat (fontul din wordmark), corp Schibsted Grotesk,
+  carduri cu bordură subțire, butoane pill. Verdele mărcii ca singurul accent.
+*/
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--card);
+  --color-popover-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--secondary);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--secondary);
+  --color-accent-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 3px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 6px);
+
+  /* Montserrat pentru titluri și UI (e fontul din wordmark), Schibsted
+     Grotesk pentru corp — se citește mai bine pe lecțiile lungi. */
+  --font-display: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-fun: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
+}
+
+:root {
+  --radius: 1rem;
+
+  /* tema e light: fixează scrollbar-ele și controalele native pe light */
+  color-scheme: light;
+
+  /* `@theme inline` substituie valorile în utilitare și nu emite custom
+     properties, așa că var(--font-display) din CSS-ul scris de mână nu s-ar
+     rezolva. Le declarăm și aici. Depind de variabilele next/font, care de
+     asta stau pe <html> (vezi layout.tsx). */
+  --font-display: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-fun: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
+
+  /* alb și cerneală */
+  --background: #ffffff;
+  --foreground: #0f1211;
+  --card: #ffffff;
+  --card-foreground: #0f1211;
+
+  /* verdele mărcii, luat din logo — singurul accent.
+     #417544 e verdele plăcii din marcă (5.4:1 pe alb, trece AA).
+     Restul paletei logo-ului, dacă e nevoie: frunză #749d4f, cremă #eae9cb. */
+  --primary: #417544;
+  --primary-foreground: #ffffff;
+  --accent-ink: #2f5a34;
+  --accent-tint: #eef3e8;
+
+  --secondary: #f4f5f4;
+  --secondary-foreground: #2f5a34;
+  --muted: #656a68;
+  --muted-foreground: #656a68;
+
+  --destructive: #c0392b;
+  --border: #ececec;
+  --input: #ececec;
+  --ring: #417544;
+
+  --faint: #6d726c;
+
+  /* cerneala de corp pentru lecții și texte lungi (un singur token, ca să se
+     poata schimba dintr-un loc, ex. la un dark mode) */
+  --prose: #33342d;
+
+  /* blocuri de cod: fundal închis + paletă de tokeni pentru highlight */
+  --code-bg: #1f2b26;
+  --code-fg: #e8ede8;
+  --code-comment: #6b7d73;
+  --code-string: #d9a679;
+  --code-keyword: #7cc9a6;
+  --code-number: #c3a6e6;
+  --code-func: #86b8e0;
+
+  /* alias-uri vechi, redirecționate în paleta nouă (ca să propage în cod) */
+  --surface: var(--card);
+  --border-strong: #d9d9d9;
+  --text: var(--foreground);
+  --amber: var(--primary);
+  --green: var(--primary);
+  --clay: #b5573a;
+  --gold: #b07d1a;
+  --gold-ink: #7a4e0d;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  /* fără delay de 300ms la tap, fără dublu-tap-zoom pe controale */
+  a,
+  button,
+  input,
+  select,
+  summary,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+}
+
+/* titlurile nu lasă un cuvânt orfan pe ultima linie */
+.display,
+.display-xl {
+  text-wrap: balance;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+::selection {
+  background: var(--accent-tint);
+  color: var(--accent-ink);
+}
+
+/* ————— tipografie ————— */
+/* Montserrat e geometric și mai lat decât un grotesk: are nevoie de mai
+   puțin tracking negativ și de ceva aer în plus pe linie, altfel se
+   lipesc contraformele rotunde. */
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+/* titlul de deschidere, la greutatea din wordmark */
+.display-xl {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+.serif {
+  font-family: var(--font-sans);
+}
+
+/* titlu cu personalitate, folosit punctual (secțiunea echipei).
+   Bricolage e un grotesc lat, deci suportă tracking negativ ca Montserrat. */
+.display-fun {
+  font-family: var(--font-fun);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+/* etichetă de secțiune: aceeași familie ca titlurile, fără versale rărite —
+   altfel sare din pagină ca un element de alt design */
+.kicker {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+/* numeral de secțiune, discret */
+.numeral {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, var(--primary) 45%, transparent);
+  line-height: 1;
+}
+
+/* notă de margine */
+.sidenote {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #4a4b45;
+}
+
+/* etichetă mono discretă */
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--faint);
+}
+
+/* linkuri din text */
+.link-amber {
+  color: var(--primary);
+  text-decoration: none;
+  box-shadow: inset 0 -1.5px 0 0 color-mix(in srgb, var(--primary) 35%, transparent);
+  transition: box-shadow 0.2s ease;
+}
+.link-amber:hover {
+  box-shadow: inset 0 -2px 0 0 var(--primary);
+}
+
+.toc-leader {
+  flex: 1;
+  margin: 0 0.6rem 0.3rem;
+  border-bottom: 1.5px dotted var(--border-strong);
+}
+
+/* ————— carduri saasframe: bordură subțire, colț rotund, umbră moale ————— */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.18s ease;
+}
+.card:hover {
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  background: var(--card);
+}
+/* chip cu accent, pentru codul de modul */
+.code-chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--accent-ink);
+  background: var(--accent-tint);
+  padding: 0.25rem 0.55rem;
+  border-radius: 7px;
+}
+
+/* ————— corpul lecției, la sans, aerisit ————— */
+.lesson-prose {
+  font-family: var(--font-sans);
+  font-size: 1.075rem;
+  line-height: 1.72;
+  color: #2e2f2b;
+}
+.lesson-prose p {
+  margin-bottom: 1.05rem;
+}
+.lesson-prose strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.lesson-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--secondary);
+  padding: 0.1em 0.35em;
+  border-radius: 5px;
+}
+
+/* ————— mișcare —————
+   Dezvăluirea la scroll o face browserul, pe timeline-ul de vizibilitate al
+   elementului. Fără JS, fără IntersectionObserver, deci fără conținut rămas
+   ascuns dacă ceva nu se declanșează: starea implicită e „vizibil", iar
+   animația se adaugă doar unde e suportată și doar dacă utilizatorul n-a cerut
+   mai puțină mișcare. */
+@keyframes rise-in {
+  from {
+    opacity: 0.3;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rise {
+      animation: rise-in linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 22%;
+    }
+  }
+}
+
+/* halou moale în spatele titlului, cât să nu fie pagina o coală albă */
+.hero-glow {
+  background:
+    radial-gradient(
+      60% 55% at 50% 38%,
+      color-mix(in srgb, var(--primary) 7%, transparent) 0%,
+      transparent 70%
+    );
+}
+[data-slot="button"] {
+  font-family: var(--font-display);
+  transition:
+    transform 0.12s ease,
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+[data-slot="button"]:active {
+  transform: scale(0.98);
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* sari peste navbar direct la conținut; ascuns până primește focus */
+.skip-link {
+  position: fixed;
+  top: 0.6rem;
+  left: 0.6rem;
+  z-index: 100;
+  transform: translateY(-160%);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: transform 0.15s ease;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+main:focus {
+  outline: none;
+}

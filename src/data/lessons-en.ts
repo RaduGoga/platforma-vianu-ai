@@ -354,6 +354,161 @@ export const lessonsEn: Lesson[] = [
     ]
   },
   {
+    "moduleCode": "S4",
+    "duration": "~1 week",
+    "objective": "You take a contest problem from the raw file to a valid submission, without skipping steps and without leaking test data into training.",
+    "intro": "So far you've learned pieces: Python, NumPy, Pandas. This module ties them together. It brings no new theory, only the order in which things get done. That matters, because most olympiad mistakes don't come from the model, they come from steps taken in the wrong order. A pipeline you can run end to end in twenty minutes is the most valuable tool you bring into a contest.",
+    "sections": [
+      {
+        "heading": "The six steps, in order",
+        "blocks": [
+          {
+            "p": "Every tabular contest problem looks the same from above. You read the data. You split it. You build a baseline. You preprocess. You train and validate. You write the submission."
+          },
+          {
+            "p": "The order isn't a suggestion. Each step assumes the previous one was done correctly, and two of them are easy to swap when you're rushing: splitting and preprocessing. Swap those and your local score becomes a lie, which you only discover on the private leaderboard."
+          },
+          {
+            "list": [
+              "Read the data and look at what you got.",
+              "Split into training and validation.",
+              "Build a dumb baseline, so you have a reference point.",
+              "Preprocess, with parameters learned only on training data.",
+              "Train a model and compare it against the baseline.",
+              "Write the submission file and check it before uploading."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Step 1: read and look",
+        "blocks": [
+          {
+            "p": "The first thing after reading is checking that the data looks the way you think it does. How many rows, which columns, what type each one is, what the target looks like. This isn't full analysis, that comes in the next module. It's just confirming you didn't read the file wrong."
+          },
+          {
+            "code": "import pandas as pd\n\ntrain = pd.read_csv(\"train.csv\")\ntest = pd.read_csv(\"test.csv\")\n\nprint(train.shape, test.shape)\nprint(train.dtypes)\nprint(train[\"target\"].value_counts())"
+          },
+          {
+            "p": "Compare the train columns against the test ones. The difference between them is, almost always, the target column itself. If anything else is missing, that's something to understand before moving on."
+          }
+        ]
+      },
+      {
+        "heading": "Step 2: split before you touch anything",
+        "blocks": [
+          {
+            "p": "This is where most points are lost. You need a slice of the data the model has never seen, so you can honestly estimate how good it is. The split happens before any transformation."
+          },
+          {
+            "code": "from sklearn.model_selection import train_test_split\n\nX = train.drop(columns=[\"target\"])\ny = train[\"target\"]\n\nX_tr, X_val, y_tr, y_val = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)"
+          },
+          {
+            "p": "The stratify argument keeps the same class proportions in both halves. Without it, on an imbalanced problem you can land a validation set that contains none of the rare class at all, and the score becomes meaningless."
+          },
+          {
+            "note": "A fixed random_state means the same split repeats on every run. Without it your score shifts between runs and you can no longer tell whether a change helped or you got lucky."
+          }
+        ]
+      },
+      {
+        "heading": "Step 3: the dumb but honest baseline",
+        "blocks": [
+          {
+            "p": "Before any serious model, build a stupid one. Always predict the majority class, or the mean, and measure. That number is your floor: any model that doesn't beat it is worse than nothing."
+          },
+          {
+            "code": "from sklearn.dummy import DummyClassifier\nfrom sklearn.metrics import f1_score\n\ndummy = DummyClassifier(strategy=\"most_frequent\").fit(X_tr, y_tr)\nprint(f1_score(y_val, dummy.predict(X_val), average=\"macro\"))"
+          },
+          {
+            "p": "It looks like a waste of time. It isn't. Often a complicated model produces a score that seems reasonable, until you compare it to the baseline and find it's the same or worse. Without the reference point, you'd never have known."
+          }
+        ]
+      },
+      {
+        "heading": "Step 4: preprocessing that can't leak",
+        "blocks": [
+          {
+            "p": "The preprocessing rule: parameters (mean, deviation, categories) are learned only on the training data. The problem is that, done by hand, this rule is easy to break."
+          },
+          {
+            "p": "The fix is Pipeline. You bind preprocessing to the model in a single object, and when you call fit on it, scikit-learn makes sure the transformations only learn from what you hand it for training."
+          },
+          {
+            "code": "from sklearn.pipeline import Pipeline\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.impute import SimpleImputer\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder\nfrom sklearn.ensemble import RandomForestClassifier\n\nnumeric = X_tr.select_dtypes(include=\"number\").columns\ncategorical = X_tr.select_dtypes(exclude=\"number\").columns\n\npre = ColumnTransformer([\n    (\"num\", Pipeline([\n        (\"imp\", SimpleImputer(strategy=\"median\")),\n        (\"sc\", StandardScaler()),\n    ]), numeric),\n    (\"cat\", Pipeline([\n        (\"imp\", SimpleImputer(strategy=\"most_frequent\")),\n        (\"oh\", OneHotEncoder(handle_unknown=\"ignore\")),\n    ]), categorical),\n])\n\nmodel = Pipeline([(\"pre\", pre), (\"clf\", RandomForestClassifier(random_state=42))])"
+          },
+          {
+            "p": "The handle_unknown argument matters in a contest: if a category shows up in test that wasn't in training, without it your code crashes at prediction time, exactly when you have no time to debug."
+          }
+        ]
+      },
+      {
+        "heading": "Step 5: train and compare",
+        "blocks": [
+          {
+            "p": "Now you have one object that does everything. You fit it on the training slice and measure it on validation, using the same metric the contest uses."
+          },
+          {
+            "code": "model.fit(X_tr, y_tr)\nscore = f1_score(y_val, model.predict(X_val), average=\"macro\")\nprint(f\"model: {score:.4f}\")"
+          },
+          {
+            "p": "The metric has to be the one from the problem statement. If the contest scores macro F1 and you optimize accuracy, you climb on your own score and fall on theirs."
+          },
+          {
+            "note": "Change one thing between runs and write down the score every time. A table with ten rows, even on paper, is worth more than ten ideas tried at once where you can't tell which one helped."
+          }
+        ]
+      },
+      {
+        "heading": "Step 6: the submission and the checks",
+        "blocks": [
+          {
+            "p": "At the end you retrain on all the training data, not just the eighty percent slice. You used validation to choose; now there's no reason to throw those examples away."
+          },
+          {
+            "code": "model.fit(X, y)\npred = model.predict(test)\n\nsub = pd.DataFrame({\"id\": test[\"id\"], \"target\": pred})\nsub.to_csv(\"submission.csv\", index=False)"
+          },
+          {
+            "p": "Before uploading, three checks that have saved many contests: the row count matches the test file, the column names are exactly what the statement asks for, and there are no missing values in the predictions."
+          },
+          {
+            "code": "assert len(sub) == len(test)\nassert list(sub.columns) == [\"id\", \"target\"]\nassert sub[\"target\"].isna().sum() == 0"
+          }
+        ]
+      },
+      {
+        "heading": "What this looks like on contest day",
+        "blocks": [
+          {
+            "p": "You spend the first hour on the pipeline above, with a simple model. You already have a valid submission and a score on the leaderboard. From there you improve, with the safety net that whatever happens, something is submitted."
+          },
+          {
+            "p": "The reverse order, where you spend two hours on a good model and only then start on the submission, is the most common way to finish a contest with zero points for code that almost worked."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "You scale or impute on the whole set, then split. The validation score comes out optimistic and false.",
+      "You optimize a different metric than the one in the statement.",
+      "You forget handle_unknown and the code crashes on a new category in test.",
+      "You submit the file without checking the row count and column names.",
+      "You stay on the eighty percent slice for the final submission instead of retraining on everything."
+    ],
+    "practice": [
+      "Take an archive problem from MLCompete and write the pipeline end to end in an hour, with a simple model.",
+      "Run the same pipeline once with scaling before the split and once after, and compare the validation scores.",
+      "Write yourself a template notebook with the six steps, to copy at the start of any problem."
+    ],
+    "keyTakeaways": [
+      "The order of the steps matters more than the choice of model.",
+      "You split before any transformation, otherwise your local score lies.",
+      "The dumb baseline is the reference point without which you can't tell if your model is good.",
+      "Pipeline makes information leakage hard to commit by accident.",
+      "The first valid submission happens in the first hour, not at the end."
+    ]
+  },
+  {
     "moduleCode": "S6",
     "duration": "~2 weeks",
     "objective": "You look at the data before you train, and you prepare it correctly for a model, without introducing data leakage.",

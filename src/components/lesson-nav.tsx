@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { List } from "lucide-react";
-import { modules, parts, type Part } from "@/data/curriculum";
+import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 
 // Arbore de module în stil docs: sticky pe desktop, sertar pe telefon.
@@ -47,8 +47,8 @@ export function LessonNav({
                           : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                       }`}
                     >
-                      <span className="w-11 shrink-0 font-mono text-[0.72rem] text-primary/80">
-                        {m.code}
+                      <span className="w-6 shrink-0 font-mono text-[0.72rem] tabular-nums text-primary/80">
+                        {lessonNumber(m.code)}
                       </span>
                       <span className="min-w-0 flex-1 truncate">{en ? m.titleEn : m.title}</span>
                     </Link>
@@ -64,7 +64,7 @@ export function LessonNav({
 
   const rail = (
     <nav className="hidden lg:block">
-      <div className="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pb-8 pr-2">
+      <div className="scroll-fara-bara sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pb-8 pr-2">
         <div className="mb-4 px-2">
           <span className="mono-label">{t("Programa", "Curriculum")}</span>
         </div>
@@ -82,7 +82,7 @@ export function LessonNav({
             <span className="mono-label block">{t("Toate modulele", "All modules")}</span>
             {current && (
               <span className="block truncate text-sm font-medium">
-                {current.code} · {en ? current.titleEn : current.title}
+                {t("Lecția", "Lesson")} {lessonNumber(current.code)} · {en ? current.titleEn : current.title}
               </span>
             )}
           </span>

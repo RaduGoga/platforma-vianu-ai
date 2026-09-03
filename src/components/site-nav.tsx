@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useHref, useT } from "@/components/lang-provider";
 import { LangToggle } from "@/components/lang-toggle";
+import { ReadingProgress } from "@/components/reading-progress";
 
 const links = [
   { href: "/programa", ro: "Programa", en: "Curriculum" },
@@ -21,9 +22,12 @@ export function SiteNav() {
   const href = useHref();
   // drumul fără prefixul de limbă, ca să marcăm linkul activ
   const path = pathname.replace(/^\/(ro|en)(?=\/|$)/, "") || "/";
+  // bara de progres apare doar pe pagina unei lecții
+  const peLectie = path.startsWith("/programa/");
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background">
+      {peLectie && <ReadingProgress />}
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
         <Link href={href("/")} className="focus-ring flex shrink-0 items-center gap-2.5" aria-label="Vianu AI">
           <Image

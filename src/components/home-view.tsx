@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ContinueCard } from "@/components/continue-card";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 import { CodeBlock } from "@/components/code-block";
-import { modules, parts, type Part } from "@/data/curriculum";
+import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
 
 export function HomeView() {
   const t = useT();
@@ -198,7 +198,7 @@ function CurriculumSample({
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {mods.map((m) => (
                   <span key={m.code} className="chip">
-                    {m.code}
+                    {lessonNumber(m.code)}
                   </span>
                 ))}
               </div>

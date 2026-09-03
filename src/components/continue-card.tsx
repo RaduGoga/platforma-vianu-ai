@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getLast, PROGRESS_EVENT, type LastLesson } from "@/lib/progress";
 import { useHref, useT } from "@/components/lang-provider";
+import { lessonNumber } from "@/data/curriculum";
 
 // Apare pe pagina de start doar dacă ai deschis deja o lecție.
 export function ContinueCard() {
@@ -28,7 +29,7 @@ export function ContinueCard() {
     <p className="mt-6 text-sm text-muted-foreground">
       {t("Ai rămas la", "You left off at")}{" "}
       <Link href={href(`/programa/${last.slug}`)} className="link-amber focus-ring font-medium">
-        {last.code} · {last.title}
+        {t("Lecția", "Lesson")} {lessonNumber(last.code) ?? last.code} · {last.title}
       </Link>
     </p>
   );

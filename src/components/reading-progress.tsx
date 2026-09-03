@@ -1,18 +1,39 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
-// Bară subțire de progres la citit, sub navigație. Utilă mai ales pe telefon.
+// Bara de progres la citit. Se randează în interiorul navbarului (care e
+// `sticky`, deci e containing block), ancorată de marginea lui de jos — așa nu
+// depinde de vreo înălțime hardcodată și nu poate ajunge sub el.
+//
+// Varianta veche stătea la `top: 57px` fix, dar navbarul are 61px și z-50 față
+// de z-40 al barei: odată lipită, intra sub navbar și dispărea. De aici părea
+// că nu se mișcă decât când te întorceai sus.
 export function ReadingProgress() {
-  const [pct, setPct] = useState(0);
+  const fill = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => {
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      const el = fill.current;
+      if (!el) return;
       const h = document.documentElement;
       const max = h.scrollHeight - h.clientHeight;
-      setPct(max > 0 ? Math.min(100, (h.scrollTop / max) * 100) : 0);
+      const p = max > 0 ? Math.min(1, Math.max(0, h.scrollTop / max)) : 0;
+      // scaleX se compune pe GPU; width ar forța layout la fiecare cadru
+      el.style.transform = `scaleX(${p})`;
     };
-    onScroll();
+
+    // un singur update pe cadru, oricâte evenimente de scroll ar veni
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
@@ -22,13 +43,11 @@ export function ReadingProgress() {
   }, []);
 
   return (
-    <div
-      className="sticky top-[57px] z-40 h-0.5 w-full bg-transparent"
-      aria-hidden
-    >
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px]" aria-hidden>
       <div
-        className="h-full bg-primary transition-[width] duration-150 ease-out"
-        style={{ width: `${pct}%` }}
+        ref={fill}
+        className="h-full w-full origin-left bg-primary transition-none"
+        style={{ transform: "scaleX(0)" }}
       />
     </div>
   );

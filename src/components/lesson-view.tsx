@@ -4,7 +4,8 @@ import Link from "next/link";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import type { Lesson, LessonSection } from "@/data/lessons";
 import type { Module } from "@/data/curriculum";
-import { ReadingProgress } from "@/components/reading-progress";
+import { lessonNumber } from "@/data/curriculum";
+import { typeLabel } from "@/data/resources";
 import { RecordVisit } from "@/components/record-visit";
 import { LessonNav } from "@/components/lesson-nav";
 import { CodeBlock } from "@/components/code-block";
@@ -53,10 +54,9 @@ export function LessonView({
 
   return (
     <>
-      {lesson && <ReadingProgress />}
       {/* masthead lecție */}
       <header className="border-b border-border">
-        <div className="mx-auto max-w-6xl px-5 pb-10 pt-10">
+        <div className="mx-auto max-w-7xl px-5 pb-10 pt-10">
           <Link
             href={href("/programa")}
             className="focus-ring inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -65,10 +65,8 @@ export function LessonView({
           </Link>
 
           <div className="kicker mt-8 flex flex-wrap items-center gap-x-3 gap-y-1">
-            <span className="text-base">{m.code}</span>
-            <span className="text-border">/</span>
-            <span>
-              {t("Sesiunea", "Session")} {m.weeks}
+            <span className="text-base">
+              {t("Lecția", "Lesson")} {lessonNumber(m.code)}
             </span>
             <span className="text-border">/</span>
             <span>{part}</span>
@@ -83,7 +81,7 @@ export function LessonView({
           <h1 className="display mt-4 text-4xl leading-[1] sm:text-6xl">{title}</h1>
 
           {lesson && (
-            <p className="serif mt-6 max-w-2xl border-l-2 border-primary pl-5 text-lg leading-relaxed text-[color:var(--prose)]">
+            <p className="serif mt-6 max-w-3xl border-l-2 border-primary pl-5 text-lg leading-relaxed text-[color:var(--prose)]">
               <span className="kicker block">{t("La final știi să", "By the end you can")}</span>
               <span className="mt-1 block">{lesson.objective}</span>
             </p>
@@ -93,7 +91,7 @@ export function LessonView({
         </div>
       </header>
 
-      <div className="mx-auto max-w-6xl px-5 lg:grid lg:grid-cols-[14rem_1fr] lg:gap-12">
+      <div className="mx-auto max-w-7xl px-5 lg:grid lg:grid-cols-[14rem_1fr] lg:gap-12">
         <aside className="hidden lg:block lg:pt-14">
           <LessonNav currentCode={m.code} variant="rail" />
         </aside>
@@ -101,7 +99,7 @@ export function LessonView({
           <LessonNav currentCode={m.code} variant="drawer" />
           {lesson ? (
             <>
-              <p className="lesson-prose max-w-2xl text-xl leading-relaxed text-foreground">
+              <p className="lesson-prose max-w-3xl text-xl leading-relaxed text-foreground">
                 {lesson.intro}
               </p>
 
@@ -215,7 +213,7 @@ export function LessonView({
                           {r.title}
                         </span>
                         <span className="mono-label inline-flex shrink-0 items-center gap-1 text-muted-foreground">
-                          {r.author ?? r.type} <ArrowUpRight className="size-3" aria-hidden />
+                          {r.author ?? etichetaTip(r.type, en)} <ArrowUpRight className="size-3" aria-hidden />
                         </span>
                       </a>
                     </li>
@@ -229,7 +227,7 @@ export function LessonView({
             {prev ? (
               <Link href={href(`/programa/${prev.slug}`)} className="focus-ring group py-2">
                 <span className="mono-label inline-flex items-center gap-1">
-                  <ArrowLeft className="size-3" aria-hidden /> {prev.code}
+                  <ArrowLeft className="size-3" aria-hidden /> {t("Lecția", "Lesson")} {lessonNumber(prev.code)}
                 </span>
                 <div className="display mt-1 text-lg transition-colors group-hover:text-primary">
                   {en ? prev.titleEn : prev.title}
@@ -241,7 +239,7 @@ export function LessonView({
             {next ? (
               <Link href={href(`/programa/${next.slug}`)} className="focus-ring group py-2 sm:text-right">
                 <span className="mono-label inline-flex w-full items-center justify-start gap-1 sm:justify-end">
-                  {next.code} <ArrowUpRight className="size-3" aria-hidden />
+                  {t("Lecția", "Lesson")} {lessonNumber(next.code)} <ArrowUpRight className="size-3" aria-hidden />
                 </span>
                 <div className="display mt-1 text-lg transition-colors group-hover:text-primary">
                   {en ? next.titleEn : next.title}
@@ -261,7 +259,7 @@ function SectionBody({ section }: { section: LessonSection }) {
   const t = useT();
   if (section.blocks && section.blocks.length > 0) {
     return (
-      <div className="mt-4 max-w-2xl">
+      <div className="mt-4 max-w-3xl">
         {section.blocks.map((b, i) => {
           if ("p" in b)
             return (
@@ -323,13 +321,21 @@ function SectionBody({ section }: { section: LessonSection }) {
   return (
     <>
       {section.paragraphs && section.paragraphs.length > 0 && (
-        <div className="lesson-prose mt-4 max-w-2xl">
+        <div className="lesson-prose mt-4 max-w-3xl">
           {section.paragraphs.map((p, j) => (
             <p key={j}>{p}</p>
           ))}
         </div>
       )}
-      {section.code && <CodeBlock code={section.code} className="mt-5 max-w-2xl" />}
+      {section.code && <CodeBlock code={section.code} className="mt-5 max-w-3xl" />}
     </>
   );
+}
+
+// Tipul resursei e stocat în română. Fără traducere, pe /en apăreau
+// „documentație" și „platformă" în mijlocul unei pagini englezești.
+function etichetaTip(type: string, en: boolean) {
+  const l = typeLabel[type as keyof typeof typeLabel];
+  if (!l) return type;
+  return en ? l.en : l.ro;
 }

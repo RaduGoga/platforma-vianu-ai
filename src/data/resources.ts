@@ -808,3 +808,16 @@ export const resources: Resource[] = [
 ];
 
 export const resourceById = (id: string) => resources.find((r) => r.id === id);
+
+// Tipurile sunt scrise în română în date; astea sunt etichetele de afișat.
+// Stau aici, nu în componentă, fiindcă le folosesc și biblioteca, și lecțiile.
+export const typeLabel: Record<Resource["type"], { ro: string; en: string }> = {
+  carte: { ro: "carte", en: "book" },
+  curs: { ro: "curs", en: "course" },
+  documentație: { ro: "docs", en: "docs" },
+  platformă: { ro: "platformă", en: "platform" },
+  notebook: { ro: "notebook", en: "notebook" },
+  video: { ro: "video", en: "video" },
+  articol: { ro: "articol", en: "article" },
+  arhivă: { ro: "arhivă", en: "archive" },
+};

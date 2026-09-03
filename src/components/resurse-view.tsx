@@ -8,18 +8,9 @@ import {
   categories,
   type Resource,
   type Category,
+  typeLabel,
 } from "@/data/resources";
 
-const typeLabel: Record<Resource["type"], { ro: string; en: string }> = {
-  carte: { ro: "carte", en: "book" },
-  curs: { ro: "curs", en: "course" },
-  documentație: { ro: "docs", en: "docs" },
-  platformă: { ro: "platformă", en: "platform" },
-  notebook: { ro: "notebook", en: "notebook" },
-  video: { ro: "video", en: "video" },
-  articol: { ro: "articol", en: "article" },
-  arhivă: { ro: "arhivă", en: "archive" },
-};
 
 // fără diacritice + litere mici, ca „retea” să prindă „rețele”
 const fold = (s: string) =>

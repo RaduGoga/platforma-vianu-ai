@@ -117,7 +117,10 @@ export default async function LangLayout({
   // declarate la :root, iar o custom property se rezolvă acolo unde e declarată.
   return (
     <html lang={lang} className={`${montserrat.variable} ${schibsted.variable} ${jetbrains.variable} ${bricolage.variable}`}>
-      <body className="antialiased">
+      {/* extensiile de browser (Grammarly &co.) injectează atribute pe body
+          înainte să hidrateze React; fără asta apare un warning de hidratare
+          care nu vine din codul nostru */}
+      <body className="antialiased" suppressHydrationWarning>
         <a href="#main" className="skip-link focus-ring">
           {lang === "en" ? "Skip to content" : "Sari la conținut"}
         </a>

@@ -135,10 +135,32 @@ export const modules: Module[] = [
       "Matplotlib and Seaborn",
     ],
     resourceIds: ["numpy-docs", "pandas-docs", "python-ds-handbook"],
-    checkpoint:
-      "Pipeline complet: după bazele de Python, un flux întreg de la citire la submisie, cap-coadă.",
-    checkpointEn:
-      "Full pipeline: once you have the Python basics, one run from reading the data to a submission, end to end.",
+  },
+  {
+    code: "S4",
+    slug: "pipeline-complet",
+    title: "Pipeline complet",
+    titleEn: "The full pipeline",
+    weeks: "5",
+    part: "fundamente",
+    kind: "modul",
+    summary: "Un flux întreg, de la citirea datelor până la fișierul de submisie.",
+    summaryEn: "One full run, from reading the data to the submission file.",
+    topics: [
+      "Ordinea pașilor: citire, split, baseline, preprocesare, model, submisie",
+      "Split înainte de orice atingi datele",
+      "Baseline-ul prost dar onest, ca reper",
+      "Pipeline din scikit-learn, ca preprocesarea să nu se scurgă",
+      "Fișierul de submisie și verificările înainte de upload",
+    ],
+    topicsEn: [
+      "The order of steps: read, split, baseline, preprocess, model, submit",
+      "Splitting before you touch anything",
+      "The dumb but honest baseline, as a reference point",
+      "scikit-learn Pipeline, so preprocessing can't leak",
+      "The submission file and the checks before uploading",
+    ],
+    resourceIds: ["sklearn-modelselection", "sklearn-preprocessing", "mlcompete"],
   },
   {
     code: "S6",
@@ -541,3 +563,10 @@ export const modules: Module[] = [
     resourceIds: ["sutton-barto", "fairness-book"],
   },
 ];
+
+// Numărul lecției, așa cum îl vede cititorul: poziția în programă, continuă
+// (1, 2, 3, 4…). Codurile oficiale de sesiune (S1, S3, S4, S6…) sar peste
+// numere și rămân doar în date, ca identificator.
+const numereLectii = new Map(modules.map((m, i) => [m.code, i + 1]));
+
+export const lessonNumber = (code: string) => numereLectii.get(code);

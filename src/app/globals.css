@@ -229,6 +229,17 @@ html {
   box-shadow: inset 0 -2px 0 0 var(--primary);
 }
 
+/* Coloana de module derulează doar pe ecrane scunde, iar bara desenată de
+   browser era gri, lată și, pe ecranele obișnuite, fără nimic de derulat.
+   O ascundem: rotița și tastatura funcționează în continuare. */
+.scroll-fara-bara {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scroll-fara-bara::-webkit-scrollbar {
+  display: none;
+}
+
 .toc-leader {
   flex: 1;
   margin: 0 0.6rem 0.3rem;

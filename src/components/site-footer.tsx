@@ -7,7 +7,7 @@ import { GitHubIcon, InstagramIcon } from "@/components/brand-icons";
 
 // Contul de Instagram: pune adresa aici și iconița apare singură.
 const INSTAGRAM = "https://www.instagram.com/vianu.ai/";
-const GITHUB = "https://github.com/dulgherustefan/vianu-ai-platforma";
+const GITHUB = "https://github.com/RaduGoga/platforma-vianu-ai";
 
 export function SiteFooter() {
   const t = useT();

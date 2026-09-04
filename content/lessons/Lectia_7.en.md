@@ -1,0 +1,75 @@
+---
+code: S8
+duration: ~3 weeks
+---
+
+# @intro
+Here you learn the basic tools of supervised learning: linear and logistic regression, Naïve Bayes, decision trees, SVM. Supervised means you have examples with the correct answer (labels) and the model learns from them. Don't stop at how you call them from scikit-learn. Understand what each one optimizes and when it fits, because that's what lets you choose well at the contest.
+
+## What training a model means
+A model has some parameters (internal numbers) it adjusts so it's wrong as little as possible on the training examples. The measure of the error is called the cost function, or loss. Training means finding the parameters that minimize the loss.
+
+In scikit-learn the pattern is always the same: you create the model, train it with fit on the training data, then predict with predict on new data. Simple on the surface, but under the hood each model does something different.
+
+```
+model = LogisticRegression()
+model.fit(X_train, y_train)     # learn the parameters
+y_pred = model.predict(X_val)   # predict on new data
+```
+
+## Linear regression: predicting a number
+Linear regression predicts a continuous value (a price, a temperature) as a linear combination of the features. It looks for the line (or the plane, in more dimensions) that passes best through the data.
+
+> [!FORMULA]
+> ŷ = w₁x₁ + w₂x₂ + ... + b
+> Each feature x has a weight w that says how much it counts. b is the intercept. The model learns the w's and b.
+
+It minimizes the squared error: the sum of the squared differences between prediction and truth. The square punishes big mistakes harder. A big advantage of linear regression: you can read the coefficients. A large positive w means that feature pushes the prediction up.
+
+## Logistic regression: predicting a class
+Despite the name, logistic regression is for classification, not regression. It takes the same linear combination and passes it through a sigmoid, which squeezes any number into the 0 to 1 range. The result is a probability: how sure the model is that the example is in the positive class.
+
+> [!FORMULA]
+> σ(z) = 1 / (1 + e^(-z))
+> The sigmoid: it turns the linear score z into a probability between 0 and 1.
+
+From the probability you make the decision with a threshold. The threshold isn't necessarily 0.5. If you care more about catching all the positive cases (high recall), you lower it. If you want to be sure when you say positive (high precision), you raise it. The threshold is a knob you tune to the problem's metric.
+
+```
+m = LogisticRegression(max_iter=1000).fit(X_train, y_train)
+proba = m.predict_proba(X_val)[:, 1]   # probability of the positive class
+pred = (proba > 0.3).astype(int)       # threshold moved to 0.3 for higher recall
+```
+
+## Naïve Bayes: fast and surprisingly good
+Naïve Bayes applies Bayes' theorem while assuming, naively, that the features are independent of each other. The assumption is almost always false, but the model often works very well, especially on text. It's fast, needs little data, and is a baseline that's hard to beat at document classification.
+
+## Decision trees
+A decision tree asks simple questions, one after another, like a game of 20 questions: is the age over 30? is the income below a value? At each step it splits the data to separate the classes as well as possible. The measure of the separation is Gini impurity or entropy: how mixed the classes are in a node.
+
+Trees are easy to read and don't need scaling. Their problem: left to grow without limit, they memorize the training set down to the last example and generalize badly on new data. That's called overfitting. You limit it by setting a maximum depth or a minimum number of examples per leaf.
+
+> [!NOTE]
+> A tree that's perfect on training and weak on validation has memorized, not learned. The classic sign of overfitting. Cut its depth.
+
+## SVM: the widest margin
+An SVM (support vector machine) looks for the boundary between classes that leaves the widest margin on either side, meaning it's as far as possible from the nearest examples of each class. The idea is that a wide-margin boundary generalizes better.
+
+When the data can't be separated with a straight line, the kernel trick steps in: it projects the data into a higher-dimensional space, where it becomes separable, without computing that space explicitly. The RBF kernel is the most used. SVM needs scaled data to work well.
+
+# @takeaways
+- Training = finding the parameters that minimize the cost function.
+- Linear regression predicts numbers and gives readable coefficients; logistic predicts class probabilities.
+- The logistic regression threshold is tuned to the metric, it's not fixed at 0.5.
+- Trees are readable but overfit without a depth limit.
+- SVM maximizes the margin; the kernel lets it separate non-linear data.
+
+# @pitfalls
+- Scale the features before you read a regression's coefficients.
+- Limit the tree depth, otherwise it's perfect on training and weak on validation.
+- Scale the data before SVM; without it, it works inexplicably badly.
+
+# @practice
+- Compare logistic regression, a tree and an SVM on the same tabular problem, with the same metric.
+- Move the logistic regression threshold down from 0.5 and watch recall rise and precision fall.
+- Limit a tree's depth and see the training score come closer to the validation one.

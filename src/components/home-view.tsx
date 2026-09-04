@@ -30,7 +30,7 @@ export function HomeView() {
           </p>
           <div className="mt-9">
             <Button asChild size="lg" className="rounded-full px-7">
-              <Link href={href("/programa")}>{t("Deschide programa", "Open the curriculum")}</Link>
+              <Link href={href("/programa")}>{t("Deschide cursul", "Open the course")}</Link>
             </Button>
           </div>
           <ContinueCard />

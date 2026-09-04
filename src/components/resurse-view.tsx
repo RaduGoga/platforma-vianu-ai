@@ -149,7 +149,10 @@ export function ResurseView() {
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-10 lg:grid-cols-[200px_1fr] lg:gap-14">
         {/* colecțiile, ca un cuprins de bibliotecă */}
         <aside className="hidden lg:block">
-          <nav className="sticky top-20 space-y-0.5 text-sm">
+          <nav className="scroll-fara-bara sticky top-20 max-h-[calc(100vh-6rem)] space-y-0.5 overflow-y-auto pb-8 pr-2 text-sm">
+            <div className="mb-4 px-2">
+              <span className="mono-label">{t("Colecții", "Collections")}</span>
+            </div>
             <CollectionLink
               active={category === "toate" && !activeSection}
               onClick={() => selectCategory("toate")}
@@ -320,10 +323,10 @@ function CollectionLink({
     <button
       onClick={onClick}
       aria-pressed={active}
-      className={`focus-ring block w-full rounded-md border-l-2 py-1.5 pl-3 pr-2 text-left transition-colors ${
+      className={`focus-ring block w-full rounded-md px-2 py-1.5 text-left transition-colors ${
         active
-          ? "border-primary font-medium text-foreground"
-          : "border-transparent text-muted-foreground hover:border-border hover:text-foreground"
+          ? "bg-[var(--accent-tint)] font-medium text-[var(--accent-ink)]"
+          : "text-muted-foreground hover:bg-secondary hover:text-foreground"
       }`}
     >
       {children}

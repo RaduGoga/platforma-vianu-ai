@@ -1,4 +1,4 @@
-// Citește content/lessons/*.md și generează src/data/lessons.ts + lessons-en.ts.
+// Citește content/lessons/Lectia_N.{ro,en}.md și generează lessons.ts + lessons-en.ts.
 // Ordinea lecțiilor vine din curriculum.ts (ordinea modulelor).
 // Rulează automat înainte de dev/build; manual: npm run lessons
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
@@ -14,15 +14,25 @@ const dataDir = join(root, "src", "data");
 const curriculum = readFileSync(join(dataDir, "curriculum.ts"), "utf8");
 const order = [...curriculum.matchAll(/code:\s*"([^"]+)"/g)].map((m) => m[1]);
 
+// Fișierele sunt numerotate după poziția în programă (Lectia_1, Lectia_2…),
+// nu după codul de sesiune. Dacă inserezi o lecție la mijloc, tot ce urmează
+// după ea trebuie renumerotat — și fișierele, și `code:` din front matter.
 function loadLessons(lang) {
   const out = [];
-  for (const code of order) {
-    const file = join(contentDir, `${code}.${lang}.md`);
+  order.forEach((code, i) => {
+    const nume = `Lectia_${i + 1}.${lang}.md`;
+    const file = join(contentDir, nume);
     if (!existsSync(file)) {
-      throw new Error(`lipsește lecția ${code}.${lang}.md`);
+      throw new Error(`lipsește ${nume} (lecția ${i + 1}, modulul ${code})`);
     }
-    out.push(parseLesson(readFileSync(file, "utf8")));
-  }
+    const lesson = parseLesson(readFileSync(file, "utf8"));
+    if (lesson.moduleCode !== code) {
+      throw new Error(
+        `${nume} are code: ${lesson.moduleCode}, dar pe poziția ${i + 1} curriculumul are ${code}`
+      );
+    }
+    out.push(lesson);
+  });
   return out;
 }
 

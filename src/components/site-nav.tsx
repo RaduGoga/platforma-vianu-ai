@@ -10,7 +10,7 @@ import { LangToggle } from "@/components/lang-toggle";
 import { ReadingProgress } from "@/components/reading-progress";
 
 const links = [
-  { href: "/programa", ro: "Programa", en: "Curriculum" },
+  { href: "/programa", ro: "Lecții", en: "Lessons" },
   { href: "/resurse", ro: "Resurse", en: "Resources" },
   { href: "/despre", ro: "Despre", en: "About" },
 ];

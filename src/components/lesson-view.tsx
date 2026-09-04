@@ -80,12 +80,9 @@ export function LessonView({
 
           <h1 className="display mt-4 text-4xl leading-[1] sm:text-6xl">{title}</h1>
 
-          {lesson && (
-            <p className="serif mt-6 max-w-3xl border-l-2 border-primary pl-5 text-lg leading-relaxed text-[color:var(--prose)]">
-              <span className="kicker block">{t("La final știi să", "By the end you can")}</span>
-              <span className="mt-1 block">{lesson.objective}</span>
-            </p>
-          )}
+          <p className="serif mt-6 max-w-3xl border-l-2 border-primary pl-5 text-lg leading-relaxed text-[color:var(--prose)]">
+            {en ? m.summaryEn ?? m.summary : m.summary}
+          </p>
 
           {lesson && <RecordVisit code={m.code} slug={m.slug} title={title} />}
         </div>
@@ -133,7 +130,7 @@ export function LessonView({
 
               <div className="mt-16 grid gap-6 border-t border-border pt-10 sm:grid-cols-2">
                 <aside>
-                  <h2 className="kicker text-[color:var(--clay)]">{t("Capcane", "Pitfalls")}</h2>
+                  <h2 className="kicker text-[color:var(--clay)]">{t("Tips", "Tips")}</h2>
                   <ul className="mt-4 space-y-3">
                     {lesson.pitfalls.map((p, i) => (
                       <li key={i} className="sidenote flex gap-3">
@@ -169,22 +166,6 @@ export function LessonView({
                     </li>
                   ))}
                 </ul>
-              </div>
-            </section>
-          )}
-
-          {lesson && (
-            <section className="mt-14 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">
-              <div className="kicker mb-3 lg:mb-0 lg:pt-1">{t("Index", "Index")}</div>
-              <div className="flex flex-wrap gap-2">
-                {topics.map((tp, i) => (
-                  <span
-                    key={i}
-                    className="border border-border bg-secondary/50 px-2.5 py-1 font-mono text-xs text-secondary-foreground"
-                  >
-                    {tp}
-                  </span>
-                ))}
               </div>
             </section>
           )}

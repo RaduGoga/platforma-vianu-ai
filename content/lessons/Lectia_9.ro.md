@@ -1,0 +1,64 @@
+---
+code: S13
+duration: ~1 săptămână
+---
+
+# @intro
+De multe ori câștigătorul la o problemă tabelară e un ensemble, nu un singur model. Ideea e simplă și puternică: mai multe modele împreună greșesc mai puțin decât unul singur, cu condiția să greșească în locuri diferite. Modulul ăsta îți dă cele două rețete mari, bagging și boosting, și disciplina de a regla parametrii fără să te pierzi.
+
+## De ce funcționează combinarea
+Dacă ai trei modele care greșesc fiecare în alte locuri, votul majorității e mai bun decât oricare singur: acolo unde unul se înșeală, celelalte două îl corectează. Cheia e diversitatea. Trei modele care fac exact aceleași greșeli nu ajută cu nimic combinate.
+
+Sunt două moduri mari de a construi diversitate: bagging (antrenezi modele în paralel pe date ușor diferite și le mediezi) și boosting (antrenezi modele pe rând, fiecare reparând greșelile celui dinainte).
+
+## Bagging și Random Forest
+Bagging înseamnă că antrenezi fiecare model pe un eșantion aleator (cu repetiție) din date, apoi mediezi predicțiile. Un singur arbore adânc are varianță mare (overfit). Mediind mulți arbori antrenați pe date diferite, varianța scade fără să crească biasul.
+
+Random Forest e bagging pe arbori, cu un truc în plus: la fiecare împărțire, arborele alege dintr-un subset aleator de trăsături. Asta îi face pe arbori și mai diferiți între ei. E robust, greu de stricat, și un prim model excelent pe date tabelare.
+
+```
+from sklearn.ensemble import RandomForestClassifier
+rf = RandomForestClassifier(n_estimators=400, max_depth=None, n_jobs=-1)
+rf.fit(X_train, y_train)
+```
+
+> [!NOTE]
+> Feature importance de la Random Forest e util, dar nu îl crede orbește: favorizează trăsăturile cu multe valori distincte. Folosește-l ca indiciu, nu ca adevăr.
+
+## Boosting: XGBoost și LightGBM
+Boosting construiește arbori pe rând. Primul face o predicție aproximativă, al doilea învață să corecteze greșelile primului, al treilea greșelile rămase, și tot așa. Fiecare arbore e mic, dar împreună formează un model puternic. E des câștigătorul la probleme tabelare.
+
+XGBoost și LightGBM sunt implementările rapide și de referință. Sunt mai puternice decât Random Forest, dar și mai ușor de dus în overfitting, deci cer reglare atentă. Verifică întâi regulamentul concursului: nu la orice etapă sunt permise bibliotecile externe.
+
+## Reglarea hiperparametrilor, în ordine
+Hiperparametrii sunt setările pe care le alegi tu înainte de antrenare (câți arbori, cât de adânci), spre deosebire de parametrii pe care modelul îi învață singur. Greșeala clasică e să reglezi zeci deodată și să nu mai știi ce a ajutat. Mergi în ordine, un lucru pe rând.
+
+1. Pornește cu un learning rate mic-moderat și un număr rezonabil de arbori.
+2. Reglează întâi adâncimea arborilor (complexitatea fiecăruia).
+3. Apoi numărul de arbori (n_estimators), cu early stopping pe validare.
+4. La final, coboară learning rate-ul și crește numărul de arbori proporțional, pentru un plus de scor.
+
+> [!NOTE]
+> Learning rate mic plus mai mulți arbori dă aproape mereu un scor mai bun decât learning rate mare, dar antrenează mai lent. E compromisul clasic timp contra scor.
+
+## Voting și stacking
+Cel mai simplu ensemble între modele diferite e votul: pui un Random Forest, un boosting și o regresie logistică să voteze, sau le mediezi probabilitățile. Merge cel mai bine când modelele sunt de tipuri diferite, deci greșesc diferit.
+
+Stacking merge mai departe: antrenează un model final care învață cum să combine predicțiile celorlalte. E mai puternic, dar și mai ușor de dus în scurgeri dacă nu ai grijă să folosești predicții out-of-fold. Începe cu voting simplu, treci la stacking doar dacă ai timp.
+
+# @takeaways
+- Ensemble-urile funcționează dacă modelele greșesc diferit; diversitatea e cheia.
+- Bagging (Random Forest) reduce varianța mediind arbori antrenați pe date diferite.
+- Boosting (XGBoost, LightGBM) construiește arbori care corectează pe rând greșelile.
+- Reglează hiperparametrii pe rând: adâncime, apoi număr de arbori, apoi learning rate.
+- Voting-ul între modele diferite bate des cel mai bun model singur.
+
+# @pitfalls
+- Reglează un hiperparametru pe rând și notează scorul de fiecare dată.
+- Ia feature importance ca indiciu unde să te uiți, nu ca adevăr final.
+- Verifică regulamentul etapei înainte să folosești biblioteci externe de boosting.
+
+# @practice
+- Antrenează un Random Forest și un gradient boosting pe aceeași problemă și compară scorurile.
+- Fă un voting între trei modele diferite și vezi dacă bate cel mai bun singur model.
+- Reglează learning rate-ul cu early stopping și observă compromisul timp contra scor.

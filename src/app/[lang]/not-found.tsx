@@ -20,7 +20,7 @@ export default function NotFound() {
       </h1>
       <p className="mt-4 max-w-md text-lg leading-relaxed text-muted-foreground">
         {t(
-          "Linkul e greșit sau pagina a fost mutată. Programa e tot acolo, în ordine.",
+          "Linkul e greșit sau pagina a fost mutată. Cursul e tot acolo, în ordine.",
           "The link is wrong or the page moved. The curriculum is still there, in order."
         )}
       </p>
@@ -29,7 +29,7 @@ export default function NotFound() {
           href={href("/programa")}
           className="inline-flex items-center justify-center rounded-full bg-primary px-7 py-3 font-display font-semibold text-primary-foreground transition-colors hover:bg-[var(--pine-deep)]"
         >
-          {t("Deschide programa", "Open the curriculum")}
+          {t("Deschide cursul", "Open the course")}
         </Link>
         <Link href={href("/")} className="focus-ring text-sm font-medium text-primary hover:text-[var(--pine-deep)]">
           {t("Acasă", "Home")}

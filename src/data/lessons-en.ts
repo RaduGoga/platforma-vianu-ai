@@ -8,7 +8,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S1",
     "duration": "~2h",
-    "objective": "You know what artificial intelligence is and where it's used, you have your working setup sorted, and a first valid submission on MLCompete.",
     "intro": "The first session has two halves. First we make it clear what artificial intelligence actually means, so you know what we're talking about all year. Then we do the logistics: a place to write code and a place to send answers. The setup part sounds boring, but most of the silly points lost at the first stage come from here: an environment that won't start, a badly formatted submission file, a missing library. Do it once, properly, and you're done with it.",
     "sections": [
       {
@@ -109,9 +108,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "You leave the install for the last night. Something breaks, and you lose time instead of learning.",
-      "You don't check the submission format. A file that's good as a model but badly formatted scores zero.",
-      "You rely on the internet while training, then at the offline contest you're lost."
+      "Get your setup done a few days ahead, not the night before the contest.",
+      "Check the submission format before the model: a file that's good as a model but badly formatted scores zero.",
+      "Train offline, with local documentation, because you get no internet in the contest."
     ],
     "practice": [
       "Send one valid submission to a training competition on MLCompete.",
@@ -129,7 +128,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S2",
     "duration": "~2h",
-    "objective": "You read a contest problem correctly: you know what the data is, which metric scores you, what the submission looks like, and what the leaderboard does (and doesn't) tell you.",
     "intro": "Before you learn any model, it's worth understanding the game. An AI contest problem always has the same pieces: some data, a target to predict, a scoring metric and a submission file. Whoever reads those pieces correctly starts with a big head start, because half the mistakes at a contest aren't about the model, they're about reading the statement in a hurry.",
     "sections": [
       {
@@ -211,9 +209,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "You jump to the model without reading the metric and the submission format. You lose points on things that aren't about AI.",
-      "You obsess over the public score and pick your model by it. You drop on the private one.",
-      "You burn the day's submissions on random tries, then have nothing left to test the good idea with."
+      "Read the metric and the submission format before any model.",
+      "Pick your model by your local validation, not by the public leaderboard.",
+      "Save the day's submissions for ideas you've already checked locally."
     ],
     "practice": [
       "Take an archive problem on MLCompete and write three lines: what the target is, what the metric is, what the submission looks like.",
@@ -229,8 +227,174 @@ export const lessonsEn: Lesson[] = [
   },
   {
     "moduleCode": "S3",
-    "duration": "~3 weeks",
-    "objective": "You handle data with NumPy and Pandas without thinking about the syntax, so you spend your time on the model, not on how to write a filter.",
+    "duration": "~1 week",
+    "intro": "Everything that follows in the curriculum is written in Python. This module is about the language, not about machine learning: skip it and you'll lose time in every later lesson looking up how to write a dictionary. If you already know Python, move through it quickly and stop only at comprehensions and unpacking, which show up constantly in contest code.",
+    "sections": [
+      {
+        "heading": "Types and variables",
+        "blocks": [
+          {
+            "p": "Python doesn't ask you to declare types. It infers them from the value, and the type can change. That's convenient, but it means type errors show up at runtime, not before."
+          },
+          {
+            "code": "n = 42            # int\npi = 3.14         # float\nname = \"Radu\"     # str\ndone = True       # bool\nnothing = None    # the absence of a value\n\nprint(type(n), type(pi))"
+          },
+          {
+            "p": "For text, the f-string is the modern way to insert values. You put an `f` before the quotes and write the expression in braces."
+          },
+          {
+            "code": "score = 0.8734\nprint(f\"score: {score:.2f}\")        # score: 0.87\nprint(f\"double: {score * 2:.3f}\")   # double: 1.747"
+          }
+        ]
+      },
+      {
+        "heading": "The four data structures",
+        "blocks": [
+          {
+            "p": "Almost everything you write uses one of these. Picking the right one simplifies the rest of your code."
+          },
+          {
+            "list": [
+              "List: ordered, can be changed. `[1, 2, 3]`",
+              "Tuple: ordered, cannot be changed. `(1, 2)`",
+              "Dictionary: key–value pairs. `{\"a\": 1}`",
+              "Set: unique values, no order. `{1, 2, 3}`"
+            ]
+          },
+          {
+            "code": "scores = [0.71, 0.83, 0.79]\nscores.append(0.88)\nprint(len(scores), max(scores))\n\nmodel = {\"name\": \"rf\", \"depth\": 8}\nprint(model[\"name\"])\nmodel[\"seed\"] = 42\n\nunique = set([1, 2, 2, 3, 3, 3])   # {1, 2, 3}"
+          },
+          {
+            "note": "Search a set or a dictionary, not a list. Checking `x in list` walks every element; `x in set` is nearly instant. On tens of thousands of elements you feel the difference."
+          }
+        ]
+      },
+      {
+        "heading": "Indexing and slices",
+        "blocks": [
+          {
+            "p": "Indexing starts at zero. Negative indices count from the end. The slice `a:b` includes the start and excludes the end."
+          },
+          {
+            "code": "v = [10, 20, 30, 40, 50]\n\nv[0]      # 10, the first\nv[-1]     # 50, the last\nv[1:3]    # [20, 30], from 1 up to but not including 3\nv[:2]     # [10, 20]\nv[::2]    # [10, 30, 50], every second one"
+          },
+          {
+            "p": "This rule repeats identically for strings, NumPy arrays and Pandas columns. You learn it once and use it everywhere."
+          }
+        ]
+      },
+      {
+        "heading": "Conditions and loops",
+        "blocks": [
+          {
+            "p": "Blocks are delimited by indentation, not braces. Four spaces, consistently."
+          },
+          {
+            "code": "for s in scores:\n    if s > 0.8:\n        print(\"good\", s)\n    else:\n        print(\"weak\", s)"
+          },
+          {
+            "p": "When you also need the position, use `enumerate`. When you walk two lists at once, `zip`."
+          },
+          {
+            "code": "for i, s in enumerate(scores):\n    print(i, s)\n\nfor name, score in zip([\"a\", \"b\"], [0.7, 0.9]):\n    print(name, score)"
+          }
+        ]
+      },
+      {
+        "heading": "List comprehensions",
+        "blocks": [
+          {
+            "p": "A short way to build one list from another. It shows up often in contest code, so it's worth reading fluently even if you write ordinary loops at first."
+          },
+          {
+            "code": "squares = [x * x for x in range(5)]        # [0, 1, 4, 9, 16]\ngood = [s for s in scores if s > 0.8]      # only those above 0.8"
+          },
+          {
+            "p": "Read it left to right: \"take each x from range, keep it if it passes the condition, put x*x in the list\". It works for dictionaries too."
+          },
+          {
+            "code": "lengths = {c: len(c) for c in [\"rf\", \"xgboost\"]}   # {\"rf\": 2, \"xgboost\": 7}"
+          }
+        ]
+      },
+      {
+        "heading": "Functions",
+        "blocks": [
+          {
+            "p": "A function groups code you repeat. Arguments can have default values, and the defaults always go last."
+          },
+          {
+            "code": "def normalize(v, low=0.0, high=1.0):\n    lo, hi = min(v), max(v)\n    if hi == lo:\n        return [low] * len(v)\n    return [low + (x - lo) / (hi - lo) * (high - low) for x in v]\n\nprint(normalize([2, 4, 6]))    # [0.0, 0.5, 1.0]"
+          },
+          {
+            "p": "Unpacking lets you assign several values at once. You'll see it constantly when splitting data."
+          },
+          {
+            "code": "a, b = 1, 2\nX_tr, X_val, y_tr, y_val = split(X, y)   # four values in one go"
+          },
+          {
+            "note": "Never use a list or a dictionary as an argument's default value. It's created once, when the function is defined, and stays shared between calls. Use `None` and create the value inside."
+          }
+        ]
+      },
+      {
+        "heading": "Classes and modules",
+        "blocks": [
+          {
+            "p": "A class keeps data and functions together. You won't write many, but every library you use is built from classes, so you need to understand what happens when you write `model.fit(X, y)`."
+          },
+          {
+            "code": "class Mean:\n    def __init__(self):\n        self.value = None\n\n    def fit(self, y):\n        self.value = sum(y) / len(y)\n        return self\n\n    def predict(self, n):\n        return [self.value] * n\n\nm = Mean().fit([1, 2, 3])\nprint(m.predict(2))    # [2.0, 2.0]"
+          },
+          {
+            "p": "That's exactly the scikit-learn pattern: `fit` learns and remembers, `predict` uses what it learned."
+          },
+          {
+            "p": "Someone else's code comes in with `import`."
+          },
+          {
+            "code": "import math\nfrom collections import Counter\n\nprint(math.sqrt(16))\nprint(Counter([\"a\", \"b\", \"a\"]))    # Counter({'a': 2, 'b': 1})"
+          }
+        ]
+      },
+      {
+        "heading": "Files",
+        "blocks": [
+          {
+            "p": "Reading and writing use `with`, which closes the file on its own even if an error comes up."
+          },
+          {
+            "code": "with open(\"notes.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.write(\"first line\\n\")\n\nwith open(\"notes.txt\", encoding=\"utf-8\") as f:\n    for line in f:\n        print(line.strip())"
+          },
+          {
+            "p": "Always pass `encoding=\"utf-8\"`. Without it, on Windows, accented characters get read wrong."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Use a tuple when you want something that doesn't change, a list when you want to append.",
+      "Search with `in` on a set or a dictionary, not on a large list.",
+      "Use `None` as the default and create the list or dictionary inside the function.",
+      "Indent consistently with four spaces, never mixed with tabs.",
+      "Pass `encoding=\"utf-8\"` for any file with accented characters."
+    ],
+    "practice": [
+      "Write a function that takes a list of numbers and returns the mean, the median and the maximum.",
+      "Count the words in a text with a dictionary, then rewrite the solution with `Counter`.",
+      "Rewrite three `for` loops you've already written as list comprehensions."
+    ],
+    "keyTakeaways": [
+      "Pick the structure by what you need: list for order, dictionary for lookup by key, set for uniqueness.",
+      "Slices `a:b` include the start and exclude the end, the same way everywhere in Python.",
+      "Comprehensions shorten loops that build lists; they're worth reading fluently.",
+      "The `fit` and `predict` pattern in classes is exactly the one scikit-learn uses.",
+      "`with open(...)` closes the file for you; always pass `encoding=\"utf-8\"`."
+    ]
+  },
+  {
+    "moduleCode": "S4",
+    "duration": "~2 weeks",
     "intro": "NumPy and Pandas are the tools you use on every problem, whatever the model. If you trip over them, you lose precious time. The goal here isn't just to write code that works, it's to write it fast and by reflex. You learn them once, well, and use them the rest of the year.",
     "sections": [
       {
@@ -336,9 +500,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Python loops over DataFrame rows. It's slow and pointless, there's almost always a vectorized version.",
-      "The loc/iloc mix-up, especially when the index isn't 0, 1, 2.",
-      "Ignoring shape errors instead of printing the shapes and applying the broadcasting rule."
+      "Vectorize instead of looping over DataFrame rows; there's almost always a way.",
+      "Check the index before choosing between loc and iloc, especially when it isn't 0, 1, 2.",
+      "On a shape error, print the shapes and apply the broadcasting rule."
     ],
     "practice": [
       "Take a CSV and answer five questions about it using only groupby and mask filters.",
@@ -354,9 +518,8 @@ export const lessonsEn: Lesson[] = [
     ]
   },
   {
-    "moduleCode": "S4",
+    "moduleCode": "S5",
     "duration": "~1 week",
-    "objective": "You take a contest problem from the raw file to a valid submission, without skipping steps and without leaking test data into training.",
     "intro": "So far you've learned pieces: Python, NumPy, Pandas. This module ties them together. It brings no new theory, only the order in which things get done. That matters, because most olympiad mistakes don't come from the model, they come from steps taken in the wrong order. A pipeline you can run end to end in twenty minutes is the most valuable tool you bring into a contest.",
     "sections": [
       {
@@ -489,11 +652,11 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "You scale or impute on the whole set, then split. The validation score comes out optimistic and false.",
-      "You optimize a different metric than the one in the statement.",
-      "You forget handle_unknown and the code crashes on a new category in test.",
-      "You submit the file without checking the row count and column names.",
-      "You stay on the eighty percent slice for the final submission instead of retraining on everything."
+      "Split the data before you scale or impute, otherwise validation comes out falsely optimistic.",
+      "Optimize exactly the metric from the statement.",
+      "Pass `handle_unknown=\"ignore\"` so a new category in test doesn't crash prediction.",
+      "Check the row count and the column names before uploading.",
+      "Retrain on all the training data for the final submission."
     ],
     "practice": [
       "Take an archive problem from MLCompete and write the pipeline end to end in an hour, with a simple model.",
@@ -511,7 +674,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S6",
     "duration": "~2 weeks",
-    "objective": "You look at the data before you train, and you prepare it correctly for a model, without introducing data leakage.",
     "intro": "Before you train anything, look at the data. At the distributions, at what's missing, at how the columns are scaled. It sounds dull, but half the gain comes from here, not from the model you pick. This step is called EDA, exploratory data analysis, and it's the first thing you do on any new problem.",
     "sections": [
       {
@@ -604,9 +766,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "You scale or impute on the whole set before the split. That's a data leak, the most common mistake.",
-      "You fill missing values with a mean computed including the test set.",
-      "You number the categories 1,2,3 and the model believes there's an order that doesn't exist."
+      "Learn preprocessing parameters only on the training set, after the split.",
+      "Impute missing values with statistics computed only on training data.",
+      "Use one-hot for categories with no order; numbering 1, 2, 3 invents an order."
     ],
     "practice": [
       "Make a completeness report on a dataset and decide which columns you keep.",
@@ -624,7 +786,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S8",
     "duration": "~3 weeks",
-    "objective": "You pick and train classic classification and regression models, and you understand what each one optimizes, not just how to call it.",
     "intro": "Here you learn the basic tools of supervised learning: linear and logistic regression, Naïve Bayes, decision trees, SVM. Supervised means you have examples with the correct answer (labels) and the model learns from them. Don't stop at how you call them from scikit-learn. Understand what each one optimizes and when it fits, because that's what lets you choose well at the contest.",
     "sections": [
       {
@@ -709,9 +870,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "You read the regression coefficients without having scaled the features.",
-      "You let the tree grow without limit and wonder why it's perfect on training and weak on validation.",
-      "You use SVM on unscaled data and it works inexplicably badly."
+      "Scale the features before you read a regression's coefficients.",
+      "Limit the tree depth, otherwise it's perfect on training and weak on validation.",
+      "Scale the data before SVM; without it, it works inexplicably badly."
     ],
     "practice": [
       "Compare logistic regression, a tree and an SVM on the same tabular problem, with the same metric.",
@@ -729,7 +890,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S11",
     "duration": "~2 weeks",
-    "objective": "You measure a model correctly and avoid fooling yourself, so your local score predicts the real score on the hidden leaderboard.",
     "intro": "This is where the contest is won or lost. A model that looks good on the public leaderboard can be weak on the hidden one, which is what counts at the end. This module is about having justified trust in your score. It's the least flashy part and the one that makes the difference between a top 10 and a mid-table finish.",
     "sections": [
       {
@@ -820,9 +980,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "You optimize on the public leaderboard and end up having overfit it.",
-      "Non-stratified k-fold on rare classes: some folds don't contain the class at all.",
-      "You report accuracy on an imbalanced problem and think the model is good."
+      "Trust your local validation, not the public leaderboard.",
+      "Use stratified k-fold so every fold contains the rare classes too.",
+      "On imbalanced data report precision, recall and F1, not accuracy."
     ],
     "practice": [
       "Plot a learning curve and decide whether the model suffers from bias or variance.",
@@ -841,7 +1001,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S13",
     "duration": "~1 week",
-    "objective": "You combine models through bagging and boosting and tune the hyperparameters that matter, in the right order.",
     "intro": "The winner on a tabular problem is often an ensemble, not a single model. The idea is simple and powerful: several models together are wrong less often than one alone, as long as they're wrong in different places. This module gives you the two big recipes, bagging and boosting, and the discipline to tune the parameters without getting lost.",
     "sections": [
       {
@@ -915,9 +1074,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "You tune dozens of hyperparameters at once and can't tell what helped.",
-      "You trust feature importance as if it were absolute truth.",
-      "You use external boosting at a stage where the rules don't allow it."
+      "Tune one hyperparameter at a time and write down the score every time.",
+      "Take feature importance as a hint about where to look, not as final truth.",
+      "Check the stage's rules before using external boosting libraries."
     ],
     "practice": [
       "Train a Random Forest and a gradient boosting model on the same problem and compare the scores.",
@@ -935,7 +1094,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S14",
     "duration": "~1 week",
-    "objective": "You group unlabeled data and reduce dimensionality for visualization and preprocessing.",
     "intro": "Not every problem has labels. Sometimes you just want to see the structure in the data: natural groups, outliers, a two-dimensional projection you can draw. That's unsupervised learning: the model finds patterns without being told the correct answer. It's useful both on its own and as a preparation step before a supervised model.",
     "sections": [
       {
@@ -1001,9 +1159,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "K-Means on unscaled data: the column with big numbers dominates everything.",
-      "You read the distances in a t-SNE plot as if they were real.",
-      "You choose k at random with no elbow or silhouette."
+      "Scale the data before K-Means, otherwise the column with big numbers dominates everything.",
+      "Read t-SNE as a map of neighbourhoods, not as real distances.",
+      "Choose k with the elbow method or the silhouette score."
     ],
     "practice": [
       "Apply K-Means and DBSCAN to the same dataset and compare the groups found.",
@@ -1021,7 +1179,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S15",
     "duration": "~2 weeks",
-    "objective": "You solve state-space search problems with BFS, DFS, A*, minimax and CSP, and you know when each one fits.",
     "intro": "This part of AI has no training data. You have a start state, a goal, and some allowed moves. The question is how you reach the goal efficiently. It's algorithmic, almost like a programming contest, and it shows up in puzzle, planning and game problems. You solve it with data structures, not with models.",
     "sections": [
       {
@@ -1107,9 +1264,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "A non-admissible heuristic in A*: you find a solution, but not the optimal one.",
-      "You forget to mark visited states and fall into infinite loops.",
-      "You run minimax with no depth limit on a big game and run out of time."
+      "Use an admissible heuristic for A*, so the solution you find is also optimal.",
+      "Mark visited states so you don't fall into infinite loops.",
+      "Set a depth limit for minimax on big games."
     ],
     "practice": [
       "Implement A* for the 8-puzzle with two heuristics (Manhattan and misplaced tiles) and compare the number of states expanded.",
@@ -1127,7 +1284,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S16",
     "duration": "~1 week",
-    "objective": "You turn text into vectors and train a solid text classifier, with no neural networks.",
     "intro": "You can do serious NLP without deep learning. TF-IDF plus a linear model solves many text classification problems, fast, explainable, and it's a baseline that's hard to beat. Before you bring out the heavy artillery, build this. Often it's enough, and it's always the reference you judge any more complicated model against.",
     "sections": [
       {
@@ -1181,9 +1337,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "You forget about Romanian: you treat diacritics inconsistently and lose matches.",
-      "You build the vocabulary (fit) on the whole set, including the test. A leak.",
-      "You jump straight to neural nets without first building the TF-IDF baseline to compare against."
+      "Normalize diacritics consistently before tokenizing.",
+      "Build the vocabulary on training data only, then apply it to test.",
+      "Build a TF-IDF baseline first, so you have something to compare the networks against."
     ],
     "practice": [
       "Classify Romanian texts with TF-IDF and logistic regression, fitting only on train.",
@@ -1201,7 +1357,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S17",
     "duration": "~1 week",
-    "objective": "You work with images as tensors and apply augmentation suited to the problem, without breaking the label.",
     "intro": "An image is just a tensor of numbers. Before neural nets, it's worth understanding what you do with it: how you represent it, what a convolution filter is, and which augmentation helps without breaking the label. This module is the bridge to CNNs: if you understand the image as a tensor and convolution by hand, the convolutional layers later aren't magic anymore.",
     "sections": [
       {
@@ -1253,9 +1408,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Augmentations that change the meaning: a flip on characters, big rotations on objects with a fixed orientation.",
-      "You mix intensity ranges and the model gets inconsistent data.",
-      "You augment the validation set too, not just training. Validation stays clean."
+      "Pick augmentations that preserve the label: no flips on characters, no big rotations on objects with a fixed orientation.",
+      "Keep a single intensity range across the whole set.",
+      "Augment training only; validation stays clean."
     ],
     "practice": [
       "Write a Sobel filter by hand and apply it to an image to pull out the edges.",
@@ -1273,7 +1428,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S18",
     "duration": "~1 week",
-    "objective": "You understand backpropagation from the ground up and build a simple network in PyTorch, knowing what each line does.",
     "intro": "This is where deep learning starts. A neural network is a chain of layers, and training is adjusting the weights so the error goes down. The key to the module is understanding what backpropagation does, not just calling it. Once you get how the gradient flows back through the network, the rest of deep learning becomes tuning, not mystery.",
     "sections": [
       {
@@ -1340,9 +1494,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "You forget optimizer.zero_grad() and the gradients add up from one step to the next.",
-      "You think .backward() trains the model. It only computes gradients, the optimizer takes the step.",
-      "You stack linear layers with no activations between them and wonder why it learns nothing non-linear."
+      "Call `optimizer.zero_grad()` at every step, otherwise gradients add up.",
+      "Remember that `.backward()` only computes gradients; the optimizer takes the step.",
+      "Put activations between linear layers, otherwise the network stays linear."
     ],
     "practice": [
       "Work out backpropagation by hand for a network with one hidden layer, on paper.",
@@ -1360,7 +1514,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S19",
     "duration": "~1 week",
-    "objective": "You write the training loop yourself and tune the optimizer, learning rate and regularization, so the model learns stably.",
     "intro": "A good model trained badly doesn't learn. This module is about the training loop: how you choose the optimizer, how you tune the learning rate (the most important knob), and how you keep overfitting under control. The same layers, trained carefully or carelessly, give completely different results.",
     "sections": [
       {
@@ -1423,9 +1576,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "You look for bigger architectures when the learning rate is actually wrong.",
-      "You let training run long after the validation score started rising.",
-      "You see a NaN loss and change the architecture instead of first lowering the learning rate."
+      "Check the learning rate first, the architecture second.",
+      "Stop training when the validation score starts getting worse.",
+      "On a NaN loss, lower the learning rate first."
     ],
     "practice": [
       "Test three learning rates on a logarithmic scale and draw the loss curves.",
@@ -1443,7 +1596,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S20",
     "duration": "~1 week",
-    "objective": "You debug a network that won't learn systematically, instead of changing things at random.",
     "intro": "Sooner or later, a network refuses to learn: the loss stays put, or the score is at guessing level. Panicking and changing things at random doesn't help. You have a checklist, in order, from simple to complex. Most of the time the problem is trivial and it's near the top of the list.",
     "sections": [
       {
@@ -1492,9 +1644,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "You blame the architecture when the data isn't normalized.",
-      "You train for hours hoping it fixes itself.",
-      "You change five things at once and can't tell which was the problem."
+      "Check that the data is normalized before blaming the architecture.",
+      "If it doesn't learn in the first few epochs, stop and look for the bug.",
+      "Change one thing at a time, so you know what helped."
     ],
     "practice": [
       "Take a network that won't learn and find the cause by going through the list, one step at a time.",
@@ -1511,7 +1663,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S21",
     "duration": "~1 week",
-    "objective": "You understand how a convolutional network works and the classic architectures, and you can compute the sizes.",
     "intro": "CNNs (convolutional networks) are the tools for images. Instead of connecting every pixel to every neuron, which would be enormous, they use small filters that slide over the image. That's how they learn local features (edges, corners, then shapes) efficiently and with few weights. You saw convolution by hand in S17; here the network learns it on its own.",
     "sections": [
       {
@@ -1574,9 +1725,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "You get the size calculation wrong and the layers don't fit together.",
-      "Deep networks with no residual connections: the gradient vanishes and it doesn't learn.",
-      "You put huge dense layers at the end and overfit; global average pooling is cleaner."
+      "Work out the sizes on paper before wiring the layers together.",
+      "Use residual connections in deep networks, so the gradient reaches back.",
+      "Finish with global average pooling instead of huge dense layers."
     ],
     "practice": [
       "Compute the output sizes for a small convolutional network on paper, layer by layer.",
@@ -1594,7 +1745,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S22",
     "duration": "~1 week",
-    "objective": "You use pretrained models and adapt them to your problem, to get good scores with little data.",
     "intro": "You rarely train an image network from scratch. You take a model already trained on millions of images (ImageNet) and adapt it to your problem. With little data, that's the difference between a good score and a miserable one. The model has already learned to see edges, textures and shapes; you just reorient it toward your classes.",
     "sections": [
       {
@@ -1646,9 +1796,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "You forget the ImageNet normalization and the pretrained model works badly for no apparent reason.",
-      "Fine-tuning with a large learning rate: you break the already-good features.",
-      "You fine-tune the whole model with very little data and overfit; feature extraction is better."
+      "Apply the same ImageNet normalization used during pretraining.",
+      "Fine-tune with a small learning rate, so you don't break the already-good features.",
+      "With little data, use feature extraction instead of full fine-tuning."
     ],
     "practice": [
       "Adapt a ResNet to a problem with few images through feature extraction.",
@@ -1666,7 +1816,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S23",
     "duration": "~1 week",
-    "objective": "You represent words as dense vectors that carry meaning and understand how networks process sequences of text.",
     "intro": "One-hot treats every word as something isolated: dog and cat are as different as dog and television. Embeddings put words into a space where closeness means close meaning. It's the idea all of modern NLP rests on. This module gives you the intuition, so the big models later aren't magic.",
     "sections": [
       {
@@ -1725,9 +1874,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "For Romanian you use vectors that ignore subwords and lose the inflected forms.",
-      "You expect a plain RNN to remember the context from 200 words ago.",
-      "You train embeddings from scratch with little data instead of using pretrained ones."
+      "For Romanian, use vectors that account for subwords, to catch inflected forms.",
+      "For long context use attention or a transformer, not a plain RNN.",
+      "Start from pretrained embeddings when you have little data."
     ],
     "practice": [
       "Explore vector arithmetic (king - man + woman) on a set of pretrained embeddings.",
@@ -1745,7 +1894,6 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S24",
     "duration": "~1 week",
-    "objective": "You solve tabular reinforcement learning problems and recognize the sources of bias and the fairness issues.",
     "intro": "Reinforcement learning is required in the upper grades. An agent learns what to do from rewards, by trial and error, without being told the correct answer at every step. At the end we also reach ethics: models can be unfair to certain groups, and it's worth knowing why it happens and how it's measured.",
     "sections": [
       {
@@ -1810,9 +1958,9 @@ export const lessonsEn: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "ε too small too early: the agent doesn't explore enough and stays stuck.",
-      "You report only the average score and hide that the model is weak on a subgroup.",
-      "You think there's a single correct definition of fairness."
+      "Decay ε gradually, so the agent explores enough early on.",
+      "Report the score on subgroups too, not just the average.",
+      "Treat fairness as several definitions that pull against each other."
     ],
     "practice": [
       "Implement Q-learning on a grid-world and watch the policy take shape.",

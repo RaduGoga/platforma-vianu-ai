@@ -20,7 +20,6 @@ export interface LessonSection {
 export interface Lesson {
   moduleCode: string;
   duration: string;
-  objective: string; // ce știi să faci la final
   intro: string;
   sections: LessonSection[];
   keyTakeaways?: string[]; // de reținut, pe scurt

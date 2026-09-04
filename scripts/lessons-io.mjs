@@ -8,7 +8,6 @@
 //   duration: ~2h
 //   ---
 //
-//   # @objective
 //   <o linie>
 //
 //   # @intro
@@ -192,7 +191,6 @@ export function parseLesson(md) {
   const lesson = {
     moduleCode: meta.code,
     duration: meta.duration,
-    objective: "",
     intro: "",
     sections: [],
     pitfalls: [],
@@ -226,8 +224,7 @@ export function parseLesson(md) {
     const bullets = seg.lines
       .filter((l) => /^-\s+/.test(l))
       .map((l) => l.replace(/^-\s+/, ""));
-    if (seg.key === "objective") lesson.objective = joinPara;
-    else if (seg.key === "intro") lesson.intro = joinPara;
+    if (seg.key === "intro") lesson.intro = joinPara;
     else if (seg.key === "takeaways") lesson.keyTakeaways = bullets;
     else if (seg.key === "pitfalls") lesson.pitfalls = bullets;
     else if (seg.key === "practice") lesson.practice = bullets;

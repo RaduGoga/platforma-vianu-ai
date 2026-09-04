@@ -66,7 +66,7 @@ export function LessonNav({
     <nav className="hidden lg:block">
       <div className="scroll-fara-bara sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pb-8 pr-2">
         <div className="mb-4 px-2">
-          <span className="mono-label">{t("Programa", "Curriculum")}</span>
+          <span className="mono-label">{t("Lecții", "Lessons")}</span>
         </div>
         {tree}
       </div>

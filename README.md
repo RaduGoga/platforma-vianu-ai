@@ -52,7 +52,7 @@ public/
 
 ## Surse pentru conținut
 
-- Olimpiada Națională de IA (ONIA / RoAI): https://olimpiada-ai.ro/
+- Olimpiada Națională de IA: https://olimpiada-ai.ro/
 - Programa oficială: https://olimpiada-ai.github.io/programa/
 - MLCompete: https://platform.olimpiada-ai.ro/ro
 - Organizația Nitro: https://nitro-ai.org/

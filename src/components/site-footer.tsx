@@ -37,7 +37,7 @@ export function SiteFooter() {
               t={t}
               title={t("Platformă", "Platform")}
               items={[
-                { label: t("Programa", "Curriculum"), href: "/programa" },
+                { label: t("Lecții", "Lessons"), href: "/programa" },
                 { label: t("Resurse", "Resources"), href: "/resurse" },
                 { label: t("Despre", "About"), href: "/despre" },
               ]}

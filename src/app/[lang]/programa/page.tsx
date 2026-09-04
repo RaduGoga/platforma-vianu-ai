@@ -12,10 +12,10 @@ export async function generateMetadata({
   const l: Locale = isLocale(lang) ? lang : "ro";
   const en = l === "en";
   return {
-    title: en ? "Curriculum" : "Programa",
+    title: en ? "Lessons" : "Lecții",
     description: en
-      ? "The Vianu AI curriculum in three parts: from Python to deep learning, reinforcement learning and AI ethics."
-      : "Cuprinsul programei Vianu AI, în trei părți: de la Python la deep learning, reinforcement learning și etica AI.",
+      ? "The Vianu AI course in three parts: from Python to deep learning, reinforcement learning and AI ethics."
+      : "Cursul de AI Vianu, în trei părți: de la Python la deep learning, reinforcement learning și etica AI.",
     alternates: alternatesFor(l, "/programa"),
   };
 }
@@ -23,7 +23,7 @@ export async function generateMetadata({
 export default function ProgramaPage() {
   return (
     <>
-      <PageHeader eyebrow="Cuprins" eyebrowEn="Contents" title="Programa" titleEn="Curriculum" />
+      <PageHeader eyebrow="Cuprins" eyebrowEn="Contents" title="Lecții" titleEn="Lessons" />
 
       <div className="mx-auto max-w-4xl px-5 py-14">
         <ProgramaList />

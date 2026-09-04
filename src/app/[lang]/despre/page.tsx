@@ -14,8 +14,8 @@ export async function generateMetadata({
   return {
     title: en ? "About" : "Despre",
     description: en
-      ? "Who runs the AI club at \"Tudor Vianu\" National College of Computer Science, and why we put the curriculum out in the open."
-      : "Cine ține clubul de AI de la Colegiul Național de Informatică \"Tudor Vianu\" și de ce am pus programa pe net.",
+      ? "Who runs the AI club at \"Tudor Vianu\" National College of Computer Science, and why we put the course out in the open."
+      : "Cine ține clubul de AI de la Colegiul Național de Informatică \"Tudor Vianu\" și de ce am pus cursul pe net.",
     alternates: alternatesFor(l, "/despre"),
   };
 }

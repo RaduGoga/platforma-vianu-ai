@@ -1,0 +1,68 @@
+---
+code: S15
+duration: ~2 weeks
+---
+
+# @intro
+This part of AI has no training data. You have a start state, a goal, and some allowed moves. The question is how you reach the goal efficiently. It's algorithmic, almost like a programming contest, and it shows up in puzzle, planning and game problems. You solve it with data structures, not with models.
+
+## State space: the common language
+Every search problem is described the same way: a start state, a set of actions that lead from one state to another, a goal test that says whether you've arrived, and optionally a cost on each move. A maze: the state is your position, the actions are the steps in the four directions, the goal is the exit.
+
+All the states you can reach form a graph, where the nodes are states and the edges are moves. Search means exploring that graph cleverly, without building all of it, because it's usually enormous.
+
+> [!NOTE]
+> Always mark the states you've visited. Without that you go around in circles forever, revisiting the same states. It's the most common cause of a search that never ends.
+
+## Uninformed search: BFS, DFS, uniform cost
+Uninformed search explores blindly, with no idea where the goal is. BFS (breadth-first search) explores level by level, using a queue. It always finds the path with the fewest moves, but it uses a lot of memory. DFS (depth-first search) goes as far as it can down one path, with a stack. It uses little memory, but it may not find the shortest path and can get lost deep down.
+
+Uniform cost (Dijkstra) is like BFS, but it accounts for move costs: it always expands the state with the lowest total cost so far. When moves have different costs, it finds the cheapest path, not the shortest by number of steps.
+
+- BFS: queue, fewest-steps path, large memory.
+- DFS: stack, small memory, no shortest-path guarantee.
+- Uniform cost: priority queue on cost, lowest-cost path.
+
+## A*: informed search with a heuristic
+A* is the star of the module. It adds a heuristic, meaning an estimate of the distance left to the goal, so it heads straight for the target instead of exploring blindly. It combines the cost already paid with the estimate of what's left to pay.
+
+> [!FORMULA]
+> f(n) = g(n) + h(n)
+> g(n) = the real cost from start to state n. h(n) = the estimate (the heuristic) from n to the goal. A* always expands the state with the lowest f.
+
+For A* to guarantee the optimal path, the heuristic has to be admissible: it must never overestimate the real distance left. If h is admissible, A* can't miss the optimal solution. If it overestimates, it may find a path, but not necessarily the shortest one.
+
+Classic heuristics for puzzles: Manhattan distance (the sum of the horizontal and vertical differences) and the number of misplaced tiles. Both never overestimate, so they're admissible.
+
+## Games: minimax and alpha-beta
+In two-player turn-based games (tic-tac-toe, simplified chess), you don't look for a path, you look for the best move assuming the opponent plays their best against you. That's what minimax does: you maximize the score, the opponent minimizes it, and you analyze the move tree down to some depth.
+
+The tree grows explosively: every move opens up many others. Alpha-beta pruning cuts the branches that can't change the result anyway, without losing correctness. With it you reach deeper in the same compute time.
+
+> [!NOTE]
+> Alpha-beta gives exactly the same result as minimax, just faster. It doesn't change the chosen move, it only skips branches it has proven useless.
+
+## CSP: constraint problems
+A CSP (constraint satisfaction problem) asks for an assignment of values to some variables that respects all the rules. Coloring a map with three colors so neighbors differ, Sudoku, a timetable: all are CSPs.
+
+You solve them with backtracking: you assign a value, move on, and if you get stuck you go back and try something else. Without improvements, it's slow. Two techniques speed it up a lot:
+
+- Forward checking: after each assignment, you remove from the neighbors the values that are no longer possible. You catch dead ends early.
+- MRV (minimum remaining values): you always pick the variable with the fewest values left. You attack the most constrained part first, where a contradiction is more likely.
+
+# @takeaways
+- Every search is described the same way: start, actions, goal test, cost.
+- BFS gives the fewest-steps path, DFS saves memory, uniform cost gives the lowest-cost path.
+- A* uses f = g + h; with an admissible heuristic, it finds the optimal solution.
+- Minimax picks the move against an optimal opponent; alpha-beta does it faster without changing the result.
+- CSPs are solved with backtracking plus forward checking and MRV.
+
+# @pitfalls
+- Use an admissible heuristic for A*, so the solution you find is also optimal.
+- Mark visited states so you don't fall into infinite loops.
+- Set a depth limit for minimax on big games.
+
+# @practice
+- Implement A* for the 8-puzzle with two heuristics (Manhattan and misplaced tiles) and compare the number of states expanded.
+- Solve a map coloring as a CSP with forward checking and MRV.
+- Write minimax with alpha-beta for tic-tac-toe and check it never loses.

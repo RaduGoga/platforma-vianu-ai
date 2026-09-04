@@ -8,7 +8,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S1",
     "duration": "~2h",
-    "objective": "Știi ce e inteligența artificială și unde se folosește, ai mediul de lucru pus la punct și o primă submisie validă pe MLCompete.",
     "intro": "Prima sesiune are două jumătăți. Întâi limpezim ce înseamnă inteligența artificială, ca să știi despre ce vorbim tot anul. Apoi facem logistica: un loc unde scrii cod și un loc unde trimiți răspunsuri. Partea de setup pare plictisitoare, dar mai toate punctele pierdute prostește la prima etapă vin de aici: un mediu care nu pornește, un fișier de submisie prost formatat, o bibliotecă lipsă. O faci o dată, temeinic, și scapi de ea.",
     "sections": [
       {
@@ -109,9 +108,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Lași instalarea pe ultima seară. Ceva pică, și pierzi timp în loc să înveți.",
-      "Nu verifici formatul submisiei. Un fișier bun ca model dar prost formatat ia zero.",
-      "Te bazezi pe internet la antrenament, apoi la concurs offline ești pierdut."
+      "Fă-ți setup-ul cu câteva zile înainte, nu în seara dinaintea concursului.",
+      "Verifică formatul submisiei înainte de model: un fișier bun ca model, dar prost formatat, ia zero.",
+      "Antrenează-te offline, cu documentația locală, fiindcă în concurs n-ai internet."
     ],
     "practice": [
       "Trimite o submisie validă pe o competiție de antrenament de pe MLCompete.",
@@ -129,7 +128,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S2",
     "duration": "~2h",
-    "objective": "Citești corect o problemă de concurs: știi ce sunt datele, ce metrică te punctează, cum arată submisia, și ce îți spune (și ce nu îți spune) leaderboardul.",
     "intro": "Înainte să înveți vreun model, merită să înțelegi jocul. O problemă de concurs de AI are mereu aceleași piese: niște date, o țintă de prezis, o metrică de punctare și un fișier de submisie. Cine citește piesele astea corect pleacă cu un avans mare, fiindcă jumătate din greșelile de concurs nu-s de model, ci de citit enunțul pe fugă.",
     "sections": [
       {
@@ -211,9 +209,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Sari la model fără să citești metrica și formatul submisiei. Pierzi puncte pe lucruri care nu țin de AI.",
-      "Îți urmărești obsesiv scorul public și îți alegi modelul după el. Cazi pe privat.",
-      "Irosești submisiile zilei pe încercări la nimereală, apoi n-ai cu ce testa ideea bună."
+      "Citește metrica și formatul submisiei înainte de orice model.",
+      "Alege modelul după validarea ta locală, nu după clasamentul public.",
+      "Păstrează submisiile zilei pentru ideile pe care le-ai verificat deja local."
     ],
     "practice": [
       "Ia o problemă de arhivă de pe MLCompete și scrie în trei rânduri: care e ținta, care e metrica, cum arată submisia.",
@@ -229,8 +227,174 @@ export const lessons: Lesson[] = [
   },
   {
     "moduleCode": "S3",
-    "duration": "~3 săptămâni",
-    "objective": "Manevrezi date cu NumPy și Pandas fără să te gândești la sintaxă, ca să dai timpul pe model, nu pe cum scrii o filtrare.",
+    "duration": "~1 săptămână",
+    "intro": "Tot ce urmează în programă e scris în Python. Modulul ăsta e despre limbaj, nu despre machine learning: dacă îl sari, o să pierzi timp la fiecare lecție următoare căutând cum se scrie un dicționar. Dacă știi deja Python, treci repede peste el și oprește-te doar la comprehensions și la despachetare, care apar constant în codul de concurs.",
+    "sections": [
+      {
+        "heading": "Tipuri și variabile",
+        "blocks": [
+          {
+            "p": "Python nu cere să declari tipul. Îl deduce din valoare, iar tipul poate să se schimbe. Asta e comod, dar înseamnă că erorile de tip apar la rulare, nu înainte."
+          },
+          {
+            "code": "n = 42            # int\npi = 3.14         # float\nnume = \"Radu\"     # str\ngata = True       # bool\nnimic = None      # absența unei valori\n\nprint(type(n), type(pi))"
+          },
+          {
+            "p": "Pentru text, f-string-ul e felul modern de a insera valori. Pui un `f` în fața ghilimelelor și scrii expresia între acolade."
+          },
+          {
+            "code": "scor = 0.8734\nprint(f\"scor: {scor:.2f}\")        # scor: 0.87\nprint(f\"dublu: {scor * 2:.3f}\")   # dublu: 1.747"
+          }
+        ]
+      },
+      {
+        "heading": "Cele patru structuri de date",
+        "blocks": [
+          {
+            "p": "Aproape tot ce scrii folosește una dintre astea. Alegerea corectă îți simplifică restul codului."
+          },
+          {
+            "list": [
+              "Lista: ordonată, se poate modifica. `[1, 2, 3]`",
+              "Tuple: ordonată, nu se poate modifica. `(1, 2)`",
+              "Dicționar: perechi cheie–valoare. `{\"a\": 1}`",
+              "Mulțime: valori unice, fără ordine. `{1, 2, 3}`"
+            ]
+          },
+          {
+            "code": "scoruri = [0.71, 0.83, 0.79]\nscoruri.append(0.88)\nprint(len(scoruri), max(scoruri))\n\nmodel = {\"nume\": \"rf\", \"adancime\": 8}\nprint(model[\"nume\"])\nmodel[\"seed\"] = 42\n\nunice = set([1, 2, 2, 3, 3, 3])   # {1, 2, 3}"
+          },
+          {
+            "note": "Caută rapid într-o mulțime sau într-un dicționar, nu într-o listă. Verificarea `x in lista` parcurge toate elementele; `x in multime` e aproape instant. Pe zeci de mii de elemente diferența se simte."
+          }
+        ]
+      },
+      {
+        "heading": "Indexare și felii",
+        "blocks": [
+          {
+            "p": "Indexarea începe de la zero. Indicii negativi numără de la coadă. Felia `a:b` include începutul și exclude sfârșitul."
+          },
+          {
+            "code": "v = [10, 20, 30, 40, 50]\n\nv[0]      # 10, primul\nv[-1]     # 50, ultimul\nv[1:3]    # [20, 30], de la 1 până înainte de 3\nv[:2]     # [10, 20]\nv[::2]    # [10, 30, 50], din doi în doi"
+          },
+          {
+            "p": "Regula asta se repetă identic la string-uri, la array-urile NumPy și la coloanele Pandas. O înveți o dată și o folosești peste tot."
+          }
+        ]
+      },
+      {
+        "heading": "Condiții și bucle",
+        "blocks": [
+          {
+            "p": "Blocurile se delimitează prin indentare, nu prin acolade. Patru spații, consecvent."
+          },
+          {
+            "code": "for s in scoruri:\n    if s > 0.8:\n        print(\"bun\", s)\n    else:\n        print(\"slab\", s)"
+          },
+          {
+            "p": "Când ai nevoie și de poziție, folosește `enumerate`. Când parcurgi două liste odată, `zip`."
+          },
+          {
+            "code": "for i, s in enumerate(scoruri):\n    print(i, s)\n\nfor nume, scor in zip([\"a\", \"b\"], [0.7, 0.9]):\n    print(nume, scor)"
+          }
+        ]
+      },
+      {
+        "heading": "List comprehensions",
+        "blocks": [
+          {
+            "p": "Un mod scurt de a construi o listă dintr-alta. Apare des în codul de concurs, așa că merită citit fluent chiar dacă la început scrii bucle obișnuite."
+          },
+          {
+            "code": "patrate = [x * x for x in range(5)]          # [0, 1, 4, 9, 16]\nbune = [s for s in scoruri if s > 0.8]       # doar cele peste 0.8"
+          },
+          {
+            "p": "Se citește de la stânga: „ia fiecare x din range, păstrează-l dacă trece condiția, pune x*x în listă\". Merge și pentru dicționare."
+          },
+          {
+            "code": "lungimi = {c: len(c) for c in [\"rf\", \"xgboost\"]}   # {\"rf\": 2, \"xgboost\": 7}"
+          }
+        ]
+      },
+      {
+        "heading": "Funcții",
+        "blocks": [
+          {
+            "p": "O funcție grupează cod pe care îl repeți. Argumentele pot avea valori implicite, iar cele implicite se pun întotdeauna la final."
+          },
+          {
+            "code": "def normalizeaza(v, minim=0.0, maxim=1.0):\n    lo, hi = min(v), max(v)\n    if hi == lo:\n        return [minim] * len(v)\n    return [minim + (x - lo) / (hi - lo) * (maxim - minim) for x in v]\n\nprint(normalizeaza([2, 4, 6]))    # [0.0, 0.5, 1.0]"
+          },
+          {
+            "p": "Despachetarea îți lasă să atribui mai multe valori odată. O vei vedea constant la împărțirea datelor."
+          },
+          {
+            "code": "a, b = 1, 2\nX_tr, X_val, y_tr, y_val = imparte(X, y)   # patru valori dintr-o dată"
+          },
+          {
+            "note": "Nu pune niciodată o listă sau un dicționar ca valoare implicită a unui argument. Se creează o singură dată, la definirea funcției, și rămâne comună între apeluri. Folosește `None` și creează valoarea înăuntru."
+          }
+        ]
+      },
+      {
+        "heading": "Clase și module",
+        "blocks": [
+          {
+            "p": "O clasă ține date și funcții la un loc. N-o să scrii multe, dar toate bibliotecile pe care le folosești sunt construite din clase, deci trebuie să înțelegi ce se întâmplă când scrii `model.fit(X, y)`."
+          },
+          {
+            "code": "class Medie:\n    def __init__(self):\n        self.valoare = None\n\n    def fit(self, y):\n        self.valoare = sum(y) / len(y)\n        return self\n\n    def predict(self, n):\n        return [self.valoare] * n\n\nm = Medie().fit([1, 2, 3])\nprint(m.predict(2))    # [2.0, 2.0]"
+          },
+          {
+            "p": "Asta e exact tiparul din scikit-learn: `fit` învață și reține, `predict` folosește ce a învățat."
+          },
+          {
+            "p": "Codul altcuiva se aduce cu `import`."
+          },
+          {
+            "code": "import math\nfrom collections import Counter\n\nprint(math.sqrt(16))\nprint(Counter([\"a\", \"b\", \"a\"]))    # Counter({'a': 2, 'b': 1})"
+          }
+        ]
+      },
+      {
+        "heading": "Fișiere",
+        "blocks": [
+          {
+            "p": "Citirea și scrierea se fac cu `with`, care închide fișierul singur chiar dacă apare o eroare."
+          },
+          {
+            "code": "with open(\"note.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.write(\"prima linie\\n\")\n\nwith open(\"note.txt\", encoding=\"utf-8\") as f:\n    for linie in f:\n        print(linie.strip())"
+          },
+          {
+            "p": "Pune întotdeauna `encoding=\"utf-8\"`. Fără el, pe Windows, diacriticele se citesc greșit."
+          }
+        ]
+      }
+    ],
+    "pitfalls": [
+      "Folosește tuple când vrei ceva ce nu se modifică și listă când vrei să adaugi.",
+      "Caută cu `in` într-o mulțime sau într-un dicționar, nu într-o listă mare.",
+      "Pune `None` ca valoare implicită și creează lista sau dicționarul înăuntrul funcției.",
+      "Indentează consecvent cu patru spații, niciodată amestecate cu tab-uri.",
+      "Pune `encoding=\"utf-8\"` la orice fișier cu diacritice."
+    ],
+    "practice": [
+      "Scrie o funcție care primește o listă de numere și întoarce media, mediana și valoarea maximă.",
+      "Numără cuvintele dintr-un text cu un dicționar, apoi rescrie soluția cu `Counter`.",
+      "Rescrie trei bucle `for` pe care le-ai scris deja ca list comprehensions."
+    ],
+    "keyTakeaways": [
+      "Alegi structura după ce ai nevoie: listă pentru ordine, dicționar pentru căutare după cheie, mulțime pentru unicitate.",
+      "Feliile `a:b` includ începutul și exclud sfârșitul, la fel peste tot în Python.",
+      "Comprehensions scurtează buclele care construiesc liste; merită citite fluent.",
+      "Tiparul `fit` și `predict` din clase e chiar cel din scikit-learn.",
+      "`with open(...)` închide fișierul singur; pune mereu `encoding=\"utf-8\"`."
+    ]
+  },
+  {
+    "moduleCode": "S4",
+    "duration": "~2 săptămâni",
     "intro": "NumPy și Pandas sunt uneltele pe care le folosești în fiecare problemă, indiferent de model. Dacă te împiedici de ele, pierzi timp prețios. Scopul aici nu e doar să scrii cod care merge, ci să-l scrii repede și din reflex. Le înveți o dată bine și le folosești tot restul anului.",
     "sections": [
       {
@@ -336,9 +500,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Bucle Python peste rânduri de DataFrame. E lent și inutil, aproape mereu există o variantă vectorizată.",
-      "Confuzia loc/iloc, mai ales când indexul nu e 0, 1, 2.",
-      "Ignori erorile de shape în loc să tipărești formele și să aplici regula de broadcasting."
+      "Vectorizează în loc să iterezi peste rândurile unui DataFrame; aproape mereu există o variantă.",
+      "Verifică indexul înainte să alegi între loc și iloc, mai ales când nu e 0, 1, 2.",
+      "La eroare de shape, tipărește formele și aplică regula de broadcasting."
     ],
     "practice": [
       "Ia un CSV și răspunde la cinci întrebări despre el folosind doar groupby și filtrări cu măști.",
@@ -354,9 +518,8 @@ export const lessons: Lesson[] = [
     ]
   },
   {
-    "moduleCode": "S4",
+    "moduleCode": "S5",
     "duration": "~1 săptămână",
-    "objective": "Duci o problemă de concurs de la fișierul brut până la o submisie validă, fără să sari pași și fără să scurgi datele de test în antrenare.",
     "intro": "Până acum ai învățat bucăți: Python, NumPy, Pandas. Modulul ăsta le leagă. Nu aduce teorie nouă, ci ordinea în care se fac lucrurile. Contează, pentru că majoritatea greșelilor de la olimpiadă nu vin din model, ci din pași făcuți în ordine greșită. Un pipeline pe care îl poți rula cap-coadă în douăzeci de minute e cea mai valoroasă unealtă pe care o duci în concurs.",
     "sections": [
       {
@@ -489,11 +652,11 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Scalezi sau imputezi pe tot setul, apoi împarți. Scorul de validare iese optimist și fals.",
-      "Optimizezi altă metrică decât cea din enunț.",
-      "Uiți handle_unknown și codul crapă pe o categorie nouă din test.",
-      "Trimiți fișierul fără să verifici numărul de rânduri și numele coloanelor.",
-      "Rămâi pe bucata de optzeci la sută la submisia finală, în loc să reantrenezi pe tot."
+      "Împarte datele înainte să scalezi sau să imputezi, altfel validarea iese fals optimistă.",
+      "Optimizează exact metrica din enunț.",
+      "Pune `handle_unknown=\"ignore\"`, ca o categorie nouă din test să nu crape predicția.",
+      "Verifică numărul de rânduri și numele coloanelor înainte de upload.",
+      "Reantrenează pe toate datele de antrenare pentru submisia finală."
     ],
     "practice": [
       "Ia o problemă de arhivă de pe MLCompete și scrie pipeline-ul cap-coadă într-o oră, cu model simplu.",
@@ -511,7 +674,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S6",
     "duration": "~2 săptămâni",
-    "objective": "Te uiți la date înainte să antrenezi și le pregătești corect pentru un model, fără să introduci scurgeri de informație.",
     "intro": "Înainte să antrenezi orice, uită-te la date. La distribuții, la ce lipsește, la cum sunt scalate coloanele. Sună plictisitor, dar jumătate din câștig vine de aici, nu din modelul ales. Etapa asta se numește EDA, analiză exploratorie, și e prima pe care o faci la orice problemă nouă.",
     "sections": [
       {
@@ -604,9 +766,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Scalezi sau imputezi pe tot setul înainte de split. E o scurgere de informație, cea mai frecventă greșeală.",
-      "Umpli valorile lipsă cu media calculată inclusiv pe test.",
-      "Numerotezi categoriile 1,2,3 și modelul crede că există o ordine care nu există."
+      "Învață parametrii de preprocesare doar pe antrenare, după split.",
+      "Impută valorile lipsă cu statistici calculate doar pe antrenare.",
+      "Folosește one-hot pentru categorii fără ordine; numerotarea 1, 2, 3 inventează o ordine."
     ],
     "practice": [
       "Fă un raport de completitudine pe un set și decide ce coloane păstrezi.",
@@ -624,7 +786,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S8",
     "duration": "~3 săptămâni",
-    "objective": "Alegi și antrenezi modele clasice de clasificare și regresie, și înțelegi ce optimizează fiecare, nu doar cum îl chemi.",
     "intro": "Aici înveți uneltele de bază ale învățării supervizate: regresie liniară și logistică, Naïve Bayes, arbori de decizie, SVM. Supervizat înseamnă că ai exemple cu răspunsul corect (etichete) și modelul învață din ele. Nu te opri la cum le chemi din scikit-learn. Înțelege ce optimizează fiecare și când se potrivește, pentru că asta te face să alegi bine la concurs.",
     "sections": [
       {
@@ -709,9 +870,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Interpretezi coeficienții regresiei fără să fi scalat trăsăturile.",
-      "Lași arborele să crească nelimitat și te miri că merge perfect pe antrenare și slab pe validare.",
-      "Folosești SVM pe date nescalate și merge inexplicabil de prost."
+      "Scalează trăsăturile înainte să interpretezi coeficienții unei regresii.",
+      "Limitează adâncimea arborelui, altfel merge perfect pe antrenare și slab pe validare.",
+      "Scalează datele înainte de SVM; fără asta merge inexplicabil de prost."
     ],
     "practice": [
       "Compară regresie logistică, arbore și SVM pe aceeași problemă tabelară, cu aceeași metrică.",
@@ -729,7 +890,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S11",
     "duration": "~2 săptămâni",
-    "objective": "Măsori corect un model și eviți să te păcălești singur, ca scorul tău local să prezică scorul real de pe clasamentul ascuns.",
     "intro": "Aici se câștigă sau se pierde concursul. Un model care pare bun pe clasamentul public poate fi slab pe cel ascuns, care contează la final. Modulul ăsta e despre cum să ai încredere justificată în scorul tău. E cea mai puțin spectaculoasă parte și cea care face diferența dintre un top 10 și un mijloc de clasament.",
     "sections": [
       {
@@ -820,9 +980,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Optimizezi pe clasamentul public și te trezești că ai făcut overfit pe el.",
-      "K-fold nestratificat pe clase rare: unele fold-uri nu conțin clasa deloc.",
-      "Raportezi acuratețea pe o problemă dezechilibrată și crezi că modelul e bun."
+      "Ai încredere în validarea ta locală, nu în clasamentul public.",
+      "Folosește k-fold stratificat, ca fiecare fold să conțină și clasele rare.",
+      "Pe date dezechilibrate raportează precizie, recall și F1, nu acuratețe."
     ],
     "practice": [
       "Desenează o curbă de învățare și decide dacă modelul suferă de bias sau de varianță.",
@@ -841,7 +1001,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S13",
     "duration": "~1 săptămână",
-    "objective": "Combini modele prin bagging și boosting și reglezi hiperparametrii care contează, în ordinea corectă.",
     "intro": "De multe ori câștigătorul la o problemă tabelară e un ensemble, nu un singur model. Ideea e simplă și puternică: mai multe modele împreună greșesc mai puțin decât unul singur, cu condiția să greșească în locuri diferite. Modulul ăsta îți dă cele două rețete mari, bagging și boosting, și disciplina de a regla parametrii fără să te pierzi.",
     "sections": [
       {
@@ -915,9 +1074,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Reglezi zeci de hiperparametri deodată și nu mai știi ce a ajutat.",
-      "Te bazezi pe feature importance ca pe un adevăr absolut.",
-      "Folosești boosting extern la o etapă unde regulamentul nu-l permite."
+      "Reglează un hiperparametru pe rând și notează scorul de fiecare dată.",
+      "Ia feature importance ca indiciu unde să te uiți, nu ca adevăr final.",
+      "Verifică regulamentul etapei înainte să folosești biblioteci externe de boosting."
     ],
     "practice": [
       "Antrenează un Random Forest și un gradient boosting pe aceeași problemă și compară scorurile.",
@@ -935,7 +1094,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S14",
     "duration": "~1 săptămână",
-    "objective": "Grupezi date fără etichete și reduci dimensionalitatea pentru vizualizare și preprocesare.",
     "intro": "Nu toate problemele au etichete. Uneori vrei doar să vezi structura din date: grupuri naturale, outlieri, o proiecție în două dimensiuni pe care s-o poți desena. Asta e învățarea nesupervizată: modelul găsește tipare fără să i se spună răspunsul corect. E utilă și de sine stătător, și ca pas de pregătire înainte de un model supervizat.",
     "sections": [
       {
@@ -1001,9 +1159,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "K-Means pe date nescalate: coloana cu numere mari domină totul.",
-      "Interpretezi distanțele dintr-un grafic t-SNE ca și cum ar fi reale.",
-      "Alegi k la întâmplare fără cot sau siluetă."
+      "Scalează datele înainte de K-Means, altfel coloana cu numere mari domină totul.",
+      "Citește t-SNE ca pe o hartă de vecinătăți, nu ca pe distanțe reale.",
+      "Alege k cu metoda cotului sau cu scorul siluetă."
     ],
     "practice": [
       "Aplică K-Means și DBSCAN pe același set și compară grupurile găsite.",
@@ -1021,7 +1179,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S15",
     "duration": "~2 săptămâni",
-    "objective": "Rezolvi probleme de căutare în spațiul stărilor cu BFS, DFS, A*, minimax și CSP, și știi când se potrivește fiecare.",
     "intro": "Partea asta de AI nu are date de antrenare. Ai o stare de start, un scop, și niște mutări permise. Întrebarea e cum ajungi la scop eficient. E algoritmică, aproape ca la informatică, și apare în probleme de tip puzzle, planificare și jocuri. O rezolvi cu structuri de date, nu cu modele.",
     "sections": [
       {
@@ -1107,9 +1264,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Euristică neadmisibilă la A*: găsești o soluție, dar nu cea optimă.",
-      "Uiți să marchezi stările vizitate și intri în bucle infinite.",
-      "Aplici minimax fără limită de adâncime pe un joc mare și rămâi fără timp."
+      "Folosește o euristică admisibilă la A*, ca soluția găsită să fie și optimă.",
+      "Marchează stările vizitate, ca să nu intri în bucle infinite.",
+      "Pune limită de adâncime la minimax pe jocuri mari."
     ],
     "practice": [
       "Implementează A* pentru 8-puzzle cu două euristici (Manhattan și piese greșite) și compară numărul de stări extinse.",
@@ -1127,7 +1284,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S16",
     "duration": "~1 săptămână",
-    "objective": "Transformi text în vectori și antrenezi un clasificator de text solid, fără rețele neuronale.",
     "intro": "Se poate face NLP serios fără deep learning. TF-IDF plus un model liniar rezolvă multe probleme de clasificare de text, rapid, explicabil, și e un baseline greu de bătut. Înainte să scoți artileria grea, construiește ăsta. De multe ori e suficient, și mereu e reperul față de care judeci orice model mai complicat.",
     "sections": [
       {
@@ -1181,9 +1337,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Uiți de română: tratezi diacriticele inconsistent și pierzi potriviri.",
-      "Construiești vocabularul (fit) pe tot setul, inclusiv pe test. Scurgere.",
-      "Sari direct la rețele fără să faci întâi baseline-ul TF-IDF de comparație."
+      "Normalizează diacriticele consecvent înainte de tokenizare.",
+      "Construiește vocabularul doar pe antrenare, apoi aplică-l pe test.",
+      "Fă întâi un baseline TF-IDF, ca să ai cu ce compara rețelele."
     ],
     "practice": [
       "Clasifică texte în română cu TF-IDF și regresie logistică, cu fit doar pe train.",
@@ -1201,7 +1357,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S17",
     "duration": "~1 săptămână",
-    "objective": "Lucrezi cu imagini ca tensori și aplici augmentări potrivite problemei, fără să strici eticheta.",
     "intro": "O imagine e doar un tensor de numere. Înainte de rețele, merită să înțelegi ce faci cu ea: cum o reprezinți, ce e un filtru de convoluție, și ce augmentare ajută fără să strice eticheta. Modulul ăsta e puntea spre CNN-uri: dacă înțelegi imaginea ca tensor și convoluția de mână, straturile convoluționale de mai târziu nu mai sunt magie.",
     "sections": [
       {
@@ -1253,9 +1408,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Augmentări care schimbă înțelesul: flip pe caractere, rotații mari pe obiecte cu orientare fixă.",
-      "Amesteci intervale de intensitate și modelul primește date inconsistente.",
-      "Augmentezi și setul de validare, nu doar antrenarea. Validarea rămâne curată."
+      "Alege augmentări care păstrează eticheta: fără flip pe caractere, fără rotații mari pe obiecte cu orientare fixă.",
+      "Ține un singur interval de intensitate pe tot setul.",
+      "Augmentează doar antrenarea; validarea rămâne curată."
     ],
     "practice": [
       "Scrie de mână un filtru Sobel și aplică-l pe o imagine ca să-i scoți marginile.",
@@ -1273,7 +1428,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S18",
     "duration": "~1 săptămână",
-    "objective": "Înțelegi backpropagation din temelii și construiești o rețea simplă în PyTorch, știind ce face fiecare linie.",
     "intro": "Aici începe deep learning-ul. O rețea neuronală e un lanț de straturi, iar antrenarea e ajustarea greutăților ca să scadă eroarea. Cheia modulului e să înțelegi ce face backpropagation, nu doar s-o chemi. Când pricepi cum curge gradientul înapoi prin rețea, restul deep learning-ului devine reglaj, nu mister.",
     "sections": [
       {
@@ -1340,9 +1494,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Uiți optimizer.zero_grad() și gradienții se adună de la un pas la altul.",
-      "Crezi că .backward() antrenează modelul. Doar calculează gradienți, pasul îl face optimizatorul.",
-      "Pui straturi liniare fără activări între ele și te miri că nu învață nimic neliniar."
+      "Cheamă `optimizer.zero_grad()` la fiecare pas, altfel gradienții se adună.",
+      "Ține minte că `.backward()` doar calculează gradienți; pasul îl face optimizatorul.",
+      "Pune activări între straturile liniare, altfel rețeaua rămâne liniară."
     ],
     "practice": [
       "Construiește backpropagation de mână pentru o rețea cu un strat ascuns, pe hârtie.",
@@ -1360,7 +1514,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S19",
     "duration": "~1 săptămână",
-    "objective": "Scrii singur bucla de antrenare și reglezi optimizator, learning rate și regularizare, ca modelul să învețe stabil.",
     "intro": "Un model bun antrenat prost nu învață. Modulul ăsta e despre bucla de antrenare: cum alegi optimizatorul, cum reglezi learning rate-ul (butonul cel mai important), și cum ții overfitting-ul sub control. Aceleași straturi, antrenate cu grijă sau la nimereală, dau rezultate complet diferite.",
     "sections": [
       {
@@ -1423,9 +1576,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Cauți arhitecturi mai mari când de fapt learning rate-ul e greșit.",
-      "Lași antrenarea să meargă mult după ce validarea a început să crească.",
-      "Vezi loss NaN și schimbi arhitectura în loc să scazi întâi learning rate-ul."
+      "Verifică întâi learning rate-ul, apoi arhitectura.",
+      "Oprește antrenarea când scorul de validare începe să se înrăutățească.",
+      "La loss NaN, scade întâi learning rate-ul."
     ],
     "practice": [
       "Testează trei learning rate-uri pe o scară logaritmică și desenează curbele de loss.",
@@ -1443,7 +1596,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S20",
     "duration": "~1 săptămână",
-    "objective": "Depanezi sistematic o rețea care nu învață, în loc să schimbi lucruri la întâmplare.",
     "intro": "Mai devreme sau mai târziu, o rețea refuză să învețe: loss-ul stă pe loc, sau scorul e la nivel de ghicit. Panica și schimbatul la nimereală nu ajută. Ai o listă de verificări, în ordine, de la simplu la complex. De cele mai multe ori problema e banală și e pe la începutul listei.",
     "sections": [
       {
@@ -1492,9 +1644,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Cauți vina în arhitectură când de fapt datele nu sunt normalizate.",
-      "Antrenezi ore în șir sperând că se rezolvă de la sine.",
-      "Schimbi cinci lucruri deodată și nu mai știi care a fost problema."
+      "Verifică normalizarea datelor înainte să dai vina pe arhitectură.",
+      "Dacă nu învață în primele epoci, oprește și caută bug-ul.",
+      "Schimbă un singur lucru pe rând, ca să știi ce a ajutat."
     ],
     "practice": [
       "Ia o rețea care nu învață și găsește cauza trecând prin listă, un pas pe rând.",
@@ -1511,7 +1663,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S21",
     "duration": "~1 săptămână",
-    "objective": "Înțelegi cum funcționează o rețea convoluțională și arhitecturile clasice, și știi să calculezi dimensiunile.",
     "intro": "CNN-urile (rețele convoluționale) sunt uneltele pentru imagini. În loc să conecteze fiecare pixel la fiecare neuron, ceea ce ar fi enorm, folosesc filtre mici care se plimbă peste imagine. Așa învață trăsături locale (margini, colțuri, apoi forme) eficient și cu puține greutăți. Ai văzut convoluția de mână la S17; aici o rețeaua o învață singură.",
     "sections": [
       {
@@ -1574,9 +1725,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Greșești calculul dimensiunilor și straturile nu se potrivesc.",
-      "Rețele adânci fără conexiuni reziduale: gradientul dispare și nu învață.",
-      "Pui straturi dense uriașe la final și faci overfitting; global average pooling e mai curat."
+      "Calculează dimensiunile pe hârtie înainte să legi straturile.",
+      "Folosește conexiuni reziduale la rețele adânci, ca gradientul să ajungă înapoi.",
+      "Închide cu global average pooling în loc de straturi dense uriașe."
     ],
     "practice": [
       "Calculează pe hârtie dimensiunile ieșirii pentru o mică rețea convoluțională, strat cu strat.",
@@ -1594,7 +1745,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S22",
     "duration": "~1 săptămână",
-    "objective": "Folosești modele preantrenate și le adaptezi la problema ta, ca să obții scoruri bune cu puține date.",
     "intro": "Rar antrenezi o rețea de imagini de la zero. Iei un model deja antrenat pe milioane de imagini (ImageNet) și îl adaptezi la problema ta. Cu date puține, asta e diferența dintre un scor bun și unul jalnic. Modelul a învățat deja să vadă margini, texturi și forme; tu doar îl reorientezi spre clasele tale.",
     "sections": [
       {
@@ -1646,9 +1796,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "Uiți normalizarea ImageNet și modelul preantrenat merge prost fără motiv aparent.",
-      "Fine-tuning cu learning rate mare: strici trăsăturile deja bune.",
-      "Faci fine-tuning pe tot modelul cu foarte puține date și overfiți; mai bine feature extraction."
+      "Aplică aceeași normalizare ImageNet ca la preantrenare.",
+      "Fă fine-tuning cu learning rate mic, ca să nu strici trăsăturile deja bune.",
+      "Cu puține date, folosește feature extraction în loc de fine-tuning complet."
     ],
     "practice": [
       "Adaptează un ResNet la o problemă cu puține imagini prin feature extraction.",
@@ -1666,7 +1816,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S23",
     "duration": "~1 săptămână",
-    "objective": "Reprezinți cuvintele ca vectori denși care poartă sens și înțelegi cum procesează rețelele secvențe de text.",
     "intro": "One-hot tratează fiecare cuvânt ca pe ceva izolat: câine și pisică sunt la fel de diferite ca și câine și televizor. Embeddings pun cuvintele într-un spațiu unde apropierea înseamnă sens apropiat. E ideea pe care stă tot NLP-ul modern. Modulul ăsta îți dă intuiția, ca modelele mari de mai târziu să nu fie magie.",
     "sections": [
       {
@@ -1725,9 +1874,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "La română folosești vectori care ignoră subcuvintele și pierzi formele flexionate.",
-      "Aștepți de la un RNN simplu să țină minte contextul de acum 200 de cuvinte.",
-      "Antrenezi embeddings de la zero cu puține date în loc să folosești unele preantrenate."
+      "La română folosește vectori care țin cont de subcuvinte, pentru formele flexionate.",
+      "Pentru context lung folosește atenție sau transformer, nu un RNN simplu.",
+      "Pornește de la embeddings preantrenate când ai puține date."
     ],
     "practice": [
       "Explorează aritmetica vectorilor (rege - bărbat + femeie) pe un set de embeddings preantrenate.",
@@ -1745,7 +1894,6 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S24",
     "duration": "~1 săptămână",
-    "objective": "Rezolvi probleme de reinforcement learning tabelar și recunoști sursele de bias și problemele de corectitudine.",
     "intro": "Reinforcement learning (învățare prin recompensă) e cerut la clasele mari. Un agent învață ce să facă din recompense, prin încercare și eroare, fără să i se spună răspunsul corect la fiecare pas. La final atingem și etica: modelele pot fi nedrepte cu anumite grupuri, și merită să știi de ce se întâmplă și cum se măsoară.",
     "sections": [
       {
@@ -1810,9 +1958,9 @@ export const lessons: Lesson[] = [
       }
     ],
     "pitfalls": [
-      "ε prea mic prea devreme: agentul nu explorează destul și rămâne blocat.",
-      "Raportezi doar scorul mediu și ascunzi că modelul e slab pe un subgrup.",
-      "Crezi că există o singură definiție corectă a corectitudinii."
+      "Scade ε treptat, ca agentul să exploreze destul la început.",
+      "Raportează scorul și pe subgrupuri, nu doar media.",
+      "Tratează corectitudinea ca pe mai multe definiții care se bat cap în cap."
     ],
     "practice": [
       "Implementează Q-learning pe un grid-world și urmărește politica cum se formează.",

@@ -1,0 +1,155 @@
+---
+code: S5
+duration: ~1 week
+---
+
+# @intro
+So far you've learned pieces: Python, NumPy, Pandas. This module ties them together. It brings no new theory, only the order in which things get done. That matters, because most olympiad mistakes don't come from the model, they come from steps taken in the wrong order. A pipeline you can run end to end in twenty minutes is the most valuable tool you bring into a contest.
+
+## The six steps, in order
+Every tabular contest problem looks the same from above. You read the data. You split it. You build a baseline. You preprocess. You train and validate. You write the submission.
+
+The order isn't a suggestion. Each step assumes the previous one was done correctly, and two of them are easy to swap when you're rushing: splitting and preprocessing. Swap those and your local score becomes a lie, which you only discover on the private leaderboard.
+
+- Read the data and look at what you got.
+- Split into training and validation.
+- Build a dumb baseline, so you have a reference point.
+- Preprocess, with parameters learned only on training data.
+- Train a model and compare it against the baseline.
+- Write the submission file and check it before uploading.
+
+## Step 1: read and look
+The first thing after reading is checking that the data looks the way you think it does. How many rows, which columns, what type each one is, what the target looks like. This isn't full analysis, that comes in the next module. It's just confirming you didn't read the file wrong.
+
+```
+import pandas as pd
+
+train = pd.read_csv("train.csv")
+test = pd.read_csv("test.csv")
+
+print(train.shape, test.shape)
+print(train.dtypes)
+print(train["target"].value_counts())
+```
+
+Compare the train columns against the test ones. The difference between them is, almost always, the target column itself. If anything else is missing, that's something to understand before moving on.
+
+## Step 2: split before you touch anything
+This is where most points are lost. You need a slice of the data the model has never seen, so you can honestly estimate how good it is. The split happens before any transformation.
+
+```
+from sklearn.model_selection import train_test_split
+
+X = train.drop(columns=["target"])
+y = train["target"]
+
+X_tr, X_val, y_tr, y_val = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+```
+
+The stratify argument keeps the same class proportions in both halves. Without it, on an imbalanced problem you can land a validation set that contains none of the rare class at all, and the score becomes meaningless.
+
+> [!NOTE]
+> A fixed random_state means the same split repeats on every run. Without it your score shifts between runs and you can no longer tell whether a change helped or you got lucky.
+
+## Step 3: the dumb but honest baseline
+Before any serious model, build a stupid one. Always predict the majority class, or the mean, and measure. That number is your floor: any model that doesn't beat it is worse than nothing.
+
+```
+from sklearn.dummy import DummyClassifier
+from sklearn.metrics import f1_score
+
+dummy = DummyClassifier(strategy="most_frequent").fit(X_tr, y_tr)
+print(f1_score(y_val, dummy.predict(X_val), average="macro"))
+```
+
+It looks like a waste of time. It isn't. Often a complicated model produces a score that seems reasonable, until you compare it to the baseline and find it's the same or worse. Without the reference point, you'd never have known.
+
+## Step 4: preprocessing that can't leak
+The preprocessing rule: parameters (mean, deviation, categories) are learned only on the training data. The problem is that, done by hand, this rule is easy to break.
+
+The fix is Pipeline. You bind preprocessing to the model in a single object, and when you call fit on it, scikit-learn makes sure the transformations only learn from what you hand it for training.
+
+```
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.ensemble import RandomForestClassifier
+
+numeric = X_tr.select_dtypes(include="number").columns
+categorical = X_tr.select_dtypes(exclude="number").columns
+
+pre = ColumnTransformer([
+    ("num", Pipeline([
+        ("imp", SimpleImputer(strategy="median")),
+        ("sc", StandardScaler()),
+    ]), numeric),
+    ("cat", Pipeline([
+        ("imp", SimpleImputer(strategy="most_frequent")),
+        ("oh", OneHotEncoder(handle_unknown="ignore")),
+    ]), categorical),
+])
+
+model = Pipeline([("pre", pre), ("clf", RandomForestClassifier(random_state=42))])
+```
+
+The handle_unknown argument matters in a contest: if a category shows up in test that wasn't in training, without it your code crashes at prediction time, exactly when you have no time to debug.
+
+## Step 5: train and compare
+Now you have one object that does everything. You fit it on the training slice and measure it on validation, using the same metric the contest uses.
+
+```
+model.fit(X_tr, y_tr)
+score = f1_score(y_val, model.predict(X_val), average="macro")
+print(f"model: {score:.4f}")
+```
+
+The metric has to be the one from the problem statement. If the contest scores macro F1 and you optimize accuracy, you climb on your own score and fall on theirs.
+
+> [!NOTE]
+> Change one thing between runs and write down the score every time. A table with ten rows, even on paper, is worth more than ten ideas tried at once where you can't tell which one helped.
+
+## Step 6: the submission and the checks
+At the end you retrain on all the training data, not just the eighty percent slice. You used validation to choose; now there's no reason to throw those examples away.
+
+```
+model.fit(X, y)
+pred = model.predict(test)
+
+sub = pd.DataFrame({"id": test["id"], "target": pred})
+sub.to_csv("submission.csv", index=False)
+```
+
+Before uploading, three checks that have saved many contests: the row count matches the test file, the column names are exactly what the statement asks for, and there are no missing values in the predictions.
+
+```
+assert len(sub) == len(test)
+assert list(sub.columns) == ["id", "target"]
+assert sub["target"].isna().sum() == 0
+```
+
+## What this looks like on contest day
+You spend the first hour on the pipeline above, with a simple model. You already have a valid submission and a score on the leaderboard. From there you improve, with the safety net that whatever happens, something is submitted.
+
+The reverse order, where you spend two hours on a good model and only then start on the submission, is the most common way to finish a contest with zero points for code that almost worked.
+
+# @takeaways
+- The order of the steps matters more than the choice of model.
+- You split before any transformation, otherwise your local score lies.
+- The dumb baseline is the reference point without which you can't tell if your model is good.
+- Pipeline makes information leakage hard to commit by accident.
+- The first valid submission happens in the first hour, not at the end.
+
+# @pitfalls
+- Split the data before you scale or impute, otherwise validation comes out falsely optimistic.
+- Optimize exactly the metric from the statement.
+- Pass `handle_unknown="ignore"` so a new category in test doesn't crash prediction.
+- Check the row count and the column names before uploading.
+- Retrain on all the training data for the final submission.
+
+# @practice
+- Take an archive problem from MLCompete and write the pipeline end to end in an hour, with a simple model.
+- Run the same pipeline once with scaling before the split and once after, and compare the validation scores.
+- Write yourself a template notebook with the six steps, to copy at the start of any problem.

@@ -582,8 +582,20 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S4",
     "duration": "~2 săptămâni",
-    "intro": "NumPy și Pandas sunt uneltele pe care le folosești în fiecare problemă, indiferent de model. Dacă te împiedici de ele, pierzi timp prețios. Scopul aici nu e doar să scrii cod care merge, ci să-l scrii repede și din reflex. Le înveți o dată bine și le folosești tot restul anului.",
+    "intro": "NumPy e biblioteca pentru calcul numeric în Python: lucrează cu array-uri de numere și face operațiile mult mai rapid decât o buclă obișnuită. Pandas e construit peste NumPy și adaugă etichete: coloane cu nume, rânduri cu index, tabele ca într-un Excel. Le folosești pe amândouă în aproape orice problemă din concurs, indiferent de model.",
     "sections": [
+      {
+        "heading": "Instalare",
+        "blocks": [
+          {
+            "p": "Ambele sunt biblioteci externe, nu vin cu Python. Le instalezi o singură dată, în mediul virtual al proiectului."
+          },
+          {
+            "code": "pip install numpy\npip install pandas",
+            "caption": "Rulează comenzile astea în terminal, în folderul proiectului."
+          }
+        ]
+      },
       {
         "heading": "De ce nu ajunge Python simplu",
         "blocks": [
@@ -600,6 +612,35 @@ export const lessons: Lesson[] = [
         ]
       },
       {
+        "heading": "Creezi și transformi array-uri",
+        "blocks": [
+          {
+            "p": "`np.array()` transformă o listă Python într-un ndarray. `np.zeros(n)` și `np.ones(n)` fac un array plin cu 0 sau 1, util când vrei un loc gol de completat. `np.arange(start, stop, pas)` merge ca `range`, dar întoarce un array. `np.linspace(start, stop, n)` împarte un interval în n valori egal distanțate, util pentru grafice."
+          },
+          {
+            "code": "a = np.array([1, 2, 3])\nzerouri = np.zeros(5)          # [0. 0. 0. 0. 0.]\nunu = np.ones((2, 3))          # matrice 2x3 plină cu 1\npasi = np.arange(0, 10, 2)     # [0 2 4 6 8]\nliniar = np.linspace(0, 1, 5)  # [0. 0.25 0.5 0.75 1.]"
+          },
+          {
+            "p": "Fiecare array are un singur `dtype`, tipul tuturor elementelor (`int64`, `float64` etc.). Amestecarea unui întreg cu un float în același array îl convertește pe tot la float."
+          },
+          {
+            "code": "a.dtype              # dtype('int64')\nnp.array([1, 2.5]).dtype   # dtype('float64')"
+          },
+          {
+            "p": "`reshape` schimbă forma unui array fără să-i schimbe conținutul, cât timp numărul total de elemente rămâne același. `flatten()` face inversul, îl aduce la o singură dimensiune."
+          },
+          {
+            "code": "v = np.arange(6)\nm = v.reshape(2, 3)    # [[0 1 2], [3 4 5]]\nm.flatten()             # înapoi la [0 1 2 3 4 5]"
+          },
+          {
+            "note": "O felie dintr-un array (`v[1:4]`) e o vedere (view), nu o copie: modificarea ei modifică și originalul. Dacă vrei o copie independentă, cere-o explicit cu `.copy()`."
+          },
+          {
+            "code": "v = np.array([1, 2, 3, 4])\nfelie = v[1:3]\nfelie[0] = 99\nprint(v)              # [1, 99, 3, 4], s-a schimbat și originalul\n\ncopie = v[1:3].copy()\ncopie[0] = -1\nprint(v)              # neschimbat de data asta"
+          }
+        ]
+      },
+      {
         "heading": "ndarray: formă, axe, indexare",
         "blocks": [
           {
@@ -610,6 +651,12 @@ export const lessons: Lesson[] = [
           },
           {
             "code": "x = np.array([[1, 2, 3],\n              [4, 5, 6]])\n\nx.shape          # (2, 3): 2 rânduri, 3 coloane\nx.mean(axis=0)   # media pe fiecare coloană -> [2.5, 3.5, 4.5]\nx.mean(axis=1)   # media pe fiecare rând    -> [2.0, 5.0]"
+          },
+          {
+            "p": "La un array cu mai multe dimensiuni, indexarea și felierea se scriu cu o virgulă între dimensiuni, în loc de paranteze separate."
+          },
+          {
+            "code": "x[0, 1]      # 2, rândul 0, coloana 1\nx[:, 0]      # [1, 4], toate rândurile, coloana 0\nx[0, :]      # [1, 2, 3], tot rândul 0"
           },
           {
             "p": "Indexarea cu mască booleană e o unealtă pe care o folosești zilnic: construiești un vector de True/False și selectezi doar elementele unde e True. Așa filtrezi date fără buclă."
@@ -623,10 +670,10 @@ export const lessons: Lesson[] = [
         "heading": "Broadcasting: cum potrivește NumPy forme diferite",
         "blocks": [
           {
-            "p": "Broadcasting e regula prin care NumPy face operații între vectori de forme diferite, întinzând automat pe cel mic ca să se potrivească. E de aur când o înțelegi și sursă de bug-uri ciudate când nu. Jumătate din erorile de început vin din forme care nu se potrivesc cum credeai."
+            "p": "Broadcasting e regula prin care NumPy face operații între vectori de forme diferite, întinzând automat pe cel mic ca să se potrivească. Jumătate din erorile de început vin din forme care nu se potrivesc cum credeai."
           },
           {
-            "p": "Regula, simplu: NumPy compară formele de la dreapta la stânga. Două dimensiuni se potrivesc dacă sunt egale sau dacă una e 1 (aia se întinde). Un scalar se potrivește cu orice."
+            "p": "Regula: NumPy compară formele de la dreapta la stânga. Două dimensiuni se potrivesc dacă sunt egale sau dacă una e 1 (aia se întinde). Un scalar se potrivește cu orice."
           },
           {
             "code": "X = np.array([[1, 2, 3],\n              [4, 5, 6]])      # forma (2, 3)\nmedii = X.mean(axis=0)         # forma (3,): [2.5, 3.5, 4.5]\nX_centrat = X - medii          # (2,3) - (3,) se potrivește, scade pe coloane",
@@ -638,16 +685,42 @@ export const lessons: Lesson[] = [
         ]
       },
       {
+        "heading": "Sortare, căutare și seturi în NumPy",
+        "blocks": [
+          {
+            "p": "`np.sort()` sortează un array fără să-l schimbe pe loc. `np.argsort()` întoarce indicii care ar sorta array-ul, util când vrei să sortezi un array după valorile altuia."
+          },
+          {
+            "code": "v = np.array([3, 1, 2])\nnp.sort(v)          # [1, 2, 3]\nnp.argsort(v)       # [1, 2, 0], indicii în ordine crescătoare"
+          },
+          {
+            "p": "`np.where(condiție, atunci, altfel)` alege între două valori element cu element, mai flexibil decât o mască simplă. `argmax`/`argmin` dau poziția celui mai mare, respectiv mic element."
+          },
+          {
+            "code": "np.where(v > 1, v, 0)   # [3, 0, 2], păstrează ce e peste 1, restul devine 0\nv.argmax()               # 0, poziția lui 3"
+          },
+          {
+            "p": "`np.unique()` întoarce valorile distincte dintr-un array, sortate. `np.concatenate()` lipește mai multe array-uri într-unul singur."
+          },
+          {
+            "code": "np.unique([1, 2, 2, 3, 1])      # [1, 2, 3]\nnp.concatenate([[1, 2], [3, 4]]) # [1, 2, 3, 4]"
+          }
+        ]
+      },
+      {
         "heading": "Pandas: date cu etichete",
         "blocks": [
           {
-            "p": "NumPy e bun la numere, dar datele reale au nume: coloana vârstă, coloana scor, coloana clasă. Pandas adaugă etichete peste NumPy. Un DataFrame e un tabel cu nume de coloane și un index pe rânduri. E structura în care ajung mai toate seturile de concurs."
+            "p": "Datele reale au nume: coloana vârstă, coloana scor, coloana clasă. Pandas adaugă etichete peste NumPy, în două structuri: Series (o singură coloană, cu index) și DataFrame (un tabel întreg, mai multe coloane). E structura în care ajung mai toate seturile de concurs."
           },
           {
-            "p": "Citești un fișier CSV cu o singură linie. Apoi te uiți la el înainte de orice: primele rânduri, tipurile coloanelor, câte valori lipsesc."
+            "code": "s = pd.Series([10, 20, 30], index=[\"a\", \"b\", \"c\"])\nprint(s[\"b\"])     # 20\n\ndf = pd.DataFrame({\"nume\": [\"Ana\", \"Bogdan\"], \"scor\": [9.2, 8.7]})"
           },
           {
-            "code": "import pandas as pd\n\ndf = pd.read_csv(\"date.csv\")\ndf.head()        # primele 5 rânduri\ndf.info()        # tipuri și câte valori non-nule\ndf.describe()    # statistici pe coloanele numerice"
+            "p": "Un DataFrame e practic un dicționar de Series, câte una pentru fiecare coloană. Citești un fișier CSV cu o singură linie, apoi te uiți la el înainte de orice: primele rânduri, tipurile coloanelor, câte valori lipsesc."
+          },
+          {
+            "code": "import pandas as pd\n\ndf = pd.read_csv(\"date.csv\")\n\ndf.head()        # primele 5 rânduri\ndf.info()        # tipuri și câte valori non-nule\ndf.describe()    # statistici pe coloanele numerice"
           }
         ]
       },
@@ -659,50 +732,81 @@ export const lessons: Lesson[] = [
           },
           {
             "code": "df.loc[10, \"scor\"]        # valoarea de la indexul 10, coloana \"scor\"\ndf.iloc[0, 2]             # rândul 0, coloana 2, după poziție\ndf.loc[df[\"scor\"] > 8]    # toate rândurile cu scor peste 8"
-          },
-          {
-            "note": "Capcana apare când indexul nu e 0,1,2,... De exemplu după o filtrare, indexul are goluri. Atunci iloc[0] și loc[0] pot fi rânduri complet diferite. Alege conștient care vrei."
           }
         ]
       },
       {
-        "heading": "groupby, merge, pivot: cele trei pe care le folosești mereu",
+        "heading": "Valori lipsă și curățare",
         "blocks": [
           {
-            "p": "groupby împarte datele pe grupuri și calculează ceva pe fiecare grup: media pe clasă, suma pe categorie. E tiparul split-apply-combine: împarți, aplici o funcție, lipești rezultatele la loc."
+            "p": "Datele reale au aproape mereu goluri, valori duplicate sau tipuri greșite, și un model antrenat pe date murdare dă predicții proaste. `isna()` marchează unde lipsește o valoare, `dropna()` scoate rândurile cu goluri, `fillna(valoare)` le completează."
+          },
+          {
+            "code": "df.isna().sum()          # câte valori lipsesc pe fiecare coloană\ndf.dropna()               # scoate rândurile cu orice gol\ndf[\"scor\"].fillna(df[\"scor\"].mean())   # completează golurile cu media"
+          },
+          {
+            "note": "Alege între `dropna` și `fillna` în funcție de câte rânduri ai și de ce înseamnă lipsa: dacă lipsesc puține valori, le poți arunca; dacă lipsesc multe, arunci prea multe date bune odată cu ele."
+          },
+          {
+            "p": "`duplicated()` marchează rândurile identice cu unul de mai devreme, `drop_duplicates()` le scoate. `astype()` schimbă tipul unei coloane, de exemplu dintr-un text într-un număr."
+          },
+          {
+            "code": "df.duplicated().sum()          # câte rânduri sunt duplicate\ndf = df.drop_duplicates()\n\ndf[\"scor\"] = df[\"scor\"].astype(float)\ndf[\"data\"] = pd.to_datetime(df[\"data\"])   # text -> dată calendaristică"
+          }
+        ]
+      },
+      {
+        "heading": "groupby, merge, pivot: cele pe care le folosești mereu",
+        "blocks": [
+          {
+            "p": "groupby împarte datele pe grupuri și calculează ceva pe fiecare grup: media pe clasă, suma pe categorie."
           },
           {
             "code": "df.groupby(\"clasa\")[\"scor\"].mean()      # media scorului pe fiecare clasă\ndf.groupby(\"clasa\").size()             # câte rânduri are fiecare clasă"
           },
           {
-            "p": "merge lipește două tabele după o coloană comună, exact ca un JOIN din baze de date. how spune ce faci cu rândurile fără pereche: left păstrează tot din stânga, inner doar potrivirile."
+            "p": "merge lipește două tabele după o coloană comună. how spune ce faci cu rândurile fără pereche: left păstrează tot din stânga, inner doar potrivirile. Când tabelele au aceleași coloane și vrei doar să le pui unul sub altul, folosești `pd.concat()` în loc de merge."
           },
           {
-            "code": "df.merge(alt_tabel, on=\"id\", how=\"left\")"
+            "code": "df.merge(alt_tabel, on=\"id\", how=\"left\")\npd.concat([df1, df2])   # pune df2 sub df1, aceleași coloane"
           },
           {
             "p": "pivot_table rearanjează un tabel lung într-unul lat, cu o coloană devenită antet. E util la rapoarte și la văzut tipare pe două dimensiuni deodată."
           }
         ]
+      },
+      {
+        "heading": "Alte operații frecvente",
+        "blocks": [
+          {
+            "p": "`sort_values()` sortează un DataFrame după o coloană. `value_counts()` numără de câte ori apare fiecare valoare distinctă, prima verificare când vrei să vezi dacă o clasă e dezechilibrată."
+          },
+          {
+            "code": "df.sort_values(\"scor\", ascending=False)\ndf[\"clasa\"].value_counts()   # câte rânduri are fiecare clasă"
+          },
+          {
+            "p": "Adaugi o coloană nouă direct prin atribuire, ștergi una cu `drop`. `apply()` rulează o funcție pe fiecare valoare dintr-o coloană, util când transformarea nu are deja o metodă gata făcută."
+          },
+          {
+            "code": "df[\"scor_procent\"] = df[\"scor\"] * 10\ndf = df.drop(columns=[\"coloana_inutila\"])\ndf[\"eticheta\"] = df[\"scor\"].apply(lambda s: \"bun\" if s > 8 else \"slab\")"
+          },
+          {
+            "p": "`corr()` calculează corelația dintre coloanele numerice, un prim pas rapid ca să vezi ce variabile par legate de ținta pe care vrei s-o prezici."
+          },
+          {
+            "code": "df.corr(numeric_only=True)"
+          },
+          {
+            "p": "La final, scrii rezultatul înapoi pe disc cu `to_csv`, exact formatul pe care îl încarci la submisie."
+          },
+          {
+            "code": "df.to_csv(\"rezultat.csv\", index=False)"
+          }
+        ]
       }
     ],
-    "pitfalls": [
-      "Vectorizează în loc să iterezi peste rândurile unui DataFrame; aproape mereu există o variantă.",
-      "Verifică indexul înainte să alegi între loc și iloc, mai ales când nu e 0, 1, 2.",
-      "La eroare de shape, tipărește formele și aplică regula de broadcasting."
-    ],
-    "practice": [
-      "Ia un CSV și răspunde la cinci întrebări despre el folosind doar groupby și filtrări cu măști.",
-      "Rescrie o buclă Python cu o operație vectorizată și compară timpii.",
-      "Centrează o matrice pe mediile coloanelor folosind broadcasting, fără buclă."
-    ],
-    "keyTakeaways": [
-      "Vectorizarea înlocuiește buclele: operezi pe tot vectorul deodată, mult mai rapid.",
-      "Forma și axele sunt primul lucru de verificat la un bug de NumPy.",
-      "Broadcasting potrivește forme comparând de la dreapta la stânga; una din dimensiuni trebuie să fie egală sau 1.",
-      "loc după etichetă, iloc după poziție, nu le amesteca.",
-      "groupby, merge, pivot_table apar în aproape orice problemă tabelară."
-    ]
+    "pitfalls": [],
+    "practice": []
   },
   {
     "moduleCode": "S5",

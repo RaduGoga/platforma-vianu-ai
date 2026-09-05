@@ -582,8 +582,20 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S4",
     "duration": "~2 weeks",
-    "intro": "NumPy and Pandas are the tools you use on every problem, whatever the model. If you trip over them, you lose precious time. The goal here isn't just to write code that works, it's to write it fast and by reflex. You learn them once, well, and use them the rest of the year.",
+    "intro": "NumPy is Python's library for numeric computing: it works with arrays of numbers and runs operations much faster than an ordinary loop. Pandas is built on top of NumPy and adds labels: named columns, an index on rows, tables like in a spreadsheet. You'll use both on almost every contest problem, whatever the model.",
     "sections": [
+      {
+        "heading": "Install",
+        "blocks": [
+          {
+            "p": "Neither comes with Python. You install them once, in the project's virtual environment."
+          },
+          {
+            "code": "pip install numpy\npip install pandas",
+            "caption": "Run these in a terminal, in the project folder."
+          }
+        ]
+      },
       {
         "heading": "Why plain Python isn't enough",
         "blocks": [
@@ -600,6 +612,35 @@ export const lessonsEn: Lesson[] = [
         ]
       },
       {
+        "heading": "Creating and reshaping arrays",
+        "blocks": [
+          {
+            "p": "`np.array()` turns a Python list into an ndarray. `np.zeros(n)` and `np.ones(n)` make an array filled with 0 or 1, handy as an empty slot to fill in. `np.arange(start, stop, step)` works like `range`, but returns an array. `np.linspace(start, stop, n)` splits an interval into n evenly spaced values, useful for plots."
+          },
+          {
+            "code": "a = np.array([1, 2, 3])\nzeros = np.zeros(5)          # [0. 0. 0. 0. 0.]\nones = np.ones((2, 3))       # 2x3 matrix filled with 1\nsteps = np.arange(0, 10, 2)  # [0 2 4 6 8]\nline = np.linspace(0, 1, 5)  # [0. 0.25 0.5 0.75 1.]"
+          },
+          {
+            "p": "Every array has a single `dtype`, the type of all its elements (`int64`, `float64`, etc). Mixing an int and a float in the same array converts everything to float."
+          },
+          {
+            "code": "a.dtype              # dtype('int64')\nnp.array([1, 2.5]).dtype   # dtype('float64')"
+          },
+          {
+            "p": "`reshape` changes an array's shape without changing its content, as long as the total number of elements stays the same. `flatten()` does the opposite, brings it back to one dimension."
+          },
+          {
+            "code": "v = np.arange(6)\nm = v.reshape(2, 3)    # [[0 1 2], [3 4 5]]\nm.flatten()             # back to [0 1 2 3 4 5]"
+          },
+          {
+            "note": "A slice of an array (`v[1:4]`) is a view, not a copy: changing it changes the original too. If you want an independent copy, ask for it explicitly with `.copy()`."
+          },
+          {
+            "code": "v = np.array([1, 2, 3, 4])\npiece = v[1:3]\npiece[0] = 99\nprint(v)              # [1, 99, 3, 4], the original changed too\n\ncopy = v[1:3].copy()\ncopy[0] = -1\nprint(v)              # unchanged this time"
+          }
+        ]
+      },
+      {
         "heading": "ndarray: shape, axes, indexing",
         "blocks": [
           {
@@ -610,6 +651,12 @@ export const lessonsEn: Lesson[] = [
           },
           {
             "code": "x = np.array([[1, 2, 3],\n              [4, 5, 6]])\n\nx.shape          # (2, 3): 2 rows, 3 columns\nx.mean(axis=0)   # mean of each column -> [2.5, 3.5, 4.5]\nx.mean(axis=1)   # mean of each row    -> [2.0, 5.0]"
+          },
+          {
+            "p": "On an array with several dimensions, indexing and slicing are written with a comma between dimensions, instead of separate brackets."
+          },
+          {
+            "code": "x[0, 1]      # 2, row 0, column 1\nx[:, 0]      # [1, 4], every row, column 0\nx[0, :]      # [1, 2, 3], all of row 0"
           },
           {
             "p": "Indexing with a boolean mask is a tool you use daily: you build a vector of True/False and select only the elements where it's True. That's how you filter data with no loop."
@@ -623,10 +670,10 @@ export const lessonsEn: Lesson[] = [
         "heading": "Broadcasting: how NumPy matches different shapes",
         "blocks": [
           {
-            "p": "Broadcasting is the rule by which NumPy does operations between arrays of different shapes, automatically stretching the smaller one to fit. It's gold once you understand it, and a source of strange bugs when you don't. Half the beginner errors come from shapes that don't match the way you thought."
+            "p": "Broadcasting is the rule by which NumPy does operations between arrays of different shapes, automatically stretching the smaller one to fit. Half the beginner errors come from shapes that don't match the way you thought."
           },
           {
-            "p": "The rule, simply: NumPy compares shapes from right to left. Two dimensions match if they're equal or if one of them is 1 (that one stretches). A scalar matches anything."
+            "p": "The rule: NumPy compares shapes from right to left. Two dimensions match if they're equal or if one of them is 1 (that one stretches). A scalar matches anything."
           },
           {
             "code": "X = np.array([[1, 2, 3],\n              [4, 5, 6]])      # shape (2, 3)\nmeans = X.mean(axis=0)         # shape (3,): [2.5, 3.5, 4.5]\nX_centered = X - means         # (2,3) - (3,) matches, subtracts per column",
@@ -638,16 +685,42 @@ export const lessonsEn: Lesson[] = [
         ]
       },
       {
+        "heading": "Sorting, searching and set operations in NumPy",
+        "blocks": [
+          {
+            "p": "`np.sort()` sorts an array without changing it in place. `np.argsort()` returns the indices that would sort the array, useful when you want to sort one array by another's values."
+          },
+          {
+            "code": "v = np.array([3, 1, 2])\nnp.sort(v)          # [1, 2, 3]\nnp.argsort(v)       # [1, 2, 0], the indices in ascending order"
+          },
+          {
+            "p": "`np.where(condition, then, else)` picks between two values element by element, more flexible than a plain mask. `argmax`/`argmin` give the position of the largest, or smallest, element."
+          },
+          {
+            "code": "np.where(v > 1, v, 0)   # [3, 0, 2], keeps what's above 1, the rest becomes 0\nv.argmax()               # 0, the position of 3"
+          },
+          {
+            "p": "`np.unique()` returns the distinct values in an array, sorted. `np.concatenate()` joins several arrays into one."
+          },
+          {
+            "code": "np.unique([1, 2, 2, 3, 1])      # [1, 2, 3]\nnp.concatenate([[1, 2], [3, 4]]) # [1, 2, 3, 4]"
+          }
+        ]
+      },
+      {
         "heading": "Pandas: data with labels",
         "blocks": [
           {
-            "p": "NumPy is good with numbers, but real data has names: an age column, a score column, a class column. Pandas adds labels on top of NumPy. A DataFrame is a table with column names and a row index. It's the structure most contest datasets arrive in."
+            "p": "Real data has names: an age column, a score column, a class column. Pandas adds labels on top of NumPy, in two structures: Series (a single column, with an index) and DataFrame (a whole table, several columns). It's the structure most contest datasets arrive in."
           },
           {
-            "p": "You read a CSV file in one line. Then you look at it before anything: the first rows, the column types, how many values are missing."
+            "code": "s = pd.Series([10, 20, 30], index=[\"a\", \"b\", \"c\"])\nprint(s[\"b\"])     # 20\n\ndf = pd.DataFrame({\"name\": [\"Ana\", \"Bogdan\"], \"score\": [9.2, 8.7]})"
           },
           {
-            "code": "import pandas as pd\n\ndf = pd.read_csv(\"data.csv\")\ndf.head()        # first 5 rows\ndf.info()        # types and non-null counts\ndf.describe()    # stats on the numeric columns"
+            "p": "A DataFrame is basically a dictionary of Series, one per column. You read a CSV file in one line, then look at it before anything: the first rows, the column types, how many values are missing."
+          },
+          {
+            "code": "import pandas as pd\n\ndf = pd.read_csv(\"data.csv\")\n\ndf.head()        # first 5 rows\ndf.info()        # types and non-null counts\ndf.describe()    # stats on the numeric columns"
           }
         ]
       },
@@ -659,50 +732,81 @@ export const lessonsEn: Lesson[] = [
           },
           {
             "code": "df.loc[10, \"score\"]        # value at index 10, column \"score\"\ndf.iloc[0, 2]              # row 0, column 2, by position\ndf.loc[df[\"score\"] > 8]    # all rows with score above 8"
-          },
-          {
-            "note": "The trap shows up when the index isn't 0,1,2,... For example after a filter, the index has gaps. Then iloc[0] and loc[0] can be completely different rows. Choose on purpose which one you want."
           }
         ]
       },
       {
-        "heading": "groupby, merge, pivot: the three you always use",
+        "heading": "Missing values and cleanup",
         "blocks": [
           {
-            "p": "groupby splits the data into groups and computes something on each group: the mean per class, the sum per category. It's the split-apply-combine pattern: you split, you apply a function, you stitch the results back together."
+            "p": "Real data almost always has gaps, duplicate rows or wrong types, and a model trained on dirty data makes bad predictions. `isna()` flags where a value is missing, `dropna()` removes rows with gaps, `fillna(value)` fills them in."
+          },
+          {
+            "code": "df.isna().sum()          # how many values are missing per column\ndf.dropna()               # removes rows with any gap\ndf[\"score\"].fillna(df[\"score\"].mean())   # fills gaps with the mean"
+          },
+          {
+            "note": "Choose between `dropna` and `fillna` based on how many rows you have and what the gap means: if few values are missing, you can drop them; if many are missing, dropping throws away too much good data with them."
+          },
+          {
+            "p": "`duplicated()` flags rows identical to an earlier one, `drop_duplicates()` removes them. `astype()` changes a column's type, for example from text to a number."
+          },
+          {
+            "code": "df.duplicated().sum()          # how many rows are duplicates\ndf = df.drop_duplicates()\n\ndf[\"score\"] = df[\"score\"].astype(float)\ndf[\"date\"] = pd.to_datetime(df[\"date\"])   # text -> calendar date"
+          }
+        ]
+      },
+      {
+        "heading": "groupby, merge, pivot: the ones you always use",
+        "blocks": [
+          {
+            "p": "groupby splits the data into groups and computes something on each group: the mean per class, the sum per category."
           },
           {
             "code": "df.groupby(\"class\")[\"score\"].mean()      # mean score per class\ndf.groupby(\"class\").size()               # how many rows each class has"
           },
           {
-            "p": "merge stitches two tables together on a common column, exactly like a JOIN in databases. how says what you do with the rows that have no match: left keeps everything from the left, inner keeps only the matches."
+            "p": "merge stitches two tables together on a common column. how says what you do with the rows that have no match: left keeps everything from the left, inner keeps only the matches. When the tables have the same columns and you just want to stack one under the other, use `pd.concat()` instead of merge."
           },
           {
-            "code": "df.merge(other_table, on=\"id\", how=\"left\")"
+            "code": "df.merge(other_table, on=\"id\", how=\"left\")\npd.concat([df1, df2])   # stacks df2 under df1, same columns"
           },
           {
             "p": "pivot_table reshapes a long table into a wide one, with a column turned into a header. It's handy for reports and for spotting patterns across two dimensions at once."
           }
         ]
+      },
+      {
+        "heading": "Other operations you'll use constantly",
+        "blocks": [
+          {
+            "p": "`sort_values()` sorts a DataFrame by a column. `value_counts()` counts how many times each distinct value shows up, the first check when you want to see if a class is imbalanced."
+          },
+          {
+            "code": "df.sort_values(\"score\", ascending=False)\ndf[\"class\"].value_counts()   # how many rows each class has"
+          },
+          {
+            "p": "You add a new column by direct assignment, drop one with `drop`. `apply()` runs a function on every value in a column, useful when the transformation doesn't already have a built-in method."
+          },
+          {
+            "code": "df[\"score_percent\"] = df[\"score\"] * 10\ndf = df.drop(columns=[\"unused_column\"])\ndf[\"label\"] = df[\"score\"].apply(lambda s: \"good\" if s > 8 else \"weak\")"
+          },
+          {
+            "p": "`corr()` computes the correlation between the numeric columns, a quick first step to see which variables look related to the target you want to predict."
+          },
+          {
+            "code": "df.corr(numeric_only=True)"
+          },
+          {
+            "p": "At the end, you write the result back to disk with `to_csv`, in the exact format you upload for submission."
+          },
+          {
+            "code": "df.to_csv(\"result.csv\", index=False)"
+          }
+        ]
       }
     ],
-    "pitfalls": [
-      "Vectorize instead of looping over DataFrame rows; there's almost always a way.",
-      "Check the index before choosing between loc and iloc, especially when it isn't 0, 1, 2.",
-      "On a shape error, print the shapes and apply the broadcasting rule."
-    ],
-    "practice": [
-      "Take a CSV and answer five questions about it using only groupby and mask filters.",
-      "Rewrite a Python loop as a vectorized operation and compare the timings.",
-      "Center a matrix on its column means using broadcasting, with no loop."
-    ],
-    "keyTakeaways": [
-      "Vectorization replaces loops: you operate on the whole array at once, much faster.",
-      "Shape and axes are the first thing to check on a NumPy bug.",
-      "Broadcasting matches shapes by comparing right to left; one of the dimensions has to be equal or 1.",
-      "loc by label, iloc by position, don't mix them.",
-      "groupby, merge, pivot_table show up in almost every tabular problem."
-    ]
+    "pitfalls": [],
+    "practice": []
   },
   {
     "moduleCode": "S5",

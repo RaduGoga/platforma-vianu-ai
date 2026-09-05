@@ -133,19 +133,19 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S2",
     "duration": "~2h",
-    "intro": "Înainte să înveți vreun model, merită să înțelegi jocul. O problemă de concurs de AI are mereu aceleași piese: niște date, o țintă de prezis, o metrică de punctare și un fișier de submisie. Cine citește piesele astea corect pleacă cu un avans mare, fiindcă jumătate din greșelile de concurs nu-s de model, ci de citit enunțul pe fugă.",
+    "intro": "Înainte să înveți vreun model, merită să înțelegi despre ce este vorba. O problemă de concurs de AI are mereu aceleași piese: niște date, un target de prezis, o metrică de punctare și un fișier de submisie. Cine citește piesele astea corect pleacă cu un avans mare, fiindcă jumătate din greșelile de concurs nu-s de model, ci de citit enunțul pe fugă.",
     "sections": [
       {
         "heading": "Anatomia unei probleme",
         "blocks": [
           {
-            "p": "Primești două seturi de date. Unul de antrenament, care are și răspunsurile corecte (numite etichete sau țintă), și unul de test, care are aceleași coloane dar fără răspuns. Sarcina ta e să prezici răspunsul pentru setul de test, pornind de la ce ai învățat pe cel de antrenament."
+            "p": "Primești două seturi de date. Unul de antrenament, care are și răspunsurile corecte (numite labeluri sau target), și unul de test, care are aceleași coloane dar fără răspuns. Sarcina ta e să prezici răspunsul pentru setul de test, pornind de la ce ai învățat pe cel de antrenament."
           },
           {
             "list": [
               "Date de antrenament: rândurile pe care le vezi complet, cu tot cu răspuns. De aici învață modelul.",
-              "Date de test: aceleași coloane, dar coloana-țintă lipsește. Aici trebuie să completezi tu.",
-              "Ținta: ce prezici. Poate fi o etichetă (spam sau nu) sau un număr (un preț).",
+              "Date de test: aceleași coloane, dar coloana-target lipsește. Aici trebuie să completezi tu.",
+              "Targetul: ce prezici. Poate fi un label (spam sau nu) sau un număr (un preț).",
               "Fișierul de submisie: un tabel cu predicțiile tale, în formatul exact cerut de platformă."
             ]
           },
@@ -155,7 +155,7 @@ export const lessons: Lesson[] = [
         ]
       },
       {
-        "heading": "Metrica e regula jocului",
+        "heading": "Metrica",
         "blocks": [
           {
             "p": "Fiecare problemă are o metrică, adică formula după care se calculează scorul tău. E scrisă în enunț și e singura care contează. Nu ești punctat după cât de deștept pare modelul, ci după numărul pe care îl scoate metrica. Dacă metrica e F1 și tu optimizezi acuratețea, poți urca pe un scor care nu-ți aduce puncte."
@@ -176,7 +176,7 @@ export const lessons: Lesson[] = [
         "heading": "Submisie și leaderboard",
         "blocks": [
           {
-            "p": "Când ai predicțiile, le pui în fișierul cerut și îl încarci. Platforma îl compară cu răspunsurile corecte, pe care tu nu le vezi, și îți dă un scor pe un clasament. Ai de obicei un număr limitat de submisii pe zi, deci nu le irosi pe încercări la întâmplare."
+            "p": "Când ai predicțiile, le pui în fișierul cerut și îl încarci. Platforma îl compară cu răspunsurile corecte, pe care tu nu le vezi, și îți dă un scor pe un clasament. Ai de obicei un număr limitat de submisii, deci nu le irosi pe încercări la întâmplare."
           },
           {
             "p": "Leaderboardul are două fețe. Cel public se calculează pe o parte din datele de test și îl vezi cât ține concursul. Cel privat se calculează pe restul și se dezvăluie abia la final. Clasamentul care contează e cel privat. Splitul ăsta există dintr-un motiv anume, și el te duce la capcana următoare."
@@ -202,13 +202,9 @@ export const lessons: Lesson[] = [
           },
           {
             "list": [
-              "ONIA (olimpiada-ai.ro): olimpiada oficială de inteligență artificială, cu etapă locală, județeană și națională. Câștigătorii merg în lotul pentru IOAI.",
               "MLCompete (platform.olimpiada-ai.ro): platforma pe care se ține olimpiada și pe care exersezi între etape, cu probleme de arhivă și competiții de antrenament.",
-              "Nitro NLP (nitro-ai.org): un hackathon de procesare a limbajului pe română, în echipe, bun ca să lucrezi pe text real."
+              "Nitro AI Judge (judge.nitro-ai.org): platforma pe care se ține RoAI si alte concursuri de AI."
             ]
-          },
-          {
-            "p": "Nu trebuie să le atingi pe toate azi. Trebuie doar să știi la ce folosește fiecare, ca să nu te trezești în ianuarie fără cont și fără o submisie făcută vreodată."
           }
         ]
       }
@@ -226,14 +222,13 @@ export const lessons: Lesson[] = [
     "keyTakeaways": [
       "O problemă are patru piese: date de antrenament cu etichete, date de test fără, o țintă, o metrică.",
       "Te punctează exact metrica din enunț. Optimizezi ce se punctează, nu ce ți se pare frumos.",
-      "Leaderboardul privat decide clasamentul, cel public doar te tentează.",
-      "Alegi submisiile finale pe validarea ta locală, nu pe scorul public."
+      "Leaderboardul privat decide clasamentul, cel public doar te tentează."
     ]
   },
   {
     "moduleCode": "S3",
     "duration": "~1 săptămână",
-    "intro": "Tot ce urmează în programă e scris în Python. Modulul ăsta e despre limbaj, nu despre machine learning: dacă îl sari, o să pierzi timp la fiecare lecție următoare căutând cum se scrie un dicționar. Dacă știi deja Python, treci repede peste el și oprește-te doar la comprehensions și la despachetare, care apar constant în codul de concurs.",
+    "intro": "Tot ce urmează în programă e scris în Python. Modulul ăsta e despre limbaj, nu despre machine learning: dacă îl sari, o să pierzi timp la fiecare lecție următoare căutând cum se scrie un dicționar. Dacă știi deja Python, treci repede peste el și oprește-te doar la comprehensions, despachetare, excepții și expresii regulate, care apar constant în codul de concurs.",
     "sections": [
       {
         "heading": "Tipuri și variabile",
@@ -245,10 +240,31 @@ export const lessons: Lesson[] = [
             "code": "n = 42            # int\npi = 3.14         # float\nnume = \"Radu\"     # str\ngata = True       # bool\nnimic = None      # absența unei valori\n\nprint(type(n), type(pi))"
           },
           {
+            "p": "Poți atribui mai multe variabile deodată, fie cu valori diferite, fie cu aceeași valoare tuturor."
+          },
+          {
+            "code": "a, b, c = 1, 2, 3\nx = y = 0"
+          },
+          {
+            "p": "Operatorii de atribuire pe scurt (`+=`, `-=`, `*=`, `//=`) fac „ia valoarea, modific-o, pune-o înapoi\" într-un singur pas. Îi vezi în orice buclă care numără sau acumulează."
+          },
+          {
+            "code": "total = 0\nfor s in [1, 2, 3]:\n    total += s   # total = total + s"
+          },
+          {
             "p": "Pentru text, f-string-ul e felul modern de a insera valori. Pui un `f` în fața ghilimelelor și scrii expresia între acolade."
           },
           {
             "code": "scor = 0.8734\nprint(f\"scor: {scor:.2f}\")        # scor: 0.87\nprint(f\"dublu: {scor * 2:.3f}\")   # dublu: 1.747"
+          },
+          {
+            "p": "Împărțirea are două forme, și le încurcă toată lumea la început: `/` dă mereu float, `//` dă împărțirea întreagă rotunjită în jos, iar `%` dă restul. `int(...)` trunchiază spre zero, `round(...)` rotunjește normal, iar `str(...)`/`float(...)`/`list(...)` convertesc explicit între tipuri."
+          },
+          {
+            "code": "print(7 / 2)          # 3.5\nprint(7 // 2)         # 3\nprint(7 % 2)           # 1\nprint(int(3.9))        # 3, trunchiază\nprint(round(3.9))      # 4, rotunjește\nprint(str(42) + \"!\")   # \"42!\""
+          },
+          {
+            "note": "`0`, `0.0`, `\"\"`, `[]`, `{}`, `set()` și `None` sunt toate „false\" când le pui într-un `if`. O listă goală e falsă, orice altceva e adevărat. De-asta `if not lista:` e idiomul standard pentru „lista e goală\", în loc de `if len(lista) == 0:`."
           }
         ]
       },
@@ -267,10 +283,40 @@ export const lessons: Lesson[] = [
             ]
           },
           {
-            "code": "scoruri = [0.71, 0.83, 0.79]\nscoruri.append(0.88)\nprint(len(scoruri), max(scoruri))\n\nmodel = {\"nume\": \"rf\", \"adancime\": 8}\nprint(model[\"nume\"])\nmodel[\"seed\"] = 42\n\nunice = set([1, 2, 2, 3, 3, 3])   # {1, 2, 3}"
+            "code": "scoruri = [0.71, 0.83, 0.79]\nscoruri.append(0.88)\nprint(len(scoruri), max(scoruri))"
+          },
+          {
+            "p": "Pe lângă `.append()`, listele mai au câteva metode pe care le folosești constant: `.insert(poz, val)` bagă la o poziție anume, `.pop(poz)` scoate și întoarce elementul (fără argument, scoate ultimul), `.remove(val)` scoate prima apariție a unei valori, `.index(val)` îți dă poziția ei."
+          },
+          {
+            "code": "scoruri.insert(0, 0.5)\nultimul = scoruri.pop()\nscoruri.remove(0.71)\nprint(scoruri.index(0.83))"
+          },
+          {
+            "p": "Dicționarele nu se citesc doar cu `d[\"cheie\"]`, care aruncă eroare dacă cheia lipsește. `.get(\"cheie\", implicit)` întoarce o valoare implicită în loc să crape."
+          },
+          {
+            "code": "model = {\"nume\": \"rf\", \"adancime\": 8}\nprint(model[\"nume\"])\nmodel[\"seed\"] = 42\nprint(model.get(\"epoci\", 10))    # 10, cheia nu există, dar nu crapă\n\nfor cheie, valoare in model.items():\n    print(cheie, valoare)\n\ndel model[\"seed\"]"
+          },
+          {
+            "p": "Dicționarele pot conține alte dicționare, exact cum arată datele reale în JSON."
+          },
+          {
+            "code": "elev = {\"nume\": \"Ana\", \"note\": {\"ro\": 9, \"en\": 10}}\nprint(elev[\"note\"][\"en\"])   # 10"
+          },
+          {
+            "p": "Mulțimile scot valorile duplicate și fac operații de tip matematic: reuniune, intersecție, diferență, utile când compari două seturi de etichete sau de cuvinte."
+          },
+          {
+            "code": "a = set([1, 2, 2, 3, 3, 3])   # {1, 2, 3}\nb = {3, 4, 5}\n\na.add(10)\na.discard(1)\n\nprint(a | b)   # reuniune: {2, 3, 4, 5, 10}\nprint(a & b)   # intersecție: {3}\nprint(a - b)   # diferență: elemente din a care nu sunt în b"
           },
           {
             "note": "Caută rapid într-o mulțime sau într-un dicționar, nu într-o listă. Verificarea `x in lista` parcurge toate elementele; `x in multime` e aproape instant. Pe zeci de mii de elemente diferența se simte."
+          },
+          {
+            "p": "O altă capcană, mai puțin evidentă: `b = a` nu copiază lista, doar îi dă un nume nou aceleiași liste din memorie. Ca să ai o copie reală, folosește `a.copy()` sau `list(a)`."
+          },
+          {
+            "code": "a = [1, 2, 3]\nb = a\nb.append(4)\nprint(a)          # [1, 2, 3, 4], s-a schimbat și a\n\nc = a.copy()\nc.append(5)\nprint(a)          # neschimbat de data asta"
           }
         ]
       },
@@ -284,7 +330,16 @@ export const lessons: Lesson[] = [
             "code": "v = [10, 20, 30, 40, 50]\n\nv[0]      # 10, primul\nv[-1]     # 50, ultimul\nv[1:3]    # [20, 30], de la 1 până înainte de 3\nv[:2]     # [10, 20]\nv[::2]    # [10, 30, 50], din doi în doi"
           },
           {
-            "p": "Regula asta se repetă identic la string-uri, la array-urile NumPy și la coloanele Pandas. O înveți o dată și o folosești peste tot."
+            "p": "Regula asta se repetă identic la string-uri, la array-urile NumPy și la coloanele Pandas. O înveți o dată și o folosești peste tot. String-urile au însă o particularitate: sunt imutabile, nu poți schimba un caracter pe loc, doar poți construi un string nou."
+          },
+          {
+            "code": "s = \"Vianu\"\ns[0]        # \"V\", indexarea merge\n# s[0] = \"X\"  # eroare: TypeError, string-urile nu se modifică\n\ns2 = \"X\" + s[1:]   # \"Xianu\", string nou"
+          },
+          {
+            "p": "Pentru caractere speciale în string-uri folosești secvențe de escape: `\\n` linie nouă, `\\t` tab, `\\\\` un singur backslash, `\\\"` ghilimele în interiorul unui string cu ghilimele duble."
+          },
+          {
+            "code": "print(\"prima linie\\na doua linie\")\nprint(\"coloana1\\tcoloana2\")"
           }
         ]
       },
@@ -298,27 +353,63 @@ export const lessons: Lesson[] = [
             "code": "for s in scoruri:\n    if s > 0.8:\n        print(\"bun\", s)\n    else:\n        print(\"slab\", s)"
           },
           {
+            "p": "Comparațiile (`==`, `!=`, `<`, `>`, `<=`, `>=`) și operatorii logici (`and`, `or`, `not`) se combină ca în orice limbaj, dar Python scrie `and`/`or`/`not` în loc de `&&`/`||`/`!`."
+          },
+          {
+            "code": "scor, incercari = 0.9, 3\nif scor > 0.8 and incercari < 5:\n    print(\"continuă\")\nif not (scor < 0.5 or incercari == 0):\n    print(\"are sens să încerci\")"
+          },
+          {
+            "p": "O capcană clasică pentru cine vine din alt limbaj: `==` compară valorile, `is` compară dacă sunt exact același obiect în memorie. Pentru `None`, folosești mereu `is`, niciodată `==`."
+          },
+          {
+            "code": "x = None\nif x is None:       # corect\n    print(\"gol\")\n\na = [1, 2]\nb = [1, 2]\nprint(a == b)   # True, aceleași valori\nprint(a is b)   # False, obiecte diferite"
+          },
+          {
+            "p": "Pentru un `if` scurt care doar alege între două valori, expresia condițională (ternary) încape pe o linie."
+          },
+          {
+            "code": "eticheta = \"bun\" if scor > 0.8 else \"slab\""
+          },
+          {
             "p": "Când ai nevoie și de poziție, folosește `enumerate`. Când parcurgi două liste odată, `zip`."
           },
           {
             "code": "for i, s in enumerate(scoruri):\n    print(i, s)\n\nfor nume, scor in zip([\"a\", \"b\"], [0.7, 0.9]):\n    print(nume, scor)"
+          },
+          {
+            "p": "Pe lângă `for`, ai `while`, cât timp o condiție rămâne adevărată. `break` iese din buclă, `continue` sare peste iterația curentă."
+          },
+          {
+            "code": "i = 0\nwhile i < len(scoruri):\n    if scoruri[i] < 0.5:\n        i += 1\n        continue\n    if scoruri[i] > 0.95:\n        break\n    print(scoruri[i])\n    i += 1"
+          },
+          {
+            "p": "Sortarea se face cu `sorted()` sau `.sort()`, iar `key` îți spune după ce sortezi."
+          },
+          {
+            "code": "elevi = [(\"Ana\", 9.2), (\"Bogdan\", 8.7), (\"Cris\", 9.5)]\nelevi.sort(key=lambda x: x[1], reverse=True)\nprint(elevi)   # sortați descrescător după notă"
           }
         ]
       },
       {
-        "heading": "List comprehensions",
+        "heading": "Comprehensions",
         "blocks": [
           {
-            "p": "Un mod scurt de a construi o listă dintr-alta. Apare des în codul de concurs, așa că merită citit fluent chiar dacă la început scrii bucle obișnuite."
+            "p": "Un mod scurt de a construi o structură dintr-alta. Apare des în codul de concurs, așa că merită citit fluent chiar dacă la început scrii bucle obișnuite."
           },
           {
             "code": "patrate = [x * x for x in range(5)]          # [0, 1, 4, 9, 16]\nbune = [s for s in scoruri if s > 0.8]       # doar cele peste 0.8"
           },
           {
-            "p": "Se citește de la stânga: „ia fiecare x din range, păstrează-l dacă trece condiția, pune x*x în listă\". Merge și pentru dicționare."
+            "p": "Se citește de la stânga: „ia fiecare x din range, păstrează-l dacă trece condiția, pune x*x în listă\". Merge la fel pentru dicționare și mulțimi. `range(n)` nu creează efectiv o listă de n numere, generează valorile pe rând, deci `range(10_000_000)` nu ocupă memorie pentru zece milioane de numere."
           },
           {
-            "code": "lungimi = {c: len(c) for c in [\"rf\", \"xgboost\"]}   # {\"rf\": 2, \"xgboost\": 7}"
+            "code": "lungimi = {c: len(c) for c in [\"rf\", \"xgboost\"]}   # {\"rf\": 2, \"xgboost\": 7}\nunice_lung = {len(c) for c in [\"rf\", \"svm\", \"cnn\"]}   # {2, 3}"
+          },
+          {
+            "p": "O expresie generator arată la fel ca o list comprehension, dar cu paranteze rotunde. Nu construiește toată structura în memorie dintr-o dată, ci produce valorile pe rând, ceea ce contează pe sume sau bucle mari."
+          },
+          {
+            "code": "suma = sum(x * x for x in range(1_000_000))"
           }
         ]
       },
@@ -339,6 +430,39 @@ export const lessons: Lesson[] = [
           },
           {
             "note": "Nu pune niciodată o listă sau un dicționar ca valoare implicită a unui argument. Se creează o singură dată, la definirea funcției, și rămâne comună între apeluri. Folosește `None` și creează valoarea înăuntru."
+          },
+          {
+            "p": "O variabilă creată într-o funcție există doar acolo, e locală. Funcția vede variabilele globale, dar nu le poate modifica fără cuvântul cheie `global`, iar nevoia de `global` e de obicei semn că funcția ar trebui rescrisă să primească și să întoarcă valori, nu să atingă starea din afară."
+          },
+          {
+            "code": "contor = 0\n\ndef increment_gresit():\n    contor = contor + 1   # eroare: variabilă locală folosită înainte de a fi definită\n\ndef increment():\n    global contor\n    contor += 1   # merge, dar evită tiparul ăsta când poți"
+          },
+          {
+            "p": "Uneori nu știi dinainte câte argumente primești. `*args` adună argumentele poziționale într-un tuple, `**kwargs` pe cele numite într-un dicționar."
+          },
+          {
+            "code": "def raport(*scoruri, **info):\n    print(\"scoruri:\", scoruri)\n    print(\"info:\", info)\n\nraport(0.8, 0.9, model=\"rf\", seed=42)"
+          },
+          {
+            "p": "O `lambda` e o funcție mică, fără nume, scrisă pe o linie. O vezi des ca argument pentru `sorted`, `map` sau `filter`."
+          },
+          {
+            "code": "dublu = lambda x: x * 2\nprint(dublu(5))     # 10\n\nprint(list(map(lambda x: x * x, [1, 2, 3])))      # [1, 4, 9]\nprint(list(filter(lambda x: x > 0.8, scoruri)))   # doar cele peste 0.8"
+          },
+          {
+            "p": "În practică, o comprehension face de multe ori treaba mai clar decât `map`/`filter`. Le folosești mai ales când funcția vine deja definită de altundeva."
+          },
+          {
+            "p": "O funcție se poate apela pe ea însăși, recursiv. Rar necesar în codul de zi cu zi de AI, dar util să-l recunoști: are mereu un caz de bază care oprește recursivitatea."
+          },
+          {
+            "code": "def factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))   # 120"
+          },
+          {
+            "p": "O funcție cu `yield` în loc de `return` e un generator: nu întoarce toate valorile dintr-o dată, ci una pe rând, de fiecare dată când e apelată din nou printr-o buclă `for`."
+          },
+          {
+            "code": "def numere_pare(pana_la):\n    for n in range(pana_la):\n        if n % 2 == 0:\n            yield n\n\nfor n in numere_pare(10):\n    print(n)"
           }
         ]
       },
@@ -355,6 +479,12 @@ export const lessons: Lesson[] = [
             "p": "Asta e exact tiparul din scikit-learn: `fit` învață și reține, `predict` folosește ce a învățat."
           },
           {
+            "p": "O clasă poate moșteni dintr-alta, cu `class Copil(Parinte):`, și `super()` apelează varianta din clasa de bază. Vei vedea tiparul ăsta constant mai târziu, la rețele neuronale în PyTorch, unde orice model e o clasă care moștenește din `nn.Module`."
+          },
+          {
+            "code": "class Model:\n    def __init__(self, nume):\n        self.nume = nume\n\n    def descrie(self):\n        return f\"model {self.nume}\"\n\nclass ModelCuSeed(Model):\n    def __init__(self, nume, seed):\n        super().__init__(nume)\n        self.seed = seed\n\n    def descrie(self):\n        return f\"{super().descrie()}, seed {self.seed}\"\n\nprint(ModelCuSeed(\"rf\", 42).descrie())   # model rf, seed 42"
+          },
+          {
             "p": "Codul altcuiva se aduce cu `import`."
           },
           {
@@ -363,16 +493,88 @@ export const lessons: Lesson[] = [
         ]
       },
       {
-        "heading": "Fișiere",
+        "heading": "Erori și excepții",
         "blocks": [
           {
-            "p": "Citirea și scrierea se fac cu `with`, care închide fișierul singur chiar dacă apare o eroare."
+            "p": "Codul care citește fișiere, parsează date sau primește input dă erori, garantat. Python le numește excepții, și le prinzi cu `try`/`except` ca să nu-ți pice tot programul pentru o singură linie proastă."
+          },
+          {
+            "code": "def imparte(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        print(\"nu poți împărți la zero\")\n        return None\n\nprint(imparte(10, 2))   # 5.0\nprint(imparte(10, 0))   # mesaj, apoi None"
+          },
+          {
+            "p": "Cele mai dese excepții la concurs: `ValueError` (o conversie eșuată, gen `int(\"abc\")`), `KeyError` (o cheie care nu există într-un dicționar), `IndexError` (un indice în afara listei), `FileNotFoundError` (o cale greșită la date)."
+          },
+          {
+            "note": "Nu prinde excepții cu `except:` gol. Ascunde orice greșeală, inclusiv pe cele pe care ar trebui să le vezi. Prinde exact tipul pe care îl aștepți, de exemplu `except ValueError:`."
+          },
+          {
+            "p": "`finally` rulează mereu, cu sau fără excepție, bun pentru curățenie. `assert` verifică rapid o presupunere și oprește programul cu un mesaj clar dacă nu e adevărată, util să prinzi bug-uri devreme, nu la finalul rulării."
+          },
+          {
+            "code": "assert len(X) == len(y), \"X și y trebuie să aibă aceeași lungime\""
+          }
+        ]
+      },
+      {
+        "heading": "Text și expresii regulate",
+        "blocks": [
+          {
+            "p": "Multe probleme, mai ales la NLP, cer curățat text înainte să faci orice altceva. String-urile au metode gata făcute pentru asta."
+          },
+          {
+            "code": "s = \"  Al Doilea RĂZBOI Mondial  \"\nprint(s.strip())          # scoate spațiile de la capete\nprint(s.lower())          # litere mici\nprint(s.split())          # ['Al', 'Doilea', 'RĂZBOI', 'Mondial']\nprint(\"-\".join([\"a\", \"b\", \"c\"]))   # \"a-b-c\"\nprint(s.replace(\"RĂZBOI\", \"razboi\"))"
+          },
+          {
+            "p": "Pentru tipare mai complicate decât `.replace()`, modulul `re` face potriviri după expresii regulate."
+          },
+          {
+            "code": "import re\n\ntext = \"contact: ana@exemplu.ro sau 0722 123 456\"\nemailuri = re.findall(r\"[\\w.]+@[\\w.]+\", text)\nprint(emailuri)    # ['ana@exemplu.ro']\n\ncuratat = re.sub(r\"\\d+\", \"\", text)   # scoate toate cifrele"
+          },
+          {
+            "note": "`re` merită învățat treptat, nu dintr-o dată. La început ține minte doar `findall` (găsește toate potrivirile) și `sub` (înlocuiește), și cauți restul când ai nevoie de el."
+          }
+        ]
+      },
+      {
+        "heading": "Fișiere și formate de date",
+        "blocks": [
+          {
+            "p": "Citirea și scrierea unui fișier text se fac cu `with`, care îl închide singur chiar dacă apare o eroare."
           },
           {
             "code": "with open(\"note.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.write(\"prima linie\\n\")\n\nwith open(\"note.txt\", encoding=\"utf-8\") as f:\n    for linie in f:\n        print(linie.strip())"
           },
           {
             "p": "Pune întotdeauna `encoding=\"utf-8\"`. Fără el, pe Windows, diacriticele se citesc greșit."
+          },
+          {
+            "p": "Datele de concurs vin rar ca text simplu. De obicei sunt CSV sau JSON, și Python are module standard pentru amândouă, chiar înainte să ajungi la Pandas."
+          },
+          {
+            "code": "import csv\n\nwith open(\"scoruri.csv\", encoding=\"utf-8\") as f:\n    cititor = csv.DictReader(f)\n    for rand in cititor:\n        print(rand[\"nume\"], rand[\"scor\"])"
+          },
+          {
+            "code": "import json\n\ndate = {\"model\": \"rf\", \"scor\": 0.87}\nwith open(\"rezultat.json\", \"w\", encoding=\"utf-8\") as f:\n    json.dump(date, f)\n\nwith open(\"rezultat.json\", encoding=\"utf-8\") as f:\n    incarcat = json.load(f)"
+          },
+          {
+            "p": "Pentru căi de fișiere, `pathlib` e mai clar decât să lipești string-uri cu `+`."
+          },
+          {
+            "code": "from pathlib import Path\n\nfolder = Path(\"date\")\nfisier = folder / \"train.csv\"\nprint(fisier.exists())"
+          }
+        ]
+      },
+      {
+        "heading": "Random și reproductibilitate",
+        "blocks": [
+          {
+            "p": "Multe lucruri în AI par întâmplătoare: împărțirea datelor, inițializarea unui model, amestecarea unui set de antrenament. Modulul `random` controlează asta, iar `seed`-ul face rezultatele repetabile."
+          },
+          {
+            "code": "import random\n\nrandom.seed(42)\nprint(random.random())        # mereu aceeași valoare, cu același seed\nprint(random.randint(1, 10))\nrandom.shuffle(scoruri)       # amestecă lista pe loc"
+          },
+          {
+            "note": "Pune `random.seed(...)` la începutul scriptului, o singură dată. Fără el, rulezi codul de două ori și iei rezultate diferite, ceea ce face imposibil să compari corect două idei."
           }
         ]
       }
@@ -380,21 +582,27 @@ export const lessons: Lesson[] = [
     "pitfalls": [
       "Folosește tuple când vrei ceva ce nu se modifică și listă când vrei să adaugi.",
       "Caută cu `in` într-o mulțime sau într-un dicționar, nu într-o listă mare.",
+      "`b = a` nu copiază lista; folosește `a.copy()` dacă ai nevoie de o copie reală.",
       "Pune `None` ca valoare implicită și creează lista sau dicționarul înăuntrul funcției.",
-      "Indentează consecvent cu patru spații, niciodată amestecate cu tab-uri.",
+      "Nu prinde erorile cu `except:` gol; prinde exact tipul pe care îl aștepți.",
+      "Pune `random.seed(...)` o singură dată, la început, ca să poți compara rulările.",
       "Pune `encoding=\"utf-8\"` la orice fișier cu diacritice."
     ],
     "practice": [
       "Scrie o funcție care primește o listă de numere și întoarce media, mediana și valoarea maximă.",
       "Numără cuvintele dintr-un text cu un dicționar, apoi rescrie soluția cu `Counter`.",
-      "Rescrie trei bucle `for` pe care le-ai scris deja ca list comprehensions."
+      "Rescrie trei bucle `for` pe care le-ai scris deja ca list comprehensions.",
+      "Scrie o funcție care citește un CSV cu `csv.DictReader` și întoarce media unei coloane numerice, cu `try`/`except` pentru rânduri lipsă.",
+      "Curăță un text cu `.lower()`, `.strip()` și `re.sub`, apoi numără cuvintele unice cu `Counter`.",
+      "Scrie o clasă `ClasificatorMajoritar` cu `fit`/`predict`, apoi o clasă care moștenește din ea și suprascrie `predict`."
     ],
     "keyTakeaways": [
-      "Alegi structura după ce ai nevoie: listă pentru ordine, dicționar pentru căutare după cheie, mulțime pentru unicitate.",
-      "Feliile `a:b` includ începutul și exclud sfârșitul, la fel peste tot în Python.",
-      "Comprehensions scurtează buclele care construiesc liste; merită citite fluent.",
-      "Tiparul `fit` și `predict` din clase e chiar cel din scikit-learn.",
-      "`with open(...)` închide fișierul singur; pune mereu `encoding=\"utf-8\"`."
+      "Alegi structura după ce ai nevoie: listă pentru ordine, dicționar pentru căutare după cheie, mulțime pentru unicitate și operații de tip reuniune/intersecție.",
+      "Feliile `a:b` includ începutul și exclud sfârșitul, la fel peste tot în Python; string-urile sunt imutabile.",
+      "`is` compară identitatea, `==` compară valoarea; pentru `None` folosești mereu `is`.",
+      "Comprehensions și generatoarele scurtează buclele; `try`/`except` le face sigure de rulat pe date reale.",
+      "Tiparul `fit`/`predict` și moștenirea din clase sunt exact ce vei folosi la scikit-learn și mai târziu la PyTorch.",
+      "CSV, JSON și `pathlib` citesc datele fără Pandas; `random.seed` face rulările repetabile."
     ]
   },
   {

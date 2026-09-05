@@ -155,7 +155,7 @@ export const lessonsEn: Lesson[] = [
         ]
       },
       {
-        "heading": "The metric is the rule of the game",
+        "heading": "The metric",
         "blocks": [
           {
             "p": "Every problem has a metric, meaning the formula your score is computed with. It's written in the statement and it's the only one that counts. You're not scored on how clever the model looks, but on the number the metric produces. If the metric is F1 and you optimize accuracy, you can climb a score that earns you no points."
@@ -202,13 +202,9 @@ export const lessonsEn: Lesson[] = [
           },
           {
             "list": [
-              "ONIA (olimpiada-ai.ro): the official artificial intelligence olympiad, with a local, county and national stage. The winners go to the team for IOAI.",
               "MLCompete (platform.olimpiada-ai.ro): the platform the olympiad runs on, and where you practice between stages, with archive problems and training competitions.",
-              "Nitro NLP (nitro-ai.org): a Romanian-language NLP hackathon, in teams, good for working on real text."
+              "Nitro AI Judge (judge.nitro-ai.org): the platform RoAI and other AI contests run on."
             ]
-          },
-          {
-            "p": "You don't have to touch all of them today. You just need to know what each one is for, so you don't find yourself in January with no account and no submission ever made."
           }
         ]
       }
@@ -226,8 +222,7 @@ export const lessonsEn: Lesson[] = [
     "keyTakeaways": [
       "A problem has four pieces: training data with labels, test data without, a target, a metric.",
       "You're scored on exactly the metric in the statement. You optimize what's scored, not what looks nice.",
-      "The private leaderboard decides the ranking, the public one just tempts you.",
-      "You pick your final submissions on your local validation, not on the public score."
+      "The private leaderboard decides the ranking, the public one just tempts you."
     ]
   },
   {

@@ -17,7 +17,7 @@ You get two datasets. One for training, which also has the correct answers (call
 > [!NOTE]
 > The first thing you do on a new problem isn't to train something. It's to open the data and the sample submission file and look at them: how many rows, which columns, what's missing, what the required answer looks like.
 
-## The metric is the rule of the game
+## The metric
 Every problem has a metric, meaning the formula your score is computed with. It's written in the statement and it's the only one that counts. You're not scored on how clever the model looks, but on the number the metric produces. If the metric is F1 and you optimize accuracy, you can climb a score that earns you no points.
 
 - Accuracy: the share of correct answers. Simple, but misleading when the classes are imbalanced.
@@ -40,17 +40,13 @@ If you pick your model by the public score, you end up fitting that small slice 
 ## Where you train
 There are three places you need all year. They're not interchangeable, each has its own job.
 
-- ONIA (olimpiada-ai.ro): the official artificial intelligence olympiad, with a local, county and national stage. The winners go to the team for IOAI.
 - MLCompete (platform.olimpiada-ai.ro): the platform the olympiad runs on, and where you practice between stages, with archive problems and training competitions.
-- Nitro NLP (nitro-ai.org): a Romanian-language NLP hackathon, in teams, good for working on real text.
-
-You don't have to touch all of them today. You just need to know what each one is for, so you don't find yourself in January with no account and no submission ever made.
+- Nitro AI Judge (judge.nitro-ai.org): the platform RoAI and other AI contests run on.
 
 # @takeaways
 - A problem has four pieces: training data with labels, test data without, a target, a metric.
 - You're scored on exactly the metric in the statement. You optimize what's scored, not what looks nice.
 - The private leaderboard decides the ranking, the public one just tempts you.
-- You pick your final submissions on your local validation, not on the public score.
 
 # @pitfalls
 - Read the metric and the submission format before any model.

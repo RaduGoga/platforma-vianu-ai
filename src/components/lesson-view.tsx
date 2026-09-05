@@ -112,52 +112,6 @@ export function LessonView({
                 </section>
               ))}
 
-              {lesson.keyTakeaways && lesson.keyTakeaways.length > 0 && (
-                <section className="mt-14 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">
-                  <div className="kicker mb-3 lg:mb-0 lg:pt-1">{t("Reține", "Remember")}</div>
-                  <div className="border-l-2 border-primary bg-[color:color-mix(in_srgb,var(--primary)_5%,var(--card))] py-2">
-                    <ul className="space-y-3 pl-5 pr-4">
-                      {lesson.keyTakeaways.map((k, i) => (
-                        <li key={i} className="serif flex gap-3 leading-relaxed text-[color:var(--prose)]">
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                          {k}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </section>
-              )}
-
-              {(lesson.pitfalls.length > 0 || lesson.practice.length > 0) && (
-                <div className="mt-16 grid gap-6 border-t border-border pt-10 sm:grid-cols-2">
-                  {lesson.pitfalls.length > 0 && (
-                    <aside>
-                      <h2 className="kicker text-[color:var(--clay)]">{t("Tips", "Tips")}</h2>
-                      <ul className="mt-4 space-y-3">
-                        {lesson.pitfalls.map((p, i) => (
-                          <li key={i} className="sidenote flex gap-3">
-                            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--clay)]" />
-                            {p}
-                          </li>
-                        ))}
-                      </ul>
-                    </aside>
-                  )}
-                  {lesson.practice.length > 0 && (
-                    <aside>
-                      <h2 className="kicker">{t("Exersează", "Practice")}</h2>
-                      <ol className="mt-4 space-y-3">
-                        {lesson.practice.map((p, i) => (
-                          <li key={i} className="sidenote flex gap-3">
-                            <span className="mt-0.5 font-mono text-xs text-primary">{i + 1}.</span>
-                            {p}
-                          </li>
-                        ))}
-                      </ol>
-                    </aside>
-                  )}
-                </div>
-              )}
             </>
           ) : (
             <section className="lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">

@@ -1,89 +1,155 @@
 ---
-code: S6
-duration: ~2 săptămâni
+code: S5
+duration: ~1 săptămână
 ---
 
 # @intro
-Înainte să antrenezi orice, uită-te la date. La distribuții, la ce lipsește, la cum sunt scalate coloanele. Sună plictisitor, dar jumătate din câștig vine de aici, nu din modelul ales. Etapa asta se numește EDA, analiză exploratorie, și e prima pe care o faci la orice problemă nouă.
+Până acum ai învățat bucăți: Python, NumPy, Pandas. Modulul ăsta le leagă. Nu aduce teorie nouă, ci ordinea în care se fac lucrurile. Contează, pentru că majoritatea greșelilor de la olimpiadă nu vin din model, ci din pași făcuți în ordine greșită. Un pipeline pe care îl poți rula cap-coadă în douăzeci de minute e cea mai valoroasă unealtă pe care o duci în concurs.
 
-## Ce cauți când te uiți la date
-EDA înseamnă să pui întrebări simple datelor și să te uiți la răspuns înainte să tragi vreo concluzie. Câte rânduri și coloane sunt. Ce tip are fiecare coloană. Cum arată ținta, adică ce vrei să prezici. Ce lipsește și cât de mult.
+## Cei șase pași, în ordine
+Orice problemă tabelară de concurs arată la fel dacă o privești de sus. Citești datele. Le împarți. Faci un baseline. Preprocesezi. Antrenezi și validezi. Scrii submisia.
 
-Trasează distribuția fiecărei coloane numerice cu o histogramă. Vezi imediat dacă e simetrică, dacă are o coadă lungă, dacă are valori imposibile (o vârstă de 200, un preț negativ). Astea sunt semne de erori în date pe care le prinzi din ochi.
+Ordinea nu e o sugestie. Fiecare pas presupune că cel dinainte s-a făcut corect, iar doi dintre ei sunt ușor de inversat din grabă: împărțirea datelor și preprocesarea. Dacă le inversezi, scorul tău local devine o minciună și afli abia pe clasamentul privat.
+
+- Citești și te uiți la ce ai primit.
+- Împarți în antrenare și validare.
+- Faci un baseline prost, ca să ai un reper.
+- Preprocesezi, cu parametri învățați doar pe antrenare.
+- Antrenezi un model și îl compari cu baseline-ul.
+- Scrii fișierul de submisie și îl verifici înainte de upload.
+
+## Pasul 1: citești și te uiți
+Primul lucru după citire e să verifici că datele arată cum crezi. Câte rânduri, ce coloane, ce tip are fiecare, cum arată ținta. Nu e analiză completă, aia vine în modulul următor. E doar verificarea că n-ai citit greșit fișierul.
 
 ```
-df["varsta"].hist(bins=30)
-df["tinta"].value_counts()     # câte exemple din fiecare clasă
+import pandas as pd
+
+train = pd.read_csv("train.csv")
+test = pd.read_csv("test.csv")
+
+print(train.shape, test.shape)
+print(train.dtypes)
+print(train["target"].value_counts())
 ```
 
-## Clase dezechilibrate: de ce contează devreme
-Dacă prezici o clasă care apare în 2% din cazuri (fraudă, o boală rară), un model care spune mereu nu are 98% acuratețe și e complet inutil. De asta te uiți la echilibrul claselor de la început: schimbă ce metrică folosești și cum îți împarți datele.
+Compară coloanele din train cu cele din test. Diferența dintre ele e, aproape întotdeauna, chiar coloana țintă. Dacă mai lipsește ceva, ai o problemă de înțeles înainte să mergi mai departe.
+
+## Pasul 2: împarți datele înainte să le atingi
+Aici se pierd cele mai multe puncte. Ai nevoie de o parte din date pe care modelul să n-o fi văzut niciodată, ca să estimezi cinstit cât de bun e. Împărțirea se face înainte de orice transformare.
+
+```
+from sklearn.model_selection import train_test_split
+
+X = train.drop(columns=["target"])
+y = train["target"]
+
+X_tr, X_val, y_tr, y_val = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+```
+
+Parametrul stratify păstrează aceeași proporție de clase în ambele bucăți. Fără el, pe o problemă dezechilibrată poți nimeri o validare care nu conține deloc clasa rară, iar scorul devine fără sens.
 
 > [!NOTE]
-> Când o clasă e rară, acuratețea minte. Reține pentru modulul de evaluare: vei avea nevoie de precizie, recall și F1, nu de acuratețe simplă.
+> random_state fixat înseamnă că aceeași împărțire se repetă la fiecare rulare. Fără el, scorul se schimbă între rulări și nu mai știi dacă o modificare a ajutat sau ai avut noroc.
 
-## Corelații: ce coloane spun același lucru
-Corelația măsoară cât de mult merg două coloane împreună, de la -1 (invers) prin 0 (deloc) până la 1 (identic ca tendință). Două coloane aproape identice îți spun ceva: poate una e derivată din alta, poate poți arunca una fără să pierzi informație.
-
-```
-df.corr(numeric_only=True)     # matricea de corelații între coloane
-```
-
-Corelația nu înseamnă cauzalitate. Două lucruri pot crește împreună fără ca unul să-l provoace pe celălalt. E doar un indiciu unde să te uiți, nu o concluzie.
-
-## Valori lipsă: întâi de ce, apoi cum
-Înainte să umpli o valoare lipsă, întreabă-te de ce lipsește. Uneori lipsa e o eroare de colectare. Alteori lipsa e chiar informație: un câmp gol la venit poate însemna că persoana a refuzat să răspundă, ceea ce e semnificativ. În cazul ăsta, adaugă o coloană separată care marchează lipsa.
-
-Umplerea (imputarea) se face cu media, mediana sau valoarea cea mai frecventă, ori cu un model. Mediana e mai sigură ca media când sunt outlieri, pentru că nu e trasă de valorile extreme.
+## Pasul 3: baseline-ul prost dar onest
+Înainte de orice model serios, fă unul stupid. Prezice mereu clasa majoritară, sau media, și măsoară. Numărul ăla e podeaua ta: orice model care nu-l bate e mai rău decât nimic.
 
 ```
+from sklearn.dummy import DummyClassifier
+from sklearn.metrics import f1_score
+
+dummy = DummyClassifier(strategy="most_frequent").fit(X_tr, y_tr)
+print(f1_score(y_val, dummy.predict(X_val), average="macro"))
+```
+
+Pare o pierdere de timp. Nu e. De multe ori un model complicat scoate un scor care pare rezonabil, până compari cu baseline-ul și descoperi că e la fel sau mai prost. Fără reper, n-ai fi știut.
+
+## Pasul 4: preprocesarea care nu se scurge
+Regula de la preprocesare: parametrii (medie, deviație, categorii) se învață doar pe antrenare. Problema e că, făcută manual, regula asta se încalcă ușor.
+
+Soluția e Pipeline. Legi preprocesarea de model într-un singur obiect, iar când chemi fit pe el, scikit-learn are grijă singur ca transformările să învețe doar pe ce-i dai la antrenare.
+
+```
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-imp = SimpleImputer(strategy="median").fit(X_train)
-X_train = imp.transform(X_train)
-X_val = imp.transform(X_val)    # aceiași parametri, învățați pe train
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.ensemble import RandomForestClassifier
+
+numerice = X_tr.select_dtypes(include="number").columns
+categorice = X_tr.select_dtypes(exclude="number").columns
+
+pre = ColumnTransformer([
+    ("num", Pipeline([
+        ("imp", SimpleImputer(strategy="median")),
+        ("sc", StandardScaler()),
+    ]), numerice),
+    ("cat", Pipeline([
+        ("imp", SimpleImputer(strategy="most_frequent")),
+        ("oh", OneHotEncoder(handle_unknown="ignore")),
+    ]), categorice),
+])
+
+model = Pipeline([("pre", pre), ("clf", RandomForestClassifier(random_state=42))])
 ```
 
-## Scalarea: de ce și cum
-Multe modele măsoară distanțe (kNN, K-Means) sau folosesc gradient (regresie, rețele). Pentru ele, o coloană cu valori mari (venitul, în mii) domină una cu valori mici (vârsta, zeci) doar prin scală, nu prin importanță. Scalarea le aduce la aceeași măsură.
+Argumentul handle_unknown contează în concurs: dacă în test apare o categorie care nu era în antrenare, fără el codul crapă la predicție, exact când n-ai timp să depanezi.
 
-> [!FORMULA]
-> z = (x - μ) / σ
-> Standardizarea: scazi media μ și împarți la deviația standard σ. Rezultatul are media 0 și deviația 1.
+## Pasul 5: antrenezi și compari
+Acum ai un obiect care face totul. Îl antrenezi pe bucata de antrenare și îl măsori pe validare, cu aceeași metrică pe care o folosește concursul.
 
-Normalizarea min-max aduce, în schimb, valorile în intervalul 0 până la 1. Standardizarea e mai des folosită. Important nu e care, ci regula de mai jos.
+```
+model.fit(X_tr, y_tr)
+scor = f1_score(y_val, model.predict(X_val), average="macro")
+print(f"model: {scor:.4f}")
+```
+
+Metrica trebuie să fie cea din enunț. Dacă concursul punctează cu F1 macro și tu optimizezi acuratețea, urci pe scorul tău local și cobori pe al lor.
 
 > [!NOTE]
-> Regula de bază a preprocesării: învață parametrii (medie, deviație, mediană) doar pe setul de antrenare, apoi aplică-i pe validare și test. Niciodată invers. Altfel test-ul se scurge în antrenare și scorul tău e o minciună.
+> Schimbă un singur lucru între două rulări și notează scorul de fiecare dată. Un tabel cu zece rânduri, chiar și scris pe hârtie, valorează mai mult decât zece idei încercate deodată din care nu știi care a ajutat.
+
+## Pasul 6: submisia și verificările
+La final reantrenezi pe toate datele de antrenare, nu doar pe bucata de optzeci la sută. Ai folosit validarea ca să alegi, acum nu mai ai motiv să arunci acele exemple.
 
 ```
-from sklearn.preprocessing import StandardScaler
-sc = StandardScaler().fit(X_train)      # învață μ și σ pe TRAIN
-X_train = sc.transform(X_train)
-X_val = sc.transform(X_val)             # aplică aceiași μ și σ
+model.fit(X, y)
+pred = model.predict(test)
+
+sub = pd.DataFrame({"id": test["id"], "target": pred})
+sub.to_csv("submission.csv", index=False)
 ```
 
-## Variabile categorice
-Un model vrea numere, dar multe coloane sunt categorii: oraș, culoare, tip. Nu le poți da direct ca text și nici nu le poți numerota 1,2,3 la întâmplare, pentru că modelul ar crede că 3 e mai mare ca 1, ceea ce n-are sens pentru culori.
-
-One-hot encoding rezolvă asta: face din fiecare categorie o coloană separată de 0 și 1. Roșu devine [1,0,0], verde [0,1,0]. Nicio categorie nu e mai mare ca alta.
+Înainte de upload, trei verificări care au salvat multe concursuri: numărul de rânduri e egal cu al fișierului de test, numele coloanelor sunt exact cele cerute în enunț, și nu ai valori lipsă în predicții.
 
 ```
-pd.get_dummies(df, columns=["oras", "culoare"])
+assert len(sub) == len(test)
+assert list(sub.columns) == ["id", "target"]
+assert sub["target"].isna().sum() == 0
 ```
+
+## Cum arată asta în ziua concursului
+Prima oră o dai pe pipeline-ul de mai sus, cu un model simplu. Ai deja o submisie validă și un scor pe clasament. De acolo îmbunătățești, cu plasa de siguranță că orice s-ar întâmpla ai ceva trimis.
+
+Ordinea inversă, în care lucrezi două ore la un model bun și abia apoi te apuci de submisie, e cel mai frecvent mod de a termina concursul cu zero puncte pentru cod care mergea aproape.
 
 # @takeaways
-- EDA înseamnă să te uiți la date (distribuții, lipsuri, echilibrul claselor) înainte de orice model.
-- Clasele dezechilibrate schimbă metrica și modul de împărțire a datelor.
-- Întreabă de ce lipsește o valoare înainte s-o umpli; uneori lipsa e informație.
-- Scalarea aduce coloanele la aceeași măsură pentru modele bazate pe distanță sau gradient.
-- Învață parametrii de preprocesare doar pe train, aplică-i pe val/test.
+- Ordinea pașilor contează mai mult decât alegerea modelului.
+- Împarți datele înainte de orice transformare, altfel scorul local minte.
+- Baseline-ul prost e reperul fără de care nu știi dacă modelul tău e bun.
+- Pipeline face scurgerea de informație greu de comis din greșeală.
+- Prima submisie validă se face în prima oră, nu la final.
 
 # @pitfalls
-- Învață parametrii de preprocesare doar pe antrenare, după split.
-- Impută valorile lipsă cu statistici calculate doar pe antrenare.
-- Folosește one-hot pentru categorii fără ordine; numerotarea 1, 2, 3 inventează o ordine.
+- Împarte datele înainte să scalezi sau să imputezi, altfel validarea iese fals optimistă.
+- Optimizează exact metrica din enunț.
+- Pune `handle_unknown="ignore"`, ca o categorie nouă din test să nu crape predicția.
+- Verifică numărul de rânduri și numele coloanelor înainte de upload.
+- Reantrenează pe toate datele de antrenare pentru submisia finală.
 
 # @practice
-- Fă un raport de completitudine pe un set și decide ce coloane păstrezi.
-- Compară trei strategii de imputare (medie, mediană, cea mai frecventă) pe aceeași problemă.
-- Standardizează corect: fit pe train, transform pe val, și verifică că mediile pe train sunt aproape 0.
+- Ia o problemă de arhivă de pe MLCompete și scrie pipeline-ul cap-coadă într-o oră, cu model simplu.
+- Rulează același pipeline o dată cu scalare înainte de split și o dată după, și compară scorurile de validare.
+- Scrie-ți un notebook șablon cu cei șase pași, pe care să-l copiezi la începutul oricărei probleme.

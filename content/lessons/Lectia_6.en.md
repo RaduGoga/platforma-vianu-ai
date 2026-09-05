@@ -1,89 +1,155 @@
 ---
-code: S6
-duration: ~2 weeks
+code: S5
+duration: ~1 week
 ---
 
 # @intro
-Before you train anything, look at the data. At the distributions, at what's missing, at how the columns are scaled. It sounds dull, but half the gain comes from here, not from the model you pick. This step is called EDA, exploratory data analysis, and it's the first thing you do on any new problem.
+So far you've learned pieces: Python, NumPy, Pandas. This module ties them together. It brings no new theory, only the order in which things get done. That matters, because most olympiad mistakes don't come from the model, they come from steps taken in the wrong order. A pipeline you can run end to end in twenty minutes is the most valuable tool you bring into a contest.
 
-## What you look for when you look at data
-EDA means asking the data simple questions and looking at the answer before you draw any conclusion. How many rows and columns there are. What type each column is. What the target looks like, meaning what you want to predict. What's missing and how much.
+## The six steps, in order
+Every tabular contest problem looks the same from above. You read the data. You split it. You build a baseline. You preprocess. You train and validate. You write the submission.
 
-Plot the distribution of each numeric column with a histogram. You see straight away whether it's symmetric, whether it has a long tail, whether it has impossible values (an age of 200, a negative price). Those are signs of errors in the data that you catch by eye.
+The order isn't a suggestion. Each step assumes the previous one was done correctly, and two of them are easy to swap when you're rushing: splitting and preprocessing. Swap those and your local score becomes a lie, which you only discover on the private leaderboard.
+
+- Read the data and look at what you got.
+- Split into training and validation.
+- Build a dumb baseline, so you have a reference point.
+- Preprocess, with parameters learned only on training data.
+- Train a model and compare it against the baseline.
+- Write the submission file and check it before uploading.
+
+## Step 1: read and look
+The first thing after reading is checking that the data looks the way you think it does. How many rows, which columns, what type each one is, what the target looks like. This isn't full analysis, that comes in the next module. It's just confirming you didn't read the file wrong.
 
 ```
-df["age"].hist(bins=30)
-df["target"].value_counts()     # how many examples in each class
+import pandas as pd
+
+train = pd.read_csv("train.csv")
+test = pd.read_csv("test.csv")
+
+print(train.shape, test.shape)
+print(train.dtypes)
+print(train["target"].value_counts())
 ```
 
-## Imbalanced classes: why it matters early
-If you predict a class that shows up in 2% of cases (fraud, a rare disease), a model that always says no gets 98% accuracy and is completely useless. That's why you look at class balance from the start: it changes which metric you use and how you split the data.
+Compare the train columns against the test ones. The difference between them is, almost always, the target column itself. If anything else is missing, that's something to understand before moving on.
+
+## Step 2: split before you touch anything
+This is where most points are lost. You need a slice of the data the model has never seen, so you can honestly estimate how good it is. The split happens before any transformation.
+
+```
+from sklearn.model_selection import train_test_split
+
+X = train.drop(columns=["target"])
+y = train["target"]
+
+X_tr, X_val, y_tr, y_val = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+```
+
+The stratify argument keeps the same class proportions in both halves. Without it, on an imbalanced problem you can land a validation set that contains none of the rare class at all, and the score becomes meaningless.
 
 > [!NOTE]
-> When a class is rare, accuracy lies. Keep it in mind for the evaluation module: you'll need precision, recall and F1, not plain accuracy.
+> A fixed random_state means the same split repeats on every run. Without it your score shifts between runs and you can no longer tell whether a change helped or you got lucky.
 
-## Correlations: which columns say the same thing
-Correlation measures how much two columns move together, from -1 (opposite) through 0 (not at all) up to 1 (same trend). Two nearly identical columns tell you something: maybe one is derived from the other, maybe you can drop one without losing information.
-
-```
-df.corr(numeric_only=True)     # the correlation matrix between columns
-```
-
-Correlation isn't causation. Two things can rise together without one causing the other. It's just a hint of where to look, not a conclusion.
-
-## Missing values: first why, then how
-Before you fill a missing value, ask yourself why it's missing. Sometimes the gap is a collection error. Other times the gap is information itself: an empty income field can mean the person refused to answer, which is meaningful. In that case, add a separate column that flags the gap.
-
-Filling (imputing) is done with the mean, the median or the most frequent value, or with a model. The median is safer than the mean when there are outliers, because it isn't dragged by the extreme values.
+## Step 3: the dumb but honest baseline
+Before any serious model, build a stupid one. Always predict the majority class, or the mean, and measure. That number is your floor: any model that doesn't beat it is worse than nothing.
 
 ```
+from sklearn.dummy import DummyClassifier
+from sklearn.metrics import f1_score
+
+dummy = DummyClassifier(strategy="most_frequent").fit(X_tr, y_tr)
+print(f1_score(y_val, dummy.predict(X_val), average="macro"))
+```
+
+It looks like a waste of time. It isn't. Often a complicated model produces a score that seems reasonable, until you compare it to the baseline and find it's the same or worse. Without the reference point, you'd never have known.
+
+## Step 4: preprocessing that can't leak
+The preprocessing rule: parameters (mean, deviation, categories) are learned only on the training data. The problem is that, done by hand, this rule is easy to break.
+
+The fix is Pipeline. You bind preprocessing to the model in a single object, and when you call fit on it, scikit-learn makes sure the transformations only learn from what you hand it for training.
+
+```
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-imp = SimpleImputer(strategy="median").fit(X_train)
-X_train = imp.transform(X_train)
-X_val = imp.transform(X_val)    # the same parameters, learned on train
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.ensemble import RandomForestClassifier
+
+numeric = X_tr.select_dtypes(include="number").columns
+categorical = X_tr.select_dtypes(exclude="number").columns
+
+pre = ColumnTransformer([
+    ("num", Pipeline([
+        ("imp", SimpleImputer(strategy="median")),
+        ("sc", StandardScaler()),
+    ]), numeric),
+    ("cat", Pipeline([
+        ("imp", SimpleImputer(strategy="most_frequent")),
+        ("oh", OneHotEncoder(handle_unknown="ignore")),
+    ]), categorical),
+])
+
+model = Pipeline([("pre", pre), ("clf", RandomForestClassifier(random_state=42))])
 ```
 
-## Scaling: why and how
-Many models measure distances (kNN, K-Means) or use gradients (regression, neural nets). For them, a column with large values (income, in thousands) dominates one with small values (age, in tens) purely by scale, not by importance. Scaling brings them to the same measure.
+The handle_unknown argument matters in a contest: if a category shows up in test that wasn't in training, without it your code crashes at prediction time, exactly when you have no time to debug.
 
-> [!FORMULA]
-> z = (x - μ) / σ
-> Standardization: you subtract the mean μ and divide by the standard deviation σ. The result has mean 0 and standard deviation 1.
+## Step 5: train and compare
+Now you have one object that does everything. You fit it on the training slice and measure it on validation, using the same metric the contest uses.
 
-Min-max normalization, on the other hand, brings the values into the 0 to 1 range. Standardization is used more often. What matters isn't which, but the rule below.
+```
+model.fit(X_tr, y_tr)
+score = f1_score(y_val, model.predict(X_val), average="macro")
+print(f"model: {score:.4f}")
+```
+
+The metric has to be the one from the problem statement. If the contest scores macro F1 and you optimize accuracy, you climb on your own score and fall on theirs.
 
 > [!NOTE]
-> The golden rule, true for all preprocessing: learn the parameters (mean, deviation, median) only on the training set, then apply them to validation and test. Never the other way. Otherwise the test leaks into training and your score is a lie.
+> Change one thing between runs and write down the score every time. A table with ten rows, even on paper, is worth more than ten ideas tried at once where you can't tell which one helped.
+
+## Step 6: the submission and the checks
+At the end you retrain on all the training data, not just the eighty percent slice. You used validation to choose; now there's no reason to throw those examples away.
 
 ```
-from sklearn.preprocessing import StandardScaler
-sc = StandardScaler().fit(X_train)      # learn μ and σ on TRAIN
-X_train = sc.transform(X_train)
-X_val = sc.transform(X_val)             # apply the same μ and σ
+model.fit(X, y)
+pred = model.predict(test)
+
+sub = pd.DataFrame({"id": test["id"], "target": pred})
+sub.to_csv("submission.csv", index=False)
 ```
 
-## Categorical variables
-A model wants numbers, but many columns are categories: city, color, type. You can't hand them over directly as text, and you can't number them 1,2,3 at random either, because the model would think 3 is bigger than 1, which makes no sense for colors.
-
-One-hot encoding fixes this: it turns each category into a separate column of 0s and 1s. Red becomes [1,0,0], green [0,1,0]. No category is bigger than another.
+Before uploading, three checks that have saved many contests: the row count matches the test file, the column names are exactly what the statement asks for, and there are no missing values in the predictions.
 
 ```
-pd.get_dummies(df, columns=["city", "color"])
+assert len(sub) == len(test)
+assert list(sub.columns) == ["id", "target"]
+assert sub["target"].isna().sum() == 0
 ```
+
+## What this looks like on contest day
+You spend the first hour on the pipeline above, with a simple model. You already have a valid submission and a score on the leaderboard. From there you improve, with the safety net that whatever happens, something is submitted.
+
+The reverse order, where you spend two hours on a good model and only then start on the submission, is the most common way to finish a contest with zero points for code that almost worked.
 
 # @takeaways
-- EDA means looking at the data (distributions, gaps, class balance) before any model.
-- Imbalanced classes change the metric and the way you split the data.
-- Ask why a value is missing before you fill it; sometimes the gap is information.
-- Scaling brings columns to the same measure for distance-based or gradient-based models.
-- Learn the preprocessing parameters only on train, apply them to val/test.
+- The order of the steps matters more than the choice of model.
+- You split before any transformation, otherwise your local score lies.
+- The dumb baseline is the reference point without which you can't tell if your model is good.
+- Pipeline makes information leakage hard to commit by accident.
+- The first valid submission happens in the first hour, not at the end.
 
 # @pitfalls
-- Learn preprocessing parameters only on the training set, after the split.
-- Impute missing values with statistics computed only on training data.
-- Use one-hot for categories with no order; numbering 1, 2, 3 invents an order.
+- Split the data before you scale or impute, otherwise validation comes out falsely optimistic.
+- Optimize exactly the metric from the statement.
+- Pass `handle_unknown="ignore"` so a new category in test doesn't crash prediction.
+- Check the row count and the column names before uploading.
+- Retrain on all the training data for the final submission.
 
 # @practice
-- Make a completeness report on a dataset and decide which columns you keep.
-- Compare three imputation strategies (mean, median, most frequent) on the same problem.
-- Standardize correctly: fit on train, transform on val, and check the means on train are close to 0.
+- Take an archive problem from MLCompete and write the pipeline end to end in an hour, with a simple model.
+- Run the same pipeline once with scaling before the split and once after, and compare the validation scores.
+- Write yourself a template notebook with the six steps, to copy at the start of any problem.

@@ -234,10 +234,10 @@ export const lessons: Lesson[] = [
         "heading": "Tipuri și variabile",
         "blocks": [
           {
-            "p": "Python nu cere să declari tipul. Îl deduce din valoare, iar tipul poate să se schimbe. Asta e comod, dar înseamnă că erorile de tip apar la rulare, nu înainte."
+            "p": "Python nu cere să declari tipul. Îl deduce din valoare, iar tipul poate să se schimbe."
           },
           {
-            "code": "n = 42            # int\npi = 3.14         # float\nnume = \"Radu\"     # str\ngata = True       # bool\nnimic = None      # absența unei valori\n\nprint(type(n), type(pi))"
+            "code": "n = 42            # int\npi = 3.14         # float\nnume = \"Victor\"     # str\ngata = True       # bool\nnimic = None      # absența unei valori\n\nprint(type(n), type(pi))"
           },
           {
             "p": "Poți atribui mai multe variabile deodată, fie cu valori diferite, fie cu aceeași valoare tuturor."
@@ -246,7 +246,7 @@ export const lessons: Lesson[] = [
             "code": "a, b, c = 1, 2, 3\nx = y = 0"
           },
           {
-            "p": "Operatorii de atribuire pe scurt (`+=`, `-=`, `*=`, `//=`) fac „ia valoarea, modific-o, pune-o înapoi\" într-un singur pas. Îi vezi în orice buclă care numără sau acumulează."
+            "p": "Operatorii de atribuire pe scurt (`+=`, `-=`, `*=`, `//=`) modifica valoarea si apoi o pun in variabila respectivă."
           },
           {
             "code": "total = 0\nfor s in [1, 2, 3]:\n    total += s   # total = total + s"
@@ -258,13 +258,13 @@ export const lessons: Lesson[] = [
             "code": "scor = 0.8734\nprint(f\"scor: {scor:.2f}\")        # scor: 0.87\nprint(f\"dublu: {scor * 2:.3f}\")   # dublu: 1.747"
           },
           {
-            "p": "Împărțirea are două forme, și le încurcă toată lumea la început: `/` dă mereu float, `//` dă împărțirea întreagă rotunjită în jos, iar `%` dă restul. `int(...)` trunchiază spre zero, `round(...)` rotunjește normal, iar `str(...)`/`float(...)`/`list(...)` convertesc explicit între tipuri."
+            "p": "Împărțirea are două forme: `/` dă mereu float, `//` dă împărțirea întreagă rotunjită în jos, iar `%` dă restul. `int(...)` trunchiază spre zero, `round(...)` rotunjește normal, iar `str(...)`/`float(...)`/`list(...)` convertesc explicit între tipuri."
           },
           {
             "code": "print(7 / 2)          # 3.5\nprint(7 // 2)         # 3\nprint(7 % 2)           # 1\nprint(int(3.9))        # 3, trunchiază\nprint(round(3.9))      # 4, rotunjește\nprint(str(42) + \"!\")   # \"42!\""
           },
           {
-            "note": "`0`, `0.0`, `\"\"`, `[]`, `{}`, `set()` și `None` sunt toate „false\" când le pui într-un `if`. O listă goală e falsă, orice altceva e adevărat. De-asta `if not lista:` e idiomul standard pentru „lista e goală\", în loc de `if len(lista) == 0:`."
+            "note": "`0`, `0.0`, `\"\"`, `[]`, `{}`, `set()` și `None` sunt toate „false\" când le pui într-un `if`. O listă goală e falsă, orice altceva e adevărat."
           }
         ]
       },
@@ -272,7 +272,7 @@ export const lessons: Lesson[] = [
         "heading": "Cele patru structuri de date",
         "blocks": [
           {
-            "p": "Aproape tot ce scrii folosește una dintre astea. Alegerea corectă îți simplifică restul codului."
+            "p": "Aproape tot ce scrii folosește una dintre astea."
           },
           {
             "list": [
@@ -286,19 +286,19 @@ export const lessons: Lesson[] = [
             "code": "scoruri = [0.71, 0.83, 0.79]\nscoruri.append(0.88)\nprint(len(scoruri), max(scoruri))"
           },
           {
-            "p": "Pe lângă `.append()`, listele mai au câteva metode pe care le folosești constant: `.insert(poz, val)` bagă la o poziție anume, `.pop(poz)` scoate și întoarce elementul (fără argument, scoate ultimul), `.remove(val)` scoate prima apariție a unei valori, `.index(val)` îți dă poziția ei."
+            "p": "Pe lângă `.append()`, listele mai au câteva metode pe care le folosești constant: `.insert(poz, val)` bagă la o poziție anume, `.pop(poz)` scoate elementul (fără argument, scoate ultimul), `.remove(val)` scoate prima apariție a unei valori, `.index(val)` îți dă poziția ei."
           },
           {
             "code": "scoruri.insert(0, 0.5)\nultimul = scoruri.pop()\nscoruri.remove(0.71)\nprint(scoruri.index(0.83))"
           },
           {
-            "p": "Dicționarele nu se citesc doar cu `d[\"cheie\"]`, care aruncă eroare dacă cheia lipsește. `.get(\"cheie\", implicit)` întoarce o valoare implicită în loc să crape."
+            "p": "Dicționarele nu se citesc doar cu `d[\"cheie\"]`, care aruncă eroare dacă cheia lipsește. `.get(\"cheie\", implicit)` întoarce o valoare implicită."
           },
           {
-            "code": "model = {\"nume\": \"rf\", \"adancime\": 8}\nprint(model[\"nume\"])\nmodel[\"seed\"] = 42\nprint(model.get(\"epoci\", 10))    # 10, cheia nu există, dar nu crapă\n\nfor cheie, valoare in model.items():\n    print(cheie, valoare)\n\ndel model[\"seed\"]"
+            "code": "note = {\n\t\"Radu\" : 4,\n\t\"Stefan\" : 10,\n\t\"Victor\" : 8\n}\nprint(note[\"Stefan\"]) # 10\nprint(note.get(\"Radu\")) # 4"
           },
           {
-            "p": "Dicționarele pot conține alte dicționare, exact cum arată datele reale în JSON."
+            "p": "Dicționarele pot conține alte dicționare."
           },
           {
             "code": "elev = {\"nume\": \"Ana\", \"note\": {\"ro\": 9, \"en\": 10}}\nprint(elev[\"note\"][\"en\"])   # 10"
@@ -308,9 +308,6 @@ export const lessons: Lesson[] = [
           },
           {
             "code": "a = set([1, 2, 2, 3, 3, 3])   # {1, 2, 3}\nb = {3, 4, 5}\n\na.add(10)\na.discard(1)\n\nprint(a | b)   # reuniune: {2, 3, 4, 5, 10}\nprint(a & b)   # intersecție: {3}\nprint(a - b)   # diferență: elemente din a care nu sunt în b"
-          },
-          {
-            "note": "Caută rapid într-o mulțime sau într-un dicționar, nu într-o listă. Verificarea `x in lista` parcurge toate elementele; `x in multime` e aproape instant. Pe zeci de mii de elemente diferența se simte."
           },
           {
             "p": "O altă capcană, mai puțin evidentă: `b = a` nu copiază lista, doar îi dă un nume nou aceleiași liste din memorie. Ca să ai o copie reală, folosește `a.copy()` sau `list(a)`."
@@ -579,31 +576,8 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Folosește tuple când vrei ceva ce nu se modifică și listă când vrei să adaugi.",
-      "Caută cu `in` într-o mulțime sau într-un dicționar, nu într-o listă mare.",
-      "`b = a` nu copiază lista; folosește `a.copy()` dacă ai nevoie de o copie reală.",
-      "Pune `None` ca valoare implicită și creează lista sau dicționarul înăuntrul funcției.",
-      "Nu prinde erorile cu `except:` gol; prinde exact tipul pe care îl aștepți.",
-      "Pune `random.seed(...)` o singură dată, la început, ca să poți compara rulările.",
-      "Pune `encoding=\"utf-8\"` la orice fișier cu diacritice."
-    ],
-    "practice": [
-      "Scrie o funcție care primește o listă de numere și întoarce media, mediana și valoarea maximă.",
-      "Numără cuvintele dintr-un text cu un dicționar, apoi rescrie soluția cu `Counter`.",
-      "Rescrie trei bucle `for` pe care le-ai scris deja ca list comprehensions.",
-      "Scrie o funcție care citește un CSV cu `csv.DictReader` și întoarce media unei coloane numerice, cu `try`/`except` pentru rânduri lipsă.",
-      "Curăță un text cu `.lower()`, `.strip()` și `re.sub`, apoi numără cuvintele unice cu `Counter`.",
-      "Scrie o clasă `ClasificatorMajoritar` cu `fit`/`predict`, apoi o clasă care moștenește din ea și suprascrie `predict`."
-    ],
-    "keyTakeaways": [
-      "Alegi structura după ce ai nevoie: listă pentru ordine, dicționar pentru căutare după cheie, mulțime pentru unicitate și operații de tip reuniune/intersecție.",
-      "Feliile `a:b` includ începutul și exclud sfârșitul, la fel peste tot în Python; string-urile sunt imutabile.",
-      "`is` compară identitatea, `==` compară valoarea; pentru `None` folosești mereu `is`.",
-      "Comprehensions și generatoarele scurtează buclele; `try`/`except` le face sigure de rulat pe date reale.",
-      "Tiparul `fit`/`predict` și moștenirea din clase sunt exact ce vei folosi la scikit-learn și mai târziu la PyTorch.",
-      "CSV, JSON și `pathlib` citesc datele fără Pandas; `random.seed` face rulările repetabile."
-    ]
+    "pitfalls": [],
+    "practice": []
   },
   {
     "moduleCode": "S4",

@@ -228,22 +228,43 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S3",
     "duration": "~1 week",
-    "intro": "Everything that follows in the curriculum is written in Python. This module is about the language, not about machine learning: skip it and you'll lose time in every later lesson looking up how to write a dictionary. If you already know Python, move through it quickly and stop only at comprehensions and unpacking, which show up constantly in contest code.",
+    "intro": "Everything that follows in the curriculum is written in Python. This module is about the language, not about machine learning: skip it and you'll lose time in every later lesson looking up how to write a dictionary. If you already know Python, move through it quickly and stop only at comprehensions, unpacking, exceptions and regular expressions, which show up constantly in contest code.",
     "sections": [
       {
         "heading": "Types and variables",
         "blocks": [
           {
-            "p": "Python doesn't ask you to declare types. It infers them from the value, and the type can change. That's convenient, but it means type errors show up at runtime, not before."
+            "p": "Python doesn't ask you to declare a type. It infers it from the value, and the type can change."
           },
           {
             "code": "n = 42            # int\npi = 3.14         # float\nname = \"Radu\"     # str\ndone = True       # bool\nnothing = None    # the absence of a value\n\nprint(type(n), type(pi))"
+          },
+          {
+            "p": "You can assign several variables at once, either with different values or the same value for all of them."
+          },
+          {
+            "code": "a, b, c = 1, 2, 3\nx = y = 0"
+          },
+          {
+            "p": "The short assignment operators (`+=`, `-=`, `*=`, `//=`) change the value and put it back in the same variable."
+          },
+          {
+            "code": "total = 0\nfor s in [1, 2, 3]:\n    total += s   # total = total + s"
           },
           {
             "p": "For text, the f-string is the modern way to insert values. You put an `f` before the quotes and write the expression in braces."
           },
           {
             "code": "score = 0.8734\nprint(f\"score: {score:.2f}\")        # score: 0.87\nprint(f\"double: {score * 2:.3f}\")   # double: 1.747"
+          },
+          {
+            "p": "Division has two forms: `/` always gives a float, `//` gives integer division rounded down, and `%` gives the remainder. `int(...)` truncates toward zero, `round(...)` rounds normally, and `str(...)`/`float(...)`/`list(...)` convert explicitly between types."
+          },
+          {
+            "code": "print(7 / 2)          # 3.5\nprint(7 // 2)         # 3\nprint(7 % 2)           # 1\nprint(int(3.9))        # 3, truncates\nprint(round(3.9))      # 4, rounds\nprint(str(42) + \"!\")   # \"42!\""
+          },
+          {
+            "note": "`0`, `0.0`, `\"\"`, `[]`, `{}`, `set()` and `None` are all \"false\" when you put them in an `if`. An empty list is false, everything else is true."
           }
         ]
       },
@@ -251,7 +272,7 @@ export const lessonsEn: Lesson[] = [
         "heading": "The four data structures",
         "blocks": [
           {
-            "p": "Almost everything you write uses one of these. Picking the right one simplifies the rest of your code."
+            "p": "Almost everything you write uses one of these."
           },
           {
             "list": [
@@ -262,10 +283,37 @@ export const lessonsEn: Lesson[] = [
             ]
           },
           {
-            "code": "scores = [0.71, 0.83, 0.79]\nscores.append(0.88)\nprint(len(scores), max(scores))\n\nmodel = {\"name\": \"rf\", \"depth\": 8}\nprint(model[\"name\"])\nmodel[\"seed\"] = 42\n\nunique = set([1, 2, 2, 3, 3, 3])   # {1, 2, 3}"
+            "code": "scores = [0.71, 0.83, 0.79]\nscores.append(0.88)\nprint(len(scores), max(scores))"
           },
           {
-            "note": "Search a set or a dictionary, not a list. Checking `x in list` walks every element; `x in set` is nearly instant. On tens of thousands of elements you feel the difference."
+            "p": "Besides `.append()`, lists have a few more methods you'll use constantly: `.insert(pos, val)` puts something at a given position, `.pop(pos)` removes an element (with no argument, removes the last one), `.remove(val)` removes the first occurrence of a value, `.index(val)` gives you its position."
+          },
+          {
+            "code": "scores.insert(0, 0.5)\nlast = scores.pop()\nscores.remove(0.71)\nprint(scores.index(0.83))"
+          },
+          {
+            "p": "Dictionaries aren't only read with `d[\"key\"]`, which raises an error if the key is missing. `.get(\"key\", default)` returns a default value instead."
+          },
+          {
+            "code": "grades = {\n\t\"Radu\": 4,\n\t\"Stefan\": 10,\n\t\"Victor\": 8\n}\nprint(grades[\"Stefan\"])   # 10\nprint(grades.get(\"Radu\")) # 4"
+          },
+          {
+            "p": "Dictionaries can contain other dictionaries."
+          },
+          {
+            "code": "student = {\"name\": \"Ana\", \"grades\": {\"ro\": 9, \"en\": 10}}\nprint(student[\"grades\"][\"en\"])   # 10"
+          },
+          {
+            "p": "Sets drop duplicate values and give you set-like operations: union, intersection, difference, useful when you compare two sets of labels or words."
+          },
+          {
+            "code": "a = set([1, 2, 2, 3, 3, 3])   # {1, 2, 3}\nb = {3, 4, 5}\n\na.add(10)\na.discard(1)\n\nprint(a | b)   # union: {2, 3, 4, 5, 10}\nprint(a & b)   # intersection: {3}\nprint(a - b)   # difference: elements in a that aren't in b"
+          },
+          {
+            "p": "A less obvious pitfall: `b = a` doesn't copy the list, it just gives the same list in memory a second name. To get a real copy, use `a.copy()` or `list(a)`."
+          },
+          {
+            "code": "a = [1, 2, 3]\nb = a\nb.append(4)\nprint(a)          # [1, 2, 3, 4], a changed too\n\nc = a.copy()\nc.append(5)\nprint(a)          # unchanged this time"
           }
         ]
       },
@@ -279,7 +327,16 @@ export const lessonsEn: Lesson[] = [
             "code": "v = [10, 20, 30, 40, 50]\n\nv[0]      # 10, the first\nv[-1]     # 50, the last\nv[1:3]    # [20, 30], from 1 up to but not including 3\nv[:2]     # [10, 20]\nv[::2]    # [10, 30, 50], every second one"
           },
           {
-            "p": "This rule repeats identically for strings, NumPy arrays and Pandas columns. You learn it once and use it everywhere."
+            "p": "This rule repeats identically for strings, NumPy arrays and Pandas columns. You learn it once and use it everywhere. Strings do have one quirk though: they're immutable, you can't change a character in place, you can only build a new string."
+          },
+          {
+            "code": "s = \"Vianu\"\ns[0]        # \"V\", indexing works\n# s[0] = \"X\"  # error: TypeError, strings can't be modified\n\ns2 = \"X\" + s[1:]   # \"Xianu\", a new string"
+          },
+          {
+            "p": "For special characters in strings you use escape sequences: `\\n` a new line, `\\t` a tab, `\\\\` a single backslash, `\\\"` a quote mark inside a double-quoted string."
+          },
+          {
+            "code": "print(\"first line\\nsecond line\")\nprint(\"column1\\tcolumn2\")"
           }
         ]
       },
@@ -293,27 +350,63 @@ export const lessonsEn: Lesson[] = [
             "code": "for s in scores:\n    if s > 0.8:\n        print(\"good\", s)\n    else:\n        print(\"weak\", s)"
           },
           {
+            "p": "Comparisons (`==`, `!=`, `<`, `>`, `<=`, `>=`) and logical operators (`and`, `or`, `not`) combine like in any language, but Python writes `and`/`or`/`not` instead of `&&`/`||`/`!`."
+          },
+          {
+            "code": "score, attempts = 0.9, 3\nif score > 0.8 and attempts < 5:\n    print(\"continue\")\nif not (score < 0.5 or attempts == 0):\n    print(\"worth trying\")"
+          },
+          {
+            "p": "A classic pitfall if you're coming from another language: `==` compares values, `is` compares whether two names point to the exact same object in memory. For `None`, always use `is`, never `==`."
+          },
+          {
+            "code": "x = None\nif x is None:       # correct\n    print(\"empty\")\n\na = [1, 2]\nb = [1, 2]\nprint(a == b)   # True, same values\nprint(a is b)   # False, different objects"
+          },
+          {
+            "p": "For a short `if` that just picks between two values, the conditional expression (ternary) fits on one line."
+          },
+          {
+            "code": "label = \"good\" if score > 0.8 else \"weak\""
+          },
+          {
             "p": "When you also need the position, use `enumerate`. When you walk two lists at once, `zip`."
           },
           {
             "code": "for i, s in enumerate(scores):\n    print(i, s)\n\nfor name, score in zip([\"a\", \"b\"], [0.7, 0.9]):\n    print(name, score)"
+          },
+          {
+            "p": "Besides `for`, there's `while`, which keeps going as long as a condition stays true. `break` exits the loop, `continue` skips the current iteration."
+          },
+          {
+            "code": "i = 0\nwhile i < len(scores):\n    if scores[i] < 0.5:\n        i += 1\n        continue\n    if scores[i] > 0.95:\n        break\n    print(scores[i])\n    i += 1"
+          },
+          {
+            "p": "Sorting is done with `sorted()` or `.sort()`, and `key` tells it what to sort by."
+          },
+          {
+            "code": "students = [(\"Ana\", 9.2), (\"Bogdan\", 8.7), (\"Cris\", 9.5)]\nstudents.sort(key=lambda x: x[1], reverse=True)\nprint(students)   # sorted by grade, highest first"
           }
         ]
       },
       {
-        "heading": "List comprehensions",
+        "heading": "Comprehensions",
         "blocks": [
           {
-            "p": "A short way to build one list from another. It shows up often in contest code, so it's worth reading fluently even if you write ordinary loops at first."
+            "p": "A short way to build one structure from another. It shows up often in contest code, so it's worth reading fluently even if you write ordinary loops at first."
           },
           {
             "code": "squares = [x * x for x in range(5)]        # [0, 1, 4, 9, 16]\ngood = [s for s in scores if s > 0.8]      # only those above 0.8"
           },
           {
-            "p": "Read it left to right: \"take each x from range, keep it if it passes the condition, put x*x in the list\". It works for dictionaries too."
+            "p": "Read it left to right: \"take each x from range, keep it if it passes the condition, put x*x in the list\". The same works for dictionaries and sets. `range(n)` doesn't actually build a list of n numbers, it produces the values one at a time, so `range(10_000_000)` doesn't hold ten million numbers in memory."
           },
           {
-            "code": "lengths = {c: len(c) for c in [\"rf\", \"xgboost\"]}   # {\"rf\": 2, \"xgboost\": 7}"
+            "code": "lengths = {c: len(c) for c in [\"rf\", \"xgboost\"]}   # {\"rf\": 2, \"xgboost\": 7}\nunique_lengths = {len(c) for c in [\"rf\", \"svm\", \"cnn\"]}   # {2, 3}"
+          },
+          {
+            "p": "A generator expression looks like a list comprehension but with round brackets instead. It doesn't build the whole structure in memory at once, it produces values one at a time, which matters for sums or large loops."
+          },
+          {
+            "code": "total = sum(x * x for x in range(1_000_000))"
           }
         ]
       },
@@ -334,6 +427,39 @@ export const lessonsEn: Lesson[] = [
           },
           {
             "note": "Never use a list or a dictionary as an argument's default value. It's created once, when the function is defined, and stays shared between calls. Use `None` and create the value inside."
+          },
+          {
+            "p": "A variable created inside a function only exists there, it's local. The function can see global variables but can't change them without the `global` keyword, and needing `global` is usually a sign the function should be rewritten to take in and return values instead of touching outside state."
+          },
+          {
+            "code": "counter = 0\n\ndef wrong_increment():\n    counter = counter + 1   # error: local variable used before assignment\n\ndef increment():\n    global counter\n    counter += 1   # works, but avoid this pattern when you can"
+          },
+          {
+            "p": "Sometimes you don't know in advance how many arguments you'll get. `*args` collects positional arguments into a tuple, `**kwargs` collects named ones into a dictionary."
+          },
+          {
+            "code": "def report(*scores, **info):\n    print(\"scores:\", scores)\n    print(\"info:\", info)\n\nreport(0.8, 0.9, model=\"rf\", seed=42)"
+          },
+          {
+            "p": "A `lambda` is a small, unnamed function written on one line. You'll see it often as an argument to `sorted`, `map` or `filter`."
+          },
+          {
+            "code": "double = lambda x: x * 2\nprint(double(5))     # 10\n\nprint(list(map(lambda x: x * x, [1, 2, 3])))      # [1, 4, 9]\nprint(list(filter(lambda x: x > 0.8, scores)))    # only those above 0.8"
+          },
+          {
+            "p": "In practice, a comprehension often does the job more clearly than `map`/`filter`. You'll reach for those mostly when the function already comes defined from somewhere else."
+          },
+          {
+            "p": "A function can call itself, recursively. Rarely needed in everyday AI code, but useful to recognize: it always needs a base case that stops the recursion."
+          },
+          {
+            "code": "def factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))   # 120"
+          },
+          {
+            "p": "A function with `yield` instead of `return` is a generator: it doesn't return all its values at once, it produces one at a time, each time it's called again through a `for` loop."
+          },
+          {
+            "code": "def even_numbers(up_to):\n    for n in range(up_to):\n        if n % 2 == 0:\n            yield n\n\nfor n in even_numbers(10):\n    print(n)"
           }
         ]
       },
@@ -350,6 +476,12 @@ export const lessonsEn: Lesson[] = [
             "p": "That's exactly the scikit-learn pattern: `fit` learns and remembers, `predict` uses what it learned."
           },
           {
+            "p": "A class can inherit from another, with `class Child(Parent):`, and `super()` calls the version from the base class. You'll see this pattern constantly later on, with neural networks in PyTorch, where every model is a class that inherits from `nn.Module`."
+          },
+          {
+            "code": "class Model:\n    def __init__(self, name):\n        self.name = name\n\n    def describe(self):\n        return f\"model {self.name}\"\n\nclass ModelWithSeed(Model):\n    def __init__(self, name, seed):\n        super().__init__(name)\n        self.seed = seed\n\n    def describe(self):\n        return f\"{super().describe()}, seed {self.seed}\"\n\nprint(ModelWithSeed(\"rf\", 42).describe())   # model rf, seed 42"
+          },
+          {
             "p": "Someone else's code comes in with `import`."
           },
           {
@@ -358,39 +490,94 @@ export const lessonsEn: Lesson[] = [
         ]
       },
       {
-        "heading": "Files",
+        "heading": "Errors and exceptions",
         "blocks": [
           {
-            "p": "Reading and writing use `with`, which closes the file on its own even if an error comes up."
+            "p": "Code that reads files, parses data or takes input will produce errors, guaranteed. Python calls them exceptions, and you catch them with `try`/`except` so one bad line doesn't crash the whole program."
+          },
+          {
+            "code": "def divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        print(\"can't divide by zero\")\n        return None\n\nprint(divide(10, 2))   # 5.0\nprint(divide(10, 0))   # message, then None"
+          },
+          {
+            "p": "The exceptions you'll hit most in contests: `ValueError` (a failed conversion, like `int(\"abc\")`), `KeyError` (a key that doesn't exist in a dictionary), `IndexError` (an index outside the list), `FileNotFoundError` (a wrong path to the data)."
+          },
+          {
+            "note": "Don't catch exceptions with a bare `except:`. It hides every mistake, including the ones you should actually see. Catch the exact type you expect, for example `except ValueError:`."
+          },
+          {
+            "p": "`finally` always runs, with or without an exception, good for cleanup. `assert` quickly checks an assumption and stops the program with a clear message if it's false, useful for catching bugs early instead of at the end of a run."
+          },
+          {
+            "code": "assert len(X) == len(y), \"X and y must have the same length\""
+          }
+        ]
+      },
+      {
+        "heading": "Text and regular expressions",
+        "blocks": [
+          {
+            "p": "Many problems, especially in NLP, need text cleaned up before anything else. Strings have built-in methods for this."
+          },
+          {
+            "code": "s = \"  The Second WORLD War  \"\nprint(s.strip())          # removes the spaces at both ends\nprint(s.lower())          # lowercase\nprint(s.split())          # ['The', 'Second', 'WORLD', 'War']\nprint(\"-\".join([\"a\", \"b\", \"c\"]))   # \"a-b-c\"\nprint(s.replace(\"WORLD\", \"world\"))"
+          },
+          {
+            "p": "For patterns more complicated than `.replace()`, the `re` module matches text against regular expressions."
+          },
+          {
+            "code": "import re\n\ntext = \"contact: ana@example.com or 0722 123 456\"\nemails = re.findall(r\"[\\w.]+@[\\w.]+\", text)\nprint(emails)    # ['ana@example.com']\n\ncleaned = re.sub(r\"\\d+\", \"\", text)   # removes every digit"
+          },
+          {
+            "note": "`re` is worth learning gradually, not all at once. At first just remember `findall` (finds every match) and `sub` (replaces), and look up the rest when you need it."
+          }
+        ]
+      },
+      {
+        "heading": "Files and data formats",
+        "blocks": [
+          {
+            "p": "Reading and writing a text file use `with`, which closes it on its own even if an error comes up."
           },
           {
             "code": "with open(\"notes.txt\", \"w\", encoding=\"utf-8\") as f:\n    f.write(\"first line\\n\")\n\nwith open(\"notes.txt\", encoding=\"utf-8\") as f:\n    for line in f:\n        print(line.strip())"
           },
           {
             "p": "Always pass `encoding=\"utf-8\"`. Without it, on Windows, accented characters get read wrong."
+          },
+          {
+            "p": "Contest data rarely comes as plain text. It's usually CSV or JSON, and Python has standard modules for both, even before you get to Pandas."
+          },
+          {
+            "code": "import csv\n\nwith open(\"scores.csv\", encoding=\"utf-8\") as f:\n    reader = csv.DictReader(f)\n    for row in reader:\n        print(row[\"name\"], row[\"score\"])"
+          },
+          {
+            "code": "import json\n\ndata = {\"model\": \"rf\", \"score\": 0.87}\nwith open(\"result.json\", \"w\", encoding=\"utf-8\") as f:\n    json.dump(data, f)\n\nwith open(\"result.json\", encoding=\"utf-8\") as f:\n    loaded = json.load(f)"
+          },
+          {
+            "p": "For file paths, `pathlib` is clearer than gluing strings together with `+`."
+          },
+          {
+            "code": "from pathlib import Path\n\nfolder = Path(\"data\")\nfile = folder / \"train.csv\"\nprint(file.exists())"
+          }
+        ]
+      },
+      {
+        "heading": "Random and reproducibility",
+        "blocks": [
+          {
+            "p": "A lot of things in AI look random: splitting data, initializing a model, shuffling a training set. The `random` module controls this, and a `seed` makes results repeatable."
+          },
+          {
+            "code": "import random\n\nrandom.seed(42)\nprint(random.random())        # always the same value, with the same seed\nprint(random.randint(1, 10))\nrandom.shuffle(scores)        # shuffles the list in place"
+          },
+          {
+            "note": "Set `random.seed(...)` once, at the start of the script. Without it, running the code twice gives different results, which makes it impossible to fairly compare two ideas."
           }
         ]
       }
     ],
-    "pitfalls": [
-      "Use a tuple when you want something that doesn't change, a list when you want to append.",
-      "Search with `in` on a set or a dictionary, not on a large list.",
-      "Use `None` as the default and create the list or dictionary inside the function.",
-      "Indent consistently with four spaces, never mixed with tabs.",
-      "Pass `encoding=\"utf-8\"` for any file with accented characters."
-    ],
-    "practice": [
-      "Write a function that takes a list of numbers and returns the mean, the median and the maximum.",
-      "Count the words in a text with a dictionary, then rewrite the solution with `Counter`.",
-      "Rewrite three `for` loops you've already written as list comprehensions."
-    ],
-    "keyTakeaways": [
-      "Pick the structure by what you need: list for order, dictionary for lookup by key, set for uniqueness.",
-      "Slices `a:b` include the start and exclude the end, the same way everywhere in Python.",
-      "Comprehensions shorten loops that build lists; they're worth reading fluently.",
-      "The `fit` and `predict` pattern in classes is exactly the one scikit-learn uses.",
-      "`with open(...)` closes the file for you; always pass `encoding=\"utf-8\"`."
-    ]
+    "pitfalls": [],
+    "practice": []
   },
   {
     "moduleCode": "S4",

@@ -4,27 +4,27 @@ duration: ~2h
 ---
 
 # @intro
-Prima sesiune are două jumătăți. Întâi limpezim ce înseamnă inteligența artificială, ca să știi despre ce vorbim tot anul. Apoi facem logistica: un loc unde scrii cod și un loc unde trimiți răspunsuri. Partea de setup pare plictisitoare, dar mai toate punctele pierdute prostește la prima etapă vin de aici: un mediu care nu pornește, un fișier de submisie prost formatat, o bibliotecă lipsă. O faci o dată, temeinic, și scapi de ea.
+Prima sesiune are două jumătăți. Întâi limpezim ce înseamnă inteligența artificială, ca să știi despre ce vorbim tot anul. Apoi facem logistica: un loc unde scrii cod și un loc unde trimiți răspunsuri.
 
 ## Ce e AI și unde se folosește
 Inteligența artificială e ideea de a face un program care rezolvă probleme fără să-i scrii tu, pas cu pas, regula pentru fiecare caz. În loc să-i spui „dacă e așa, fă asta”, îi arăți multe exemple și îl lași să găsească singur regula. Partea asta, de învățat din exemple, se numește machine learning, și e aproape tot ce faci la olimpiadă.
 
-Un exemplu face diferența limpede. Ca să deosebești un email spam de unul normal cu reguli scrise de mână, ai scrie sute de „dacă conține cuvântul X”. Cu machine learning, îi dai câteva mii de emailuri deja marcate spam sau nu, și modelul învață singur ce combinații de cuvinte prezic spamul. Nu-i spui regula, i-o extragi din date.
+Un exemplu face diferența clară. Ca să deosebești un email spam de unul normal cu reguli scrise de mână, ai scrie sute de „dacă conține cuvântul X”. Cu machine learning, îi dai câteva mii de emailuri deja marcate spam sau nu, și modelul învață singur ce combinații de cuvinte prezic spamul.
 
-- Clasificare: pui o etichetă (spam sau nu, ce cifră e în imagine, ce boală arată o analiză).
+- Clasificare: pui un label (spam sau nu, ce cifră e în imagine, pentru ce boală sunt specifice simptomele”).
 - Regresie: prezici un număr (prețul unei case, temperatura de mâine).
-- Grupare: găsești structura din date fără etichete (ce clienți seamănă între ei).
+- Clustering: găsești structura din date fără labeluri (ce clienți seamănă între ei).
 
 > [!NOTE]
-> La concursurile de AI, aproape orice problemă se reduce la asta: primești date cu exemple, antrenezi un model care învață din ele, și îl pui să prezică pe date noi. Restul programei sunt uneltele care fac asta bine.
+> La concursurile de AI, aproape orice problemă se reduce la asta: primești date cu exemple, antrenezi un model care învață din ele, și îl pui să prezică pe date noi.
 
 ## Ce e Python și de ce el
-Python e limbajul standard în care se scrie cod de inteligență artificială. Nu pentru că ar fi cel mai rapid, ci pentru că are bibliotecile pe care le vrei deja scrise: NumPy pentru calcul numeric, Pandas pentru tabele, scikit-learn pentru modele clasice, PyTorch pentru rețele neuronale. La olimpiadă totul se scrie în Python, deci aici începi.
+Python e limbajul standard în care se scrie cod de inteligență artificială. Nu pentru că ar fi cel mai rapid, ci pentru că are bibliotecile pe care le vrei deja scrise: NumPy pentru calcul numeric, Pandas pentru tabele, scikit-learn pentru modele clasice, PyTorch pentru rețele neuronale.
 
-O bibliotecă e cod scris de altcineva, pe care îl imporți și îl folosești. În loc să scrii tu algoritmul de sortare sau înmulțirea de matrice, chemi funcția potrivită. Cea mai mare parte din munca ta va fi să legi bibliotecile astea între ele corect.
+O bibliotecă reprezinta un cod scris de altcineva, pe care îl imporți și îl folosești. În loc să scrii tu algoritmul de sortare sau înmulțirea de matrice, chemi funcția potrivită. Cea mai mare parte din munca ta va fi să legi bibliotecile acestea între ele corect.
 
 > [!NOTE]
-> Instalează Python 3.11 (o versiune stabilă, larg suportată) și JupyterLab. Jupyter îți dă un caiet interactiv unde rulezi cod bucată cu bucată și vezi rezultatul imediat, exact ce vrei când explorezi date.
+> Instalează Python 3.11 (o versiune stabilă, larg suportată) și JupyterLab. Jupyter îți dă un notebook interactiv unde rulezi cod bucată cu bucată și vezi rezultatul imediat, exact ce vrei când explorezi date.
 
 ## Pune mediul la punct
 Un mediu virtual e o cutie separată pentru bibliotecile unui proiect, ca să nu se bată cap în cap cu altele. Îl creezi o dată și lucrezi mereu în el. Pașii de mai jos îți dau un mediu curat cu tot ce ai nevoie la început.
@@ -34,8 +34,6 @@ Un mediu virtual e o cutie separată pentru bibliotecile unui proiect, ca să nu
 3. Activează-l: source .venv/bin/activate (pe Windows: .venv\Scripts\activate).
 4. Instalează uneltele: pip install numpy pandas matplotlib scikit-learn jupyterlab
 5. Pornește Jupyter: jupyter lab
-
-Verifică din prima că totul se importă fără erori. Dacă ceva pică, rezolvă acum, la tine acasă, cu internet, nu în sala de concurs unde nu ai nici net, nici timp.
 
 ```
 import numpy as np
@@ -50,7 +48,7 @@ print("totul merge")
 caption: Dacă rulează fără eroare, ești gata de treabă.
 
 ## Documentația offline
-La concurs, mai toate etapele sunt offline: fără internet, fără Stack Overflow, fără să întrebi un model. Singurul lucru la care te poți uita e documentația locală, adică fișierele de ajutor ale bibliotecilor, salvate pe calculator.
+La concurs, mai toate etapele sunt offline: fără internet. Singurul lucru la care te poți uita e documentația locală, adică fișierele de ajutor ale bibliotecilor, salvate pe calculator.
 
 Obișnuiește-te din timp să cauți în documentația offline. În Jupyter, pui un semn de întrebare după o funcție și îți arată ce face și ce argumente ia. E reflexul care îți salvează minute prețioase.
 

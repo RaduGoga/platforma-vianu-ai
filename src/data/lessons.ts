@@ -8,7 +8,7 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S1",
     "duration": "~2h",
-    "intro": "Prima sesiune are două jumătăți. Întâi limpezim ce înseamnă inteligența artificială, ca să știi despre ce vorbim tot anul. Apoi facem logistica: un loc unde scrii cod și un loc unde trimiți răspunsuri. Partea de setup pare plictisitoare, dar mai toate punctele pierdute prostește la prima etapă vin de aici: un mediu care nu pornește, un fișier de submisie prost formatat, o bibliotecă lipsă. O faci o dată, temeinic, și scapi de ea.",
+    "intro": "Prima sesiune are două jumătăți. Întâi limpezim ce înseamnă inteligența artificială, ca să știi despre ce vorbim tot anul. Apoi facem logistica: un loc unde scrii cod și un loc unde trimiți răspunsuri.",
     "sections": [
       {
         "heading": "Ce e AI și unde se folosește",
@@ -17,17 +17,17 @@ export const lessons: Lesson[] = [
             "p": "Inteligența artificială e ideea de a face un program care rezolvă probleme fără să-i scrii tu, pas cu pas, regula pentru fiecare caz. În loc să-i spui „dacă e așa, fă asta”, îi arăți multe exemple și îl lași să găsească singur regula. Partea asta, de învățat din exemple, se numește machine learning, și e aproape tot ce faci la olimpiadă."
           },
           {
-            "p": "Un exemplu face diferența limpede. Ca să deosebești un email spam de unul normal cu reguli scrise de mână, ai scrie sute de „dacă conține cuvântul X”. Cu machine learning, îi dai câteva mii de emailuri deja marcate spam sau nu, și modelul învață singur ce combinații de cuvinte prezic spamul. Nu-i spui regula, i-o extragi din date."
+            "p": "Un exemplu face diferența clară. Ca să deosebești un email spam de unul normal cu reguli scrise de mână, ai scrie sute de „dacă conține cuvântul X”. Cu machine learning, îi dai câteva mii de emailuri deja marcate spam sau nu, și modelul învață singur ce combinații de cuvinte prezic spamul."
           },
           {
             "list": [
-              "Clasificare: pui o etichetă (spam sau nu, ce cifră e în imagine, ce boală arată o analiză).",
+              "Clasificare: pui un label (spam sau nu, ce cifră e în imagine, pentru ce boală sunt specifice simptomele”).",
               "Regresie: prezici un număr (prețul unei case, temperatura de mâine).",
-              "Grupare: găsești structura din date fără etichete (ce clienți seamănă între ei)."
+              "Clustering: găsești structura din date fără labeluri (ce clienți seamănă între ei)."
             ]
           },
           {
-            "note": "La concursurile de AI, aproape orice problemă se reduce la asta: primești date cu exemple, antrenezi un model care învață din ele, și îl pui să prezică pe date noi. Restul programei sunt uneltele care fac asta bine."
+            "note": "La concursurile de AI, aproape orice problemă se reduce la asta: primești date cu exemple, antrenezi un model care învață din ele, și îl pui să prezică pe date noi."
           }
         ]
       },
@@ -35,37 +35,54 @@ export const lessons: Lesson[] = [
         "heading": "Ce e Python și de ce el",
         "blocks": [
           {
-            "p": "Python e limbajul standard în care se scrie cod de inteligență artificială. Nu pentru că ar fi cel mai rapid, ci pentru că are bibliotecile pe care le vrei deja scrise: NumPy pentru calcul numeric, Pandas pentru tabele, scikit-learn pentru modele clasice, PyTorch pentru rețele neuronale. La olimpiadă totul se scrie în Python, deci aici începi."
+            "p": "Python e limbajul standard în care se scrie cod de inteligență artificială. Nu pentru că ar fi cel mai rapid, ci pentru că are bibliotecile pe care le vrei deja scrise: NumPy pentru calcul numeric, Pandas pentru tabele, scikit-learn pentru modele clasice, PyTorch pentru rețele neuronale."
           },
           {
-            "p": "O bibliotecă e cod scris de altcineva, pe care îl imporți și îl folosești. În loc să scrii tu algoritmul de sortare sau înmulțirea de matrice, chemi funcția potrivită. Cea mai mare parte din munca ta va fi să legi bibliotecile astea între ele corect."
+            "p": "O bibliotecă reprezinta un cod scris de altcineva, pe care îl imporți și îl folosești. În loc să scrii tu algoritmul de sortare sau înmulțirea de matrice, chemi funcția potrivită. Cea mai mare parte din munca ta va fi să legi bibliotecile acestea între ele corect."
           },
           {
-            "note": "Instalează Python 3.11 (o versiune stabilă, larg suportată) și JupyterLab. Jupyter îți dă un caiet interactiv unde rulezi cod bucată cu bucată și vezi rezultatul imediat, exact ce vrei când explorezi date."
+            "note": "Instalează Python 3.11 (o versiune stabilă, larg suportată) și JupyterLab. Jupyter îți dă un notebook interactiv unde rulezi cod bucată cu bucată și vezi rezultatul imediat, exact ce vrei când explorezi date."
           }
         ]
       },
       {
-        "heading": "Pune mediul la punct",
+        "heading": "Pregătește mediul: Python, pip și Jupyter Lab",
         "blocks": [
           {
-            "p": "Un mediu virtual e o cutie separată pentru bibliotecile unui proiect, ca să nu se bată cap în cap cu altele. Îl creezi o dată și lucrezi mereu în el. Pașii de mai jos îți dau un mediu curat cu tot ce ai nevoie la început."
+            "p": "Înainte să scrii cod, ai nevoie de trei lucruri instalate pe calculator: Python, pip (vine automat cu el) și Jupyter Lab. Pașii de mai jos te duc de la un calculator gol până la un notebook care rulează."
           },
           {
-            "steps": [
-              "Deschide un terminal în folderul de lucru.",
-              "Creează mediul: python3.11 -m venv .venv",
-              "Activează-l: source .venv/bin/activate (pe Windows: .venv\\Scripts\\activate).",
-              "Instalează uneltele: pip install numpy pandas matplotlib scikit-learn jupyterlab",
-              "Pornește Jupyter: jupyter lab"
+            "list": [
+              "Windows: intră pe python.org/downloads, descarcă ultima versiune 3.11 sau mai nouă și rulează instalatorul. La primul ecran bifează „Add python.exe to PATH\" înainte de Install Now, altfel terminalul nu va găsi Python după instalare.",
+              "macOS: descarcă tot de pe python.org/downloads fișierul .pkg și parcurge instalatorul. Dacă ai deja Homebrew, merge la fel de bine brew install python@3.11.",
+              "Linux (Ubuntu/Debian): deschide un terminal și rulează sudo apt update && sudo apt install python3 python3-pip python3-venv."
             ]
           },
           {
-            "p": "Verifică din prima că totul se importă fără erori. Dacă ceva pică, rezolvă acum, la tine acasă, cu internet, nu în sala de concurs unde nu ai nici net, nici timp."
+            "p": "Pip vine inclus cu Python începând din versiunea 3.4, deci nu-l instalezi separat. Ca să confirmi că merg amândouă, deschide un terminal (Command Prompt sau PowerShell pe Windows, Terminal pe macOS și Linux) și rulează:"
+          },
+          {
+            "code": "python --version\npip --version",
+            "caption": "Dacă amândouă îți dau un număr de versiune, Python și pip sunt gata."
+          },
+          {
+            "p": "Pe Windows, dacă python nu e recunoscut, încearcă py --version; dacă nici pip nu răspunde, încearcă pip3 sau python -m pip --version."
+          },
+          {
+            "p": "Cu Python instalat, treci la mediul de lucru propriu-zis. Un mediu virtual e o cutie separată pentru bibliotecile unui proiect, ca să nu se bată cap în cap cu altele instalate global. Îl creezi o dată pe proiect și lucrezi mereu în el."
+          },
+          {
+            "steps": [
+              "Deschide un terminal în folderul unde vrei să lucrezi.",
+              "Creează mediul: python -m venv .venv (pe Linux/macOS poate fi nevoie de python3 -m venv .venv).",
+              "Activează-l: pe Windows .venv\\Scripts\\activate, pe macOS/Linux source .venv/bin/activate. Ai reușit dacă vezi (.venv) la începutul liniei de comandă.",
+              "Instalează uneltele de bază: pip install numpy pandas matplotlib scikit-learn jupyterlab.",
+              "Pornește Jupyter Lab: jupyter lab. Ar trebui să ți se deschidă singură o filă de browser cu interfața."
+            ]
           },
           {
             "code": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LogisticRegression\n\nprint(\"numpy\", np.__version__)\nprint(\"pandas\", pd.__version__)\nprint(\"totul merge\")",
-            "caption": "Dacă rulează fără eroare, ești gata de treabă."
+            "caption": "Scrie asta într-o celulă nouă din Jupyter Lab și rulează. Dacă merge fără eroare, ești gata de treabă."
           }
         ]
       },
@@ -73,7 +90,7 @@ export const lessons: Lesson[] = [
         "heading": "Documentația offline",
         "blocks": [
           {
-            "p": "La concurs, mai toate etapele sunt offline: fără internet, fără Stack Overflow, fără să întrebi un model. Singurul lucru la care te poți uita e documentația locală, adică fișierele de ajutor ale bibliotecilor, salvate pe calculator."
+            "p": "La concurs, mai toate etapele sunt offline: fără internet. Singurul lucru la care te poți uita e documentația locală, adică fișierele de ajutor ale bibliotecilor, salvate pe calculator."
           },
           {
             "p": "Obișnuiește-te din timp să cauți în documentația offline. În Jupyter, pui un semn de întrebare după o funcție și îți arată ce face și ce argumente ia. E reflexul care îți salvează minute prețioase."

@@ -26,14 +26,30 @@ O bibliotecă reprezinta un cod scris de altcineva, pe care îl imporți și îl
 > [!NOTE]
 > Instalează Python 3.11 (o versiune stabilă, larg suportată) și JupyterLab. Jupyter îți dă un notebook interactiv unde rulezi cod bucată cu bucată și vezi rezultatul imediat, exact ce vrei când explorezi date.
 
-## Pune mediul la punct
-Un mediu virtual e o cutie separată pentru bibliotecile unui proiect, ca să nu se bată cap în cap cu altele. Îl creezi o dată și lucrezi mereu în el. Pașii de mai jos îți dau un mediu curat cu tot ce ai nevoie la început.
+## Pregătește mediul: Python, pip și Jupyter Lab
+Înainte să scrii cod, ai nevoie de trei lucruri instalate pe calculator: Python, pip (vine automat cu el) și Jupyter Lab. Pașii de mai jos te duc de la un calculator gol până la un notebook care rulează.
 
-1. Deschide un terminal în folderul de lucru.
-2. Creează mediul: python3.11 -m venv .venv
-3. Activează-l: source .venv/bin/activate (pe Windows: .venv\Scripts\activate).
-4. Instalează uneltele: pip install numpy pandas matplotlib scikit-learn jupyterlab
-5. Pornește Jupyter: jupyter lab
+- Windows: intră pe python.org/downloads, descarcă ultima versiune 3.11 sau mai nouă și rulează instalatorul. La primul ecran bifează „Add python.exe to PATH" înainte de Install Now, altfel terminalul nu va găsi Python după instalare.
+- macOS: descarcă tot de pe python.org/downloads fișierul .pkg și parcurge instalatorul. Dacă ai deja Homebrew, merge la fel de bine brew install python@3.11.
+- Linux (Ubuntu/Debian): deschide un terminal și rulează sudo apt update && sudo apt install python3 python3-pip python3-venv.
+
+Pip vine inclus cu Python începând din versiunea 3.4, deci nu-l instalezi separat. Ca să confirmi că merg amândouă, deschide un terminal (Command Prompt sau PowerShell pe Windows, Terminal pe macOS și Linux) și rulează:
+
+```
+python --version
+pip --version
+```
+caption: Dacă amândouă îți dau un număr de versiune, Python și pip sunt gata.
+
+Pe Windows, dacă python nu e recunoscut, încearcă py --version; dacă nici pip nu răspunde, încearcă pip3 sau python -m pip --version.
+
+Cu Python instalat, treci la mediul de lucru propriu-zis. Un mediu virtual e o cutie separată pentru bibliotecile unui proiect, ca să nu se bată cap în cap cu altele instalate global. Îl creezi o dată pe proiect și lucrezi mereu în el.
+
+1. Deschide un terminal în folderul unde vrei să lucrezi.
+2. Creează mediul: python -m venv .venv (pe Linux/macOS poate fi nevoie de python3 -m venv .venv).
+3. Activează-l: pe Windows .venv\Scripts\activate, pe macOS/Linux source .venv/bin/activate. Ai reușit dacă vezi (.venv) la începutul liniei de comandă.
+4. Instalează uneltele de bază: pip install numpy pandas matplotlib scikit-learn jupyterlab.
+5. Pornește Jupyter Lab: jupyter lab. Ar trebui să ți se deschidă singură o filă de browser cu interfața.
 
 ```
 import numpy as np
@@ -45,7 +61,7 @@ print("numpy", np.__version__)
 print("pandas", pd.__version__)
 print("totul merge")
 ```
-caption: Dacă rulează fără eroare, ești gata de treabă.
+caption: Scrie asta într-o celulă nouă din Jupyter Lab și rulează. Dacă merge fără eroare, ești gata de treabă.
 
 ## Documentația offline
 La concurs, mai toate etapele sunt offline: fără internet. Singurul lucru la care te poți uita e documentația locală, adică fișierele de ajutor ale bibliotecilor, salvate pe calculator.

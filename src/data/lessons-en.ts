@@ -46,26 +46,46 @@ export const lessonsEn: Lesson[] = [
         ]
       },
       {
-        "heading": "Get your environment ready",
+        "heading": "Set up Python, pip, and Jupyter Lab",
         "blocks": [
           {
-            "p": "A virtual environment is a separate box for one project's libraries, so they don't clash with others. You create it once and always work inside it. The steps below give you a clean environment with everything you need to start."
+            "p": "Before you write any code you need three things installed: Python, pip (it ships with Python already), and Jupyter Lab. The steps below take you from a blank machine to a running notebook."
+          },
+          {
+            "list": [
+              "Windows: go to python.org/downloads, grab the latest 3.11 or newer, and run the installer. On the first screen check \"Add python.exe to PATH\" before clicking Install Now, otherwise your terminal won't find Python afterward.",
+              "macOS: download the same .pkg from python.org/downloads and run through the installer. If you already have Homebrew, brew install python@3.11 works just as well.",
+              "Linux (Ubuntu/Debian): open a terminal and run sudo apt update && sudo apt install python3 python3-pip python3-venv."
+            ]
+          },
+          {
+            "p": "Pip has shipped with Python since version 3.4, so there's nothing separate to install for it. To confirm both are working, open a terminal (Command Prompt or PowerShell on Windows, Terminal on macOS and Linux) and run:"
+          },
+          {
+            "code": "python --version\npip --version",
+            "caption": "If both print a version number, Python and pip are set up correctly."
+          },
+          {
+            "p": "On Windows, if python isn't recognized, try py --version instead; if pip doesn't respond either, try pip3 or python -m pip --version."
+          },
+          {
+            "p": "With Python installed, move on to the environment itself. A virtual environment is a separate box for one project's libraries, so they don't clash with anything else installed globally. You create it once per project and always work inside it."
           },
           {
             "steps": [
               "Open a terminal in your working folder.",
-              "Create the environment: python3.11 -m venv .venv",
-              "Activate it: source .venv/bin/activate (on Windows: .venv\\Scripts\\activate).",
-              "Install the tools: pip install numpy pandas matplotlib scikit-learn jupyterlab",
-              "Start Jupyter: jupyter lab"
+              "Create the environment: python -m venv .venv (on Linux/macOS you may need python3 -m venv .venv instead).",
+              "Activate it: on Windows .venv\\Scripts\\activate, on macOS/Linux source .venv/bin/activate. You'll know it worked when you see (.venv) at the start of your command line.",
+              "Install the core tools: pip install numpy pandas matplotlib scikit-learn jupyterlab.",
+              "Launch Jupyter Lab: jupyter lab. A browser tab should open on its own with the interface."
             ]
           },
           {
-            "p": "Check right away that everything imports without errors. If something breaks, fix it now, at home, with internet, not in the contest room where you have neither the net nor the time."
+            "p": "Check right away that everything imports without errors. If something breaks, fix it now, at home, with internet, not in the contest room where you have neither."
           },
           {
             "code": "import numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom sklearn.linear_model import LogisticRegression\n\nprint(\"numpy\", np.__version__)\nprint(\"pandas\", pd.__version__)\nprint(\"all good\")",
-            "caption": "If this runs with no error, you're ready to work."
+            "caption": "Type this into a new cell in Jupyter Lab and run it. If it runs with no error, you're ready to work."
           }
         ]
       },

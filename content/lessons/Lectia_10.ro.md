@@ -46,18 +46,6 @@ t-SNE și UMAP fac proiecții în 2D care arată frumos și scot în evidență 
 > [!NOTE]
 > Folosește t-SNE și UMAP ca să te uiți, nu ca să tragi concluzii dure. Pentru preprocesare de încredere, PCA e alegerea sigură.
 
-# @takeaways
-- Nesupervizat = găsești structură fără etichete (grupuri, direcții de variație).
-- K-Means cere să alegi k și date scalate; alegi k cu cotul sau silueta.
-- DBSCAN găsește singur numărul de grupuri și outlierii, după densitate.
-- PCA reduce dimensiunile păstrând varianța; bun și ca preprocesare.
-- t-SNE și UMAP sunt doar pentru privit, distanțele din ele nu sunt de încredere.
-
-# @pitfalls
-- Scalează datele înainte de K-Means, altfel coloana cu numere mari domină totul.
-- Citește t-SNE ca pe o hartă de vecinătăți, nu ca pe distanțe reale.
-- Alege k cu metoda cotului sau cu scorul siluetă.
-
 # @practice
 - Aplică K-Means și DBSCAN pe același set și compară grupurile găsite.
 - Redu la 2D cu PCA și cu UMAP și vezi ce diferă între ele.

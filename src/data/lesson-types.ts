@@ -17,12 +17,18 @@ export interface LessonSection {
   code?: string; // format vechi
 }
 
+// O problemă de exersat: titlul și, opțional, linkul către ea.
+// În markdown se scrie `- [Titlu](https://...)`, sau doar `- Titlu` dacă
+// încă n-ai linkul.
+export interface PracticeProblem {
+  title: string;
+  url?: string;
+}
+
 export interface Lesson {
   moduleCode: string;
   duration: string;
   intro: string;
   sections: LessonSection[];
-  keyTakeaways?: string[]; // de reținut, pe scurt
-  pitfalls: string[];
-  practice: string[];
+  practice: PracticeProblem[];
 }

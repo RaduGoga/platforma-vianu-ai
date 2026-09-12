@@ -29,17 +29,6 @@ The loss curve is the main diagnostic tool. Look at it, not just the final score
 - Training loss drops, validation loss rises: overfitting, add regularization.
 - Noisy but decreasing loss: probably normal, maybe a batch size that's too small.
 
-# @takeaways
-- First test: can the model overfit 10 examples? If not, it's a bug.
-- Debug in order: learning rate, normalization, labels, zero_grad, gradients.
-- Don't change things at random; go down the list, one thing at a time.
-- The loss curve tells you the cause: flat shape, explosion, or a train-validation gap.
-
-# @pitfalls
-- Check that the data is normalized before blaming the architecture.
-- If it doesn't learn in the first few epochs, stop and look for the bug.
-- Change one thing at a time, so you know what helped.
-
 # @practice
 - Take a network that won't learn and find the cause by going through the list, one step at a time.
 - Reproduce overfitting on 10 examples as a sanity check before the real training.

@@ -60,19 +60,6 @@ Curba de învățare le diagnostichează: desenezi scorul de antrenare și cel d
 > [!NOTE]
 > Regula de aur: la final alege conștient cele două submisii. Una pe scorul tău local (validarea) cel mai bun, una pe clasamentul public cel mai bun. Dacă local și public sunt de acord, ai încredere. Dacă diferă mult, ai o scurgere sau un split prost. Nu lăsa submisiile finale pe ultimele trimise din reflex.
 
-# @takeaways
-- Acuratețea minte pe clase dezechilibrate; folosește precizie, recall, F1.
-- Matricea de confuzie (TP, TN, FP, FN) e baza tuturor metricilor.
-- Precizia și recall-ul se bat cap în cap; F1 le împacă.
-- K-fold stratificat estimează scorul stabil, fără scurgeri.
-- Curba de învățare distinge bias (underfitting) de varianță (overfitting).
-- Alege cele două submisii finale: una pe local, una pe public.
-
-# @pitfalls
-- Ai încredere în validarea ta locală, nu în clasamentul public.
-- Folosește k-fold stratificat, ca fiecare fold să conțină și clasele rare.
-- Pe date dezechilibrate raportează precizie, recall și F1, nu acuratețe.
-
 # @practice
 - Desenează o curbă de învățare și decide dacă modelul suferă de bias sau de varianță.
 - Găsește o scurgere de informație într-un pipeline dat și repar-o.

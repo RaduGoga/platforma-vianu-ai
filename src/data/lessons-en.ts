@@ -8,149 +8,121 @@ export const lessonsEn: Lesson[] = [
   {
     "moduleCode": "S1",
     "duration": "~2h",
-    "intro": "The first session has two halves. First we make it clear what artificial intelligence means, so you know what we're talking about all year. Then we handle the logistics: a place to write code and a place to send answers.",
+    "intro": "Naturally, the first question is what artificial intelligence actually means. With so much confusion around the term, it's worth clearing that up first and only then setting up your working environment.",
     "sections": [
       {
         "heading": "What AI is and where it's used",
         "blocks": [
           {
-            "p": "Artificial intelligence is the idea of building a program that solves problems without you writing, step by step, the rule for every case. Instead of telling it \"if this, do that\", you show it many examples and let it find the rule on its own. That part, learning from examples, is called machine learning, and it's almost everything you do at the olympiad."
+            "p": "At its core, artificial intelligence means any technology that simulates human functions. Instead of following strict rules, you show it many examples and let it find the rules on its own, through various algorithms. It isn't magic: ChatGPT doesn't \"think\". The part about learning from examples is called machine learning, and it's almost everything you do at the olympiad."
           },
           {
-            "p": "One example makes the difference clear. To tell a spam email from a normal one with hand-written rules, you'd write hundreds of \"if it contains word X\". With machine learning, you give it a few thousand emails already marked spam or not, and the model learns on its own which combinations of words predict spam."
+            "p": "Some terminology is worth mentioning too. Data science covers all the fields involved in AI: mathematics, computer science and others. Mathematics is the foundation and shows up in absolutely everything we do, but you don't have to learn it in depth to solve problems or build projects. Some classic computer science algorithms are used as well, BFS and DFS for example, in certain areas of AI. Machine learning, mentioned above, splits into several categories of its own: supervised learning, unsupervised learning, reinforcement learning and, sometimes, self-supervised."
+          },
+          {
+            "p": "A few examples help. To tell a spam email from a normal one with hand-written rules, you'd have to write hundreds of conditions of the form \"if it contains the word X\". With machine learning, you give it a few thousand emails already marked as spam or not, and the model learns by itself which combinations of words predict spam. A few classic AI tasks include, but aren't limited to:"
           },
           {
             "list": [
-              "Classification: you put a label on something (spam or not, which digit is in an image, what disease a set of symptoms points to).",
+              "Classification: you assign a label (spam or not, which digit is in the image, which disease the symptoms point to).",
               "Regression: you predict a number (the price of a house, tomorrow's temperature).",
-              "Clustering: you find structure in data with no labels (which customers are similar)."
+              "Clustering: you find structure in unlabelled data (which customers resemble each other)."
             ]
           },
           {
-            "note": "At AI contests almost every problem comes down to this: you get data with examples, you train a model that learns from them, and you make it predict on new data."
+            "p": "Overfitting, underfitting, bias and variance matter too. A model that has memorized the training data, noise included, does almost perfectly on what it has seen and poorly on new data: that's overfitting. At the opposite end, a model too simple for the problem doesn't even capture the real pattern and gets things wrong everywhere, on training and on test alike: that's underfitting."
+          },
+          {
+            "p": "The two are explained by bias and variance. Bias is the error that comes from assumptions that are too simple, like fitting a straight line through data that actually describes a curve. Variance is sensitivity to the exact data it was trained on: change the training set slightly and the model gives completely different predictions. High bias means underfitting, high variance means overfitting, and lowering one usually raises the other. Everything you do at the olympiad, from how complex a model you pick to how long you train it, is really the search for the balance point between them."
+          },
+          {
+            "note": "How to spot them in practice: compare the training score with the validation score. Both weak means underfitting, and you need a stronger model. A good training score and a weak validation score means overfitting, and you need more data, regularization, or a simpler model."
+          },
+          {
+            "note": "At AI contests, almost every problem comes down to this: you get data, you analyse it, you train a model, and you have it predict on new data."
           }
         ]
       },
       {
-        "heading": "What Python is and why it's the one",
+        "heading": "What Python is and why it",
         "blocks": [
           {
-            "p": "Python is the standard language for writing AI code. Not because it's the fastest, but because the libraries you want are already written: NumPy for numeric work, Pandas for tables, scikit-learn for classic models, PyTorch for neural networks."
+            "p": "Python is the standard language for writing artificial intelligence code. Not because it's the fastest, but because it's heavily abstracted and already has the libraries you want, written for you, sometimes in faster languages: NumPy for numerical computing, Pandas for tables, scikit-learn for classic models, PyTorch for neural networks."
           },
           {
-            "p": "A library is code someone else wrote, that you import and use. Instead of writing the sorting algorithm or matrix multiplication yourself, you call the right function. Most of your work will be wiring these libraries together correctly."
+            "p": "A library is code written by someone else that you import and use. In AI tasks the goal isn't to memorize how algorithms or models are written, but to understand them, to know when each one applies, and to adapt them to the problem at hand alongside other methods."
           },
           {
-            "note": "Install Python 3.11 (a stable, widely supported version) and JupyterLab. Jupyter gives you an interactive notebook where you run code piece by piece and see the result right away, exactly what you want when you're exploring data."
+            "note": "Install a stable version of Python, 3.11 for example, which is well supported by libraries."
           }
         ]
       },
       {
-        "heading": "Set up Python, pip, and Jupyter Lab",
+        "heading": "Your working setup: Python, pip and Jupyter Lab",
         "blocks": [
           {
-            "p": "Before you write any code you need three things installed on your computer: Python, pip (it comes bundled with it), and Jupyter Lab."
+            "p": "Before you write any code you need three things installed: Python, pip (which comes with it automatically) and Jupyter Lab. Jupyter Lab, VS Code and Google Colab are environments where you can write Python notebooks, which let you write code in pieces and run it one piece at a time."
           },
           {
             "list": [
-              "Windows: go to python.org/downloads, grab the latest 3.11 or newer, and run the installer. On the first screen check \"Add python.exe to PATH\" before clicking Install Now, otherwise your terminal won't find Python afterward.",
-              "macOS: download the same .pkg from python.org/downloads and run through the installer. If you already have Homebrew, brew install python@3.11 works just as well.",
+              "Windows: go to python.org/downloads, download the latest 3.11 or newer and run the installer. On the first screen tick \"Add python.exe to PATH\" before Install Now, otherwise the terminal won't find Python afterwards.",
+              "macOS: download the .pkg file from python.org/downloads as well and step through the installer. If you already have Homebrew, brew install python@3.11 works just as well.",
               "Linux (Ubuntu/Debian): open a terminal and run sudo apt update && sudo apt install python3 python3-pip python3-venv."
             ]
           },
           {
-            "p": "Pip has shipped with Python since version 3.4, so there's nothing separate to install for it. To confirm both are working, open a terminal (Command Prompt or PowerShell on Windows, Terminal on macOS and Linux) and run:"
+            "p": "Pip ships with Python from version 3.4 on, so you don't install it separately. To confirm both work, open a terminal (Command Prompt or PowerShell on Windows, Terminal on macOS and Linux) and run:"
           },
           {
             "code": "python --version\npip --version",
             "caption": "If both print a version number, Python and pip are installed."
           },
           {
-            "p": "On Windows, if python isn't recognized, try py --version instead; if pip doesn't respond either, try pip3 or python -m pip --version."
+            "p": "On Windows, if python isn't recognized, try py --version; if pip doesn't answer either, try pip3 or python -m pip --version."
           },
           {
-            "p": "With Python installed, move on to the environment itself. A virtual environment is a separate box for one project's libraries, so they don't clash with anything else installed globally. You create it once per project and always work inside it."
+            "p": "With Python installed, move on to the working environment itself. A virtual environment is a separate box for one project's libraries, so they don't clash with others installed globally. You create it once per project and always work inside it."
           },
           {
             "steps": [
-              "Open a terminal in your working folder.",
+              "Open a terminal in the folder you're working in.",
               "Type pip install jupyterlab and press Enter.",
-              "Type jupyter lab and press Enter: a browser tab opens on its own with the interface."
+              "Type jupyter lab and press Enter: a browser tab opens automatically with the interface."
             ]
           },
           {
-            "note": "At the contest you'll find all of this already installed on the computers."
-          }
-        ]
-      },
-      {
-        "heading": "Documentation at the contest",
-        "blocks": [
-          {
-            "p": "You're not fully offline at the contest. You get internet, but a controlled one: only a fixed list of sites, usually the official docs for the libraries you use, like numpy.org, scikit-learn.org, pandas.pydata.org, pytorch.org, docs.python.org. The system logs what you visit, and going to anything outside that list, ChatGPT, any other page, gets you flagged and risks disqualification."
-          },
-          {
-            "p": "In practice, you can look up a function in the official docs, but you can't ask anyone and you can't copy code from a forum. Get used to finding the answer directly in the docs, not through a Google search."
-          },
-          {
-            "p": "There's also a faster option that works even with no connection at all: in Jupyter, put a question mark after a function and it shows you what it does and what arguments it takes, straight from the library installed on your machine."
-          },
-          {
-            "code": "pd.read_csv?      # open the help for read_csv\nnp.mean?          # what it does, what arguments it takes",
-            "caption": "The question mark opens the docs even with no internet."
-          },
-          {
-            "note": "Check the exact list of allowed sites for the contest you're entering beforehand, the rules vary between competitions. Going outside the list counts as an attempt to cheat."
-          }
-        ]
-      },
-      {
-        "heading": "Your first submission, the full loop",
-        "blocks": [
-          {
-            "p": "MLCompete (platform.olimpiada-ai.ro) and Nitro AI Judge (judge.nitro-ai.org) are the platforms you'll train on. Make an account on both."
-          },
-          {
-            "p": "A competition works like this: you download a dataset, train a model, produce a file with your predictions for the test data, upload it, and get a score on a leaderboard. The point of your first submission isn't the score. It's to see the whole loop at least once."
-          },
-          {
-            "steps": [
-              "Enter a training competition and read which metric is scored.",
-              "Download the data and open the sample submission file, so you see exactly which columns and format it wants.",
-              "Produce a file in the same format, even with random answers.",
-              "Upload it and look at the score."
-            ]
-          },
-          {
-            "note": "A good model with a badly formatted file scores zero. The submission format isn't a detail, it's a condition. Check it every time: the column names, the order, the separator, whether it has a header or not."
+            "note": "You can use VS Code too, but at some contests it isn't available. Google Colab is also a good option when you're working from a computer that isn't yours."
           }
         ]
       }
     ],
-    "pitfalls": [],
-    "practice": []
+    "practice": [
+      {
+        "title": "First submission on MLCompete"
+      }
+    ]
   },
   {
     "moduleCode": "S2",
     "duration": "~2h",
-    "intro": "Before you learn any model, it's worth understanding the game. An AI contest problem always has the same pieces: some data, a target to predict, a scoring metric and a submission file. Whoever reads those pieces correctly starts with a big head start, because half the mistakes at a contest aren't about the model, they're about reading the statement in a hurry.",
+    "intro": "Before you learn any model, it's worth understanding what you're dealing with. An AI contest problem almost always has the same pieces: some data, a target to predict, a scoring metric and a submission file. Whoever reads the statement properly starts with a big head start.",
     "sections": [
       {
         "heading": "Anatomy of a problem",
         "blocks": [
           {
-            "p": "You get two datasets. One for training, which also has the correct answers (called the labels or the target), and one for testing, which has the same columns but no answer. Your job is to predict the answer for the test set, based on what you learned on the training one."
+            "p": "You get two datasets. A training one, which also has the correct answers (called labels, or the target), and a test one, which has the same columns but no answer. Your job is to predict the answer for the test set, based on what you learned from the training one."
           },
           {
             "list": [
               "Training data: the rows you see in full, answer included. This is what the model learns from.",
-              "Test data: the same columns, but the target column is missing. This is what you fill in.",
+              "Test data: the same columns, but the target column is missing. This is what you have to fill in.",
               "The target: what you predict. It can be a label (spam or not) or a number (a price).",
-              "The submission file: a table with your predictions, in the exact format the platform wants."
+              "The submission file: a table with your predictions, in exactly the format the platform asks for."
             ]
           },
           {
-            "note": "The first thing you do on a new problem isn't to train something. It's to open the data and the sample submission file and look at them: how many rows, which columns, what's missing, what the required answer looks like."
+            "note": "The columns used as input for the model are called features."
           }
         ]
       },
@@ -158,17 +130,17 @@ export const lessonsEn: Lesson[] = [
         "heading": "The metric",
         "blocks": [
           {
-            "p": "Every problem has a metric, meaning the formula your score is computed with. It's written in the statement and it's the only one that counts. You're not scored on how clever the model looks, but on the number the metric produces. If the metric is F1 and you optimize accuracy, you can climb a score that earns you no points."
+            "p": "Every problem has a metric, the formula your score is computed with. It's written in the statement and it matters a lot. If the metric is F1 and you optimize accuracy, you can climb on a score that earns you no points. A few examples:"
           },
           {
             "list": [
-              "Accuracy: the share of correct answers. Simple, but misleading when the classes are imbalanced.",
+              "Accuracy: the percentage of correct answers. Simple, but misleading when the classes are imbalanced.",
               "F1: balances precision against recall, good when the classes are uneven.",
-              "RMSE or MAE: for numbers, how far off you are on average from the real answer."
+              "RMSE or MAE: for numbers, how far you are on average from the real answer."
             ]
           },
           {
-            "p": "The practical rule: read the metric before anything, and train with it in mind. If F1 is scored, validate locally on F1, not on something else."
+            "p": "A good rule: read the metric before anything else, and train with it in mind. If F1 is what's scored, validate locally on F1 as well."
           }
         ]
       },
@@ -176,21 +148,16 @@ export const lessonsEn: Lesson[] = [
         "heading": "Submission and leaderboard",
         "blocks": [
           {
-            "p": "Once you have the predictions, you put them in the required file and upload it. The platform compares it against the correct answers, which you don't see, and gives you a score on a board. You usually have a limited number of submissions per day, so don't waste them on random tries."
+            "p": "Once you have the predictions, you put them in the required file and upload it. The platform compares it against the correct answers, which you don't see, and gives you a score on a leaderboard. You usually have a limited number of submissions, so don't waste them on random tries."
           },
           {
-            "p": "The leaderboard has two faces. The public one is computed on part of the test data and you see it while the contest runs. The private one is computed on the rest and is only revealed at the end. The ranking that counts is the private one. That split exists for a reason, and it leads you straight to the next trap."
-          }
-        ]
-      },
-      {
-        "heading": "The public leaderboard trap",
-        "blocks": [
-          {
-            "p": "If you pick your model by the public score, you end up fitting that small slice of data instead of the real problem. It's called overfitting the leaderboard: you climb nicely on the public one, then you drop on the private one, where the points are actually handed out."
+            "p": "The leaderboard has two halves. The public one is computed on part of the test data and you see it throughout the contest. The private one is computed on the rest and is revealed only at the end. The ranking that counts is the private one. That split exists for a reason."
           },
           {
-            "note": "The defense is a serious local validation. You keep part of the training data aside, as your own test, and you trust that score more than the public leaderboard. At the end you pick your submissions on the local score, not the public one."
+            "p": "If you pick your model by the public score, you end up fitting that small slice of data rather than the real problem. It's called overfitting the leaderboard: you climb nicely on the public one, then drop on the private one, which is where the points are actually handed out."
+          },
+          {
+            "note": "The defence is serious local validation. You keep part of the training data aside as your own test set, and trust the score from there more than the public leaderboard. At the end you pick your submissions by the local score, not the public one."
           }
         ]
       },
@@ -198,31 +165,41 @@ export const lessonsEn: Lesson[] = [
         "heading": "Where you train",
         "blocks": [
           {
-            "p": "There are three places you need all year. They're not interchangeable, each has its own job."
+            "p": "Three platforms where you'll find problems:"
           },
           {
             "list": [
-              "MLCompete (platform.olimpiada-ai.ro): the platform the olympiad runs on, and where you practice between stages, with archive problems and training competitions.",
+              "Kaggle (kaggle.com): the most widely used international ML platform.",
+              "MLCompete (platform.olimpiada-ai.ro): the platform the olympiad runs on and where you practise between stages, with archive problems and training competitions.",
               "Nitro AI Judge (judge.nitro-ai.org): the platform RoAI and other AI contests run on."
             ]
           }
         ]
+      },
+      {
+        "heading": "Your first submission",
+        "blocks": [
+          {
+            "p": "MLCompete (platform.olimpiada-ai.ro) and Nitro AI Judge (judge.nitro-ai.org) are the platforms you'll practise on. Make an account on both."
+          },
+          {
+            "steps": [
+              "Enter a training competition and read which metric is scored.",
+              "Download the data and open the sample submission file, to see exactly which columns and which format it asks for.",
+              "Produce a file in the same format, even with random answers.",
+              "Upload it and look at the score."
+            ]
+          },
+          {
+            "note": "If the file isn't formatted correctly you'll get validation errors. Read them, they tell you exactly what doesn't match."
+          }
+        ]
       }
     ],
-    "pitfalls": [
-      "Read the metric and the submission format before any model.",
-      "Pick your model by your local validation, not by the public leaderboard.",
-      "Save the day's submissions for ideas you've already checked locally."
-    ],
     "practice": [
-      "Take an archive problem on MLCompete and write three lines: what the target is, what the metric is, what the submission looks like.",
-      "Make a local validation split and compare its score with the public leaderboard on the same submission.",
-      "Explain to a friend the difference between the public and the private leaderboard, with an example."
-    ],
-    "keyTakeaways": [
-      "A problem has four pieces: training data with labels, test data without, a target, a metric.",
-      "You're scored on exactly the metric in the statement. You optimize what's scored, not what looks nice.",
-      "The private leaderboard decides the ranking, the public one just tempts you."
+      {
+        "title": "Any problem with a sample submission file"
+      }
     ]
   },
   {
@@ -576,7 +553,6 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [],
     "practice": []
   },
   {
@@ -805,7 +781,6 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [],
     "practice": []
   },
   {
@@ -933,7 +908,6 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [],
     "practice": []
   },
   {
@@ -1070,24 +1044,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Split the data before you scale or impute, otherwise validation comes out falsely optimistic.",
-      "Optimize exactly the metric from the statement.",
-      "Pass `handle_unknown=\"ignore\"` so a new category in test doesn't crash prediction.",
-      "Check the row count and the column names before uploading.",
-      "Retrain on all the training data for the final submission."
-    ],
     "practice": [
-      "Take an archive problem from MLCompete and write the pipeline end to end in an hour, with a simple model.",
-      "Run the same pipeline once with scaling before the split and once after, and compare the validation scores.",
-      "Write yourself a template notebook with the six steps, to copy at the start of any problem."
-    ],
-    "keyTakeaways": [
-      "The order of the steps matters more than the choice of model.",
-      "You split before any transformation, otherwise your local score lies.",
-      "The dumb baseline is the reference point without which you can't tell if your model is good.",
-      "Pipeline makes information leakage hard to commit by accident.",
-      "The first valid submission happens in the first hour, not at the end."
+      {
+        "title": "Take an archive problem from MLCompete and write the pipeline end to end in an hour, with a simple model."
+      },
+      {
+        "title": "Run the same pipeline once with scaling before the split and once after, and compare the validation scores."
+      },
+      {
+        "title": "Write yourself a template notebook with the six steps, to copy at the start of any problem."
+      }
     ]
   },
   {
@@ -1176,22 +1142,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Scale the features before you read a regression's coefficients.",
-      "Limit the tree depth, otherwise it's perfect on training and weak on validation.",
-      "Scale the data before SVM; without it, it works inexplicably badly."
-    ],
     "practice": [
-      "Compare logistic regression, a tree and an SVM on the same tabular problem, with the same metric.",
-      "Move the logistic regression threshold down from 0.5 and watch recall rise and precision fall.",
-      "Limit a tree's depth and see the training score come closer to the validation one."
-    ],
-    "keyTakeaways": [
-      "Training = finding the parameters that minimize the cost function.",
-      "Linear regression predicts numbers and gives readable coefficients; logistic predicts class probabilities.",
-      "The logistic regression threshold is tuned to the metric, it's not fixed at 0.5.",
-      "Trees are readable but overfit without a depth limit.",
-      "SVM maximizes the margin; the kernel lets it separate non-linear data."
+      {
+        "title": "Compare logistic regression, a tree and an SVM on the same tabular problem, with the same metric."
+      },
+      {
+        "title": "Move the logistic regression threshold down from 0.5 and watch recall rise and precision fall."
+      },
+      {
+        "title": "Limit a tree's depth and see the training score come closer to the validation one."
+      }
     ]
   },
   {
@@ -1286,23 +1246,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Trust your local validation, not the public leaderboard.",
-      "Use stratified k-fold so every fold contains the rare classes too.",
-      "On imbalanced data report precision, recall and F1, not accuracy."
-    ],
     "practice": [
-      "Plot a learning curve and decide whether the model suffers from bias or variance.",
-      "Find a data leak in a given pipeline and fix it.",
-      "Compute precision, recall and F1 by hand from a given confusion matrix."
-    ],
-    "keyTakeaways": [
-      "Accuracy lies on imbalanced classes; use precision, recall, F1.",
-      "The confusion matrix (TP, TN, FP, FN) is the basis of all metrics.",
-      "Precision and recall fight each other; F1 reconciles them.",
-      "Stratified k-fold estimates the score stably, with no leaks.",
-      "The learning curve tells bias (underfitting) from variance (overfitting).",
-      "Choose your two final submissions: one on local, one on public."
+      {
+        "title": "Plot a learning curve and decide whether the model suffers from bias or variance."
+      },
+      {
+        "title": "Find a data leak in a given pipeline and fix it."
+      },
+      {
+        "title": "Compute precision, recall and F1 by hand from a given confusion matrix."
+      }
     ]
   },
   {
@@ -1380,22 +1333,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Tune one hyperparameter at a time and write down the score every time.",
-      "Take feature importance as a hint about where to look, not as final truth.",
-      "Check the stage's rules before using external boosting libraries."
-    ],
     "practice": [
-      "Train a Random Forest and a gradient boosting model on the same problem and compare the scores.",
-      "Do a vote across three different models and see if it beats the best single model.",
-      "Tune the learning rate with early stopping and watch the time-versus-score trade-off."
-    ],
-    "keyTakeaways": [
-      "Ensembles work when the models are wrong in different ways; diversity is the key.",
-      "Bagging (Random Forest) cuts variance by averaging trees trained on different data.",
-      "Boosting (XGBoost, LightGBM) builds trees that fix each other's mistakes in turn.",
-      "Tune hyperparameters in order: depth, then number of trees, then learning rate.",
-      "Voting across different models often beats the best single model."
+      {
+        "title": "Train a Random Forest and a gradient boosting model on the same problem and compare the scores."
+      },
+      {
+        "title": "Do a vote across three different models and see if it beats the best single model."
+      },
+      {
+        "title": "Tune the learning rate with early stopping and watch the time-versus-score trade-off."
+      }
     ]
   },
   {
@@ -1465,22 +1412,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Scale the data before K-Means, otherwise the column with big numbers dominates everything.",
-      "Read t-SNE as a map of neighbourhoods, not as real distances.",
-      "Choose k with the elbow method or the silhouette score."
-    ],
     "practice": [
-      "Apply K-Means and DBSCAN to the same dataset and compare the groups found.",
-      "Reduce to 2D with PCA and with UMAP and see what differs between them.",
-      "Use the elbow method to choose k on a dataset and justify the choice."
-    ],
-    "keyTakeaways": [
-      "Unsupervised = finding structure with no labels (groups, directions of variation).",
-      "K-Means needs you to choose k and scaled data; pick k with the elbow or the silhouette.",
-      "DBSCAN finds the number of groups and the outliers on its own, by density.",
-      "PCA reduces dimensions while keeping variance; good as preprocessing too.",
-      "t-SNE and UMAP are for looking only, the distances in them aren't trustworthy."
+      {
+        "title": "Apply K-Means and DBSCAN to the same dataset and compare the groups found."
+      },
+      {
+        "title": "Reduce to 2D with PCA and with UMAP and see what differs between them."
+      },
+      {
+        "title": "Use the elbow method to choose k on a dataset and justify the choice."
+      }
     ]
   },
   {
@@ -1570,22 +1511,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Use an admissible heuristic for A*, so the solution you find is also optimal.",
-      "Mark visited states so you don't fall into infinite loops.",
-      "Set a depth limit for minimax on big games."
-    ],
     "practice": [
-      "Implement A* for the 8-puzzle with two heuristics (Manhattan and misplaced tiles) and compare the number of states expanded.",
-      "Solve a map coloring as a CSP with forward checking and MRV.",
-      "Write minimax with alpha-beta for tic-tac-toe and check it never loses."
-    ],
-    "keyTakeaways": [
-      "Every search is described the same way: start, actions, goal test, cost.",
-      "BFS gives the fewest-steps path, DFS saves memory, uniform cost gives the lowest-cost path.",
-      "A* uses f = g + h; with an admissible heuristic, it finds the optimal solution.",
-      "Minimax picks the move against an optimal opponent; alpha-beta does it faster without changing the result.",
-      "CSPs are solved with backtracking plus forward checking and MRV."
+      {
+        "title": "Implement A* for the 8-puzzle with two heuristics (Manhattan and misplaced tiles) and compare the number of states expanded."
+      },
+      {
+        "title": "Solve a map coloring as a CSP with forward checking and MRV."
+      },
+      {
+        "title": "Write minimax with alpha-beta for tic-tac-toe and check it never loses."
+      }
     ]
   },
   {
@@ -1643,22 +1578,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Normalize diacritics consistently before tokenizing.",
-      "Build the vocabulary on training data only, then apply it to test.",
-      "Build a TF-IDF baseline first, so you have something to compare the networks against."
-    ],
     "practice": [
-      "Classify Romanian texts with TF-IDF and logistic regression, fitting only on train.",
-      "Find the two closest documents in a set using cosine similarity.",
-      "Compare plain bag-of-words with TF-IDF on the same problem and see the difference."
-    ],
-    "keyTakeaways": [
-      "Classic NLP = you turn text into vectors, then put an ordinary model on top.",
-      "Preprocessing: tokenization, stopwords, lemmatization; for Romanian watch diacritics and inflection.",
-      "TF-IDF weights words: high if they're characteristic, low if they're everywhere.",
-      "Naïve Bayes and logistic regression over TF-IDF are a baseline that's hard to beat.",
-      "Cosine similarity measures how close two texts are."
+      {
+        "title": "Classify Romanian texts with TF-IDF and logistic regression, fitting only on train."
+      },
+      {
+        "title": "Find the two closest documents in a set using cosine similarity."
+      },
+      {
+        "title": "Compare plain bag-of-words with TF-IDF on the same problem and see the difference."
+      }
     ]
   },
   {
@@ -1714,22 +1643,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Pick augmentations that preserve the label: no flips on characters, no big rotations on objects with a fixed orientation.",
-      "Keep a single intensity range across the whole set.",
-      "Augment training only; validation stays clean."
-    ],
     "practice": [
-      "Write a Sobel filter by hand and apply it to an image to pull out the edges.",
-      "Test whether a set of augmentations improves the score on a small classification problem.",
-      "Take a list of augmentations and decide for each whether it keeps the label on a digit problem."
-    ],
-    "keyTakeaways": [
-      "An image is a tensor: 2D grayscale, 3D color (H, W, channels).",
-      "Watch the range: 0..255 integer or 0..1 decimal, don't mix them.",
-      "Convolution slides a small filter over the image; it's exactly what CNN layers do, with learned filters.",
-      "Augmentation grows the set and fights overfitting.",
-      "Valid augmentation keeps the label; a flip on digits or letters breaks it."
+      {
+        "title": "Write a Sobel filter by hand and apply it to an image to pull out the edges."
+      },
+      {
+        "title": "Test whether a set of augmentations improves the score on a small classification problem."
+      },
+      {
+        "title": "Take a list of augmentations and decide for each whether it keeps the label on a digit problem."
+      }
     ]
   },
   {
@@ -1800,22 +1723,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Call `optimizer.zero_grad()` at every step, otherwise gradients add up.",
-      "Remember that `.backward()` only computes gradients; the optimizer takes the step.",
-      "Put activations between linear layers, otherwise the network stays linear."
-    ],
     "practice": [
-      "Work out backpropagation by hand for a network with one hidden layer, on paper.",
-      "Train an MLP on a small dataset in PyTorch and watch the loss go down.",
-      "Deliberately remove zero_grad() and see how the training goes haywire."
-    ],
-    "keyTakeaways": [
-      "An MLP is layers of neurons with non-linear activations between them; without non-linearity it collapses to one layer.",
-      "ReLU is the default activation in the hidden layers.",
-      "Training = gradient descent: you move the weights opposite the loss gradient.",
-      "Backpropagation is the chain rule applied backward through the network; it computes the gradients.",
-      "In PyTorch: forward, backward, step, zero_grad, in that order."
+      {
+        "title": "Work out backpropagation by hand for a network with one hidden layer, on paper."
+      },
+      {
+        "title": "Train an MLP on a small dataset in PyTorch and watch the loss go down."
+      },
+      {
+        "title": "Deliberately remove zero_grad() and see how the training goes haywire."
+      }
     ]
   },
   {
@@ -1882,22 +1799,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Check the learning rate first, the architecture second.",
-      "Stop training when the validation score starts getting worse.",
-      "On a NaN loss, lower the learning rate first."
-    ],
     "practice": [
-      "Test three learning rates on a logarithmic scale and draw the loss curves.",
-      "Add dropout and early stopping to a network and see the effect on validation.",
-      "Compare SGD with momentum and Adam on the same small problem."
-    ],
-    "keyTakeaways": [
-      "Batch, epoch, step: one batch processed = one step; one pass through the whole set = one epoch.",
-      "Adam/AdamW start easily and need little tuning; SGD with momentum is solid.",
-      "The learning rate is the most important knob; search for it on a logarithmic scale.",
-      "Warmup plus cosine decay is a good scheduler recipe.",
-      "Dropout, weight decay, batch norm and early stopping keep overfitting in check."
+      {
+        "title": "Test three learning rates on a logarithmic scale and draw the loss curves."
+      },
+      {
+        "title": "Add dropout and early stopping to a network and see the effect on validation."
+      },
+      {
+        "title": "Compare SGD with momentum and Adam on the same small problem."
+      }
     ]
   },
   {
@@ -1950,21 +1861,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Check that the data is normalized before blaming the architecture.",
-      "If it doesn't learn in the first few epochs, stop and look for the bug.",
-      "Change one thing at a time, so you know what helped."
-    ],
     "practice": [
-      "Take a network that won't learn and find the cause by going through the list, one step at a time.",
-      "Reproduce overfitting on 10 examples as a sanity check before the real training.",
-      "Draw a few loss curves (good and bad) and learn to recognize them by shape."
-    ],
-    "keyTakeaways": [
-      "First test: can the model overfit 10 examples? If not, it's a bug.",
-      "Debug in order: learning rate, normalization, labels, zero_grad, gradients.",
-      "Don't change things at random; go down the list, one thing at a time.",
-      "The loss curve tells you the cause: flat shape, explosion, or a train-validation gap."
+      {
+        "title": "Take a network that won't learn and find the cause by going through the list, one step at a time."
+      },
+      {
+        "title": "Reproduce overfitting on 10 examples as a sanity check before the real training."
+      },
+      {
+        "title": "Draw a few loss curves (good and bad) and learn to recognize them by shape."
+      }
     ]
   },
   {
@@ -2031,22 +1937,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Work out the sizes on paper before wiring the layers together.",
-      "Use residual connections in deep networks, so the gradient reaches back.",
-      "Finish with global average pooling instead of huge dense layers."
-    ],
     "practice": [
-      "Compute the output sizes for a small convolutional network on paper, layer by layer.",
-      "Train a simple convolutional network on a small image dataset.",
-      "Add a residual connection to a network and compare training with and without it."
-    ],
-    "keyTakeaways": [
-      "CNNs use small shared filters: few weights, they recognize features wherever they appear.",
-      "The convolutional layer has kernel, stride, padding; the output is computed with a simple formula.",
-      "Pooling shrinks the map and grows the receptive field.",
-      "The pattern: convolutions plus pooling for features, then a classification head.",
-      "Residual connections (ResNet) let the gradient pass through deep networks."
+      {
+        "title": "Compute the output sizes for a small convolutional network on paper, layer by layer."
+      },
+      {
+        "title": "Train a simple convolutional network on a small image dataset."
+      },
+      {
+        "title": "Add a residual connection to a network and compare training with and without it."
+      }
     ]
   },
   {
@@ -2102,22 +2002,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Apply the same ImageNet normalization used during pretraining.",
-      "Fine-tune with a small learning rate, so you don't break the already-good features.",
-      "With little data, use feature extraction instead of full fine-tuning."
-    ],
     "practice": [
-      "Adapt a ResNet to a problem with few images through feature extraction.",
-      "Compare feature extraction with fine-tuning on the same set and see when each is worth it.",
-      "Check what happens to the score if you drop the correct image normalization."
-    ],
-    "keyTakeaways": [
-      "Pretrained models have learned general features reusable on other problems.",
-      "Feature extraction (freeze everything, train only the head) is for very little data.",
-      "Fine-tuning (unfreeze the upper layers, small learning rate) is for somewhat more data.",
-      "Normalize the images with the same statistics as at pretraining (ImageNet).",
-      "A large learning rate in fine-tuning breaks the good features already learned."
+      {
+        "title": "Adapt a ResNet to a problem with few images through feature extraction."
+      },
+      {
+        "title": "Compare feature extraction with fine-tuning on the same set and see when each is worth it."
+      },
+      {
+        "title": "Check what happens to the score if you drop the correct image normalization."
+      }
     ]
   },
   {
@@ -2180,22 +2074,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "For Romanian, use vectors that account for subwords, to catch inflected forms.",
-      "For long context use attention or a transformer, not a plain RNN.",
-      "Start from pretrained embeddings when you have little data."
-    ],
     "practice": [
-      "Explore vector arithmetic (king - man + woman) on a set of pretrained embeddings.",
-      "Compare FastText with Word2Vec on inflected Romanian words.",
-      "Use pretrained embeddings as features and put a logistic regression on top."
-    ],
-    "keyTakeaways": [
-      "One-hot loses the meaning; all words are equally far apart.",
-      "Embeddings are dense vectors where closeness = close meaning, learned from context.",
-      "Word-vector arithmetic works: meaning relations become directions.",
-      "FastText uses subwords, essential for Romanian's rich inflection.",
-      "RNNs process sequences but forget over long ranges; LSTM/GRU hold on with gates."
+      {
+        "title": "Explore vector arithmetic (king - man + woman) on a set of pretrained embeddings."
+      },
+      {
+        "title": "Compare FastText with Word2Vec on inflected Romanian words."
+      },
+      {
+        "title": "Use pretrained embeddings as features and put a logistic regression on top."
+      }
     ]
   },
   {
@@ -2264,23 +2152,16 @@ export const lessonsEn: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Decay ε gradually, so the agent explores enough early on.",
-      "Report the score on subgroups too, not just the average.",
-      "Treat fairness as several definitions that pull against each other."
-    ],
     "practice": [
-      "Implement Q-learning on a grid-world and watch the policy take shape.",
-      "Measure a model's performance on subgroups and discuss which fairness definition you use.",
-      "Vary ε (the exploration) and see how the policy the agent learns changes."
-    ],
-    "keyTakeaways": [
-      "In RL the agent learns from rewards, not from given correct answers.",
-      "An MDP has states, actions, rewards, discount and a policy; V and Q measure how well you're doing.",
-      "Q-learning learns a table of values from experience and produces the good policy.",
-      "ε-greedy balances exploration and exploitation; explore enough at the start.",
-      "Bias comes in through data and labels; measure on subgroups, not just the average.",
-      "Fairness definitions can be incompatible; the choice is contextual, not purely technical."
+      {
+        "title": "Implement Q-learning on a grid-world and watch the policy take shape."
+      },
+      {
+        "title": "Measure a model's performance on subgroups and discuss which fairness definition you use."
+      },
+      {
+        "title": "Vary ε (the exploration) and see how the policy the agent learns changes."
+      }
     ]
   }
 ];

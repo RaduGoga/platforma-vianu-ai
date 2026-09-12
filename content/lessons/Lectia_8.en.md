@@ -60,19 +60,6 @@ The learning curve diagnoses them: you plot the training score and the validatio
 > [!NOTE]
 > The golden rule: at the end, choose your two submissions on purpose. One on your best local score (the validation), one on your best public leaderboard. If local and public agree, trust it. If they differ a lot, you have a leak or a bad split. Don't leave your final submissions to be whatever you sent last out of reflex.
 
-# @takeaways
-- Accuracy lies on imbalanced classes; use precision, recall, F1.
-- The confusion matrix (TP, TN, FP, FN) is the basis of all metrics.
-- Precision and recall fight each other; F1 reconciles them.
-- Stratified k-fold estimates the score stably, with no leaks.
-- The learning curve tells bias (underfitting) from variance (overfitting).
-- Choose your two final submissions: one on local, one on public.
-
-# @pitfalls
-- Trust your local validation, not the public leaderboard.
-- Use stratified k-fold so every fold contains the rare classes too.
-- On imbalanced data report precision, recall and F1, not accuracy.
-
 # @practice
 - Plot a learning curve and decide whether the model suffers from bias or variance.
 - Find a data leak in a given pipeline and fix it.

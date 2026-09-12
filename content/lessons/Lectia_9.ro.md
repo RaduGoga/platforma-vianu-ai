@@ -46,18 +46,6 @@ Cel mai simplu ensemble între modele diferite e votul: pui un Random Forest, un
 
 Stacking merge mai departe: antrenează un model final care învață cum să combine predicțiile celorlalte. E mai puternic, dar și mai ușor de dus în scurgeri dacă nu ai grijă să folosești predicții out-of-fold. Începe cu voting simplu, treci la stacking doar dacă ai timp.
 
-# @takeaways
-- Ensemble-urile funcționează dacă modelele greșesc diferit; diversitatea e cheia.
-- Bagging (Random Forest) reduce varianța mediind arbori antrenați pe date diferite.
-- Boosting (XGBoost, LightGBM) construiește arbori care corectează pe rând greșelile.
-- Reglează hiperparametrii pe rând: adâncime, apoi număr de arbori, apoi learning rate.
-- Voting-ul între modele diferite bate des cel mai bun model singur.
-
-# @pitfalls
-- Reglează un hiperparametru pe rând și notează scorul de fiecare dată.
-- Ia feature importance ca indiciu unde să te uiți, nu ca adevăr final.
-- Verifică regulamentul etapei înainte să folosești biblioteci externe de boosting.
-
 # @practice
 - Antrenează un Random Forest și un gradient boosting pe aceeași problemă și compară scorurile.
 - Fă un voting între trei modele diferite și vezi dacă bate cel mai bun singur model.

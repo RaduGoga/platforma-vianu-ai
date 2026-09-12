@@ -36,18 +36,6 @@ Un model preantrenat a văzut imagini normalizate într-un anumit fel: scăzute 
 ## Learning rate mic la fine-tuning
 La fine-tuning, straturile preantrenate au deja greutăți bune. Dacă le antrenezi cu un learning rate mare, pașii mari strică exact trăsăturile valoroase pe care voiai să le păstrezi. Folosește un learning rate mic pentru ele, uneori și mai mic decât pentru capul nou. Așa le ajustezi fin, nu le distrugi.
 
-# @takeaways
-- Modelele preantrenate au învățat trăsături generale reutilizabile în alte probleme.
-- Feature extraction (îngheți tot, antrenezi doar capul) e pentru foarte puține date.
-- Fine-tuning (dezgheți straturile de sus, learning rate mic) e pentru date ceva mai multe.
-- Normalizează imaginile cu aceleași statistici ca la preantrenare (ImageNet).
-- Learning rate mare la fine-tuning strică trăsăturile bune deja învățate.
-
-# @pitfalls
-- Aplică aceeași normalizare ImageNet ca la preantrenare.
-- Fă fine-tuning cu learning rate mic, ca să nu strici trăsăturile deja bune.
-- Cu puține date, folosește feature extraction în loc de fine-tuning complet.
-
 # @practice
 - Adaptează un ResNet la o problemă cu puține imagini prin feature extraction.
 - Compară feature extraction cu fine-tuning pe același set și vezi când merită fiecare.

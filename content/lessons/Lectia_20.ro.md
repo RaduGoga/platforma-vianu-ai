@@ -38,19 +38,6 @@ De aceea măsori performanța și pe subgrupuri, nu doar în total. Corectitudin
 
 Cele două definiții pot fi incompatibile matematic: satisfăcând-o pe una, o încalci pe cealaltă. Nu există un răspuns pur tehnic. Alegerea depinde de context și de ce cost are fiecare tip de greșeală pentru oameni. Important e să fii conștient de compromis și să-l faci explicit, nu să raportezi doar media și să ascunzi restul.
 
-# @takeaways
-- La RL agentul învață din recompense, nu din răspunsuri corecte date.
-- Un MDP are stări, acțiuni, recompense, discount și politică; V și Q măsoară cât de bine stai.
-- Q-learning învață un tabel de valori din experiență și scoate politica bună.
-- ε-greedy echilibrează explorarea și exploatarea; explorează destul la început.
-- Bias-ul intră prin date și etichete; măsoară pe subgrupuri, nu doar media.
-- Definițiile de corectitudine pot fi incompatibile; alegerea e contextuală, nu pur tehnică.
-
-# @pitfalls
-- Scade ε treptat, ca agentul să exploreze destul la început.
-- Raportează scorul și pe subgrupuri, nu doar media.
-- Tratează corectitudinea ca pe mai multe definiții care se bat cap în cap.
-
 # @practice
 - Implementează Q-learning pe un grid-world și urmărește politica cum se formează.
 - Măsoară performanța unui model pe subgrupuri și discută ce definiție de corectitudine folosești.

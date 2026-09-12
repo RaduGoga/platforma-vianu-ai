@@ -50,18 +50,6 @@ Le rezolvi cu backtracking: atribui o valoare, mergi mai departe, iar dacă te b
 - Forward checking: după fiecare atribuire, elimini din vecini valorile care acum nu mai sunt posibile. Prinzi înfundările devreme.
 - MRV (minimum remaining values): alegi mereu variabila cu cele mai puține valori rămase. Ataci întâi partea cea mai constrânsă, unde e mai probabil să dai de contradicție.
 
-# @takeaways
-- Orice căutare se descrie la fel: start, acțiuni, test de scop, cost.
-- BFS dă drum minim în pași, DFS economisește memorie, cost uniform dă drum de cost minim.
-- A* folosește f = g + h; cu euristică admisibilă, găsește soluția optimă.
-- Minimax alege mutarea împotriva unui adversar optim; alpha-beta o face mai repede fără să schimbe rezultatul.
-- CSP se rezolvă cu backtracking plus forward checking și MRV.
-
-# @pitfalls
-- Folosește o euristică admisibilă la A*, ca soluția găsită să fie și optimă.
-- Marchează stările vizitate, ca să nu intri în bucle infinite.
-- Pune limită de adâncime la minimax pe jocuri mari.
-
 # @practice
 - Implementează A* pentru 8-puzzle cu două euristici (Manhattan și piese greșite) și compară numărul de stări extinse.
 - Rezolvă o colorare de hartă ca CSP cu forward checking și MRV.

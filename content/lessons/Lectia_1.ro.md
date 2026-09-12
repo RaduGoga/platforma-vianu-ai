@@ -4,30 +4,39 @@ duration: ~2h
 ---
 
 # @intro
-Prima sesiune are două jumătăți. Întâi limpezim ce înseamnă inteligența artificială, ca să știi despre ce vorbim tot anul. Apoi facem logistica: un loc unde scrii cod și un loc unde trimiți răspunsuri.
+Firesc, prima întrebare e ce înseamnă mai exact inteligența artificială. Cu atâta confuzie în jurul termenului, e important să clarificăm întâi asta și abia apoi să pregătim mediul de lucru.
 
 ## Ce e AI și unde se folosește
-Inteligența artificială e ideea de a face un program care rezolvă probleme fără să-i scrii tu, pas cu pas, regula pentru fiecare caz. În loc să-i spui „dacă e așa, fă asta”, îi arăți multe exemple și îl lași să găsească singur regula. Partea asta, de învățat din exemple, se numește machine learning, și e aproape tot ce faci la olimpiadă.
+La bază, inteligența artificială înseamnă orice tehnologie care simulează funcții umane. În loc să urmeze reguli stricte, îi arăți mai multe exemple și o lași să găsească singură regulile, prin diverși algoritmi. Nu e ceva magic, ChatGPT nu „gândește". Partea asta, de învățat din exemple, se numește machine learning și reprezintă aproape tot ce faci la olimpiadă.
 
-Un exemplu face diferența clară. Ca să deosebești un email spam de unul normal cu reguli scrise de mână, ai scrie sute de „dacă conține cuvântul X”. Cu machine learning, îi dai câteva mii de emailuri deja marcate spam sau nu, și modelul învață singur ce combinații de cuvinte prezic spamul.
+În sfera AI merită menționată și o anumită terminologie. Data science se referă la toate domeniile cu care avem de-a face în AI: matematică, informatică și altele. Matematica e baza și se folosește în absolut tot ce vom face, dar nu trebuie neapărat învățată în detaliu ca să rezolvi probleme sau să faci proiecte. Anumiți algoritmi clasici de informatică sunt și ei folosiți, BFS și DFS de exemplu, în anumite arii ale AI-ului. Machine learningul, menționat mai sus, se împarte la rândul lui în mai multe categorii: învățare supervizată, nesupervizată, reinforcement learning și, uneori, self-supervised.
 
-- Clasificare: pui un label (spam sau nu, ce cifră e în imagine, pentru ce boală sunt specifice simptomele”).
+Poate ajuta câteva exemple. Ca să deosebești un email spam de unul normal cu reguli scrise de mână, ar trebui să scrii sute de condiții de tipul „dacă conține cuvântul X". Cu machine learning, îi dai câteva mii de emailuri deja marcate ca spam sau nu, iar modelul învață singur ce combinații de cuvinte prezic spamul. Câteva taskuri clasice de AI includ, dar nu se limitează la:
+
+- Clasificare: pui o etichetă (spam sau nu, ce cifră e în imagine, pentru ce boală sunt specifice simptomele).
 - Regresie: prezici un număr (prețul unei case, temperatura de mâine).
-- Clustering: găsești structura din date fără labeluri (ce clienți seamănă între ei).
+- Clustering: găsești structura din date fără etichete (ce clienți seamănă între ei).
+
+Importante mai sunt și conceptele de overfitting, underfitting, bias și varianță. Un model care a învățat pe de rost datele de antrenament, inclusiv zgomotul din ele, merge aproape perfect pe ce a văzut și slab pe date noi: asta e overfitting. La capătul opus, un model prea simplu pentru problemă nu prinde nici măcar tiparul real și greșește peste tot, și pe antrenament, și pe test: asta e underfitting.
+
+Cele două se explică prin bias și varianță. Biasul e eroarea din presupuneri prea simple, cum ar fi să tragi o dreaptă prin date care descriu de fapt o curbă. Varianța e sensibilitatea la datele exacte pe care s-a antrenat: schimbi puțin setul de antrenament și modelul dă cu totul alte predicții. Bias mare înseamnă underfitting, varianță mare înseamnă overfitting, iar scăderea unuia îl crește de obicei pe celălalt. Tot ce faci la olimpiadă, de la cât de complex alegi modelul până la cât de mult îl antrenezi, e de fapt căutarea punctului de echilibru dintre ele.
 
 > [!NOTE]
-> La concursurile de AI, aproape orice problemă se reduce la asta: primești date cu exemple, antrenezi un model care învață din ele, și îl pui să prezică pe date noi.
+> Cum le recunoști în practică: compari scorul pe antrenament cu cel pe validare. Amândouă slabe înseamnă underfitting, ai nevoie de un model mai puternic. Scor bun pe antrenament și slab pe validare înseamnă overfitting, ai nevoie de mai multe date, de regularizare sau de un model mai simplu.
+
+> [!NOTE]
+> La concursurile de AI, aproape orice problemă se reduce la asta: primești date, le analizezi, antrenezi un model și îl pui să prezică pe date noi.
 
 ## Ce e Python și de ce el
-Python e limbajul standard în care se scrie cod de inteligență artificială. Nu pentru că ar fi cel mai rapid, ci pentru că are bibliotecile pe care le vrei deja scrise: NumPy pentru calcul numeric, Pandas pentru tabele, scikit-learn pentru modele clasice, PyTorch pentru rețele neuronale.
+Python e limbajul standard în care se scrie cod de inteligență artificială. Nu pentru că ar fi cel mai rapid, ci pentru că e puternic abstractizat și are deja scrise bibliotecile pe care le vrei, eventual în limbaje mai rapide: NumPy pentru calcul numeric, Pandas pentru tabele, scikit-learn pentru modele clasice, PyTorch pentru rețele neuronale.
 
-O bibliotecă reprezinta un cod scris de altcineva, pe care îl imporți și îl folosești. În loc să scrii tu algoritmul de sortare sau înmulțirea de matrice, chemi funcția potrivită. Cea mai mare parte din munca ta va fi să legi bibliotecile acestea între ele corect.
+O bibliotecă e cod scris de altcineva, pe care îl imporți și îl folosești. La taskuri de AI scopul nu e să înveți pe de rost cum se scriu algoritmii sau modelele, ci să le înțelegi, să știi când se folosesc și să le adaptezi la problema respectivă, împreună cu alte metode.
 
 > [!NOTE]
-> Instalează Python 3.11 (o versiune stabilă, larg suportată) și JupyterLab. Jupyter îți dă un notebook interactiv unde rulezi cod bucată cu bucată și vezi rezultatul imediat, exact ce vrei când explorezi date.
+> E bine să instalezi o versiune stabilă de Python, de exemplu 3.11, care e bine susținută de biblioteci.
 
-## Pregătește mediul: Python, pip și Jupyter Lab
-Înainte să scrii cod, ai nevoie de trei lucruri instalate pe calculator: Python, pip (vine automat cu el) și Jupyter Lab.
+## Mediul de lucru: Python, pip și Jupyter Lab
+Înainte să scrii cod, ai nevoie de trei lucruri instalate pe calculator: Python, pip (care vine automat cu el) și Jupyter Lab. Jupyter Lab, VS Code și Google Colab sunt medii în care poți scrie notebookuri de Python, care îți permit să scrii codul pe bucăți și să îl execuți modular.
 
 - Windows: intră pe python.org/downloads, descarcă ultima versiune 3.11 sau mai nouă și rulează instalatorul. La primul ecran bifează „Add python.exe to PATH" înainte de Install Now, altfel terminalul nu va găsi Python după instalare.
 - macOS: descarcă tot de pe python.org/downloads fișierul .pkg și parcurge instalatorul. Dacă ai deja Homebrew, merge la fel de bine brew install python@3.11.
@@ -50,33 +59,5 @@ Cu Python instalat, treci la mediul de lucru propriu-zis. Un mediu virtual e o c
 3. Scrie jupyter lab și apasă Enter: ți se deschide automat un tab de browser cu interfața.
 
 > [!NOTE]
-> La concurs găsești toate astea deja instalate pe calculatoare.
+> Poți folosi și VS Code, dar la anumite concursuri nu e disponibil. De asemenea, Google Colab e o variantă bună când lucrezi de pe un calculator care nu e al tău.
 
-## Documentația la concurs
-La concurs nu ești complet offline. Ai internet, dar unul controlat: doar pe o listă fixă de site-uri, de obicei documentația oficială a bibliotecilor pe care le folosești, gen numpy.org, scikit-learn.org, pandas.pydata.org, pytorch.org, docs.python.org. Sistemul vede ce accesezi, și dacă intri pe altceva decât ce e permis, ChatGPT, orice altă pagină, primești flag și riști descalificarea.
-
-Practic, poți căuta o funcție în documentația oficială, dar nu poți întreba pe nimeni și nu poți copia cod de pe un forum. Obișnuiește-te din timp să găsești răspunsul direct în docs, nu printr-o căutare pe Google.
-
-Există și o variantă mai rapidă, care merge chiar și fără nicio conexiune: în Jupyter, pui un semn de întrebare după o funcție și îți arată ce face și ce argumente ia, direct din biblioteca instalată pe calculator.
-
-```
-pd.read_csv?      # deschide ajutorul pentru read_csv
-np.mean?          # ce face, ce argumente ia
-```
-caption: Semnul întrebării deschide documentația fără internet.
-
-> [!NOTE]
-> Verifică dinainte lista exactă de site-uri permise la concursul la care mergi, regulile diferă de la o competiție la alta. Ieșirea din listă e tratată ca încercare de fraudă.
-
-## Prima submisie, bucla completă
-MLCompete (platform.olimpiada-ai.ro) si Nitro AI Judge (judge.nitro-ai.org) sunt platformele pe care vei exersa. Fă-ți cont pe amândouă.
-
-O competiție funcționează așa: descarci un set de date, antrenezi un model, produci un fișier cu predicțiile tale pentru datele de test, îl încarci, și primești un scor pe un clasament. Scopul primei tale submisii nu e scorul. E să vezi bucla întreagă măcar o dată.
-
-1. Intră într-o competiție de antrenament și citește ce metrică se punctează.
-2. Descarcă datele și deschide fișierul de exemplu de submisie, ca să vezi exact ce coloane și ce format cere.
-3. Produ un fișier în același format, chiar și cu răspunsuri la întâmplare.
-4. Încarcă-l și uită-te la scor.
-
-> [!NOTE]
-> Un model bun cu un fișier prost formatat ia zero. Formatul submisiei nu e un detaliu, e o condiție. Verifică-l de fiecare dată: numele coloanelor, ordinea, separatorul, dacă are sau nu antet.

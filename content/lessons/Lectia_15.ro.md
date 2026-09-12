@@ -36,18 +36,6 @@ Regularizarea e orice tehnică prin care împiedici modelul să memoreze antrena
 
 Inițializarea greutăților contează mai mult decât pare la început. Greutăți pornite prost pot bloca antrenarea de la zero. Din fericire, straturile din PyTorch au inițializări bune implicit, deci rar trebuie să intervii, dar merită să știi că e un factor.
 
-# @takeaways
-- Lot, epocă, pas: un lot procesat = un pas; o trecere prin tot setul = o epocă.
-- Adam/AdamW pornesc ușor și cer puțin reglaj; SGD cu momentum e solid.
-- Learning rate-ul e butonul cel mai important; caută-l pe scară logaritmică.
-- Warmup plus scădere cosine e o rețetă bună de scheduler.
-- Dropout, weight decay, batch norm și early stopping țin overfitting-ul în frâu.
-
-# @pitfalls
-- Verifică întâi learning rate-ul, apoi arhitectura.
-- Oprește antrenarea când scorul de validare începe să se înrăutățească.
-- La loss NaN, scade întâi learning rate-ul.
-
 # @practice
 - Testează trei learning rate-uri pe o scară logaritmică și desenează curbele de loss.
 - Adaugă dropout și early stopping la o rețea și vezi efectul pe validare.

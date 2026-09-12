@@ -57,18 +57,6 @@ An SVM (support vector machine) looks for the boundary between classes that leav
 
 When the data can't be separated with a straight line, the kernel trick steps in: it projects the data into a higher-dimensional space, where it becomes separable, without computing that space explicitly. The RBF kernel is the most used. SVM needs scaled data to work well.
 
-# @takeaways
-- Training = finding the parameters that minimize the cost function.
-- Linear regression predicts numbers and gives readable coefficients; logistic predicts class probabilities.
-- The logistic regression threshold is tuned to the metric, it's not fixed at 0.5.
-- Trees are readable but overfit without a depth limit.
-- SVM maximizes the margin; the kernel lets it separate non-linear data.
-
-# @pitfalls
-- Scale the features before you read a regression's coefficients.
-- Limit the tree depth, otherwise it's perfect on training and weak on validation.
-- Scale the data before SVM; without it, it works inexplicably badly.
-
 # @practice
 - Compare logistic regression, a tree and an SVM on the same tabular problem, with the same metric.
 - Move the logistic regression threshold down from 0.5 and watch recall rise and precision fall.

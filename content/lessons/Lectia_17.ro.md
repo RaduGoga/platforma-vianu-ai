@@ -37,18 +37,6 @@ Problema rețelelor foarte adânci: gradientul dispare pe drumul înapoi prin mu
 > [!NOTE]
 > Conexiunea reziduală e ideea de reținut din modul. Fără ea, rețelele foarte adânci nu învață. Cu ea, adâncimea devine un avantaj, nu un blocaj.
 
-# @takeaways
-- CNN-urile folosesc filtre mici partajate: puține greutăți, recunosc trăsături oriunde apar.
-- Stratul convoluțional are kernel, stride, padding; ieșirea se calculează cu o formulă simplă.
-- Pooling-ul micșorează harta și mărește câmpul receptiv.
-- Tiparul: convoluții plus pooling pentru trăsături, apoi cap de clasificare.
-- Conexiunile reziduale (ResNet) lasă gradientul să treacă prin rețele adânci.
-
-# @pitfalls
-- Calculează dimensiunile pe hârtie înainte să legi straturile.
-- Folosește conexiuni reziduale la rețele adânci, ca gradientul să ajungă înapoi.
-- Închide cu global average pooling în loc de straturi dense uriașe.
-
 # @practice
 - Calculează pe hârtie dimensiunile ieșirii pentru o mică rețea convoluțională, strat cu strat.
 - Antrenează o rețea convoluțională simplă pe un set de imagini mic.

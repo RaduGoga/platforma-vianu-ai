@@ -40,18 +40,6 @@ When you have few images, the model memorizes. Augmentation artificially grows t
 > [!NOTE]
 > The golden rule of augmentation: it has to keep the label. A horizontal flip of a cat is still a cat, so it's valid. But for the digit 2 or the letter b, the flip changes the meaning, so it's NOT valid. Always ask whether the transform would change the correct answer.
 
-# @takeaways
-- An image is a tensor: 2D grayscale, 3D color (H, W, channels).
-- Watch the range: 0..255 integer or 0..1 decimal, don't mix them.
-- Convolution slides a small filter over the image; it's exactly what CNN layers do, with learned filters.
-- Augmentation grows the set and fights overfitting.
-- Valid augmentation keeps the label; a flip on digits or letters breaks it.
-
-# @pitfalls
-- Pick augmentations that preserve the label: no flips on characters, no big rotations on objects with a fixed orientation.
-- Keep a single intensity range across the whole set.
-- Augment training only; validation stays clean.
-
 # @practice
 - Write a Sobel filter by hand and apply it to an image to pull out the edges.
 - Test whether a set of augmentations improves the score on a small classification problem.

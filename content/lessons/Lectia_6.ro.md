@@ -135,20 +135,6 @@ Prima oră o dai pe pipeline-ul de mai sus, cu un model simplu. Ai deja o submis
 
 Ordinea inversă, în care lucrezi două ore la un model bun și abia apoi te apuci de submisie, e cel mai frecvent mod de a termina concursul cu zero puncte pentru cod care mergea aproape.
 
-# @takeaways
-- Ordinea pașilor contează mai mult decât alegerea modelului.
-- Împarți datele înainte de orice transformare, altfel scorul local minte.
-- Baseline-ul prost e reperul fără de care nu știi dacă modelul tău e bun.
-- Pipeline face scurgerea de informație greu de comis din greșeală.
-- Prima submisie validă se face în prima oră, nu la final.
-
-# @pitfalls
-- Împarte datele înainte să scalezi sau să imputezi, altfel validarea iese fals optimistă.
-- Optimizează exact metrica din enunț.
-- Pune `handle_unknown="ignore"`, ca o categorie nouă din test să nu crape predicția.
-- Verifică numărul de rânduri și numele coloanelor înainte de upload.
-- Reantrenează pe toate datele de antrenare pentru submisia finală.
-
 # @practice
 - Ia o problemă de arhivă de pe MLCompete și scrie pipeline-ul cap-coadă într-o oră, cu model simplu.
 - Rulează același pipeline o dată cu scalare înainte de split și o dată după, și compară scorurile de validare.

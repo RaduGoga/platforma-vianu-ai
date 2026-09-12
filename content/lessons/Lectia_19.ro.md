@@ -35,18 +35,6 @@ LSTM și GRU rezolvă asta cu porți: mecanisme care decid ce informație rețin
 
 RNN-urile și LSTM-urile au fost înlocuite în mare parte de transformere în NLP-ul de vârf, dar rămân importante ca să înțelegi ideea de procesare a secvenței și problema memoriei pe distanță lungă, care e exact ce au venit transformerele să rezolve mai bine.
 
-# @takeaways
-- One-hot pierde sensul; toate cuvintele sunt la fel de departe.
-- Embeddings sunt vectori denși unde apropierea = sens apropiat, învățați din context.
-- Aritmetica vectorilor de cuvinte funcționează: relațiile de sens devin direcții.
-- FastText folosește subcuvinte, esențial pentru flexiunea bogată a românei.
-- RNN procesează secvențe dar uită pe distanță lungă; LSTM/GRU rețin cu porți.
-
-# @pitfalls
-- La română folosește vectori care țin cont de subcuvinte, pentru formele flexionate.
-- Pentru context lung folosește atenție sau transformer, nu un RNN simplu.
-- Pornește de la embeddings preantrenate când ai puține date.
-
 # @practice
 - Explorează aritmetica vectorilor (rege - bărbat + femeie) pe un set de embeddings preantrenate.
 - Compară FastText cu Word2Vec pe cuvinte flexionate din română.

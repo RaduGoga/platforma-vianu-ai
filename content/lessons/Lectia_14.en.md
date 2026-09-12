@@ -47,18 +47,6 @@ for x, y in dataloader:
     optimizer.zero_grad()          # clear for the next step
 ```
 
-# @takeaways
-- An MLP is layers of neurons with non-linear activations between them; without non-linearity it collapses to one layer.
-- ReLU is the default activation in the hidden layers.
-- Training = gradient descent: you move the weights opposite the loss gradient.
-- Backpropagation is the chain rule applied backward through the network; it computes the gradients.
-- In PyTorch: forward, backward, step, zero_grad, in that order.
-
-# @pitfalls
-- Call `optimizer.zero_grad()` at every step, otherwise gradients add up.
-- Remember that `.backward()` only computes gradients; the optimizer takes the step.
-- Put activations between linear layers, otherwise the network stays linear.
-
 # @practice
 - Work out backpropagation by hand for a network with one hidden layer, on paper.
 - Train an MLP on a small dataset in PyTorch and watch the loss go down.

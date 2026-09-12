@@ -37,18 +37,6 @@ The problem with very deep networks: the gradient vanishes on the way back throu
 > [!NOTE]
 > The residual connection is the idea to remember from this module. Without it, very deep networks don't learn. With it, depth becomes an advantage, not a bottleneck.
 
-# @takeaways
-- CNNs use small shared filters: few weights, they recognize features wherever they appear.
-- The convolutional layer has kernel, stride, padding; the output is computed with a simple formula.
-- Pooling shrinks the map and grows the receptive field.
-- The pattern: convolutions plus pooling for features, then a classification head.
-- Residual connections (ResNet) let the gradient pass through deep networks.
-
-# @pitfalls
-- Work out the sizes on paper before wiring the layers together.
-- Use residual connections in deep networks, so the gradient reaches back.
-- Finish with global average pooling instead of huge dense layers.
-
 # @practice
 - Compute the output sizes for a small convolutional network on paper, layer by layer.
 - Train a simple convolutional network on a small image dataset.

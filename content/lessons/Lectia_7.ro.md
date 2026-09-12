@@ -57,18 +57,6 @@ SVM (mașină cu vectori suport) caută granița dintre clase care lasă margine
 
 Când datele nu se pot separa cu o linie dreaptă, intervine trucul kernel: proiectează datele într-un spațiu cu mai multe dimensiuni, unde devin separabile, fără să calculeze explicit acel spațiu. Kernelul RBF e cel mai folosit. SVM cere date scalate ca să funcționeze bine.
 
-# @takeaways
-- A antrena = a găsi parametrii care minimizează funcția de cost.
-- Regresie liniară prezice numere și dă coeficienți citibili; logistică prezice probabilități de clasă.
-- Pragul regresiei logistice se reglează după metrică, nu e fix 0.5.
-- Arborii sunt citibili dar fac overfitting fără limitare de adâncime.
-- SVM maximizează marginea; kernelul îl lasă să separe date neliniare.
-
-# @pitfalls
-- Scalează trăsăturile înainte să interpretezi coeficienții unei regresii.
-- Limitează adâncimea arborelui, altfel merge perfect pe antrenare și slab pe validare.
-- Scalează datele înainte de SVM; fără asta merge inexplicabil de prost.
-
 # @practice
 - Compară regresie logistică, arbore și SVM pe aceeași problemă tabelară, cu aceeași metrică.
 - Mișcă pragul regresiei logistice de la 0.5 în jos și urmărește cum cresc recall-ul și scad precizia.

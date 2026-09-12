@@ -50,18 +50,6 @@ You solve them with backtracking: you assign a value, move on, and if you get st
 - Forward checking: after each assignment, you remove from the neighbors the values that are no longer possible. You catch dead ends early.
 - MRV (minimum remaining values): you always pick the variable with the fewest values left. You attack the most constrained part first, where a contradiction is more likely.
 
-# @takeaways
-- Every search is described the same way: start, actions, goal test, cost.
-- BFS gives the fewest-steps path, DFS saves memory, uniform cost gives the lowest-cost path.
-- A* uses f = g + h; with an admissible heuristic, it finds the optimal solution.
-- Minimax picks the move against an optimal opponent; alpha-beta does it faster without changing the result.
-- CSPs are solved with backtracking plus forward checking and MRV.
-
-# @pitfalls
-- Use an admissible heuristic for A*, so the solution you find is also optimal.
-- Mark visited states so you don't fall into infinite loops.
-- Set a depth limit for minimax on big games.
-
 # @practice
 - Implement A* for the 8-puzzle with two heuristics (Manhattan and misplaced tiles) and compare the number of states expanded.
 - Solve a map coloring as a CSP with forward checking and MRV.

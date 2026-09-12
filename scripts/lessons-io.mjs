@@ -34,9 +34,7 @@
 //   > f = g + h
 //   > explicație opțională
 //
-//   # @takeaways        (opțional)
 //   - ...
-//   # @pitfalls
 //   - ...
 //   # @practice
 //   - ...
@@ -72,11 +70,15 @@ export function serializeLesson(l) {
     const blocks = (s.blocks || []).map(serializeBlock).join("\n\n");
     parts.push(`## ${s.heading}\n${blocks}`);
   }
-  if (l.keyTakeaways && l.keyTakeaways.length)
-    parts.push(`# @takeaways\n${l.keyTakeaways.map((x) => `- ${x}`).join("\n")}`);
-  parts.push(`# @pitfalls\n${l.pitfalls.map((x) => `- ${x}`).join("\n")}`);
   parts.push(`# @practice\n${l.practice.map((x) => `- ${x}`).join("\n")}`);
   return parts.join("\n\n") + "\n";
+}
+
+// O problemă de exersat: `- [Titlu](url)` sau doar `- Titlu`, când linkul
+// încă nu există.
+function parseProblem(line) {
+  const m = line.match(/^\[(.+?)\]\((\S+?)\)\s*$/);
+  return m ? { title: m[1], url: m[2] } : { title: line };
 }
 
 // ————————————————————————— PARSE (md -> obiect) —————————————————————————
@@ -193,7 +195,6 @@ export function parseLesson(md) {
     duration: meta.duration,
     intro: "",
     sections: [],
-    pitfalls: [],
     practice: [],
   };
 
@@ -225,9 +226,7 @@ export function parseLesson(md) {
       .filter((l) => /^-\s+/.test(l))
       .map((l) => l.replace(/^-\s+/, ""));
     if (seg.key === "intro") lesson.intro = joinPara;
-    else if (seg.key === "takeaways") lesson.keyTakeaways = bullets;
-    else if (seg.key === "pitfalls") lesson.pitfalls = bullets;
-    else if (seg.key === "practice") lesson.practice = bullets;
+    else if (seg.key === "practice") lesson.practice = bullets.map(parseProblem);
   }
   return lesson;
 }

@@ -37,18 +37,6 @@ Peste vectorii TF-IDF, două modele merg surprinzător de bine: Naïve Bayes mul
 
 Pentru căutare și potrivire de texte, folosești similaritatea cosinus: unghiul dintre doi vectori de documente. Cu cât unghiul e mai mic, cu atât textele sunt mai apropiate ca conținut. E baza motoarelor de căutare simple și a găsirii de duplicate.
 
-# @takeaways
-- NLP clasic = transformi text în vectori, apoi pui un model obișnuit deasupra.
-- Preprocesare: tokenizare, stopwords, lematizare; la română grijă la diacritice și flexiune.
-- TF-IDF cântărește cuvintele: mult dacă sunt caracteristice, puțin dacă sunt omniprezente.
-- Naïve Bayes și regresia logistică peste TF-IDF sunt un baseline greu de bătut.
-- Similaritatea cosinus măsoară cât de apropiate sunt două texte.
-
-# @pitfalls
-- Normalizează diacriticele consecvent înainte de tokenizare.
-- Construiește vocabularul doar pe antrenare, apoi aplică-l pe test.
-- Fă întâi un baseline TF-IDF, ca să ai cu ce compara rețelele.
-
 # @practice
 - Clasifică texte în română cu TF-IDF și regresie logistică, cu fit doar pe train.
 - Găsește cele mai apropiate două documente dintr-un set prin similaritate cosinus.

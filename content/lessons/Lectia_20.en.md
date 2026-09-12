@@ -38,19 +38,6 @@ That's why you measure performance on subgroups too, not just overall. Fairness 
 
 The two definitions can be mathematically incompatible: satisfying one, you break the other. There's no purely technical answer. The choice depends on the context and on what cost each kind of mistake has for people. What matters is to be aware of the trade-off and make it explicit, not to report only the average and hide the rest.
 
-# @takeaways
-- In RL the agent learns from rewards, not from given correct answers.
-- An MDP has states, actions, rewards, discount and a policy; V and Q measure how well you're doing.
-- Q-learning learns a table of values from experience and produces the good policy.
-- ε-greedy balances exploration and exploitation; explore enough at the start.
-- Bias comes in through data and labels; measure on subgroups, not just the average.
-- Fairness definitions can be incompatible; the choice is contextual, not purely technical.
-
-# @pitfalls
-- Decay ε gradually, so the agent explores enough early on.
-- Report the score on subgroups too, not just the average.
-- Treat fairness as several definitions that pull against each other.
-
 # @practice
 - Implement Q-learning on a grid-world and watch the policy take shape.
 - Measure a model's performance on subgroups and discuss which fairness definition you use.

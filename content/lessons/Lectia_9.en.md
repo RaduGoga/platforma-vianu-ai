@@ -46,18 +46,6 @@ The simplest ensemble across different models is voting: you have a Random Fores
 
 Stacking goes further: it trains a final model that learns how to combine the others' predictions. It's stronger, but also easier to leak into if you don't use out-of-fold predictions. Start with simple voting, move to stacking only if you have time.
 
-# @takeaways
-- Ensembles work when the models are wrong in different ways; diversity is the key.
-- Bagging (Random Forest) cuts variance by averaging trees trained on different data.
-- Boosting (XGBoost, LightGBM) builds trees that fix each other's mistakes in turn.
-- Tune hyperparameters in order: depth, then number of trees, then learning rate.
-- Voting across different models often beats the best single model.
-
-# @pitfalls
-- Tune one hyperparameter at a time and write down the score every time.
-- Take feature importance as a hint about where to look, not as final truth.
-- Check the stage's rules before using external boosting libraries.
-
 # @practice
 - Train a Random Forest and a gradient boosting model on the same problem and compare the scores.
 - Do a vote across three different models and see if it beats the best single model.

@@ -37,18 +37,6 @@ On top of the TF-IDF vectors, two models work surprisingly well: multinomial Na√
 
 For search and text matching, you use cosine similarity: the angle between two document vectors. The smaller the angle, the closer the texts are in content. It's the basis of simple search engines and of finding duplicates.
 
-# @takeaways
-- Classic NLP = you turn text into vectors, then put an ordinary model on top.
-- Preprocessing: tokenization, stopwords, lemmatization; for Romanian watch diacritics and inflection.
-- TF-IDF weights words: high if they're characteristic, low if they're everywhere.
-- Na√Øve Bayes and logistic regression over TF-IDF are a baseline that's hard to beat.
-- Cosine similarity measures how close two texts are.
-
-# @pitfalls
-- Normalize diacritics consistently before tokenizing.
-- Build the vocabulary on training data only, then apply it to test.
-- Build a TF-IDF baseline first, so you have something to compare the networks against.
-
 # @practice
 - Classify Romanian texts with TF-IDF and logistic regression, fitting only on train.
 - Find the two closest documents in a set using cosine similarity.

@@ -36,18 +36,6 @@ Regularization is any technique that stops the model from memorizing the trainin
 
 Weight initialization matters more than it seems at first. Weights started badly can block training from the start. Luckily, PyTorch layers have good default initializations, so you rarely need to step in, but it's worth knowing it's a factor.
 
-# @takeaways
-- Batch, epoch, step: one batch processed = one step; one pass through the whole set = one epoch.
-- Adam/AdamW start easily and need little tuning; SGD with momentum is solid.
-- The learning rate is the most important knob; search for it on a logarithmic scale.
-- Warmup plus cosine decay is a good scheduler recipe.
-- Dropout, weight decay, batch norm and early stopping keep overfitting in check.
-
-# @pitfalls
-- Check the learning rate first, the architecture second.
-- Stop training when the validation score starts getting worse.
-- On a NaN loss, lower the learning rate first.
-
 # @practice
 - Test three learning rates on a logarithmic scale and draw the loss curves.
 - Add dropout and early stopping to a network and see the effect on validation.

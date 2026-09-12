@@ -4,36 +4,45 @@ duration: ~2h
 ---
 
 # @intro
-The first session has two halves. First we make it clear what artificial intelligence means, so you know what we're talking about all year. Then we handle the logistics: a place to write code and a place to send answers.
+Naturally, the first question is what artificial intelligence actually means. With so much confusion around the term, it's worth clearing that up first and only then setting up your working environment.
 
 ## What AI is and where it's used
-Artificial intelligence is the idea of building a program that solves problems without you writing, step by step, the rule for every case. Instead of telling it "if this, do that", you show it many examples and let it find the rule on its own. That part, learning from examples, is called machine learning, and it's almost everything you do at the olympiad.
+At its core, artificial intelligence means any technology that simulates human functions. Instead of following strict rules, you show it many examples and let it find the rules on its own, through various algorithms. It isn't magic: ChatGPT doesn't "think". The part about learning from examples is called machine learning, and it's almost everything you do at the olympiad.
 
-One example makes the difference clear. To tell a spam email from a normal one with hand-written rules, you'd write hundreds of "if it contains word X". With machine learning, you give it a few thousand emails already marked spam or not, and the model learns on its own which combinations of words predict spam.
+Some terminology is worth mentioning too. Data science covers all the fields involved in AI: mathematics, computer science and others. Mathematics is the foundation and shows up in absolutely everything we do, but you don't have to learn it in depth to solve problems or build projects. Some classic computer science algorithms are used as well, BFS and DFS for example, in certain areas of AI. Machine learning, mentioned above, splits into several categories of its own: supervised learning, unsupervised learning, reinforcement learning and, sometimes, self-supervised.
 
-- Classification: you put a label on something (spam or not, which digit is in an image, what disease a set of symptoms points to).
+A few examples help. To tell a spam email from a normal one with hand-written rules, you'd have to write hundreds of conditions of the form "if it contains the word X". With machine learning, you give it a few thousand emails already marked as spam or not, and the model learns by itself which combinations of words predict spam. A few classic AI tasks include, but aren't limited to:
+
+- Classification: you assign a label (spam or not, which digit is in the image, which disease the symptoms point to).
 - Regression: you predict a number (the price of a house, tomorrow's temperature).
-- Clustering: you find structure in data with no labels (which customers are similar).
+- Clustering: you find structure in unlabelled data (which customers resemble each other).
+
+Overfitting, underfitting, bias and variance matter too. A model that has memorized the training data, noise included, does almost perfectly on what it has seen and poorly on new data: that's overfitting. At the opposite end, a model too simple for the problem doesn't even capture the real pattern and gets things wrong everywhere, on training and on test alike: that's underfitting.
+
+The two are explained by bias and variance. Bias is the error that comes from assumptions that are too simple, like fitting a straight line through data that actually describes a curve. Variance is sensitivity to the exact data it was trained on: change the training set slightly and the model gives completely different predictions. High bias means underfitting, high variance means overfitting, and lowering one usually raises the other. Everything you do at the olympiad, from how complex a model you pick to how long you train it, is really the search for the balance point between them.
 
 > [!NOTE]
-> At AI contests almost every problem comes down to this: you get data with examples, you train a model that learns from them, and you make it predict on new data.
-
-## What Python is and why it's the one
-Python is the standard language for writing AI code. Not because it's the fastest, but because the libraries you want are already written: NumPy for numeric work, Pandas for tables, scikit-learn for classic models, PyTorch for neural networks.
-
-A library is code someone else wrote, that you import and use. Instead of writing the sorting algorithm or matrix multiplication yourself, you call the right function. Most of your work will be wiring these libraries together correctly.
+> How to spot them in practice: compare the training score with the validation score. Both weak means underfitting, and you need a stronger model. A good training score and a weak validation score means overfitting, and you need more data, regularization, or a simpler model.
 
 > [!NOTE]
-> Install Python 3.11 (a stable, widely supported version) and JupyterLab. Jupyter gives you an interactive notebook where you run code piece by piece and see the result right away, exactly what you want when you're exploring data.
+> At AI contests, almost every problem comes down to this: you get data, you analyse it, you train a model, and you have it predict on new data.
 
-## Set up Python, pip, and Jupyter Lab
-Before you write any code you need three things installed on your computer: Python, pip (it comes bundled with it), and Jupyter Lab.
+## What Python is and why it
+Python is the standard language for writing artificial intelligence code. Not because it's the fastest, but because it's heavily abstracted and already has the libraries you want, written for you, sometimes in faster languages: NumPy for numerical computing, Pandas for tables, scikit-learn for classic models, PyTorch for neural networks.
 
-- Windows: go to python.org/downloads, grab the latest 3.11 or newer, and run the installer. On the first screen check "Add python.exe to PATH" before clicking Install Now, otherwise your terminal won't find Python afterward.
-- macOS: download the same .pkg from python.org/downloads and run through the installer. If you already have Homebrew, brew install python@3.11 works just as well.
+A library is code written by someone else that you import and use. In AI tasks the goal isn't to memorize how algorithms or models are written, but to understand them, to know when each one applies, and to adapt them to the problem at hand alongside other methods.
+
+> [!NOTE]
+> Install a stable version of Python, 3.11 for example, which is well supported by libraries.
+
+## Your working setup: Python, pip and Jupyter Lab
+Before you write any code you need three things installed: Python, pip (which comes with it automatically) and Jupyter Lab. Jupyter Lab, VS Code and Google Colab are environments where you can write Python notebooks, which let you write code in pieces and run it one piece at a time.
+
+- Windows: go to python.org/downloads, download the latest 3.11 or newer and run the installer. On the first screen tick "Add python.exe to PATH" before Install Now, otherwise the terminal won't find Python afterwards.
+- macOS: download the .pkg file from python.org/downloads as well and step through the installer. If you already have Homebrew, brew install python@3.11 works just as well.
 - Linux (Ubuntu/Debian): open a terminal and run sudo apt update && sudo apt install python3 python3-pip python3-venv.
 
-Pip has shipped with Python since version 3.4, so there's nothing separate to install for it. To confirm both are working, open a terminal (Command Prompt or PowerShell on Windows, Terminal on macOS and Linux) and run:
+Pip ships with Python from version 3.4 on, so you don't install it separately. To confirm both work, open a terminal (Command Prompt or PowerShell on Windows, Terminal on macOS and Linux) and run:
 
 ```
 python --version
@@ -41,42 +50,16 @@ pip --version
 ```
 caption: If both print a version number, Python and pip are installed.
 
-On Windows, if python isn't recognized, try py --version instead; if pip doesn't respond either, try pip3 or python -m pip --version.
+On Windows, if python isn't recognized, try py --version; if pip doesn't answer either, try pip3 or python -m pip --version.
 
-With Python installed, move on to the environment itself. A virtual environment is a separate box for one project's libraries, so they don't clash with anything else installed globally. You create it once per project and always work inside it.
+With Python installed, move on to the working environment itself. A virtual environment is a separate box for one project's libraries, so they don't clash with others installed globally. You create it once per project and always work inside it.
 
-1. Open a terminal in your working folder.
+1. Open a terminal in the folder you're working in.
 2. Type pip install jupyterlab and press Enter.
-3. Type jupyter lab and press Enter: a browser tab opens on its own with the interface.
+3. Type jupyter lab and press Enter: a browser tab opens automatically with the interface.
 
 > [!NOTE]
-> At the contest you'll find all of this already installed on the computers.
+> You can use VS Code too, but at some contests it isn't available. Google Colab is also a good option when you're working from a computer that isn't yours.
 
-## Documentation at the contest
-You're not fully offline at the contest. You get internet, but a controlled one: only a fixed list of sites, usually the official docs for the libraries you use, like numpy.org, scikit-learn.org, pandas.pydata.org, pytorch.org, docs.python.org. The system logs what you visit, and going to anything outside that list, ChatGPT, any other page, gets you flagged and risks disqualification.
-
-In practice, you can look up a function in the official docs, but you can't ask anyone and you can't copy code from a forum. Get used to finding the answer directly in the docs, not through a Google search.
-
-There's also a faster option that works even with no connection at all: in Jupyter, put a question mark after a function and it shows you what it does and what arguments it takes, straight from the library installed on your machine.
-
-```
-pd.read_csv?      # open the help for read_csv
-np.mean?          # what it does, what arguments it takes
-```
-caption: The question mark opens the docs even with no internet.
-
-> [!NOTE]
-> Check the exact list of allowed sites for the contest you're entering beforehand, the rules vary between competitions. Going outside the list counts as an attempt to cheat.
-
-## Your first submission, the full loop
-MLCompete (platform.olimpiada-ai.ro) and Nitro AI Judge (judge.nitro-ai.org) are the platforms you'll train on. Make an account on both.
-
-A competition works like this: you download a dataset, train a model, produce a file with your predictions for the test data, upload it, and get a score on a leaderboard. The point of your first submission isn't the score. It's to see the whole loop at least once.
-
-1. Enter a training competition and read which metric is scored.
-2. Download the data and open the sample submission file, so you see exactly which columns and format it wants.
-3. Produce a file in the same format, even with random answers.
-4. Upload it and look at the score.
-
-> [!NOTE]
-> A good model with a badly formatted file scores zero. The submission format isn't a detail, it's a condition. Check it every time: the column names, the order, the separator, whether it has a header or not.
+# @practice
+- First submission on MLCompete

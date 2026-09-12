@@ -29,17 +29,6 @@ Curba de loss e principalul instrument de diagnostic. Uită-te la ea, nu doar la
 - Loss de antrenare scade, cel de validare crește: overfitting, adaugă regularizare.
 - Loss zgomotos dar în scădere: probabil normal, poate un batch size prea mic.
 
-# @takeaways
-- Primul test: poate modelul să facă overfit pe 10 exemple? Dacă nu, e un bug.
-- Depanează în ordine: learning rate, normalizare, etichete, zero_grad, gradienți.
-- Nu schimba lucruri la întâmplare; mergi pe listă, un lucru pe rând.
-- Curba de loss îți spune cauza: formă plată, explozie, sau prăpastie train-validare.
-
-# @pitfalls
-- Verifică normalizarea datelor înainte să dai vina pe arhitectură.
-- Dacă nu învață în primele epoci, oprește și caută bug-ul.
-- Schimbă un singur lucru pe rând, ca să știi ce a ajutat.
-
 # @practice
 - Ia o rețea care nu învață și găsește cauza trecând prin listă, un pas pe rând.
 - Reprodu overfitting-ul pe 10 exemple ca test de sănătate înainte de antrenarea reală.

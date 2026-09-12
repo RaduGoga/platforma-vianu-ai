@@ -40,18 +40,6 @@ Când ai puține imagini, modelul memorează. Augmentarea mărește artificial s
 > [!NOTE]
 > Un singur lucru contează la augmentare: transformarea trebuie să păstreze eticheta. Un flip orizontal la o pisică e tot o pisică, deci e valid. Dar la cifra 2 sau la litera b, flip-ul schimbă sensul, deci NU e valid. Gândește-te mereu dacă transformarea ar schimba răspunsul corect.
 
-# @takeaways
-- O imagine e un tensor: 2D alb-negru, 3D color (H, W, canale).
-- Ai grijă la interval: 0..255 întreg sau 0..1 zecimal, nu le amesteca.
-- Convoluția plimbă un filtru mic peste imagine; e exact ce fac straturile CNN, cu filtre învățate.
-- Augmentarea mărește setul și combate overfitting-ul.
-- Augmentarea validă păstrează eticheta; flip pe cifre sau litere o strică.
-
-# @pitfalls
-- Alege augmentări care păstrează eticheta: fără flip pe caractere, fără rotații mari pe obiecte cu orientare fixă.
-- Ține un singur interval de intensitate pe tot setul.
-- Augmentează doar antrenarea; validarea rămâne curată.
-
 # @practice
 - Scrie de mână un filtru Sobel și aplică-l pe o imagine ca să-i scoți marginile.
 - Testează dacă un set de augmentări îmbunătățește scorul pe o problemă mică de clasificare.

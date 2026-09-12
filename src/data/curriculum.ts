@@ -63,7 +63,7 @@ export const modules: Module[] = [
     part: "fundamente",
     kind: "modul",
     summary:
-      "Mediul de lucru pus la punct, prima submisie validă, și o hartă limpede a ce e inteligența artificială.",
+      "Environmentul și IDE-ul, prima submisie validă și ce înseamnă inteligența artificială.",
     summaryEn:
       "Your working setup sorted, your first valid submission, and a clear picture of what artificial intelligence is.",
     topics: [

@@ -35,18 +35,6 @@ LSTM and GRU solve this with gates: mechanisms that decide what information they
 
 RNNs and LSTMs have largely been replaced by transformers in top-end NLP, but they stay important for understanding the idea of sequence processing and the long-range memory problem, which is exactly what transformers came to solve better.
 
-# @takeaways
-- One-hot loses the meaning; all words are equally far apart.
-- Embeddings are dense vectors where closeness = close meaning, learned from context.
-- Word-vector arithmetic works: meaning relations become directions.
-- FastText uses subwords, essential for Romanian's rich inflection.
-- RNNs process sequences but forget over long ranges; LSTM/GRU hold on with gates.
-
-# @pitfalls
-- For Romanian, use vectors that account for subwords, to catch inflected forms.
-- For long context use attention or a transformer, not a plain RNN.
-- Start from pretrained embeddings when you have little data.
-
 # @practice
 - Explore vector arithmetic (king - man + woman) on a set of pretrained embeddings.
 - Compare FastText with Word2Vec on inflected Romanian words.

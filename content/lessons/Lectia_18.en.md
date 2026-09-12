@@ -36,18 +36,6 @@ A pretrained model saw images normalized in a certain way: subtracted and divide
 ## A small learning rate for fine-tuning
 In fine-tuning, the pretrained layers already have good weights. If you train them with a large learning rate, the big steps break exactly the valuable features you wanted to keep. Use a small learning rate for them, sometimes even smaller than for the new head. That way you nudge them finely, not destroy them.
 
-# @takeaways
-- Pretrained models have learned general features reusable on other problems.
-- Feature extraction (freeze everything, train only the head) is for very little data.
-- Fine-tuning (unfreeze the upper layers, small learning rate) is for somewhat more data.
-- Normalize the images with the same statistics as at pretraining (ImageNet).
-- A large learning rate in fine-tuning breaks the good features already learned.
-
-# @pitfalls
-- Apply the same ImageNet normalization used during pretraining.
-- Fine-tune with a small learning rate, so you don't break the already-good features.
-- With little data, use feature extraction instead of full fine-tuning.
-
 # @practice
 - Adapt a ResNet to a problem with few images through feature extraction.
 - Compare feature extraction with fine-tuning on the same set and see when each is worth it.

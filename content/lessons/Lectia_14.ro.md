@@ -47,18 +47,6 @@ for x, y in dataloader:
     optimizer.zero_grad()          # curăță pentru pasul următor
 ```
 
-# @takeaways
-- Un MLP e straturi de neuroni cu activări neliniare între ele; fără neliniaritate colapsează la un strat.
-- ReLU e activarea implicită în straturile ascunse.
-- Antrenarea = coborâre pe gradient: muți greutățile opus gradientului loss-ului.
-- Backpropagation e regula lanțului aplicată înapoi prin rețea; calculează gradienții.
-- În PyTorch: forward, backward, step, zero_grad, în ordinea asta.
-
-# @pitfalls
-- Cheamă `optimizer.zero_grad()` la fiecare pas, altfel gradienții se adună.
-- Ține minte că `.backward()` doar calculează gradienți; pasul îl face optimizatorul.
-- Pune activări între straturile liniare, altfel rețeaua rămâne liniară.
-
 # @practice
 - Construiește backpropagation de mână pentru o rețea cu un strat ascuns, pe hârtie.
 - Antrenează un MLP pe un set mic în PyTorch și urmărește loss-ul cum scade.

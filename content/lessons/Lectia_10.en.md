@@ -46,18 +46,6 @@ t-SNE and UMAP make 2D projections that look nice and bring out groups. They're 
 > [!NOTE]
 > Use t-SNE and UMAP to look, not to draw hard conclusions. For trustworthy preprocessing, PCA is the safe choice.
 
-# @takeaways
-- Unsupervised = finding structure with no labels (groups, directions of variation).
-- K-Means needs you to choose k and scaled data; pick k with the elbow or the silhouette.
-- DBSCAN finds the number of groups and the outliers on its own, by density.
-- PCA reduces dimensions while keeping variance; good as preprocessing too.
-- t-SNE and UMAP are for looking only, the distances in them aren't trustworthy.
-
-# @pitfalls
-- Scale the data before K-Means, otherwise the column with big numbers dominates everything.
-- Read t-SNE as a map of neighbourhoods, not as real distances.
-- Choose k with the elbow method or the silhouette score.
-
 # @practice
 - Apply K-Means and DBSCAN to the same dataset and compare the groups found.
 - Reduce to 2D with PCA and with UMAP and see what differs between them.

@@ -130,6 +130,41 @@ export function LessonView({
             </section>
           )}
 
+          {lesson && lesson.practice.length > 0 && (
+            <section className="mt-14 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">
+              <div className="kicker mb-4 lg:mb-0 lg:pt-1">
+                {t("Probleme practice", "Practice problems")}
+              </div>
+              <div>
+                <ul className="divide-y divide-border border-y border-border">
+                  {lesson.practice.map((pr, i) => (
+                    <li key={i}>
+                      {pr.url ? (
+                        <a
+                          href={pr.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="focus-ring group flex items-baseline justify-between gap-3 py-2.5"
+                        >
+                          <span className="text-sm text-foreground transition-colors group-hover:text-primary">
+                            {pr.title}
+                          </span>
+                          <ArrowUpRight
+                            className="size-3.5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                            aria-hidden
+                          />
+                        </a>
+                      ) : (
+                        /* fără link încă: se vede, dar nu arată ca un buton mort */
+                        <span className="block py-2.5 text-sm text-muted-foreground">{pr.title}</span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+          )}
+
           {checkpoint && (
             <div className="mt-12 border-l-2 border-primary bg-[color:color-mix(in_srgb,var(--primary)_6%,var(--card))] p-5">
               <div className="display text-primary">{t("Punct de control", "Checkpoint")}</div>

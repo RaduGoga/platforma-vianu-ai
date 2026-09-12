@@ -135,20 +135,6 @@ You spend the first hour on the pipeline above, with a simple model. You already
 
 The reverse order, where you spend two hours on a good model and only then start on the submission, is the most common way to finish a contest with zero points for code that almost worked.
 
-# @takeaways
-- The order of the steps matters more than the choice of model.
-- You split before any transformation, otherwise your local score lies.
-- The dumb baseline is the reference point without which you can't tell if your model is good.
-- Pipeline makes information leakage hard to commit by accident.
-- The first valid submission happens in the first hour, not at the end.
-
-# @pitfalls
-- Split the data before you scale or impute, otherwise validation comes out falsely optimistic.
-- Optimize exactly the metric from the statement.
-- Pass `handle_unknown="ignore"` so a new category in test doesn't crash prediction.
-- Check the row count and the column names before uploading.
-- Retrain on all the training data for the final submission.
-
 # @practice
 - Take an archive problem from MLCompete and write the pipeline end to end in an hour, with a simple model.
 - Run the same pipeline once with scaling before the split and once after, and compare the validation scores.

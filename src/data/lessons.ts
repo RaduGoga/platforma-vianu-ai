@@ -8,26 +8,38 @@ export const lessons: Lesson[] = [
   {
     "moduleCode": "S1",
     "duration": "~2h",
-    "intro": "Prima sesiune are două jumătăți. Întâi limpezim ce înseamnă inteligența artificială, ca să știi despre ce vorbim tot anul. Apoi facem logistica: un loc unde scrii cod și un loc unde trimiți răspunsuri.",
+    "intro": "Firesc, prima întrebare e ce înseamnă mai exact inteligența artificială. Cu atâta confuzie în jurul termenului, e important să clarificăm întâi asta și abia apoi să pregătim mediul de lucru.",
     "sections": [
       {
         "heading": "Ce e AI și unde se folosește",
         "blocks": [
           {
-            "p": "Inteligența artificială e ideea de a face un program care rezolvă probleme fără să-i scrii tu, pas cu pas, regula pentru fiecare caz. În loc să-i spui „dacă e așa, fă asta”, îi arăți multe exemple și îl lași să găsească singur regula. Partea asta, de învățat din exemple, se numește machine learning, și e aproape tot ce faci la olimpiadă."
+            "p": "La bază, inteligența artificială înseamnă orice tehnologie care simulează funcții umane. În loc să urmeze reguli stricte, îi arăți mai multe exemple și o lași să găsească singură regulile, prin diverși algoritmi. Nu e ceva magic, ChatGPT nu „gândește\". Partea asta, de învățat din exemple, se numește machine learning și reprezintă aproape tot ce faci la olimpiadă."
           },
           {
-            "p": "Un exemplu face diferența clară. Ca să deosebești un email spam de unul normal cu reguli scrise de mână, ai scrie sute de „dacă conține cuvântul X”. Cu machine learning, îi dai câteva mii de emailuri deja marcate spam sau nu, și modelul învață singur ce combinații de cuvinte prezic spamul."
+            "p": "În sfera AI merită menționată și o anumită terminologie. Data science se referă la toate domeniile cu care avem de-a face în AI: matematică, informatică și altele. Matematica e baza și se folosește în absolut tot ce vom face, dar nu trebuie neapărat învățată în detaliu ca să rezolvi probleme sau să faci proiecte. Anumiți algoritmi clasici de informatică sunt și ei folosiți, BFS și DFS de exemplu, în anumite arii ale AI-ului. Machine learningul, menționat mai sus, se împarte la rândul lui în mai multe categorii: învățare supervizată, nesupervizată, reinforcement learning și, uneori, self-supervised."
+          },
+          {
+            "p": "Poate ajuta câteva exemple. Ca să deosebești un email spam de unul normal cu reguli scrise de mână, ar trebui să scrii sute de condiții de tipul „dacă conține cuvântul X\". Cu machine learning, îi dai câteva mii de emailuri deja marcate ca spam sau nu, iar modelul învață singur ce combinații de cuvinte prezic spamul. Câteva taskuri clasice de AI includ, dar nu se limitează la:"
           },
           {
             "list": [
-              "Clasificare: pui un label (spam sau nu, ce cifră e în imagine, pentru ce boală sunt specifice simptomele”).",
+              "Clasificare: pui o etichetă (spam sau nu, ce cifră e în imagine, pentru ce boală sunt specifice simptomele).",
               "Regresie: prezici un număr (prețul unei case, temperatura de mâine).",
-              "Clustering: găsești structura din date fără labeluri (ce clienți seamănă între ei)."
+              "Clustering: găsești structura din date fără etichete (ce clienți seamănă între ei)."
             ]
           },
           {
-            "note": "La concursurile de AI, aproape orice problemă se reduce la asta: primești date cu exemple, antrenezi un model care învață din ele, și îl pui să prezică pe date noi."
+            "p": "Importante mai sunt și conceptele de overfitting, underfitting, bias și varianță. Un model care a învățat pe de rost datele de antrenament, inclusiv zgomotul din ele, merge aproape perfect pe ce a văzut și slab pe date noi: asta e overfitting. La capătul opus, un model prea simplu pentru problemă nu prinde nici măcar tiparul real și greșește peste tot, și pe antrenament, și pe test: asta e underfitting."
+          },
+          {
+            "p": "Cele două se explică prin bias și varianță. Biasul e eroarea din presupuneri prea simple, cum ar fi să tragi o dreaptă prin date care descriu de fapt o curbă. Varianța e sensibilitatea la datele exacte pe care s-a antrenat: schimbi puțin setul de antrenament și modelul dă cu totul alte predicții. Bias mare înseamnă underfitting, varianță mare înseamnă overfitting, iar scăderea unuia îl crește de obicei pe celălalt. Tot ce faci la olimpiadă, de la cât de complex alegi modelul până la cât de mult îl antrenezi, e de fapt căutarea punctului de echilibru dintre ele."
+          },
+          {
+            "note": "Cum le recunoști în practică: compari scorul pe antrenament cu cel pe validare. Amândouă slabe înseamnă underfitting, ai nevoie de un model mai puternic. Scor bun pe antrenament și slab pe validare înseamnă overfitting, ai nevoie de mai multe date, de regularizare sau de un model mai simplu."
+          },
+          {
+            "note": "La concursurile de AI, aproape orice problemă se reduce la asta: primești date, le analizezi, antrenezi un model și îl pui să prezică pe date noi."
           }
         ]
       },
@@ -35,21 +47,21 @@ export const lessons: Lesson[] = [
         "heading": "Ce e Python și de ce el",
         "blocks": [
           {
-            "p": "Python e limbajul standard în care se scrie cod de inteligență artificială. Nu pentru că ar fi cel mai rapid, ci pentru că are bibliotecile pe care le vrei deja scrise: NumPy pentru calcul numeric, Pandas pentru tabele, scikit-learn pentru modele clasice, PyTorch pentru rețele neuronale."
+            "p": "Python e limbajul standard în care se scrie cod de inteligență artificială. Nu pentru că ar fi cel mai rapid, ci pentru că e puternic abstractizat și are deja scrise bibliotecile pe care le vrei, eventual în limbaje mai rapide: NumPy pentru calcul numeric, Pandas pentru tabele, scikit-learn pentru modele clasice, PyTorch pentru rețele neuronale."
           },
           {
-            "p": "O bibliotecă reprezinta un cod scris de altcineva, pe care îl imporți și îl folosești. În loc să scrii tu algoritmul de sortare sau înmulțirea de matrice, chemi funcția potrivită. Cea mai mare parte din munca ta va fi să legi bibliotecile acestea între ele corect."
+            "p": "O bibliotecă e cod scris de altcineva, pe care îl imporți și îl folosești. La taskuri de AI scopul nu e să înveți pe de rost cum se scriu algoritmii sau modelele, ci să le înțelegi, să știi când se folosesc și să le adaptezi la problema respectivă, împreună cu alte metode."
           },
           {
-            "note": "Instalează Python 3.11 (o versiune stabilă, larg suportată) și JupyterLab. Jupyter îți dă un notebook interactiv unde rulezi cod bucată cu bucată și vezi rezultatul imediat, exact ce vrei când explorezi date."
+            "note": "E bine să instalezi o versiune stabilă de Python, de exemplu 3.11, care e bine susținută de biblioteci."
           }
         ]
       },
       {
-        "heading": "Pregătește mediul: Python, pip și Jupyter Lab",
+        "heading": "Mediul de lucru: Python, pip și Jupyter Lab",
         "blocks": [
           {
-            "p": "Înainte să scrii cod, ai nevoie de trei lucruri instalate pe calculator: Python, pip (vine automat cu el) și Jupyter Lab."
+            "p": "Înainte să scrii cod, ai nevoie de trei lucruri instalate pe calculator: Python, pip (care vine automat cu el) și Jupyter Lab. Jupyter Lab, VS Code și Google Colab sunt medii în care poți scrie notebookuri de Python, care îți permit să scrii codul pe bucăți și să îl execuți modular."
           },
           {
             "list": [
@@ -79,61 +91,17 @@ export const lessons: Lesson[] = [
             ]
           },
           {
-            "note": "La concurs găsești toate astea deja instalate pe calculatoare."
-          }
-        ]
-      },
-      {
-        "heading": "Documentația la concurs",
-        "blocks": [
-          {
-            "p": "La concurs nu ești complet offline. Ai internet, dar unul controlat: doar pe o listă fixă de site-uri, de obicei documentația oficială a bibliotecilor pe care le folosești, gen numpy.org, scikit-learn.org, pandas.pydata.org, pytorch.org, docs.python.org. Sistemul vede ce accesezi, și dacă intri pe altceva decât ce e permis, ChatGPT, orice altă pagină, primești flag și riști descalificarea."
-          },
-          {
-            "p": "Practic, poți căuta o funcție în documentația oficială, dar nu poți întreba pe nimeni și nu poți copia cod de pe un forum. Obișnuiește-te din timp să găsești răspunsul direct în docs, nu printr-o căutare pe Google."
-          },
-          {
-            "p": "Există și o variantă mai rapidă, care merge chiar și fără nicio conexiune: în Jupyter, pui un semn de întrebare după o funcție și îți arată ce face și ce argumente ia, direct din biblioteca instalată pe calculator."
-          },
-          {
-            "code": "pd.read_csv?      # deschide ajutorul pentru read_csv\nnp.mean?          # ce face, ce argumente ia",
-            "caption": "Semnul întrebării deschide documentația fără internet."
-          },
-          {
-            "note": "Verifică dinainte lista exactă de site-uri permise la concursul la care mergi, regulile diferă de la o competiție la alta. Ieșirea din listă e tratată ca încercare de fraudă."
-          }
-        ]
-      },
-      {
-        "heading": "Prima submisie, bucla completă",
-        "blocks": [
-          {
-            "p": "MLCompete (platform.olimpiada-ai.ro) si Nitro AI Judge (judge.nitro-ai.org) sunt platformele pe care vei exersa. Fă-ți cont pe amândouă."
-          },
-          {
-            "p": "O competiție funcționează așa: descarci un set de date, antrenezi un model, produci un fișier cu predicțiile tale pentru datele de test, îl încarci, și primești un scor pe un clasament. Scopul primei tale submisii nu e scorul. E să vezi bucla întreagă măcar o dată."
-          },
-          {
-            "steps": [
-              "Intră într-o competiție de antrenament și citește ce metrică se punctează.",
-              "Descarcă datele și deschide fișierul de exemplu de submisie, ca să vezi exact ce coloane și ce format cere.",
-              "Produ un fișier în același format, chiar și cu răspunsuri la întâmplare.",
-              "Încarcă-l și uită-te la scor."
-            ]
-          },
-          {
-            "note": "Un model bun cu un fișier prost formatat ia zero. Formatul submisiei nu e un detaliu, e o condiție. Verifică-l de fiecare dată: numele coloanelor, ordinea, separatorul, dacă are sau nu antet."
+            "note": "Poți folosi și VS Code, dar la anumite concursuri nu e disponibil. De asemenea, Google Colab e o variantă bună când lucrezi de pe un calculator care nu e al tău."
           }
         ]
       }
     ],
-    "pitfalls": [],
     "practice": []
   },
   {
     "moduleCode": "S2",
     "duration": "~2h",
-    "intro": "Înainte să înveți vreun model, merită să înțelegi despre ce este vorba. O problemă de concurs de AI are mereu aceleași piese: niște date, un target de prezis, o metrică de punctare și un fișier de submisie. Cine citește piesele astea corect pleacă cu un avans mare, fiindcă jumătate din greșelile de concurs nu-s de model, ci de citit enunțul pe fugă.",
+    "intro": "Înainte să înveți vreun model, merită să înțelegi despre ce este vorba. O problemă de concurs de AI are foarte des aceleași bucăți: niște date, un target de prezis, o metrică de punctare și un fișier de submisie. Cine citește cerința corect pleacă cu un avans mare.",
     "sections": [
       {
         "heading": "Anatomia unei probleme",
@@ -150,7 +118,7 @@ export const lessons: Lesson[] = [
             ]
           },
           {
-            "note": "Primul lucru pe care îl faci la o problemă nouă nu e să antrenezi ceva. E să deschizi datele și fișierul de exemplu de submisie și să te uiți la ele: câte rânduri, ce coloane, ce lipsește, cum arată răspunsul cerut."
+            "note": "Coloanele folosite ca intrare pentru model se numesc features, sau trăsături."
           }
         ]
       },
@@ -158,7 +126,7 @@ export const lessons: Lesson[] = [
         "heading": "Metrica",
         "blocks": [
           {
-            "p": "Fiecare problemă are o metrică, adică formula după care se calculează scorul tău. E scrisă în enunț și e singura care contează. Nu ești punctat după cât de deștept pare modelul, ci după numărul pe care îl scoate metrica. Dacă metrica e F1 și tu optimizezi acuratețea, poți urca pe un scor care nu-ți aduce puncte."
+            "p": "Fiecare problemă are o metrică, adică formula după care se calculează scorul tău. E scrisă în enunț și contează mult. Dacă metrica e F1 și tu optimizezi acuratețea, poți urca pe un scor care nu-ți aduce puncte. Câteva exemple:"
           },
           {
             "list": [
@@ -168,7 +136,7 @@ export const lessons: Lesson[] = [
             ]
           },
           {
-            "p": "Regula practică: citește metrica înainte de orice, și antrenează cu ea în minte. Dacă se punctează F1, validează local tot pe F1, nu pe altceva."
+            "p": "O regulă bună: citește metrica înainte de orice, și antrenează cu ea în minte. Dacă se punctează F1, validează local tot pe F1."
           }
         ]
       },
@@ -179,13 +147,8 @@ export const lessons: Lesson[] = [
             "p": "Când ai predicțiile, le pui în fișierul cerut și îl încarci. Platforma îl compară cu răspunsurile corecte, pe care tu nu le vezi, și îți dă un scor pe un clasament. Ai de obicei un număr limitat de submisii, deci nu le irosi pe încercări la întâmplare."
           },
           {
-            "p": "Leaderboardul are două fețe. Cel public se calculează pe o parte din datele de test și îl vezi cât ține concursul. Cel privat se calculează pe restul și se dezvăluie abia la final. Clasamentul care contează e cel privat. Splitul ăsta există dintr-un motiv anume, și el te duce la capcana următoare."
-          }
-        ]
-      },
-      {
-        "heading": "Capcana leaderboardului public",
-        "blocks": [
+            "p": "Leaderboardul are două bucăți. Cel public se calculează pe o parte din datele de test și îl vezi cât ține concursul. Cel privat se calculează pe restul și se dezvăluie abia la final. Clasamentul care contează e cel privat. Splitul ăsta există dintr-un motiv anume."
+          },
           {
             "p": "Dacă îți alegi modelul după scorul public, ajungi să te potrivești pe acea bucată mică de date, nu pe problema reală. Se cheamă overfitting pe leaderboard: urci frumos pe public, apoi cazi pe privat, unde se împart de fapt punctele."
           },
@@ -198,31 +161,41 @@ export const lessons: Lesson[] = [
         "heading": "Unde te antrenezi",
         "blocks": [
           {
-            "p": "Sunt trei locuri de care ai nevoie tot anul. Nu-s interschimbabile, fiecare are rostul lui."
+            "p": "Trei platforme pe care găsești probleme:"
           },
           {
             "list": [
+              "Kaggle (kaggle.com): cea mai folosită platformă internațională de ML.",
               "MLCompete (platform.olimpiada-ai.ro): platforma pe care se ține olimpiada și pe care exersezi între etape, cu probleme de arhivă și competiții de antrenament.",
-              "Nitro AI Judge (judge.nitro-ai.org): platforma pe care se ține RoAI si alte concursuri de AI."
+              "Nitro AI Judge (judge.nitro-ai.org): platforma pe care se ține RoAI și alte concursuri de AI."
             ]
+          }
+        ]
+      },
+      {
+        "heading": "Prima submisie",
+        "blocks": [
+          {
+            "p": "MLCompete (platform.olimpiada-ai.ro) și Nitro AI Judge (judge.nitro-ai.org) sunt platformele pe care vei exersa. Fă-ți cont pe amândouă."
+          },
+          {
+            "steps": [
+              "Intră într-o competiție de antrenament și citește ce metrică se punctează.",
+              "Descarcă datele și deschide fișierul de exemplu de submisie, ca să vezi exact ce coloane și ce format cere.",
+              "Produ un fișier în același format, chiar și cu răspunsuri la întâmplare.",
+              "Încarcă-l și uită-te la scor."
+            ]
+          },
+          {
+            "note": "Dacă fișierul nu e formatat corect, primești erori de validare. Citește-le, îți spun exact ce nu se potrivește."
           }
         ]
       }
     ],
-    "pitfalls": [
-      "Citește metrica și formatul submisiei înainte de orice model.",
-      "Alege modelul după validarea ta locală, nu după clasamentul public.",
-      "Păstrează submisiile zilei pentru ideile pe care le-ai verificat deja local."
-    ],
     "practice": [
-      "Ia o problemă de arhivă de pe MLCompete și scrie în trei rânduri: care e ținta, care e metrica, cum arată submisia.",
-      "Fă-ți un split local de validare și compară scorul lui cu leaderboardul public pe aceeași submisie.",
-      "Explică-i unui coleg diferența dintre leaderboardul public și cel privat, cu un exemplu."
-    ],
-    "keyTakeaways": [
-      "O problemă are patru piese: date de antrenament cu etichete, date de test fără, o țintă, o metrică.",
-      "Te punctează exact metrica din enunț. Optimizezi ce se punctează, nu ce ți se pare frumos.",
-      "Leaderboardul privat decide clasamentul, cel public doar te tentează."
+      {
+        "title": "Orice problemă cu fișier de submisie de exemplu"
+      }
     ]
   },
   {
@@ -576,7 +549,6 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [],
     "practice": []
   },
   {
@@ -805,7 +777,6 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [],
     "practice": []
   },
   {
@@ -933,7 +904,6 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [],
     "practice": []
   },
   {
@@ -1070,24 +1040,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Împarte datele înainte să scalezi sau să imputezi, altfel validarea iese fals optimistă.",
-      "Optimizează exact metrica din enunț.",
-      "Pune `handle_unknown=\"ignore\"`, ca o categorie nouă din test să nu crape predicția.",
-      "Verifică numărul de rânduri și numele coloanelor înainte de upload.",
-      "Reantrenează pe toate datele de antrenare pentru submisia finală."
-    ],
     "practice": [
-      "Ia o problemă de arhivă de pe MLCompete și scrie pipeline-ul cap-coadă într-o oră, cu model simplu.",
-      "Rulează același pipeline o dată cu scalare înainte de split și o dată după, și compară scorurile de validare.",
-      "Scrie-ți un notebook șablon cu cei șase pași, pe care să-l copiezi la începutul oricărei probleme."
-    ],
-    "keyTakeaways": [
-      "Ordinea pașilor contează mai mult decât alegerea modelului.",
-      "Împarți datele înainte de orice transformare, altfel scorul local minte.",
-      "Baseline-ul prost e reperul fără de care nu știi dacă modelul tău e bun.",
-      "Pipeline face scurgerea de informație greu de comis din greșeală.",
-      "Prima submisie validă se face în prima oră, nu la final."
+      {
+        "title": "Ia o problemă de arhivă de pe MLCompete și scrie pipeline-ul cap-coadă într-o oră, cu model simplu."
+      },
+      {
+        "title": "Rulează același pipeline o dată cu scalare înainte de split și o dată după, și compară scorurile de validare."
+      },
+      {
+        "title": "Scrie-ți un notebook șablon cu cei șase pași, pe care să-l copiezi la începutul oricărei probleme."
+      }
     ]
   },
   {
@@ -1176,22 +1138,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Scalează trăsăturile înainte să interpretezi coeficienții unei regresii.",
-      "Limitează adâncimea arborelui, altfel merge perfect pe antrenare și slab pe validare.",
-      "Scalează datele înainte de SVM; fără asta merge inexplicabil de prost."
-    ],
     "practice": [
-      "Compară regresie logistică, arbore și SVM pe aceeași problemă tabelară, cu aceeași metrică.",
-      "Mișcă pragul regresiei logistice de la 0.5 în jos și urmărește cum cresc recall-ul și scad precizia.",
-      "Limitează adâncimea unui arbore și vezi cum se apropie scorul de antrenare de cel de validare."
-    ],
-    "keyTakeaways": [
-      "A antrena = a găsi parametrii care minimizează funcția de cost.",
-      "Regresie liniară prezice numere și dă coeficienți citibili; logistică prezice probabilități de clasă.",
-      "Pragul regresiei logistice se reglează după metrică, nu e fix 0.5.",
-      "Arborii sunt citibili dar fac overfitting fără limitare de adâncime.",
-      "SVM maximizează marginea; kernelul îl lasă să separe date neliniare."
+      {
+        "title": "Compară regresie logistică, arbore și SVM pe aceeași problemă tabelară, cu aceeași metrică."
+      },
+      {
+        "title": "Mișcă pragul regresiei logistice de la 0.5 în jos și urmărește cum cresc recall-ul și scad precizia."
+      },
+      {
+        "title": "Limitează adâncimea unui arbore și vezi cum se apropie scorul de antrenare de cel de validare."
+      }
     ]
   },
   {
@@ -1286,23 +1242,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Ai încredere în validarea ta locală, nu în clasamentul public.",
-      "Folosește k-fold stratificat, ca fiecare fold să conțină și clasele rare.",
-      "Pe date dezechilibrate raportează precizie, recall și F1, nu acuratețe."
-    ],
     "practice": [
-      "Desenează o curbă de învățare și decide dacă modelul suferă de bias sau de varianță.",
-      "Găsește o scurgere de informație într-un pipeline dat și repar-o.",
-      "Calculează manual precizie, recall și F1 dintr-o matrice de confuzie dată."
-    ],
-    "keyTakeaways": [
-      "Acuratețea minte pe clase dezechilibrate; folosește precizie, recall, F1.",
-      "Matricea de confuzie (TP, TN, FP, FN) e baza tuturor metricilor.",
-      "Precizia și recall-ul se bat cap în cap; F1 le împacă.",
-      "K-fold stratificat estimează scorul stabil, fără scurgeri.",
-      "Curba de învățare distinge bias (underfitting) de varianță (overfitting).",
-      "Alege cele două submisii finale: una pe local, una pe public."
+      {
+        "title": "Desenează o curbă de învățare și decide dacă modelul suferă de bias sau de varianță."
+      },
+      {
+        "title": "Găsește o scurgere de informație într-un pipeline dat și repar-o."
+      },
+      {
+        "title": "Calculează manual precizie, recall și F1 dintr-o matrice de confuzie dată."
+      }
     ]
   },
   {
@@ -1380,22 +1329,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Reglează un hiperparametru pe rând și notează scorul de fiecare dată.",
-      "Ia feature importance ca indiciu unde să te uiți, nu ca adevăr final.",
-      "Verifică regulamentul etapei înainte să folosești biblioteci externe de boosting."
-    ],
     "practice": [
-      "Antrenează un Random Forest și un gradient boosting pe aceeași problemă și compară scorurile.",
-      "Fă un voting între trei modele diferite și vezi dacă bate cel mai bun singur model.",
-      "Reglează learning rate-ul cu early stopping și observă compromisul timp contra scor."
-    ],
-    "keyTakeaways": [
-      "Ensemble-urile funcționează dacă modelele greșesc diferit; diversitatea e cheia.",
-      "Bagging (Random Forest) reduce varianța mediind arbori antrenați pe date diferite.",
-      "Boosting (XGBoost, LightGBM) construiește arbori care corectează pe rând greșelile.",
-      "Reglează hiperparametrii pe rând: adâncime, apoi număr de arbori, apoi learning rate.",
-      "Voting-ul între modele diferite bate des cel mai bun model singur."
+      {
+        "title": "Antrenează un Random Forest și un gradient boosting pe aceeași problemă și compară scorurile."
+      },
+      {
+        "title": "Fă un voting între trei modele diferite și vezi dacă bate cel mai bun singur model."
+      },
+      {
+        "title": "Reglează learning rate-ul cu early stopping și observă compromisul timp contra scor."
+      }
     ]
   },
   {
@@ -1465,22 +1408,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Scalează datele înainte de K-Means, altfel coloana cu numere mari domină totul.",
-      "Citește t-SNE ca pe o hartă de vecinătăți, nu ca pe distanțe reale.",
-      "Alege k cu metoda cotului sau cu scorul siluetă."
-    ],
     "practice": [
-      "Aplică K-Means și DBSCAN pe același set și compară grupurile găsite.",
-      "Redu la 2D cu PCA și cu UMAP și vezi ce diferă între ele.",
-      "Folosește metoda cotului ca să alegi k pe un set și justifică alegerea."
-    ],
-    "keyTakeaways": [
-      "Nesupervizat = găsești structură fără etichete (grupuri, direcții de variație).",
-      "K-Means cere să alegi k și date scalate; alegi k cu cotul sau silueta.",
-      "DBSCAN găsește singur numărul de grupuri și outlierii, după densitate.",
-      "PCA reduce dimensiunile păstrând varianța; bun și ca preprocesare.",
-      "t-SNE și UMAP sunt doar pentru privit, distanțele din ele nu sunt de încredere."
+      {
+        "title": "Aplică K-Means și DBSCAN pe același set și compară grupurile găsite."
+      },
+      {
+        "title": "Redu la 2D cu PCA și cu UMAP și vezi ce diferă între ele."
+      },
+      {
+        "title": "Folosește metoda cotului ca să alegi k pe un set și justifică alegerea."
+      }
     ]
   },
   {
@@ -1570,22 +1507,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Folosește o euristică admisibilă la A*, ca soluția găsită să fie și optimă.",
-      "Marchează stările vizitate, ca să nu intri în bucle infinite.",
-      "Pune limită de adâncime la minimax pe jocuri mari."
-    ],
     "practice": [
-      "Implementează A* pentru 8-puzzle cu două euristici (Manhattan și piese greșite) și compară numărul de stări extinse.",
-      "Rezolvă o colorare de hartă ca CSP cu forward checking și MRV.",
-      "Scrie minimax cu alpha-beta pentru X și 0 și verifică că nu pierde niciodată."
-    ],
-    "keyTakeaways": [
-      "Orice căutare se descrie la fel: start, acțiuni, test de scop, cost.",
-      "BFS dă drum minim în pași, DFS economisește memorie, cost uniform dă drum de cost minim.",
-      "A* folosește f = g + h; cu euristică admisibilă, găsește soluția optimă.",
-      "Minimax alege mutarea împotriva unui adversar optim; alpha-beta o face mai repede fără să schimbe rezultatul.",
-      "CSP se rezolvă cu backtracking plus forward checking și MRV."
+      {
+        "title": "Implementează A* pentru 8-puzzle cu două euristici (Manhattan și piese greșite) și compară numărul de stări extinse."
+      },
+      {
+        "title": "Rezolvă o colorare de hartă ca CSP cu forward checking și MRV."
+      },
+      {
+        "title": "Scrie minimax cu alpha-beta pentru X și 0 și verifică că nu pierde niciodată."
+      }
     ]
   },
   {
@@ -1643,22 +1574,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Normalizează diacriticele consecvent înainte de tokenizare.",
-      "Construiește vocabularul doar pe antrenare, apoi aplică-l pe test.",
-      "Fă întâi un baseline TF-IDF, ca să ai cu ce compara rețelele."
-    ],
     "practice": [
-      "Clasifică texte în română cu TF-IDF și regresie logistică, cu fit doar pe train.",
-      "Găsește cele mai apropiate două documente dintr-un set prin similaritate cosinus.",
-      "Compară bag-of-words simplu cu TF-IDF pe aceeași problemă și vezi diferența."
-    ],
-    "keyTakeaways": [
-      "NLP clasic = transformi text în vectori, apoi pui un model obișnuit deasupra.",
-      "Preprocesare: tokenizare, stopwords, lematizare; la română grijă la diacritice și flexiune.",
-      "TF-IDF cântărește cuvintele: mult dacă sunt caracteristice, puțin dacă sunt omniprezente.",
-      "Naïve Bayes și regresia logistică peste TF-IDF sunt un baseline greu de bătut.",
-      "Similaritatea cosinus măsoară cât de apropiate sunt două texte."
+      {
+        "title": "Clasifică texte în română cu TF-IDF și regresie logistică, cu fit doar pe train."
+      },
+      {
+        "title": "Găsește cele mai apropiate două documente dintr-un set prin similaritate cosinus."
+      },
+      {
+        "title": "Compară bag-of-words simplu cu TF-IDF pe aceeași problemă și vezi diferența."
+      }
     ]
   },
   {
@@ -1714,22 +1639,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Alege augmentări care păstrează eticheta: fără flip pe caractere, fără rotații mari pe obiecte cu orientare fixă.",
-      "Ține un singur interval de intensitate pe tot setul.",
-      "Augmentează doar antrenarea; validarea rămâne curată."
-    ],
     "practice": [
-      "Scrie de mână un filtru Sobel și aplică-l pe o imagine ca să-i scoți marginile.",
-      "Testează dacă un set de augmentări îmbunătățește scorul pe o problemă mică de clasificare.",
-      "Ia o listă de augmentări și decide pentru fiecare dacă păstrează eticheta pe o problemă cu cifre."
-    ],
-    "keyTakeaways": [
-      "O imagine e un tensor: 2D alb-negru, 3D color (H, W, canale).",
-      "Ai grijă la interval: 0..255 întreg sau 0..1 zecimal, nu le amesteca.",
-      "Convoluția plimbă un filtru mic peste imagine; e exact ce fac straturile CNN, cu filtre învățate.",
-      "Augmentarea mărește setul și combate overfitting-ul.",
-      "Augmentarea validă păstrează eticheta; flip pe cifre sau litere o strică."
+      {
+        "title": "Scrie de mână un filtru Sobel și aplică-l pe o imagine ca să-i scoți marginile."
+      },
+      {
+        "title": "Testează dacă un set de augmentări îmbunătățește scorul pe o problemă mică de clasificare."
+      },
+      {
+        "title": "Ia o listă de augmentări și decide pentru fiecare dacă păstrează eticheta pe o problemă cu cifre."
+      }
     ]
   },
   {
@@ -1800,22 +1719,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Cheamă `optimizer.zero_grad()` la fiecare pas, altfel gradienții se adună.",
-      "Ține minte că `.backward()` doar calculează gradienți; pasul îl face optimizatorul.",
-      "Pune activări între straturile liniare, altfel rețeaua rămâne liniară."
-    ],
     "practice": [
-      "Construiește backpropagation de mână pentru o rețea cu un strat ascuns, pe hârtie.",
-      "Antrenează un MLP pe un set mic în PyTorch și urmărește loss-ul cum scade.",
-      "Scoate intenționat zero_grad() și observă cum o ia razna antrenarea."
-    ],
-    "keyTakeaways": [
-      "Un MLP e straturi de neuroni cu activări neliniare între ele; fără neliniaritate colapsează la un strat.",
-      "ReLU e activarea implicită în straturile ascunse.",
-      "Antrenarea = coborâre pe gradient: muți greutățile opus gradientului loss-ului.",
-      "Backpropagation e regula lanțului aplicată înapoi prin rețea; calculează gradienții.",
-      "În PyTorch: forward, backward, step, zero_grad, în ordinea asta."
+      {
+        "title": "Construiește backpropagation de mână pentru o rețea cu un strat ascuns, pe hârtie."
+      },
+      {
+        "title": "Antrenează un MLP pe un set mic în PyTorch și urmărește loss-ul cum scade."
+      },
+      {
+        "title": "Scoate intenționat zero_grad() și observă cum o ia razna antrenarea."
+      }
     ]
   },
   {
@@ -1882,22 +1795,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Verifică întâi learning rate-ul, apoi arhitectura.",
-      "Oprește antrenarea când scorul de validare începe să se înrăutățească.",
-      "La loss NaN, scade întâi learning rate-ul."
-    ],
     "practice": [
-      "Testează trei learning rate-uri pe o scară logaritmică și desenează curbele de loss.",
-      "Adaugă dropout și early stopping la o rețea și vezi efectul pe validare.",
-      "Compară SGD cu momentum și Adam pe aceeași problemă mică."
-    ],
-    "keyTakeaways": [
-      "Lot, epocă, pas: un lot procesat = un pas; o trecere prin tot setul = o epocă.",
-      "Adam/AdamW pornesc ușor și cer puțin reglaj; SGD cu momentum e solid.",
-      "Learning rate-ul e butonul cel mai important; caută-l pe scară logaritmică.",
-      "Warmup plus scădere cosine e o rețetă bună de scheduler.",
-      "Dropout, weight decay, batch norm și early stopping țin overfitting-ul în frâu."
+      {
+        "title": "Testează trei learning rate-uri pe o scară logaritmică și desenează curbele de loss."
+      },
+      {
+        "title": "Adaugă dropout și early stopping la o rețea și vezi efectul pe validare."
+      },
+      {
+        "title": "Compară SGD cu momentum și Adam pe aceeași problemă mică."
+      }
     ]
   },
   {
@@ -1950,21 +1857,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Verifică normalizarea datelor înainte să dai vina pe arhitectură.",
-      "Dacă nu învață în primele epoci, oprește și caută bug-ul.",
-      "Schimbă un singur lucru pe rând, ca să știi ce a ajutat."
-    ],
     "practice": [
-      "Ia o rețea care nu învață și găsește cauza trecând prin listă, un pas pe rând.",
-      "Reprodu overfitting-ul pe 10 exemple ca test de sănătate înainte de antrenarea reală.",
-      "Desenează câteva curbe de loss (bune și rele) și învață să le recunoști din formă."
-    ],
-    "keyTakeaways": [
-      "Primul test: poate modelul să facă overfit pe 10 exemple? Dacă nu, e un bug.",
-      "Depanează în ordine: learning rate, normalizare, etichete, zero_grad, gradienți.",
-      "Nu schimba lucruri la întâmplare; mergi pe listă, un lucru pe rând.",
-      "Curba de loss îți spune cauza: formă plată, explozie, sau prăpastie train-validare."
+      {
+        "title": "Ia o rețea care nu învață și găsește cauza trecând prin listă, un pas pe rând."
+      },
+      {
+        "title": "Reprodu overfitting-ul pe 10 exemple ca test de sănătate înainte de antrenarea reală."
+      },
+      {
+        "title": "Desenează câteva curbe de loss (bune și rele) și învață să le recunoști din formă."
+      }
     ]
   },
   {
@@ -2031,22 +1933,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Calculează dimensiunile pe hârtie înainte să legi straturile.",
-      "Folosește conexiuni reziduale la rețele adânci, ca gradientul să ajungă înapoi.",
-      "Închide cu global average pooling în loc de straturi dense uriașe."
-    ],
     "practice": [
-      "Calculează pe hârtie dimensiunile ieșirii pentru o mică rețea convoluțională, strat cu strat.",
-      "Antrenează o rețea convoluțională simplă pe un set de imagini mic.",
-      "Adaugă o conexiune reziduală într-o rețea și compară antrenarea cu și fără ea."
-    ],
-    "keyTakeaways": [
-      "CNN-urile folosesc filtre mici partajate: puține greutăți, recunosc trăsături oriunde apar.",
-      "Stratul convoluțional are kernel, stride, padding; ieșirea se calculează cu o formulă simplă.",
-      "Pooling-ul micșorează harta și mărește câmpul receptiv.",
-      "Tiparul: convoluții plus pooling pentru trăsături, apoi cap de clasificare.",
-      "Conexiunile reziduale (ResNet) lasă gradientul să treacă prin rețele adânci."
+      {
+        "title": "Calculează pe hârtie dimensiunile ieșirii pentru o mică rețea convoluțională, strat cu strat."
+      },
+      {
+        "title": "Antrenează o rețea convoluțională simplă pe un set de imagini mic."
+      },
+      {
+        "title": "Adaugă o conexiune reziduală într-o rețea și compară antrenarea cu și fără ea."
+      }
     ]
   },
   {
@@ -2102,22 +1998,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Aplică aceeași normalizare ImageNet ca la preantrenare.",
-      "Fă fine-tuning cu learning rate mic, ca să nu strici trăsăturile deja bune.",
-      "Cu puține date, folosește feature extraction în loc de fine-tuning complet."
-    ],
     "practice": [
-      "Adaptează un ResNet la o problemă cu puține imagini prin feature extraction.",
-      "Compară feature extraction cu fine-tuning pe același set și vezi când merită fiecare.",
-      "Verifică ce se întâmplă cu scorul dacă scoți normalizarea corectă a imaginilor."
-    ],
-    "keyTakeaways": [
-      "Modelele preantrenate au învățat trăsături generale reutilizabile în alte probleme.",
-      "Feature extraction (îngheți tot, antrenezi doar capul) e pentru foarte puține date.",
-      "Fine-tuning (dezgheți straturile de sus, learning rate mic) e pentru date ceva mai multe.",
-      "Normalizează imaginile cu aceleași statistici ca la preantrenare (ImageNet).",
-      "Learning rate mare la fine-tuning strică trăsăturile bune deja învățate."
+      {
+        "title": "Adaptează un ResNet la o problemă cu puține imagini prin feature extraction."
+      },
+      {
+        "title": "Compară feature extraction cu fine-tuning pe același set și vezi când merită fiecare."
+      },
+      {
+        "title": "Verifică ce se întâmplă cu scorul dacă scoți normalizarea corectă a imaginilor."
+      }
     ]
   },
   {
@@ -2180,22 +2070,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "La română folosește vectori care țin cont de subcuvinte, pentru formele flexionate.",
-      "Pentru context lung folosește atenție sau transformer, nu un RNN simplu.",
-      "Pornește de la embeddings preantrenate când ai puține date."
-    ],
     "practice": [
-      "Explorează aritmetica vectorilor (rege - bărbat + femeie) pe un set de embeddings preantrenate.",
-      "Compară FastText cu Word2Vec pe cuvinte flexionate din română.",
-      "Folosește embeddings preantrenate ca trăsături și pune o regresie logistică deasupra."
-    ],
-    "keyTakeaways": [
-      "One-hot pierde sensul; toate cuvintele sunt la fel de departe.",
-      "Embeddings sunt vectori denși unde apropierea = sens apropiat, învățați din context.",
-      "Aritmetica vectorilor de cuvinte funcționează: relațiile de sens devin direcții.",
-      "FastText folosește subcuvinte, esențial pentru flexiunea bogată a românei.",
-      "RNN procesează secvențe dar uită pe distanță lungă; LSTM/GRU rețin cu porți."
+      {
+        "title": "Explorează aritmetica vectorilor (rege - bărbat + femeie) pe un set de embeddings preantrenate."
+      },
+      {
+        "title": "Compară FastText cu Word2Vec pe cuvinte flexionate din română."
+      },
+      {
+        "title": "Folosește embeddings preantrenate ca trăsături și pune o regresie logistică deasupra."
+      }
     ]
   },
   {
@@ -2264,23 +2148,16 @@ export const lessons: Lesson[] = [
         ]
       }
     ],
-    "pitfalls": [
-      "Scade ε treptat, ca agentul să exploreze destul la început.",
-      "Raportează scorul și pe subgrupuri, nu doar media.",
-      "Tratează corectitudinea ca pe mai multe definiții care se bat cap în cap."
-    ],
     "practice": [
-      "Implementează Q-learning pe un grid-world și urmărește politica cum se formează.",
-      "Măsoară performanța unui model pe subgrupuri și discută ce definiție de corectitudine folosești.",
-      "Variază ε (explorarea) și observă cum se schimbă ce politică învață agentul."
-    ],
-    "keyTakeaways": [
-      "La RL agentul învață din recompense, nu din răspunsuri corecte date.",
-      "Un MDP are stări, acțiuni, recompense, discount și politică; V și Q măsoară cât de bine stai.",
-      "Q-learning învață un tabel de valori din experiență și scoate politica bună.",
-      "ε-greedy echilibrează explorarea și exploatarea; explorează destul la început.",
-      "Bias-ul intră prin date și etichete; măsoară pe subgrupuri, nu doar media.",
-      "Definițiile de corectitudine pot fi incompatibile; alegerea e contextuală, nu pur tehnică."
+      {
+        "title": "Implementează Q-learning pe un grid-world și urmărește politica cum se formează."
+      },
+      {
+        "title": "Măsoară performanța unui model pe subgrupuri și discută ce definiție de corectitudine folosești."
+      },
+      {
+        "title": "Variază ε (explorarea) și observă cum se schimbă ce politică învață agentul."
+      }
     ]
   }
 ];

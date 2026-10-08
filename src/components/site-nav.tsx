@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import { useHref, useT } from "@/components/lang-provider";
 import { LangToggle } from "@/components/lang-toggle";
 import { ReadingProgress } from "@/components/reading-progress";
+import { SearchDialog } from "@/components/search-dialog";
 
 const links = [
   { href: "/programa", ro: "Lecții", en: "Lessons" },
@@ -62,11 +63,14 @@ export function SiteNav() {
             })}
           </div>
           <span className="mx-3 h-5 w-px bg-border" aria-hidden />
+          <SearchDialog />
+          <span className="mx-3 h-5 w-px bg-border" aria-hidden />
           <LangToggle />
         </div>
 
-        {/* mobil: limbă + meniu */}
+        {/* mobil: căutare + limbă + meniu */}
         <div className="flex items-center gap-2 md:hidden">
+          <SearchDialog compact />
           <LangToggle />
           <button
             onClick={() => setOpen((v) => !v)}

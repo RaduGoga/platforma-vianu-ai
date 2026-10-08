@@ -18,6 +18,7 @@ const order = [...curriculum.matchAll(/code:\s*"([^"]+)"/g)].map((m) => m[1]);
 const slugs = [...curriculum.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
 const titles = [...curriculum.matchAll(/\btitle:\s*"([^"]+)"/g)].map((m) => m[1]);
 const titlesEn = [...curriculum.matchAll(/titleEn:\s*"([^"]+)"/g)].map((m) => m[1]);
+const partOf = [...curriculum.matchAll(/\n    part:\s*"([^"]+)"/g)].map((m) => m[1]);
 
 // Fișierele sunt numerotate după poziția în programă (Lectia_1, Lectia_2…),
 // nu după codul de sesiune. Dacă inserezi o lecție la mijloc, tot ce urmează
@@ -164,3 +165,54 @@ export const hasNotebook = (slug: string, lang: string) => notebooks.has(\`\${sl
   "utf8"
 );
 console.log(`Generat ${generated.length} notebook-uri în public/notebooks.`);
+
+// ————— indexul de căutare —————
+// O intrare pe secțiune (plus una pe lecție, pentru titlu), cu un fragment de
+// text. Îl încarcă doar fereastra de căutare, la deschidere.
+const sectionId = (label) =>
+  label
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || "sectiune";
+
+const index = [];
+for (const lang of ["ro", "en"]) {
+  loadLessons(lang).forEach((lesson, i) => {
+    const title = lang === "en" ? titlesEn[i] : titles[i];
+    const base = { lang, slug: slugs[i], number: i + 1, title, part: partOf[i] };
+    index.push({ ...base, heading: "", id: "", text: lesson.intro.slice(0, 180) });
+    const seen = new Map();
+    lesson.sections.forEach((s) => {
+      const b = sectionId(s.heading);
+      const n = seen.get(b) ?? 0;
+      seen.set(b, n + 1);
+      const text = (s.blocks ?? [])
+        .filter((x) => "p" in x)
+        .map((x) => x.p)
+        .join(" ")
+        .slice(0, 180);
+      index.push({ ...base, heading: s.heading, id: n ? `${b}-${n + 1}` : b, text });
+    });
+  });
+}
+writeFileSync(
+  join(dataDir, "search-index.ts"),
+  `// AUTO-GENERAT de scripts/build-lessons.mjs — NU edita direct.
+export interface SearchEntry {
+  lang: string;
+  slug: string;
+  number: number;
+  title: string;
+  part: string;
+  heading: string;
+  id: string;
+  text: string;
+}
+
+export const searchIndex: SearchEntry[] = ${JSON.stringify(index)};
+`,
+  "utf8"
+);
+console.log(`Generat indexul de căutare: ${index.length} intrări.`);

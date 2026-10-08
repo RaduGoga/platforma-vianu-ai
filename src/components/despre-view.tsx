@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
 import { useT } from "@/components/lang-provider";
 import { Echipa } from "@/components/echipa";
 

@@ -319,7 +319,7 @@ function SectionBody({ section }: { section: LessonSection }) {
   const t = useT();
   if (section.blocks && section.blocks.length > 0) {
     return (
-      <div className="lesson-body mt-4 max-w-[var(--measure)]">
+      <div className="lesson-body mt-4">
         {section.blocks.map((b, i) => {
           if ("p" in b)
             return (

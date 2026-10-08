@@ -313,6 +313,15 @@ html {
   white-space: nowrap;
 }
 
+/* fiecare bloc din corpul lecției stă în coloana de text; doar figurile late
+   (explicațiile la scroll) ies din ea și iau tot articolul */
+.lesson-body > * {
+  max-width: var(--measure);
+}
+.lesson-body > .wide {
+  max-width: none;
+}
+
 /* legenda unui bloc de cod sau a unei figuri: mică și liniștită, ca să nu
    concureze cu textul */
 .caption {

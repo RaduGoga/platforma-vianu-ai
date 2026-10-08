@@ -22,6 +22,9 @@ Cum? Gradientul loss-ului față de fiecare greutate îți spune în ce direcți
 > w ← w - η · ∂L/∂w
 > Fiecare greutate w se mută cu un pas mic (learning rate η) în direcția opusă gradientului ∂L/∂w. Repeți de mii de ori.
 
+> [!FIGURE] coborare-pe-gradient
+> Derulează prin pași: aceeași coborâre, desenată pe o singură greutate.
+
 ## Backpropagation: regula lanțului
 O rețea e un lanț de operații. Ca să afli gradientul loss-ului față de o greutate din primul strat, aplici regula lanțului din analiză: înmulțești gradienții pas cu pas, de la ieșire înapoi spre intrare. Asta e backpropagation, propagarea înapoi a erorii.
 

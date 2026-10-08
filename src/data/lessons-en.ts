@@ -1690,6 +1690,10 @@ export const lessonsEn: Lesson[] = [
           {
             "formula": "w ← w - η · ∂L/∂w",
             "explain": "Each weight w moves a small step (learning rate η) in the direction opposite to the gradient ∂L/∂w. You repeat thousands of times."
+          },
+          {
+            "figure": "coborare-pe-gradient",
+            "caption": "Scroll through the steps: the same descent, drawn for a single weight."
           }
         ]
       },

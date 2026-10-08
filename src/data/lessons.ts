@@ -1686,6 +1686,10 @@ export const lessons: Lesson[] = [
           {
             "formula": "w ← w - η · ∂L/∂w",
             "explain": "Fiecare greutate w se mută cu un pas mic (learning rate η) în direcția opusă gradientului ∂L/∂w. Repeți de mii de ori."
+          },
+          {
+            "figure": "coborare-pe-gradient",
+            "caption": "Derulează prin pași: aceeași coborâre, desenată pe o singură greutate."
           }
         ]
       },

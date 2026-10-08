@@ -14,7 +14,7 @@ import { LessonBrief } from "@/components/lesson-brief";
 import { LessonFigure } from "@/components/lesson-figure";
 import { LessonDoneRow, LessonStatusControl } from "@/components/lesson-status";
 import { LessonToc, type TocEntry } from "@/components/lesson-toc";
-import { NotebookLinks } from "@/components/notebook-links";
+import { NotebookLink } from "@/components/notebook-links";
 import { toggleSolved, useProgress } from "@/lib/progress";
 import { uniqueIds } from "@/lib/slug";
 import { useHref, useLang, useT } from "@/components/lang-provider";
@@ -115,7 +115,7 @@ export function LessonView({
         <div className="border-b border-border bg-background">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-3 px-5 py-4">
             <LessonStatusControl code={m.code} />
-            <NotebookLinks slug={m.slug} />
+            <NotebookLink slug={m.slug} />
           </div>
           <RecordVisit code={m.code} slug={m.slug} title={title} />
         </div>
@@ -344,7 +344,7 @@ function SectionBody({ section }: { section: LessonSection }) {
               <ol key={i} className="my-4 space-y-2.5">
                 {b.steps.map((st, j) => (
                   <li key={j} className="serif flex gap-3 leading-relaxed text-[color:var(--prose)]">
-                    <span className="mt-0.5 font-mono text-xs text-primary">
+                    <span className="mt-0.5 num text-xs text-primary">
                       {String(j + 1).padStart(2, "0")}
                     </span>
                     <span>{renderInline(st)}</span>

@@ -9,6 +9,7 @@ import { typeLabel } from "@/data/resources";
 import { RecordVisit } from "@/components/record-visit";
 import { LessonNav } from "@/components/lesson-nav";
 import { CodeBlock } from "@/components/code-block";
+import { LessonBrief } from "@/components/lesson-brief";
 import { LessonDoneRow, LessonStatusControl } from "@/components/lesson-status";
 import { LessonToc, type TocEntry } from "@/components/lesson-toc";
 import { toggleSolved, useProgress } from "@/lib/progress";
@@ -123,10 +124,11 @@ export function LessonView({
           <LessonNav currentCode={m.code} variant="drawer" />
           {lesson ? (
             <>
-              <LessonToc entries={toc} variant="inline" />
               <p className="lesson-prose max-w-3xl text-xl leading-relaxed text-foreground">
                 {lesson.intro}
               </p>
+
+              <LessonBrief m={m} toc={toc} />
 
               {lesson.sections.map((s, i) => (
                 <section

@@ -70,12 +70,12 @@ export function LessonToc({ entries, variant }: { entries: TocEntry[]; variant: 
 
   if (variant === "inline") {
     return (
-      <details className="group mb-8 rounded-xl border border-border bg-card xl:hidden">
-        <summary className="focus-ring flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3">
-          <span className="mono-label">{t("Pe pagina asta", "On this page")}</span>
+      <details className="group">
+        <summary className="focus-ring flex min-h-12 cursor-pointer list-none items-center justify-between gap-3">
+          <span className="kicker">{t("Pe pagina asta", "On this page")}</span>
           <span className="mono-label transition-transform group-open:rotate-180">▾</span>
         </summary>
-        <ol className="border-t border-border px-4 py-2">
+        <ol className="pb-3">
           {entries.map((e) => (
             <li key={e.id}>
               <a href={`#${e.id}`} className="focus-ring flex min-h-10 items-center gap-3 text-sm text-foreground">

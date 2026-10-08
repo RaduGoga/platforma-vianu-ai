@@ -6,6 +6,7 @@ import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
 import { lessonByModule } from "@/data/lessons";
 import { lessonByModuleEn } from "@/data/lessons-en";
 import { countDone, useProgress } from "@/lib/progress";
+import { partVars } from "@/lib/parts";
 import { StatusMark } from "@/components/lesson-nav";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 
@@ -37,10 +38,10 @@ export function ProgramaList() {
         );
         const pct = Math.round((done / mods.length) * 100);
         return (
-          <section key={partKey} className={si > 0 ? "mt-14" : ""}>
+          <section key={partKey} className={si > 0 ? "mt-14" : ""} style={partVars(partKey)}>
             <div className="mb-6 flex items-baseline gap-3">
               <span className="h-px flex-1 bg-border" />
-              <span className="mono-label">
+              <span className="mono-label text-[var(--part)]">
                 {en ? "Lessons" : "Lecțiile"} {intervalParte(mods.map((m) => m.code))}
               </span>
             </div>
@@ -58,7 +59,7 @@ export function ProgramaList() {
                 aria-label={`${done} ${t("din", "of")} ${mods.length} ${t("lecții terminate", "lessons done")}`}
               >
                 <div
-                  className="h-full rounded-full bg-primary transition-[width] duration-500 ease-out motion-reduce:transition-none"
+                  className="h-full rounded-full bg-[var(--part)] transition-[width] duration-500 ease-out motion-reduce:transition-none"
                   style={{ width: `${pct}%` }}
                 />
               </div>
@@ -76,8 +77,8 @@ export function ProgramaList() {
                       href={href(`/programa/${m.slug}`)}
                       className="focus-ring group flex items-baseline gap-1 border-b border-border py-3.5"
                     >
-                      <span className="w-10 shrink-0 font-mono text-sm text-primary">{lessonNumber(m.code)}</span>
-                      <span className="display text-lg leading-snug text-foreground transition-colors group-hover:text-primary">
+                      <span className="w-10 shrink-0 font-mono text-sm text-[var(--part)]">{lessonNumber(m.code)}</span>
+                      <span className="display text-lg leading-snug text-foreground transition-colors group-hover:text-[var(--part)]">
                         {en ? m.titleEn : m.title}
                       </span>
                       <StatusMark status={statuses[m.code]} className="ml-2 self-center" />

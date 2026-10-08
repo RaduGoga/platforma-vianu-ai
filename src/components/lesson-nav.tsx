@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Check, List } from "lucide-react";
 import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
 import { countDone, useProgress, type LessonStatus } from "@/lib/progress";
+import { partVars } from "@/lib/parts";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 
 // Semnul de stare de lângă titlul lecției: bifă la cele terminate, un punct
@@ -43,9 +44,9 @@ export function LessonNav({
           mods.map((m) => m.code)
         );
         return (
-          <div key={partKey}>
+          <div key={partKey} style={partVars(partKey)}>
             <div className="flex items-baseline justify-between gap-2 px-2">
-              <span className="mono-label text-primary">
+              <span className="mono-label text-[var(--part)]">
                 {en ? parts[partKey].labelEn : parts[partKey].label}
               </span>
               <span
@@ -65,11 +66,11 @@ export function LessonNav({
                       aria-current={active ? "page" : undefined}
                       className={`focus-ring group flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors ${
                         active
-                          ? "bg-[var(--accent-tint)] font-medium text-[var(--accent-ink)]"
+                          ? "bg-[var(--part-tint)] font-medium text-[var(--part-ink)]"
                           : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                       }`}
                     >
-                      <span className="w-6 shrink-0 font-mono text-[0.72rem] tabular-nums text-primary/80">
+                      <span className="w-6 shrink-0 font-mono text-[0.72rem] tabular-nums text-[var(--part)] opacity-80">
                         {lessonNumber(m.code)}
                       </span>
                       <span className="min-w-0 flex-1 truncate">{en ? m.titleEn : m.title}</span>

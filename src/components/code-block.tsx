@@ -78,7 +78,7 @@ export function CodeBlock({
   return (
     <figure className={className}>
       <div className="group/code relative">
-        <pre className="overflow-x-auto rounded-lg border-l-2 border-primary bg-[color:var(--code-bg)] p-4 pr-14 text-sm leading-relaxed text-[color:var(--code-fg)]">
+        <pre className="overflow-x-auto rounded-lg border-l-2 border-[var(--part)] bg-[color:var(--code-bg)] p-4 pr-14 text-sm leading-relaxed text-[color:var(--code-fg)]">
           <code className="font-mono" translate="no">
             {highlight(code)}
           </code>

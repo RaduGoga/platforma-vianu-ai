@@ -16,6 +16,7 @@ import { LessonDoneRow, LessonStatusControl } from "@/components/lesson-status";
 import { LessonToc, type TocEntry } from "@/components/lesson-toc";
 import { NotebookLinks } from "@/components/notebook-links";
 import { toggleSolved, useProgress } from "@/lib/progress";
+import { partVars } from "@/lib/parts";
 import { uniqueIds } from "@/lib/slug";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 
@@ -77,48 +78,49 @@ export function LessonView({
     : [];
 
   return (
-    <>
-      {/* masthead lecție */}
-      <header className="border-b border-border">
-        <div className="mx-auto max-w-7xl px-5 pb-10 pt-10">
+    <div style={partVars(m.part)}>
+      {/* masthead lecție: o bandă plină în culoarea părții, pe toată lățimea,
+          ca la MLU-Explain; sub ea, pe alb, starea lecției și notebook-ul */}
+      <header className="band bg-[var(--part)] text-white">
+        <div className="mx-auto max-w-7xl px-5 pb-12 pt-8">
           <Link
             href={href("/programa")}
-            className="focus-ring inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            className="focus-ring inline-flex items-center gap-1.5 text-sm text-white/75 transition-colors hover:text-white"
           >
             <ArrowLeft className="size-4" aria-hidden /> {t("Cuprins", "Contents")}
           </Link>
 
-          <div className="kicker mt-8 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <div className="kicker mt-10 flex flex-wrap items-center gap-x-3 gap-y-1">
             <span className="text-base">
               {t("Lecția", "Lesson")} {lessonNumber(m.code)}
             </span>
-            <span className="text-border">/</span>
+            <span className="opacity-50">/</span>
             <span>{part}</span>
             {lesson && (
               <>
-                <span className="text-border">/</span>
+                <span className="opacity-50">/</span>
                 <span>{lesson.duration}</span>
               </>
             )}
           </div>
 
-          <h1 className="display mt-4 text-4xl leading-[1] sm:text-6xl">{title}</h1>
+          <h1 className="display mt-4 text-4xl leading-[1] text-white sm:text-6xl">{title}</h1>
 
-          <p className="serif mt-6 max-w-3xl border-l-2 border-primary pl-5 text-lg leading-relaxed text-[color:var(--prose)]">
+          <p className="serif mt-6 max-w-3xl border-l-2 border-[var(--cream)] pl-5 text-lg leading-relaxed text-white/85">
             {en ? m.summaryEn ?? m.summary : m.summary}
           </p>
-
-          {lesson && (
-            <>
-              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-                <LessonStatusControl code={m.code} />
-                <NotebookLinks slug={m.slug} />
-              </div>
-              <RecordVisit code={m.code} slug={m.slug} title={title} />
-            </>
-          )}
         </div>
       </header>
+
+      {lesson && (
+        <div className="border-b border-border bg-background">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-3 px-5 py-4">
+            <LessonStatusControl code={m.code} />
+            <NotebookLinks slug={m.slug} />
+          </div>
+          <RecordVisit code={m.code} slug={m.slug} title={title} />
+        </div>
+      )}
 
       <div className="mx-auto max-w-7xl px-5 lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[14rem_minmax(0,1fr)_11rem]">
         <aside className="hidden lg:block lg:pt-14">
@@ -239,7 +241,7 @@ export function LessonView({
           {lesson && <LessonToc entries={toc} variant="rail" />}
         </aside>
       </div>
-    </>
+    </div>
   );
 }
 

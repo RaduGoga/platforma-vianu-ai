@@ -83,6 +83,25 @@
 
   --faint: #6d726c;
 
+  /* culoarea fiecărei părți din programă: verde-pin pentru fundamente (verdele
+     mărcii), ocru pentru machine learning clasic, albastru-ardezie pentru deep
+     learning. Toate trec AA pe alb și pe propria nuanță deschisă. Paginile
+     setează `--part` pe partea curentă; implicit e verdele mărcii. */
+  --part-fundamente: #417544;
+  --part-fundamente-ink: #2f5a34;
+  --part-fundamente-tint: #f0f4f0;
+  --part-clasic: #8a6a1c;
+  --part-clasic-ink: #6b5215;
+  --part-clasic-tint: #f6f3ed;
+  --part-deep: #3f5a7a;
+  --part-deep-ink: #2f4560;
+  --part-deep-tint: #f0f2f4;
+  --part: var(--primary);
+  --part-ink: var(--accent-ink);
+  --part-tint: var(--accent-tint);
+  /* cremul scutului din marcă: text și linii pe fundalurile colorate */
+  --cream: #eae9cb;
+
   /* cerneala de corp pentru lecții și texte lungi (un singur token, ca să se
      poata schimba dintr-un loc, ex. la un dark mode) */
   --prose: #33342d;
@@ -197,13 +216,17 @@ html {
   font-family: var(--font-display);
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--primary);
+  color: var(--part);
 }
-/* numeral de secțiune, discret */
+/* pe o bandă în culoarea părții, eticheta trece pe crem */
+.band .kicker {
+  color: var(--cream);
+}
+/* numeral de secțiune, discret, în culoarea părții */
 .numeral {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
-  color: color-mix(in srgb, var(--primary) 45%, transparent);
+  color: color-mix(in srgb, var(--part) 45%, transparent);
   line-height: 1;
 }
 

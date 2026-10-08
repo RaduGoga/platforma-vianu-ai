@@ -4,9 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { Dialog } from "radix-ui";
 import { Search } from "lucide-react";
-import type { Part } from "@/data/curriculum";
 import type { SearchEntry } from "@/data/search-index";
-import { partVars } from "@/lib/parts";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 
 // Căutare în lecții (⌘K): titluri, secțiuni și text. Indexul e generat la
@@ -185,7 +183,7 @@ export function SearchDialog({ compact = false }: { compact?: boolean }) {
                   data-i={i}
                   role="option"
                   aria-selected={i === active}
-                  style={partVars(e.part as Part)}
+                  data-part={e.part}
                   onMouseEnter={() => setCursor(i)}
                   onMouseDown={(ev) => ev.preventDefault()}
                   onClick={() => go(e)}

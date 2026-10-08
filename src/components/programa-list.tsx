@@ -6,7 +6,6 @@ import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
 import { lessonByModule } from "@/data/lessons";
 import { lessonByModuleEn } from "@/data/lessons-en";
 import { countDone, useProgress } from "@/lib/progress";
-import { partVars } from "@/lib/parts";
 import { StatusMark } from "@/components/lesson-nav";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 
@@ -38,7 +37,7 @@ export function ProgramaList() {
         );
         const pct = Math.round((done / mods.length) * 100);
         return (
-          <section key={partKey} className={si > 0 ? "mt-14" : ""} style={partVars(partKey)}>
+          <section key={partKey} className={si > 0 ? "mt-14" : ""} data-part={partKey}>
             <div className="mb-6 flex items-baseline gap-3">
               <span className="h-px flex-1 bg-border" />
               <span className="mono-label text-[var(--part)]">

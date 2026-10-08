@@ -10,7 +10,6 @@ import { ThresholdFigure } from "@/components/figures/threshold";
 import { StatusMark } from "@/components/lesson-nav";
 import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
 import { countDone, useProgress } from "@/lib/progress";
-import { partVars } from "@/lib/parts";
 
 export function HomeView() {
   const t = useT();
@@ -145,7 +144,7 @@ function CurriculumMap({ en }: { en: boolean }) {
           mods.map((m) => m.code)
         );
         return (
-          <div key={key} style={partVars(key)} className="rise border-t-2 border-[var(--part)] pt-4">
+          <div key={key} data-part={key} className="rise border-t-2 border-[var(--part)] pt-4">
             <div className="flex items-baseline justify-between gap-3">
               <span className="mono-label text-[var(--part)]">
                 {t("partea", "part")} {i + 1}

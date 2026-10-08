@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Check, List } from "lucide-react";
 import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
 import { countDone, useProgress, type LessonStatus } from "@/lib/progress";
-import { partVars } from "@/lib/parts";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 
 // Semnul de stare de lângă titlul lecției: bifă la cele terminate, un punct
@@ -44,7 +43,7 @@ export function LessonNav({
           mods.map((m) => m.code)
         );
         return (
-          <div key={partKey} style={partVars(partKey)}>
+          <div key={partKey} data-part={partKey}>
             <div className="flex items-baseline justify-between gap-2 px-2">
               <span className="mono-label text-[var(--part)]">
                 {en ? parts[partKey].labelEn : parts[partKey].label}

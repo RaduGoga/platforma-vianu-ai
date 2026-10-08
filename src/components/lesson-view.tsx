@@ -16,7 +16,6 @@ import { LessonDoneRow, LessonStatusControl } from "@/components/lesson-status";
 import { LessonToc, type TocEntry } from "@/components/lesson-toc";
 import { NotebookLinks } from "@/components/notebook-links";
 import { toggleSolved, useProgress } from "@/lib/progress";
-import { partVars } from "@/lib/parts";
 import { uniqueIds } from "@/lib/slug";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 
@@ -78,7 +77,7 @@ export function LessonView({
     : [];
 
   return (
-    <div style={partVars(m.part)}>
+    <div data-part={m.part}>
       {/* masthead lecție: o bandă plină în culoarea părții, pe toată lățimea,
           ca la MLU-Explain; sub ea, pe alb, starea lecției și notebook-ul */}
       <header className="band bg-[var(--part)] text-white">

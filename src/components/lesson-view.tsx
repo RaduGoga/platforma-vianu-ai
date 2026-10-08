@@ -10,7 +10,9 @@ import { RecordVisit } from "@/components/record-visit";
 import { LessonNav } from "@/components/lesson-nav";
 import { CodeBlock } from "@/components/code-block";
 import { LessonDoneRow, LessonStatusControl } from "@/components/lesson-status";
+import { LessonToc, type TocEntry } from "@/components/lesson-toc";
 import { toggleSolved, useProgress } from "@/lib/progress";
+import { uniqueIds } from "@/lib/slug";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 
 export interface LinkedResource {
@@ -53,6 +55,22 @@ export function LessonView({
   const part = en ? partLabelEn : partLabel;
   const topics = en ? m.topicsEn : m.topics;
   const checkpoint = en ? m.checkpointEn ?? m.checkpoint : m.checkpoint;
+
+  // ancorele secțiunilor, din titluri; cuprinsul și titlurile folosesc aceleași id-uri
+  const sectionIds = uniqueIds(lesson ? lesson.sections.map((s) => s.heading) : []);
+  const toc: TocEntry[] = lesson
+    ? [
+        ...lesson.sections.map((s, i) => ({
+          id: sectionIds[i],
+          label: s.heading,
+          numeral: String(i + 1).padStart(2, "0"),
+        })),
+        ...(lesson.practice.length > 0
+          ? [{ id: "probleme", label: t("Probleme practice", "Practice problems") }]
+          : []),
+        ...(resources.length > 0 ? [{ id: "resurse", label: t("Dacă vrei mai mult", "If you want more") }] : []),
+      ]
+    : [];
 
   return (
     <>
@@ -97,7 +115,7 @@ export function LessonView({
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-5 lg:grid lg:grid-cols-[14rem_1fr] lg:gap-12">
+      <div className="mx-auto max-w-7xl px-5 lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-12 xl:grid-cols-[14rem_minmax(0,1fr)_11rem]">
         <aside className="hidden lg:block lg:pt-14">
           <LessonNav currentCode={m.code} variant="rail" />
         </aside>
@@ -105,12 +123,17 @@ export function LessonView({
           <LessonNav currentCode={m.code} variant="drawer" />
           {lesson ? (
             <>
+              <LessonToc entries={toc} variant="inline" />
               <p className="lesson-prose max-w-3xl text-xl leading-relaxed text-foreground">
                 {lesson.intro}
               </p>
 
               {lesson.sections.map((s, i) => (
-                <section key={i} className="mt-14 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">
+                <section
+                  key={i}
+                  id={sectionIds[i]}
+                  className="mt-14 scroll-mt-24 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8"
+                >
                   <div className="numeral mb-3 text-4xl lg:mb-0 lg:text-5xl">
                     {String(i + 1).padStart(2, "0")}
                   </div>
@@ -151,7 +174,7 @@ export function LessonView({
           )}
 
           {resources.length > 0 && (
-            <section className="mt-14 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">
+            <section id="resurse" className="mt-14 scroll-mt-24 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">
               <div className="kicker mb-4 lg:mb-0 lg:pt-1">{t("Dacă vrei mai mult", "If you want more")}</div>
               <div>
                 <ul className="divide-y divide-border border-y border-border">
@@ -206,6 +229,9 @@ export function LessonView({
             )}
           </nav>
         </article>
+        <aside className="hidden xl:block xl:pt-14">
+          {lesson && <LessonToc entries={toc} variant="rail" />}
+        </aside>
       </div>
     </>
   );
@@ -219,7 +245,7 @@ function PracticeList({ code, problems }: { code: string; problems: PracticeProb
   const done = new Set(solved[code] ?? []);
 
   return (
-    <section className="mt-14 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">
+    <section id="probleme" className="mt-14 scroll-mt-24 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">
       <div className="mb-4 lg:mb-0 lg:pt-1">
         <div className="kicker">{t("Probleme practice", "Practice problems")}</div>
         <div className="mono-label mt-1 tabular-nums">

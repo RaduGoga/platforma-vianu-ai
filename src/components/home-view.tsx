@@ -1,46 +1,87 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ContinueCard } from "@/components/continue-card";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 import { CodeBlock } from "@/components/code-block";
+import { ThresholdFigure } from "@/components/figures/threshold";
+import { StatusMark } from "@/components/lesson-nav";
 import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
+import { countDone, useProgress } from "@/lib/progress";
+import { partVars } from "@/lib/parts";
 
 export function HomeView() {
   const t = useT();
   const href = useHref();
   const { lang } = useLang();
   const en = lang === "en";
+  const evaluare = modules.find((m) => m.code === "S11");
 
   return (
     <>
-      {/* HERO */}
-      <section className="hero-glow">
-        <div className="mx-auto max-w-2xl px-5 pb-20 pt-20 text-center lg:pb-24 lg:pt-28">
-          <CircuitRule />
-          <h1 className="display-xl mt-7 text-6xl sm:text-7xl" translate="no">
-            Vianu AI
-          </h1>
-          <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
-            {t(
-              "Platforma clubului de AI de la Colegiul Național de Informatică \"Tudor Vianu\".",
-              "The AI club platform at \"Tudor Vianu\" National College of Computer Science."
-            )}
-          </p>
-          <div className="mt-9">
-            <Button asChild size="lg" className="rounded-full px-7">
-              <Link href={href("/programa")}>{t("Deschide cursul", "Open the course")}</Link>
-            </Button>
+      {/* HERO: titlul și, lângă el, o figură din lecții pe care o poți mișca */}
+      <section className="border-b border-border">
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-16 pt-14 lg:grid-cols-[1fr_1.1fr] lg:gap-16 lg:pb-20 lg:pt-20">
+          <div>
+            <CircuitRule />
+            <h1 className="display-xl mt-7 text-6xl sm:text-7xl" translate="no">
+              Vianu AI
+            </h1>
+            <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
+              {t(
+                "Platforma clubului de AI de la Colegiul Național de Informatică \"Tudor Vianu\".",
+                "The AI club platform at \"Tudor Vianu\" National College of Computer Science."
+              )}
+            </p>
+            <div className="mt-8">
+              <Button asChild size="lg" className="rounded-full px-7">
+                <Link href={href("/programa")}>{t("Deschide cursul", "Open the course")}</Link>
+              </Button>
+            </div>
+            <ContinueCard />
           </div>
-          <ContinueCard />
+
+          <figure className="rise">
+            <ThresholdFigure />
+            <figcaption className="caption mt-3 flex flex-wrap items-baseline gap-x-2">
+              <span>
+                {t(
+                  "Mută pragul și vezi cum se schimbă precizia și recall-ul.",
+                  "Move the threshold and watch precision and recall change."
+                )}
+              </span>
+              {evaluare && (
+                <Link href={href(`/programa/${evaluare.slug}`)} className="link-amber focus-ring inline-flex items-center gap-1">
+                  {t("Din lecția", "From lesson")} {lessonNumber(evaluare.code)}
+                  <ArrowUpRight className="size-3" aria-hidden />
+                </Link>
+              )}
+            </figcaption>
+          </figure>
         </div>
       </section>
 
-      {/* CE E ÎNĂUNTRU — rânduri alternante, cu un exemplu real la fiecare */}
+      {/* HARTA: cele trei părți ale programei, cu lecțiile și progresul tău */}
+      <section className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
+        <div className="max-w-2xl">
+          <span className="font-mono text-sm text-primary/50">01</span>
+          <h2 className="display mt-2 text-3xl sm:text-4xl">{t("Programa, în trei părți", "The syllabus, in three parts")}</h2>
+          <p className="serif mt-3 text-lg leading-relaxed text-[color:var(--prose)]">
+            {t(
+              "De la Python la rețele neuronale, în ordinea în care ai nevoie de ele la concurs. Fiecare lecție are fișa ei, cod, probleme și un notebook.",
+              "From Python to neural networks, in the order you need them at the contest. Every lesson has its brief, code, problems and a notebook."
+            )}
+          </p>
+        </div>
+        <CurriculumMap en={en} />
+      </section>
+
+      {/* CE E ÎNĂUNTRU: două rânduri cu exemple reale din lecții */}
       <section className="mx-auto max-w-6xl px-5">
         <Row
-          n="01"
+          n="02"
           title={t("Lecții clare, cu snippeturi de cod", "Clear lessons, with code snippets")}
           body={t(
             "Fiecare modul are lecția lui: explicația, codul, și resursele la sfârșit.",
@@ -49,23 +90,14 @@ export function HomeView() {
           visual={<CodeSample t={t} />}
         />
         <Row
-          n="02"
+          n="03"
           flip
-          title={t("Tips and tricks", "Tips and tricks")}
+          title={t("Greșeli de evitat", "Mistakes to avoid")}
           body={t(
-            "Sfaturi de la elevi cu experiență și rezultate in concursuri.",
+            "Sfaturi de la elevi cu experiență și rezultate în concursuri.",
             "Advice from students with real competition experience and results."
           )}
           visual={<PitfallSample t={t} />}
-        />
-        <Row
-          n="03"
-          title={t("Lecțiile, după programa oficială", "Lessons that follow the official syllabus")}
-          body={t(
-            "De la Python basic la deep learning. Vezi mereu unde ești și ce urmează.",
-            "From basic Python to deep learning. You always see where you are and what's next."
-          )}
-          visual={<CurriculumSample t={t} en={en} />}
         />
       </section>
     </>
@@ -76,7 +108,7 @@ export function HomeView() {
 // plăcii din marcă — fără să repete logo-ul, care e deja în navbar și în footer.
 function CircuitRule() {
   return (
-    <svg viewBox="0 0 160 44" className="mx-auto h-11 w-40 text-primary" fill="none" aria-hidden>
+    <svg viewBox="0 0 160 44" className="h-11 w-40 text-primary" fill="none" aria-hidden>
       <g stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.4">
         <path d="M8 22h144" />
         <path d="M56 22V9h-20" />
@@ -94,6 +126,58 @@ function CircuitRule() {
         <circle cx="80" cy="22" r="4.5" />
       </g>
     </svg>
+  );
+}
+
+// Cele trei părți, una lângă alta, fiecare în culoarea ei: lecțiile ca listă
+// numerotată, cu semnul de stare, și cât din parte ai terminat.
+function CurriculumMap({ en }: { en: boolean }) {
+  const t = useT();
+  const href = useHref();
+  const { statuses } = useProgress();
+
+  return (
+    <div className="mt-10 grid gap-10 md:grid-cols-3 md:gap-8">
+      {(Object.keys(parts) as Part[]).map((key, i) => {
+        const mods = modules.filter((m) => m.part === key);
+        const done = countDone(
+          statuses,
+          mods.map((m) => m.code)
+        );
+        return (
+          <div key={key} style={partVars(key)} className="rise border-t-2 border-[var(--part)] pt-4">
+            <div className="flex items-baseline justify-between gap-3">
+              <span className="mono-label text-[var(--part)]">
+                {t("partea", "part")} {i + 1}
+              </span>
+              <span className="mono-label tabular-nums">
+                {done}/{mods.length}
+              </span>
+            </div>
+            <h3 className="display mt-1 text-xl">{en ? parts[key].labelEn : parts[key].label}</h3>
+            <p className="sidenote mt-1.5">{en ? parts[key].goalEn : parts[key].goal}</p>
+            <ol className="mt-4 border-t border-border">
+              {mods.map((m) => (
+                <li key={m.code} className="border-b border-border">
+                  <Link
+                    href={href(`/programa/${m.slug}`)}
+                    className="focus-ring group flex min-h-10 items-center gap-3 py-1.5 text-sm"
+                  >
+                    <span className="w-6 shrink-0 font-mono text-xs tabular-nums text-[var(--part)]">
+                      {lessonNumber(m.code)}
+                    </span>
+                    <span className="min-w-0 flex-1 text-foreground transition-colors group-hover:text-[var(--part)]">
+                      {en ? m.titleEn : m.title}
+                    </span>
+                    <StatusMark status={statuses[m.code]} />
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -122,8 +206,8 @@ function Row({
   );
 }
 
-// Exemplele de mai jos sunt luate din lecțiile reale (S3, S11), ca să nu fie
-// capturi inventate.
+// Exemplele de mai jos sunt luate din lecțiile reale (lecția 4 și lecția 8),
+// ca să nu fie capturi inventate.
 
 function CodeSample({ t }: { t: (ro: string, en: string) => string }) {
   return (
@@ -160,7 +244,9 @@ function PitfallSample({ t }: { t: (ro: string, en: string) => string }) {
 
   return (
     <div className="rounded-xl border border-border bg-card p-6">
-      <div className="mono-label">S11 · {t("greșeli comune", "pitfalls")}</div>
+      <div className="mono-label">
+        {t("Lecția", "Lesson")} {lessonNumber("S11")} · {t("greșeli comune", "common mistakes")}
+      </div>
       <ul className="mt-4 space-y-3">
         {items.map((p, i) => (
           <li key={i} className="sidenote flex gap-3">
@@ -169,43 +255,6 @@ function PitfallSample({ t }: { t: (ro: string, en: string) => string }) {
           </li>
         ))}
       </ul>
-    </div>
-  );
-}
-
-function CurriculumSample({
-  t,
-  en,
-}: {
-  t: (ro: string, en: string) => string;
-  en: boolean;
-}) {
-  return (
-    <div className="rounded-xl border border-border bg-card p-6">
-      <div className="space-y-5">
-        {(Object.keys(parts) as Part[]).map((key, i) => {
-          const mods = modules.filter((m) => m.part === key);
-          return (
-            <div key={key}>
-              <div className="flex items-baseline gap-2">
-                <span className="mono-label text-primary">
-                  {t("partea", "part")} {i + 1}
-                </span>
-                <span className="text-sm text-foreground">
-                  {en ? parts[key].labelEn : parts[key].label}
-                </span>
-              </div>
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {mods.map((m) => (
-                  <span key={m.code} className="chip">
-                    {lessonNumber(m.code)}
-                  </span>
-                ))}
-              </div>
-            </div>
-          );
-        })}
-      </div>
     </div>
   );
 }

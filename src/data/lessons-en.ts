@@ -1205,10 +1205,6 @@ export const lessonsEn: Lesson[] = [
             "explain": "The harmonic mean. It punishes imbalance: you can't have a high F1 with a tiny recall."
           },
           {
-            "figure": "prag-clasificare",
-            "caption": "Move the threshold and watch precision, recall and F1 change. Green points are positive examples, brown ones negative; everything to the right of the threshold is predicted positive. The hollow circles are the mistakes."
-          },
-          {
             "note": "With many classes, F1 is aggregated. Macro-F1 averages over classes treating them equally (good when you care about the rare ones). Weighted-F1 accounts for each class's size. Read in the rules which one is scored and optimize exactly that."
           }
         ]
@@ -1690,10 +1686,6 @@ export const lessonsEn: Lesson[] = [
           {
             "formula": "w ← w - η · ∂L/∂w",
             "explain": "Each weight w moves a small step (learning rate η) in the direction opposite to the gradient ∂L/∂w. You repeat thousands of times."
-          },
-          {
-            "figure": "coborare-pe-gradient",
-            "caption": "Scroll through the steps: the same descent, drawn for a single weight."
           }
         ]
       },

@@ -22,9 +22,6 @@ How? The gradient of the loss with respect to each weight tells you which direct
 > w ← w - η · ∂L/∂w
 > Each weight w moves a small step (learning rate η) in the direction opposite to the gradient ∂L/∂w. You repeat thousands of times.
 
-> [!FIGURE] coborare-pe-gradient
-> Scroll through the steps: the same descent, drawn for a single weight.
-
 ## Backpropagation: the chain rule
 A network is a chain of operations. To find the gradient of the loss with respect to a weight in the first layer, you apply the chain rule from calculus: you multiply the gradients step by step, from the output back toward the input. That's backpropagation, the backward propagation of the error.
 

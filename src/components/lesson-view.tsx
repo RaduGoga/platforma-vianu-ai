@@ -1,14 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import type { Lesson, LessonSection } from "@/data/lessons";
+import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
+import type { Lesson, LessonSection, PracticeProblem } from "@/data/lesson-types";
 import type { Module } from "@/data/curriculum";
 import { lessonNumber } from "@/data/curriculum";
 import { typeLabel } from "@/data/resources";
 import { RecordVisit } from "@/components/record-visit";
 import { LessonNav } from "@/components/lesson-nav";
 import { CodeBlock } from "@/components/code-block";
+import { LessonDoneRow, LessonStatusControl } from "@/components/lesson-status";
+import { toggleSolved, useProgress } from "@/lib/progress";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 
 export interface LinkedResource {
@@ -84,7 +86,14 @@ export function LessonView({
             {en ? m.summaryEn ?? m.summary : m.summary}
           </p>
 
-          {lesson && <RecordVisit code={m.code} slug={m.slug} title={title} />}
+          {lesson && (
+            <>
+              <div className="mt-8">
+                <LessonStatusControl code={m.code} />
+              </div>
+              <RecordVisit code={m.code} slug={m.slug} title={title} />
+            </>
+          )}
         </div>
       </header>
 
@@ -131,38 +140,7 @@ export function LessonView({
           )}
 
           {lesson && lesson.practice.length > 0 && (
-            <section className="mt-14 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">
-              <div className="kicker mb-4 lg:mb-0 lg:pt-1">
-                {t("Probleme practice", "Practice problems")}
-              </div>
-              <div>
-                <ul className="divide-y divide-border border-y border-border">
-                  {lesson.practice.map((pr, i) => (
-                    <li key={i}>
-                      {pr.url ? (
-                        <a
-                          href={pr.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="focus-ring group flex items-baseline justify-between gap-3 py-2.5"
-                        >
-                          <span className="text-sm text-foreground transition-colors group-hover:text-primary">
-                            {pr.title}
-                          </span>
-                          <ArrowUpRight
-                            className="size-3.5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
-                            aria-hidden
-                          />
-                        </a>
-                      ) : (
-                        /* fără link încă: se vede, dar nu arată ca un buton mort */
-                        <span className="block py-2.5 text-sm text-muted-foreground">{pr.title}</span>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </section>
+            <PracticeList code={m.code} problems={lesson.practice} />
           )}
 
           {checkpoint && (
@@ -199,7 +177,9 @@ export function LessonView({
             </section>
           )}
 
-          <nav className="mt-16 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
+          {lesson && <LessonDoneRow code={m.code} next={next} />}
+
+          <nav className="mt-10 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
             {prev ? (
               <Link href={href(`/programa/${prev.slug}`)} className="focus-ring group py-2">
                 <span className="mono-label inline-flex items-center gap-1">
@@ -228,6 +208,78 @@ export function LessonView({
         </article>
       </div>
     </>
+  );
+}
+
+// Problemele de exersat, cu o bifă pe fiecare. Bifa e un buton separat de
+// link, ca un click pe titlu să deschidă problema fără să o marcheze.
+function PracticeList({ code, problems }: { code: string; problems: PracticeProblem[] }) {
+  const t = useT();
+  const { solved } = useProgress();
+  const done = new Set(solved[code] ?? []);
+
+  return (
+    <section className="mt-14 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">
+      <div className="mb-4 lg:mb-0 lg:pt-1">
+        <div className="kicker">{t("Probleme practice", "Practice problems")}</div>
+        <div className="mono-label mt-1 tabular-nums">
+          {done.size}/{problems.length} {t("rezolvate", "solved")}
+        </div>
+      </div>
+      <div>
+        <ul className="divide-y divide-border border-y border-border">
+          {problems.map((pr, i) => {
+            const isDone = done.has(i);
+            return (
+              <li key={i} className="flex items-center gap-3 py-1.5">
+                <button
+                  type="button"
+                  role="checkbox"
+                  aria-checked={isDone}
+                  aria-label={`${t("Rezolvată", "Solved")}: ${pr.title}`}
+                  onClick={() => toggleSolved(code, i)}
+                  className="focus-ring group/check -ml-1 inline-flex size-7 shrink-0 items-center justify-center"
+                >
+                  <span
+                    aria-hidden
+                    className={`inline-flex size-[18px] items-center justify-center rounded-[5px] border transition-colors duration-150 ${
+                      isDone
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-[color:var(--border-strong)] bg-card group-hover/check:border-primary"
+                    }`}
+                  >
+                    <Check
+                      className={`size-3 transition-opacity duration-150 ${isDone ? "opacity-100" : "opacity-0"}`}
+                    />
+                  </span>
+                </button>
+                {pr.url ? (
+                  <a
+                    href={pr.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`focus-ring group flex min-w-0 flex-1 items-baseline justify-between gap-3 py-1 text-sm transition-colors group-hover:text-primary ${
+                      isDone ? "text-muted-foreground" : "text-foreground"
+                    }`}
+                  >
+                    <span className="transition-colors group-hover:text-primary">{pr.title}</span>
+                    <ArrowUpRight
+                      className="size-3.5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                      aria-hidden
+                    />
+                  </a>
+                ) : (
+                  /* fără link încă: se vede, dar nu arată ca un buton mort */
+                  <span className={`py-1 text-sm ${isDone ? "text-muted-foreground" : "text-foreground"}`}>
+                    {pr.title}
+                  </span>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </section>
   );
 }
 

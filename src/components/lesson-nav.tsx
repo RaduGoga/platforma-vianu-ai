@@ -1,9 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { List } from "lucide-react";
+import { Check, List } from "lucide-react";
 import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
+import { countDone, useProgress, type LessonStatus } from "@/lib/progress";
 import { useHref, useLang, useT } from "@/components/lang-provider";
+
+// Semnul de stare de lângă titlul lecției: bifă la cele terminate, un punct
+// la cele în lucru, nimic la restul.
+export function StatusMark({ status, className = "" }: { status?: LessonStatus; className?: string }) {
+  if (status === "done")
+    return <Check className={`size-3.5 shrink-0 text-primary ${className}`} aria-hidden />;
+  if (status === "reading")
+    return <span className={`size-1.5 shrink-0 rounded-full bg-primary/70 ${className}`} aria-hidden />;
+  return null;
+}
 
 // Arbore de module în stil docs: sticky pe desktop, sertar pe telefon.
 // Semnătura de organizare — te muți între lecții fără să treci prin cuprins.
@@ -21,16 +32,27 @@ export function LessonNav({
 
   const partKeys = Object.keys(parts) as Part[];
   const current = modules.find((m) => m.code === currentCode);
+  const { statuses } = useProgress();
 
   const tree = (
     <div className="space-y-6">
       {partKeys.map((partKey) => {
         const mods = modules.filter((m) => m.part === partKey);
+        const done = countDone(
+          statuses,
+          mods.map((m) => m.code)
+        );
         return (
           <div key={partKey}>
-            <div className="px-2">
+            <div className="flex items-baseline justify-between gap-2 px-2">
               <span className="mono-label text-primary">
                 {en ? parts[partKey].labelEn : parts[partKey].label}
+              </span>
+              <span
+                className="mono-label tabular-nums"
+                aria-label={`${done} ${t("din", "of")} ${mods.length} ${t("terminate", "done")}`}
+              >
+                {done}/{mods.length}
               </span>
             </div>
             <ul className="mt-2">
@@ -51,6 +73,7 @@ export function LessonNav({
                         {lessonNumber(m.code)}
                       </span>
                       <span className="min-w-0 flex-1 truncate">{en ? m.titleEn : m.title}</span>
+                      <StatusMark status={statuses[m.code]} />
                     </Link>
                   </li>
                 );

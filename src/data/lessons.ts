@@ -118,7 +118,7 @@ export const lessons: Lesson[] = [
             ]
           },
           {
-            "note": "Coloanele folosite ca intrare pentru model se numesc features, sau trăsături."
+            "note": "Coloanele folosite ca intrare pentru model se numesc features."
           }
         ]
       },

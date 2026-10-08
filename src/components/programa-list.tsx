@@ -5,7 +5,9 @@ import { Badge } from "@/components/ui/badge";
 import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
 import { lessonByModule } from "@/data/lessons";
 import { lessonByModuleEn } from "@/data/lessons-en";
-import { useHref, useLang } from "@/components/lang-provider";
+import { countDone, useProgress } from "@/lib/progress";
+import { StatusMark } from "@/components/lesson-nav";
+import { useHref, useLang, useT } from "@/components/lang-provider";
 
 // Intervalul de lecții al fiecărei părți, calculat din aceleași numere — dacă
 // se adaugă un modul, eticheta se mută singură. Înainte era scris de mână în
@@ -20,13 +22,20 @@ function intervalParte(codes: string[]) {
 export function ProgramaList() {
   const { lang } = useLang();
   const href = useHref();
+  const t = useT();
   const en = lang === "en";
+  const { statuses } = useProgress();
 
   return (
     <>
       {(Object.keys(parts) as Part[]).map((partKey, si) => {
         const part = parts[partKey];
         const mods = modules.filter((m) => m.part === partKey);
+        const done = countDone(
+          statuses,
+          mods.map((m) => m.code)
+        );
+        const pct = Math.round((done / mods.length) * 100);
         return (
           <section key={partKey} className={si > 0 ? "mt-14" : ""}>
             <div className="mb-6 flex items-baseline gap-3">
@@ -38,7 +47,27 @@ export function ProgramaList() {
             <h2 className="display text-2xl">{en ? part.labelEn : part.label}</h2>
             <p className="serif mt-1.5 text-[color:var(--prose)]">{en ? part.goalEn : part.goal}</p>
 
-            <ul className="mt-6">
+            {/* cât din partea asta e bifat ca terminat; se umple pe măsură ce marchezi lecții */}
+            <div className="mt-5 flex items-center gap-3">
+              <div
+                className="h-[3px] flex-1 overflow-hidden rounded-full bg-secondary"
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={mods.length}
+                aria-valuenow={done}
+                aria-label={`${done} ${t("din", "of")} ${mods.length} ${t("lecții terminate", "lessons done")}`}
+              >
+                <div
+                  className="h-full rounded-full bg-primary transition-[width] duration-500 ease-out motion-reduce:transition-none"
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
+              <span className="mono-label tabular-nums">
+                {done}/{mods.length} {t("terminate", "done")}
+              </span>
+            </div>
+
+            <ul className="mt-4">
               {mods.map((m) => {
                 const lesson = en ? lessonByModuleEn(m.code) ?? lessonByModule(m.code) : lessonByModule(m.code);
                 return (
@@ -51,6 +80,7 @@ export function ProgramaList() {
                       <span className="display text-lg leading-snug text-foreground transition-colors group-hover:text-primary">
                         {en ? m.titleEn : m.title}
                       </span>
+                      <StatusMark status={statuses[m.code]} className="ml-2 self-center" />
                       <span className="toc-leader hidden sm:block" aria-hidden />
                       {lesson && (
                         <span className="ml-auto hidden shrink-0 sm:block">

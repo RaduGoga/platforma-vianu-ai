@@ -124,7 +124,7 @@ export function SearchDialog({ compact = false }: { compact?: boolean }) {
             <Search className="size-4" aria-hidden />
             <span>{t("Caută", "Search")}</span>
             {mac !== null && (
-              <kbd className="font-mono text-[0.68rem] text-[color:var(--faint)]">{mac ? "⌘K" : "Ctrl K"}</kbd>
+              <kbd className="num text-[0.68rem] text-[color:var(--faint)]">{mac ? "⌘K" : "Ctrl K"}</kbd>
             )}
           </button>
         )}
@@ -147,7 +147,7 @@ export function SearchDialog({ compact = false }: { compact?: boolean }) {
                 setCursor(0);
               }}
               onKeyDown={onKeyDown}
-              placeholder={t("Caută o lecție, o secțiune, un termen", "Search a lesson, a section, a term")}
+              placeholder={t("de exemplu: k-fold, broadcasting, prag", "e.g. k-fold, broadcasting, threshold")}
               className="min-h-14 w-full bg-transparent text-base outline-none placeholder:text-[color:var(--faint)]"
               role="combobox"
               aria-expanded={results.length > 0}
@@ -155,7 +155,7 @@ export function SearchDialog({ compact = false }: { compact?: boolean }) {
               aria-activedescendant={results[active] ? `search-opt-${active}` : undefined}
               autoComplete="off"
             />
-            <kbd className="hidden font-mono text-[0.68rem] text-[color:var(--faint)] sm:block">esc</kbd>
+            <kbd className="hidden num text-[0.68rem] text-[color:var(--faint)] sm:block">esc</kbd>
           </div>
 
           <ul
@@ -167,13 +167,13 @@ export function SearchDialog({ compact = false }: { compact?: boolean }) {
             {query.trim() === "" ? (
               <li className="px-4 py-4 text-sm text-muted-foreground">
                 {t(
-                  "Titluri, secțiuni și text din toate lecțiile. Săgețile mută selecția, Enter deschide.",
-                  "Titles, sections and text from every lesson. Arrows move the selection, Enter opens."
+                  "Caută după titlu, după secțiune sau după orice cuvânt din text.",
+                  "Search by title, by section or by any word in the text."
                 )}
               </li>
             ) : results.length === 0 ? (
               <li className="px-4 py-4 text-sm text-muted-foreground">
-                {t("Nimic pentru", "Nothing for")} „{query.trim()}”.
+                {t("N-am găsit nimic pentru", "Nothing found for")} „{query.trim()}”.
               </li>
             ) : (
               results.map((e, i) => (
@@ -191,7 +191,7 @@ export function SearchDialog({ compact = false }: { compact?: boolean }) {
                     i === active ? "bg-[var(--part-tint)]" : ""
                   }`}
                 >
-                  <span className="w-7 shrink-0 pt-0.5 font-mono text-xs tabular-nums text-[var(--part)]">{e.number}</span>
+                  <span className="w-7 shrink-0 pt-0.5 num text-xs tabular-nums text-[var(--part)]">{e.number}</span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-medium text-foreground">
                       {e.heading ? (

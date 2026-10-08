@@ -85,10 +85,10 @@ export function ThresholdFigure() {
         <rect x={tx} y={28} width={Math.max(0, X1 + 8 - tx)} height={140} fill="var(--primary)" opacity={0.06} />
 
         {/* etichetele rândurilor */}
-        <text x={X0 - 10} y={70} textAnchor="end" className="fill-[color:var(--faint)]" fontSize={11} fontFamily="var(--font-mono)">
+        <text x={X0 - 10} y={70} textAnchor="end" className="fill-[color:var(--faint)]" fontSize={11} fontFamily="var(--font-sans)">
           {t("pozitive", "positive")}
         </text>
-        <text x={X0 - 10} y={138} textAnchor="end" className="fill-[color:var(--faint)]" fontSize={11} fontFamily="var(--font-mono)">
+        <text x={X0 - 10} y={138} textAnchor="end" className="fill-[color:var(--faint)]" fontSize={11} fontFamily="var(--font-sans)">
           {t("negative", "negative")}
         </text>
 
@@ -97,7 +97,7 @@ export function ThresholdFigure() {
         {[0, 0.25, 0.5, 0.75, 1].map((v) => (
           <g key={v}>
             <line x1={xOf(v)} x2={xOf(v)} y1={178} y2={183} stroke="var(--border-strong)" />
-            <text x={xOf(v)} y={198} textAnchor="middle" fontSize={11} fontFamily="var(--font-mono)" className="fill-[color:var(--faint)]">
+            <text x={xOf(v)} y={198} textAnchor="middle" fontSize={11} fontFamily="var(--font-sans)" className="fill-[color:var(--faint)]">
               {v.toFixed(2)}
             </text>
           </g>
@@ -150,7 +150,7 @@ export function ThresholdFigure() {
           { label: "F1", value: f1, hint: t("media armonică", "harmonic mean") },
         ].map((m) => (
           <div key={m.label}>
-            <div className="font-mono text-2xl tabular-nums text-foreground">{fmt(m.value)}</div>
+            <div className="num text-2xl tabular-nums text-foreground">{fmt(m.value)}</div>
             <div className="kicker mt-0.5">{m.label}</div>
             <div className="mono-label mt-0.5 hidden sm:block">{m.hint}</div>
           </div>

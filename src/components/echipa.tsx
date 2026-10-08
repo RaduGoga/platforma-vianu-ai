@@ -59,7 +59,7 @@ export function Echipa() {
               />
             ) : (
               <span
-                className="grid size-14 place-items-center rounded-full bg-[var(--accent-tint)] font-mono text-sm font-medium text-[var(--accent-ink)]"
+                className="grid size-14 place-items-center rounded-full bg-[var(--accent-tint)] num text-sm font-medium text-[var(--accent-ink)]"
                 aria-hidden
               >
                 {p.initials}

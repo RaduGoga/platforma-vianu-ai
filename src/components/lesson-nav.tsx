@@ -69,7 +69,7 @@ export function LessonNav({
                           : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                       }`}
                     >
-                      <span className="w-6 shrink-0 font-mono text-[0.72rem] tabular-nums text-[var(--part)] opacity-80">
+                      <span className="w-6 shrink-0 num text-[0.72rem] tabular-nums text-[var(--part)] opacity-80">
                         {lessonNumber(m.code)}
                       </span>
                       <span className="min-w-0 flex-1 truncate">{en ? m.titleEn : m.title}</span>
@@ -102,7 +102,7 @@ export function LessonNav({
         <span className="flex min-w-0 items-center gap-2.5">
           <List className="size-4 shrink-0 text-primary" aria-hidden />
           <span className="min-w-0">
-            <span className="mono-label block">{t("Toate modulele", "All modules")}</span>
+            <span className="mono-label block">{t("Toate lecțiile", "All lessons")}</span>
             {current && (
               <span className="block truncate text-sm font-medium">
                 {t("Lecția", "Lesson")} {lessonNumber(current.code)} · {en ? current.titleEn : current.title}

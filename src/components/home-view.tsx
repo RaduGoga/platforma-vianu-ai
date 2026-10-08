@@ -65,12 +65,12 @@ export function HomeView() {
       {/* HARTA: cele trei părți ale programei, cu lecțiile și progresul tău */}
       <section className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
         <div className="max-w-2xl">
-          <span className="font-mono text-sm text-primary/50">01</span>
+          <span className="num text-sm text-primary/50">01</span>
           <h2 className="display mt-2 text-3xl sm:text-4xl">{t("Programa, în trei părți", "The syllabus, in three parts")}</h2>
           <p className="serif mt-3 text-lg leading-relaxed text-[color:var(--prose)]">
             {t(
-              "De la Python la rețele neuronale, în ordinea în care ai nevoie de ele la concurs. Fiecare lecție are fișa ei, cod, probleme și un notebook.",
-              "From Python to neural networks, in the order you need them at the contest. Every lesson has its brief, code, problems and a notebook."
+              "De la Python la rețele neuronale, în ordinea în care le folosești la concurs. Fiecare lecție vine cu cod, probleme de exersat și un notebook de descărcat.",
+              "From Python to neural networks, in the order you use them at the contest. Every lesson comes with code, practice problems and a notebook you can download."
             )}
           </p>
         </div>
@@ -162,7 +162,7 @@ function CurriculumMap({ en }: { en: boolean }) {
                     href={href(`/programa/${m.slug}`)}
                     className="focus-ring group flex min-h-10 items-center gap-3 py-1.5 text-sm"
                   >
-                    <span className="w-6 shrink-0 font-mono text-xs tabular-nums text-[var(--part)]">
+                    <span className="w-6 shrink-0 num text-xs tabular-nums text-[var(--part)]">
                       {lessonNumber(m.code)}
                     </span>
                     <span className="min-w-0 flex-1 text-foreground transition-colors group-hover:text-[var(--part)]">
@@ -196,7 +196,7 @@ function Row({
   return (
     <div className="rise grid items-center gap-8 border-t border-border py-16 lg:grid-cols-2 lg:gap-16 lg:py-20">
       <div className={flip ? "lg:order-2" : ""}>
-        <span className="font-mono text-sm text-primary/50">{n}</span>
+        <span className="num text-sm text-primary/50">{n}</span>
         <h2 className="display mt-2 text-3xl sm:text-4xl">{title}</h2>
         <p className="serif mt-3 max-w-md text-lg leading-relaxed text-[color:var(--prose)]">{body}</p>
       </div>

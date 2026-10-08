@@ -79,7 +79,7 @@ export function LessonToc({ entries, variant }: { entries: TocEntry[]; variant: 
           {entries.map((e) => (
             <li key={e.id}>
               <a href={`#${e.id}`} className="focus-ring flex min-h-10 items-center gap-3 text-sm text-foreground">
-                <span className="w-6 shrink-0 font-mono text-xs tabular-nums text-[var(--part)] opacity-70">{e.numeral ?? "·"}</span>
+                <span className="w-6 shrink-0 num text-xs tabular-nums text-[var(--part)] opacity-70">{e.numeral ?? "·"}</span>
                 {e.label}
               </a>
             </li>
@@ -112,7 +112,7 @@ export function LessonToc({ entries, variant }: { entries: TocEntry[]; variant: 
                   }`}
                 >
                   {e.numeral && (
-                    <span className="pt-px font-mono text-[0.68rem] tabular-nums text-[var(--part)] opacity-70">{e.numeral}</span>
+                    <span className="pt-px num text-[0.68rem] tabular-nums text-[var(--part)] opacity-70">{e.numeral}</span>
                   )}
                   <span>{e.label}</span>
                 </a>

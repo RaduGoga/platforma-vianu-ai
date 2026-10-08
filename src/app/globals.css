@@ -239,9 +239,11 @@ html {
 .band .kicker {
   color: var(--cream);
 }
-/* numeral de secțiune, discret, în culoarea părții */
+/* numeral de secțiune, discret, în culoarea părții; la fontul titlurilor, nu
+   la mono: mono-ul în afara codului e un tic de design generat */
 .numeral {
-  font-family: var(--font-mono);
+  font-family: var(--font-display);
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
   color: color-mix(in srgb, var(--part) 45%, transparent);
   line-height: 1;
@@ -255,11 +257,20 @@ html {
   color: #4a4b45;
 }
 
-/* etichetă mono discretă */
+/* numere mici de etichetă (numărul lecției, pașii): fontul titlurilor, cifre
+   de lățime egală ca să stea aliniate în liste */
+.num {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* etichetă mică, discretă: aceeași familie ca textul, nu mono (numele
+   clasei a rămas, ca să nu schimbăm toate componentele deodată) */
 .mono-label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.02em;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
   color: var(--faint);
 }
 
@@ -303,8 +314,9 @@ html {
 }
 
 .chip {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 0.2rem 0.6rem;
@@ -316,10 +328,9 @@ html {
 .code-chip {
   display: inline-flex;
   align-items: center;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.02em;
   color: var(--accent-ink);
   background: var(--accent-tint);
   padding: 0.25rem 0.55rem;

@@ -76,7 +76,7 @@ export function ProgramaList() {
                       href={href(`/programa/${m.slug}`)}
                       className="focus-ring group flex items-baseline gap-1 border-b border-border py-3.5"
                     >
-                      <span className="w-10 shrink-0 font-mono text-sm text-[var(--part)]">{lessonNumber(m.code)}</span>
+                      <span className="w-10 shrink-0 num text-sm text-[var(--part)]">{lessonNumber(m.code)}</span>
                       <span className="display text-lg leading-snug text-foreground transition-colors group-hover:text-[var(--part)]">
                         {en ? m.titleEn : m.title}
                       </span>

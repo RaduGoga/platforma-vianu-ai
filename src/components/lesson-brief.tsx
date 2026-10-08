@@ -47,7 +47,7 @@ export function LessonBrief({ m, toc }: { m: Module; toc: TocEntry[] }) {
                     href={href(`/programa/${p.slug}`)}
                     className="focus-ring group flex items-baseline gap-2 text-sm"
                   >
-                    <span className="shrink-0 font-mono text-xs tabular-nums text-primary/80">
+                    <span className="shrink-0 num text-xs tabular-nums text-primary/80">
                       {t("Lecția", "Lesson")} {lessonNumber(p.code)}
                     </span>
                     <span className="text-foreground transition-colors group-hover:text-primary">
@@ -60,7 +60,7 @@ export function LessonBrief({ m, toc }: { m: Module; toc: TocEntry[] }) {
             </ul>
           ) : (
             <p className="sidenote mt-3">
-              {t("Nimic în plus, poți începe direct.", "Nothing else, you can start right away.")}
+              {t("Poți începe direct.", "You can start right away.")}
             </p>
           )}
         </div>

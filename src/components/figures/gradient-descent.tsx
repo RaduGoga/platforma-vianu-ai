@@ -107,17 +107,17 @@ export function GradientDescentScrolly() {
       {/* axe */}
       <line x1={PAD.l} x2={VW - PAD.r} y1={VH - PAD.b} y2={VH - PAD.b} stroke="var(--border-strong)" />
       <line x1={PAD.l} x2={PAD.l} y1={PAD.t} y2={VH - PAD.b} stroke="var(--border-strong)" />
-      <text x={VW - PAD.r} y={VH - PAD.b + 22} textAnchor="end" fontSize={12} fontFamily="var(--font-mono)" className="fill-[color:var(--faint)]">
+      <text x={VW - PAD.r} y={VH - PAD.b + 22} textAnchor="end" fontSize={12} fontFamily="var(--font-sans)" className="fill-[color:var(--faint)]">
         w
       </text>
-      <text x={PAD.l - 8} y={PAD.t + 8} textAnchor="end" fontSize={12} fontFamily="var(--font-mono)" className="fill-[color:var(--faint)]">
+      <text x={PAD.l - 8} y={PAD.t + 8} textAnchor="end" fontSize={12} fontFamily="var(--font-sans)" className="fill-[color:var(--faint)]">
         loss
       </text>
 
       {/* curba și minimul */}
       <path d={CURVE} fill="none" stroke="var(--foreground)" strokeWidth={1.75} />
       <line x1={X(W_MIN)} x2={X(W_MIN)} y1={Y(loss(W_MIN))} y2={VH - PAD.b} stroke="var(--border-strong)" strokeDasharray="2 4" />
-      <text x={X(W_MIN)} y={VH - PAD.b + 22} textAnchor="middle" fontSize={11} fontFamily="var(--font-mono)" className="fill-[color:var(--faint)]">
+      <text x={X(W_MIN)} y={VH - PAD.b + 22} textAnchor="middle" fontSize={11} fontFamily="var(--font-sans)" className="fill-[color:var(--faint)]">
         {t("minim", "minimum")}
       </text>
 
@@ -180,7 +180,7 @@ export function GradientDescentScrolly() {
       </g>
 
       {/* eticheta ratei de învățare */}
-      <text x={VW - PAD.r} y={PAD.t + 8} textAnchor="end" fontSize={11.5} fontFamily="var(--font-mono)" fill={showLarge ? "var(--clay)" : "var(--faint)"} style={{ opacity: active >= 3 ? 1 : 0, transition: "opacity 0.4s ease" }}>
+      <text x={VW - PAD.r} y={PAD.t + 8} textAnchor="end" fontSize={11.5} fontFamily="var(--font-sans)" fill={showLarge ? "var(--clay)" : "var(--faint)"} style={{ opacity: active >= 3 ? 1 : 0, transition: "opacity 0.4s ease" }}>
         η = {showLarge ? "3.1" : "0.5"}
       </text>
     </svg>
@@ -207,7 +207,7 @@ export function GradientDescentScrolly() {
             }`}
           >
             <p className="serif text-[1.02rem] leading-relaxed text-[color:var(--prose)]">
-              <span className="mr-3 font-mono text-xs text-primary">{String(i + 1).padStart(2, "0")}</span>
+              <span className="mr-3 num text-xs text-primary">{String(i + 1).padStart(2, "0")}</span>
               {t(s.ro, s.en)}
             </p>
           </li>

@@ -186,11 +186,11 @@ export function ResurseView() {
                   autoComplete="off"
                   spellCheck={false}
                   aria-label={t("Caută în resurse", "Search resources")}
-                  placeholder={t("caută o resursă sau un subiect…", "search a resource or a topic…")}
+                  placeholder={t("de exemplu: numpy, kaggle, backprop", "e.g. numpy, kaggle, backprop")}
                   className="w-full rounded-lg border border-border bg-card px-3.5 py-2 pr-9 text-sm text-foreground placeholder:text-[var(--faint)] focus:border-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                 />
                 {q === "" && (
-                  <kbd className="pointer-events-none absolute right-2.5 top-1/2 hidden -translate-y-1/2 rounded border border-border px-1.5 py-0.5 font-mono text-[0.65rem] text-[var(--faint)] sm:block">
+                  <kbd className="pointer-events-none absolute right-2.5 top-1/2 hidden -translate-y-1/2 rounded border border-border px-1.5 py-0.5 num text-[0.65rem] text-[var(--faint)] sm:block">
                     /
                   </kbd>
                 )}

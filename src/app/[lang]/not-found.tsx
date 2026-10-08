@@ -14,7 +14,7 @@ export default function NotFound() {
   }, [t]);
   return (
     <div className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-start justify-center px-5 py-20">
-      <span className="font-mono text-sm text-primary">404</span>
+      <span className="num text-sm text-primary">404</span>
       <h1 className="display-xl mt-3 text-5xl sm:text-6xl">
         {t("Pagina nu există.", "Page not found.")}
       </h1>

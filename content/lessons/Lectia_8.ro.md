@@ -34,6 +34,9 @@ Precizia și recall-ul trag în direcții opuse. Dacă spui pozitiv doar când e
 > F1 = 2 · (precizie · recall) / (precizie + recall)
 > Media armonică. Pedepsește dezechilibrul: nu poți avea F1 mare cu recall minuscul.
 
+> [!FIGURE] prag-clasificare
+> Mută pragul și urmărește cum se schimbă precizia, recall-ul și F1. Punctele verzi sunt exemple pozitive, cele maro negative; tot ce cade la dreapta pragului e prezis pozitiv. Cercurile goale sunt greșelile.
+
 > [!NOTE]
 > Când ai multe clase, F1 se agregă. Macro-F1 face media pe clase tratându-le egal (bun când îți pasă de clasele rare). Weighted-F1 ține cont de mărimea fiecărei clase. Citește în regulament care se punctează și optimizează exact pe aia.
 

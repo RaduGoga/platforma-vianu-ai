@@ -11,6 +11,7 @@ import { LessonNav } from "@/components/lesson-nav";
 import { CodeBlock } from "@/components/code-block";
 import { renderInline } from "@/components/inline";
 import { LessonBrief } from "@/components/lesson-brief";
+import { LessonFigure } from "@/components/lesson-figure";
 import { LessonDoneRow, LessonStatusControl } from "@/components/lesson-status";
 import { LessonToc, type TocEntry } from "@/components/lesson-toc";
 import { NotebookLinks } from "@/components/notebook-links";
@@ -375,6 +376,7 @@ function SectionBody({ section }: { section: LessonSection }) {
                 )}
               </figure>
             );
+          if ("figure" in b) return <LessonFigure key={i} name={b.figure} caption={b.caption} />;
           return null;
         })}
       </div>

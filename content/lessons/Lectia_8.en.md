@@ -34,6 +34,9 @@ Precision and recall pull in opposite directions. If you say positive only when 
 > F1 = 2 · (precision · recall) / (precision + recall)
 > The harmonic mean. It punishes imbalance: you can't have a high F1 with a tiny recall.
 
+> [!FIGURE] prag-clasificare
+> Move the threshold and watch precision, recall and F1 change. Green points are positive examples, brown ones negative; everything to the right of the threshold is predicted positive. The hollow circles are the mistakes.
+
 > [!NOTE]
 > With many classes, F1 is aggregated. Macro-F1 averages over classes treating them equally (good when you care about the rare ones). Weighted-F1 accounts for each class's size. Read in the rules which one is scored and optimize exactly that.
 

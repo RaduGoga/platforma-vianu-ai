@@ -120,7 +120,9 @@ function toNotebook({ lesson, number, title, lang }) {
         cells.push(cell("code", b.code, nextId()));
         if (b.caption) md = `*${b.caption}*`;
       } else {
-        md += (md ? "\n\n" : "") + blockToMd(b, lang);
+        // figurile interactive n-au echivalent în notebook
+        const piece = blockToMd(b, lang);
+        if (piece) md += (md ? "\n\n" : "") + piece;
       }
     }
     flush();

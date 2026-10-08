@@ -12,6 +12,7 @@ import { CodeBlock } from "@/components/code-block";
 import { LessonBrief } from "@/components/lesson-brief";
 import { LessonDoneRow, LessonStatusControl } from "@/components/lesson-status";
 import { LessonToc, type TocEntry } from "@/components/lesson-toc";
+import { NotebookLinks } from "@/components/notebook-links";
 import { toggleSolved, useProgress } from "@/lib/progress";
 import { uniqueIds } from "@/lib/slug";
 import { useHref, useLang, useT } from "@/components/lang-provider";
@@ -107,8 +108,9 @@ export function LessonView({
 
           {lesson && (
             <>
-              <div className="mt-8">
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
                 <LessonStatusControl code={m.code} />
+                <NotebookLinks slug={m.slug} />
               </div>
               <RecordVisit code={m.code} slug={m.slug} title={title} />
             </>

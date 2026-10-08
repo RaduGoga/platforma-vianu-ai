@@ -1,6 +1,7 @@
 // Programa Vianu AI — modele de date pentru curriculum, resurse, concursuri.
 // Structurat ca date pure ca sa poata fi mutat intr-o baza de date (Supabase) in faza 2.
-// Programa: 24 de sesiuni (S1–S24), grupate in trei parti. Bilingv (RO + EN).
+// Programa: 20 de lectii (codurile S1–S24 au goluri, numerotarea afisata vine
+// din pozitia in lista), grupate in trei parti. Bilingv (RO + EN).
 
 export type Part = "fundamente" | "clasic" | "deep";
 
@@ -31,24 +32,24 @@ export const parts: Record<
   fundamente: {
     label: "Fundamente",
     labelEn: "Foundations",
-    weeks: "Sesiunile 1–7",
-    weeksEn: "Sessions 1–7",
+    weeks: "Lecțiile 1–6",
+    weeksEn: "Lessons 1–6",
     goal: "Setup, ce e AI, cum arată o problemă de concurs, și Python pentru date.",
     goalEn: "Setup, what AI is, what a contest problem looks like, and Python for data.",
   },
   clasic: {
     label: "Machine learning clasic",
     labelEn: "Classic machine learning",
-    weeks: "Sesiunile 8–17",
-    weeksEn: "Sessions 8–17",
+    weeks: "Lecțiile 7–13",
+    weeksEn: "Lessons 7–13",
     goal: "Modelele clasice și evaluarea corectă, plus căutare, NLP și viziune fără rețele.",
     goalEn: "The classic models and honest evaluation, plus search, NLP and vision without neural nets.",
   },
   deep: {
     label: "Deep learning",
     labelEn: "Deep learning",
-    weeks: "Sesiunile 18–24",
-    weeksEn: "Sessions 18–24",
+    weeks: "Lecțiile 14–20",
+    weeksEn: "Lessons 14–20",
     goal: "Rețele neuronale în PyTorch, CNN, embeddings și reinforcement learning.",
     goalEn: "Neural networks in PyTorch, CNNs, embeddings and reinforcement learning.",
   },

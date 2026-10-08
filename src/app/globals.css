@@ -87,6 +87,11 @@
      poata schimba dintr-un loc, ex. la un dark mode) */
   --prose: #33342d;
 
+  /* lățimea coloanei de text din lecții: ~70 de caractere pe rând la mărimea
+     corpului, ca la articolele de pe distill.pub; peste atât, ochiul pierde
+     începutul rândului următor */
+  --measure: 44rem;
+
   /* blocuri de cod: fundal închis + paletă de tokeni pentru highlight */
   --code-bg: #1f2b26;
   --code-fg: #e8ede8;
@@ -286,7 +291,7 @@ html {
   font-family: var(--font-sans);
   font-size: 1.075rem;
   line-height: 1.72;
-  color: #2e2f2b;
+  color: var(--prose);
 }
 .lesson-prose p {
   margin-bottom: 1.05rem;
@@ -295,12 +300,26 @@ html {
   color: var(--foreground);
   font-weight: 600;
 }
-.lesson-prose code {
+/* numele de funcții și de variabile din text, la mono, pe un fond abia
+   vizibil: se recunosc fără să rupă rândul. Doar clasa, nu orice <code>,
+   ca blocurile de cod din <pre> să nu fie atinse. */
+.inline-code {
   font-family: var(--font-mono);
-  font-size: 0.9em;
+  font-size: 0.88em;
+  color: var(--foreground);
   background: var(--secondary);
-  padding: 0.1em 0.35em;
+  padding: 0.08em 0.35em;
   border-radius: 5px;
+  white-space: nowrap;
+}
+
+/* legenda unui bloc de cod sau a unei figuri: mică și liniștită, ca să nu
+   concureze cu textul */
+.caption {
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--muted-foreground);
 }
 
 /* ————— mișcare —————

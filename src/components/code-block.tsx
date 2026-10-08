@@ -100,7 +100,7 @@ export function CodeBlock({
           )}
         </button>
       </div>
-      {caption && <figcaption className="kicker mt-2">{caption}</figcaption>}
+      {caption && <figcaption className="caption mt-2">{caption}</figcaption>}
     </figure>
   );
 }

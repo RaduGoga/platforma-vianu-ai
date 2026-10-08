@@ -9,6 +9,7 @@ import { typeLabel } from "@/data/resources";
 import { RecordVisit } from "@/components/record-visit";
 import { LessonNav } from "@/components/lesson-nav";
 import { CodeBlock } from "@/components/code-block";
+import { renderInline } from "@/components/inline";
 import { LessonBrief } from "@/components/lesson-brief";
 import { LessonDoneRow, LessonStatusControl } from "@/components/lesson-status";
 import { LessonToc, type TocEntry } from "@/components/lesson-toc";
@@ -126,8 +127,8 @@ export function LessonView({
           <LessonNav currentCode={m.code} variant="drawer" />
           {lesson ? (
             <>
-              <p className="lesson-prose max-w-3xl text-xl leading-relaxed text-foreground">
-                {lesson.intro}
+              <p className="lesson-prose max-w-[var(--measure)] text-xl leading-relaxed text-foreground">
+                {renderInline(lesson.intro)}
               </p>
 
               <LessonBrief m={m} toc={toc} />
@@ -317,12 +318,12 @@ function SectionBody({ section }: { section: LessonSection }) {
   const t = useT();
   if (section.blocks && section.blocks.length > 0) {
     return (
-      <div className="mt-4 max-w-3xl">
+      <div className="lesson-body mt-4 max-w-[var(--measure)]">
         {section.blocks.map((b, i) => {
           if ("p" in b)
             return (
               <div key={i} className="lesson-prose">
-                <p>{b.p}</p>
+                <p>{renderInline(b.p)}</p>
               </div>
             );
           if ("list" in b)
@@ -331,7 +332,7 @@ function SectionBody({ section }: { section: LessonSection }) {
                 {b.list.map((li, j) => (
                   <li key={j} className="serif flex gap-3 leading-relaxed text-[color:var(--prose)]">
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/70" />
-                    {li}
+                    <span>{renderInline(li)}</span>
                   </li>
                 ))}
               </ul>
@@ -344,7 +345,7 @@ function SectionBody({ section }: { section: LessonSection }) {
                     <span className="mt-0.5 font-mono text-xs text-primary">
                       {String(j + 1).padStart(2, "0")}
                     </span>
-                    {st}
+                    <span>{renderInline(st)}</span>
                   </li>
                 ))}
               </ol>
@@ -358,16 +359,20 @@ function SectionBody({ section }: { section: LessonSection }) {
                 className="my-5 border-l-2 border-[color:var(--clay)] bg-[color:color-mix(in_srgb,var(--clay)_7%,var(--card))] py-3 pl-4 pr-4"
               >
                 <span className="kicker text-[color:var(--clay)]">{t("Reține", "Remember")}</span>
-                <p className="serif mt-1 leading-relaxed text-[color:var(--prose)]">{b.note}</p>
+                <p className="serif mt-1 leading-relaxed text-[color:var(--prose)]">{renderInline(b.note)}</p>
               </aside>
             );
           if ("formula" in b)
             return (
-              <figure key={i} className="my-5 border border-border bg-secondary/40 px-4 py-4">
-                <div className="overflow-x-auto text-center font-mono text-base text-foreground">
+              <figure key={i} className="my-6 border-y border-border py-5">
+                <div className="overflow-x-auto text-center font-mono text-[1.05rem] text-foreground">
                   {b.formula}
                 </div>
-                {b.explain && <figcaption className="sidenote mt-2 text-center">{b.explain}</figcaption>}
+                {b.explain && (
+                  <figcaption className="sidenote mx-auto mt-3 max-w-prose text-center">
+                    {renderInline(b.explain)}
+                  </figcaption>
+                )}
               </figure>
             );
           return null;
@@ -379,13 +384,13 @@ function SectionBody({ section }: { section: LessonSection }) {
   return (
     <>
       {section.paragraphs && section.paragraphs.length > 0 && (
-        <div className="lesson-prose mt-4 max-w-3xl">
+        <div className="lesson-prose mt-4 max-w-[var(--measure)]">
           {section.paragraphs.map((p, j) => (
-            <p key={j}>{p}</p>
+            <p key={j}>{renderInline(p)}</p>
           ))}
         </div>
       )}
-      {section.code && <CodeBlock code={section.code} className="mt-5 max-w-3xl" />}
+      {section.code && <CodeBlock code={section.code} className="mt-5 max-w-[var(--measure)]" />}
     </>
   );
 }

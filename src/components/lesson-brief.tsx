@@ -23,7 +23,7 @@ export function LessonBrief({ m, toc }: { m: Module; toc: TocEntry[] }) {
     .filter((x): x is Module => Boolean(x));
 
   return (
-    <div className="mt-10 max-w-3xl border-y border-border">
+    <div className="mt-10 max-w-[var(--measure)] border-y border-border">
       <div className="grid gap-x-10 gap-y-7 py-6 sm:grid-cols-[1.35fr_1fr]">
         <div>
           <div className="kicker">{t("Ce înveți", "What you'll learn")}</div>

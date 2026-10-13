@@ -8,8 +8,7 @@ export type Block =
   | { steps: string[] } // listă numerotată (pași)
   | { code: string; caption?: string } // bloc de cod
   | { note: string } // casetă de reținut
-  | { formula: string; explain?: string } // formulă + explicație
-  | { figure: string; caption?: string }; // figură interactivă, după nume (vezi lesson-figure.tsx)
+  | { formula: string; explain?: string }; // formulă + explicație
 
 export interface LessonSection {
   heading: string;

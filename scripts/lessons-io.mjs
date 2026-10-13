@@ -34,9 +34,6 @@
 //   > f = g + h
 //   > explicație opțională
 //
-//   > [!FIGURE] nume-figura        (figură interactivă din src/components/figures)
-//   > legendă opțională
-//
 //   - ...
 //   - ...
 //   # @practice
@@ -59,11 +56,6 @@ function serializeBlock(b) {
   if ("formula" in b) {
     let out = `> [!FORMULA]\n> ${b.formula}`;
     if (b.explain) out += `\n> ${b.explain}`;
-    return out;
-  }
-  if ("figure" in b) {
-    let out = `> [!FIGURE] ${b.figure}`;
-    if (b.caption) out += `\n> ${b.caption}`;
     return out;
   }
   return "";
@@ -130,21 +122,6 @@ function parseBlocks(lines) {
         i++;
       }
       blocks.push({ note: text.join(" ").trim() });
-      continue;
-    }
-    // figură interactivă: numele pe prima linie, legenda pe următoarele
-    if (line.trim().startsWith("> [!FIGURE]")) {
-      const name = line.trim().slice("> [!FIGURE]".length).trim();
-      i++;
-      const quoted = [];
-      while (i < n && lines[i].trim().startsWith(">")) {
-        quoted.push(lines[i].trim().replace(/^>\s?/, ""));
-        i++;
-      }
-      const block = { figure: name };
-      const caption = quoted.join(" ").trim();
-      if (caption) block.caption = caption;
-      blocks.push(block);
       continue;
     }
     // formula

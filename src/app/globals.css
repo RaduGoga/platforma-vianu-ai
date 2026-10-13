@@ -99,8 +99,6 @@
   --part: var(--primary);
   --part-ink: var(--accent-ink);
   --part-tint: var(--accent-tint);
-  /* cremul scutului din marcă: text și linii pe fundalurile colorate */
-  --cream: #eae9cb;
 }
 
 /* un element cu data-part dă culoarea părții la tot ce e în el */
@@ -256,13 +254,6 @@ html {
     font-weight: 600;
     color: var(--part);
   }
-  /* pe o bandă în culoarea părții, eticheta trece pe alb: cremul nu are
-     contrast destul la mărimea asta pe verde și pe ocru, așa că rămâne doar
-     pentru linia de lângă rezumat */
-  .band .kicker {
-    color: #ffffff;
-  }
-
   /* notă de margine */
   .sidenote {
     font-family: var(--font-sans);
@@ -327,30 +318,6 @@ html {
     border-color: color-mix(in srgb, var(--part) 35%, var(--border));
   }
 
-  .chip {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    font-weight: 500;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 0.2rem 0.6rem;
-    color: var(--muted-foreground);
-    white-space: nowrap;
-    background: var(--card);
-  }
-  /* chip cu accent, pentru codul de modul */
-  .code-chip {
-    display: inline-flex;
-    align-items: center;
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--accent-ink);
-    background: var(--accent-tint);
-    padding: 0.25rem 0.55rem;
-    border-radius: 7px;
-  }
-
   /* ————— corpul lecției, la sans, aerisit ————— */
   .lesson-prose {
     font-family: var(--font-sans);
@@ -384,17 +351,12 @@ html {
     overflow-wrap: break-word;
   }
 
-  /* fiecare bloc din corpul lecției stă în coloana de text; doar figurile late
-     (explicațiile la scroll) ies din ea și iau tot articolul */
+  /* fiecare bloc din corpul lecției stă în coloana de text */
   .lesson-body > * {
     max-width: var(--measure);
   }
-  .lesson-body > .wide {
-    max-width: none;
-  }
 
-  /* legenda unui bloc de cod sau a unei figuri: mică și liniștită, ca să nu
-     concureze cu textul */
+  /* legenda unui bloc de cod: mică și liniștită, ca să nu concureze cu textul */
   .caption {
     font-family: var(--font-sans);
     font-size: 0.84rem;
@@ -403,42 +365,6 @@ html {
   }
 }
 
-/* ————— mișcare —————
-   Dezvăluirea la scroll o face browserul, pe timeline-ul de vizibilitate al
-   elementului. Fără JS, fără IntersectionObserver, deci fără conținut rămas
-   ascuns dacă ceva nu se declanșează: starea implicită e „vizibil", iar
-   animația se adaugă doar unde e suportată și doar dacă utilizatorul n-a cerut
-   mai puțină mișcare. */
-@keyframes rise-in {
-  from {
-    opacity: 0.3;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .rise {
-      animation: rise-in linear both;
-      animation-timeline: view();
-      animation-range: entry 10% cover 22%;
-    }
-  }
-}
-
-/* halou moale în spatele titlului, cât să nu fie pagina o coală albă */
-.hero-glow {
-  background:
-    radial-gradient(
-      60% 55% at 50% 38%,
-      color-mix(in srgb, var(--primary) 7%, transparent) 0%,
-      transparent 70%
-    );
-}
 [data-slot="button"] {
   font-family: var(--font-display);
   transition:
@@ -454,10 +380,6 @@ html {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
   border-radius: 6px;
-}
-/* pe banda colorată a lecției, verdele s-ar pierde în fundal */
-.band .focus-ring:focus-visible {
-  outline-color: var(--cream);
 }
 
 /* sari peste navbar direct la conținut; ascuns până primește focus */

@@ -1,32 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Check, List } from "lucide-react";
+import { List } from "lucide-react";
 import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
-import type { LessonStatus } from "@/lib/progress";
 import { useHref, useLang, useT } from "@/components/lang-provider";
-
-// Semnul de stare de lângă titlul lecției: bifă la cele terminate, un punct
-// la cele în lucru, nimic la restul. Semnul e doar desen, așa că starea e
-// spusă și în text, pentru cititoarele de ecran.
-export function StatusMark({ status, className = "" }: { status?: LessonStatus; className?: string }) {
-  const t = useT();
-  if (status === "done")
-    return (
-      <>
-        <Check className={`size-3.5 shrink-0 text-[var(--part)] ${className}`} aria-hidden />
-        <span className="sr-only">{t("terminată", "done")}</span>
-      </>
-    );
-  if (status === "reading")
-    return (
-      <>
-        <span className={`size-1.5 shrink-0 rounded-full bg-[var(--part)]/70 ${className}`} aria-hidden />
-        <span className="sr-only">{t("în lucru", "in progress")}</span>
-      </>
-    );
-  return null;
-}
 
 // Arbore de module în stil docs: sticky pe desktop, sertar pe telefon.
 // Semnătura de organizare — te muți între lecții fără să treci prin cuprins.

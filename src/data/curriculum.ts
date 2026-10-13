@@ -19,8 +19,6 @@ export interface Module {
   topicsEn: string[];
   // resursele se leaga prin id
   resourceIds: string[];
-  // lectiile de care ai nevoie inainte (coduri); lipseste la cele de inceput
-  requires?: string[];
   checkpoint?: string; // punct de control dupa modul (ex. pipeline complet)
   checkpointEn?: string;
 }
@@ -87,7 +85,6 @@ export const modules: Module[] = [
   },
   {
     code: "S2",
-    requires: ["S1"],
     slug: "intro-ai-de-concurs",
     title: "Intro în AI de concurs",
     titleEn: "Intro to contest AI",
@@ -116,7 +113,6 @@ export const modules: Module[] = [
   },
   {
     code: "S3",
-    requires: ["S1"],
     slug: "intro-python",
     title: "Intro în Python",
     titleEn: "Intro to Python",
@@ -143,7 +139,6 @@ export const modules: Module[] = [
   },
   {
     code: "S4",
-    requires: ["S3"],
     slug: "numpy-si-pandas",
     title: "NumPy și Pandas",
     titleEn: "NumPy and Pandas",
@@ -168,7 +163,6 @@ export const modules: Module[] = [
   },
   {
     code: "S6",
-    requires: ["S4"],
     slug: "eda-si-preprocesare",
     title: "EDA și preprocesare",
     titleEn: "EDA and preprocessing",
@@ -195,7 +189,6 @@ export const modules: Module[] = [
   },
   {
     code: "S5",
-    requires: ["S6"],
     slug: "pipeline-complet",
     title: "Pipeline complet",
     titleEn: "The full pipeline",
@@ -223,7 +216,6 @@ export const modules: Module[] = [
   // ————— Machine learning clasic —————
   {
     code: "S8",
-    requires: ["S5"],
     slug: "supervizat-clasic",
     title: "Supervizat clasic",
     titleEn: "Classic supervised learning",
@@ -254,7 +246,6 @@ export const modules: Module[] = [
   },
   {
     code: "S11",
-    requires: ["S8"],
     slug: "evaluare-si-validare",
     title: "Evaluare și validare",
     titleEn: "Evaluation and validation",
@@ -283,7 +274,6 @@ export const modules: Module[] = [
   },
   {
     code: "S13",
-    requires: ["S8", "S11"],
     slug: "ensembles",
     title: "Ensembles",
     titleEn: "Ensembles",
@@ -310,7 +300,6 @@ export const modules: Module[] = [
   },
   {
     code: "S14",
-    requires: ["S4", "S8"],
     slug: "nesupervizat-si-reducere-dimensionala",
     title: "Nesupervizat și reducere dimensională",
     titleEn: "Unsupervised learning and dimensionality reduction",
@@ -341,7 +330,6 @@ export const modules: Module[] = [
   },
   {
     code: "S15",
-    requires: ["S3"],
     slug: "ai-search",
     title: "AI Search",
     titleEn: "AI Search",
@@ -368,7 +356,6 @@ export const modules: Module[] = [
   },
   {
     code: "S16",
-    requires: ["S8"],
     slug: "nlp-clasic",
     title: "NLP clasic",
     titleEn: "Classic NLP",
@@ -397,7 +384,6 @@ export const modules: Module[] = [
   },
   {
     code: "S17",
-    requires: ["S4"],
     slug: "cv-clasic-si-augmentari",
     title: "CV clasic și augmentări",
     titleEn: "Classic CV and augmentation",
@@ -425,7 +411,6 @@ export const modules: Module[] = [
   // ————— Deep learning —————
   {
     code: "S18",
-    requires: ["S8", "S11"],
     slug: "deep-learning-i",
     title: "Deep learning I",
     titleEn: "Deep learning I",
@@ -450,7 +435,6 @@ export const modules: Module[] = [
   },
   {
     code: "S19",
-    requires: ["S18"],
     slug: "deep-learning-ii",
     title: "Deep learning II",
     titleEn: "Deep learning II",
@@ -479,7 +463,6 @@ export const modules: Module[] = [
   },
   {
     code: "S20",
-    requires: ["S19"],
     slug: "deep-learning-iii",
     title: "Deep learning III",
     titleEn: "Deep learning III",
@@ -502,7 +485,6 @@ export const modules: Module[] = [
   },
   {
     code: "S21",
-    requires: ["S20", "S17"],
     slug: "cnn-i",
     title: "CNN I",
     titleEn: "CNN I",
@@ -529,7 +511,6 @@ export const modules: Module[] = [
   },
   {
     code: "S22",
-    requires: ["S21"],
     slug: "cnn-ii-transfer-learning",
     title: "CNN II, transfer learning",
     titleEn: "CNN II, transfer learning",
@@ -554,7 +535,6 @@ export const modules: Module[] = [
   },
   {
     code: "S23",
-    requires: ["S20", "S16"],
     slug: "embeddings-si-secvente",
     title: "Embeddings și secvențe",
     titleEn: "Embeddings and sequences",
@@ -581,7 +561,6 @@ export const modules: Module[] = [
   },
   {
     code: "S24",
-    requires: ["S20"],
     slug: "reinforcement-learning-etica-bias",
     title: "Reinforcement learning, etică și bias",
     titleEn: "Reinforcement learning, ethics and bias",

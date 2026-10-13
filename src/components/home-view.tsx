@@ -6,9 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ContinueCard } from "@/components/continue-card";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 import { CodeBlock } from "@/components/code-block";
-import { StatusMark } from "@/components/lesson-nav";
 import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
-import { countDone, useProgress } from "@/lib/progress";
 
 export function HomeView() {
   const t = useT();
@@ -42,20 +40,9 @@ export function HomeView() {
         </div>
       </section>
 
-      {/* HARTA: cele trei părți ale programei, cu lecțiile și progresul tău */}
+      {/* PROGRAMA: cele trei părți, fiecare cu lecțiile ei */}
       <section className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-        <div className="max-w-2xl">
-          <span className="kicker">
-            {modules.length} {t("de lecții", "lessons")}
-          </span>
-          <h2 className="display mt-2 text-3xl sm:text-4xl">{t("Programa, în trei părți", "The syllabus, in three parts")}</h2>
-          <p className="serif mt-3 text-lg leading-relaxed text-[color:var(--prose)]">
-            {t(
-              "De la Python la rețele neuronale, în ordinea în care le folosești la concurs. Fiecare lecție vine cu cod, probleme de exersat și un notebook de descărcat.",
-              "From Python to neural networks, in the order you use them at the contest. Every lesson comes with code, practice problems and a notebook you can download."
-            )}
-          </p>
-        </div>
+        <h2 className="display text-3xl sm:text-4xl">{t("Programa, în trei părți", "The syllabus, in three parts")}</h2>
         <CurriculumMap en={en} />
       </section>
 
@@ -110,33 +97,18 @@ function CircuitRule() {
   );
 }
 
-// Cele trei părți, una lângă alta, fiecare în culoarea ei: lecțiile ca listă
-// numerotată, cu semnul de stare, și cât din parte ai terminat.
+// Cele trei părți, una lângă alta, fiecare cu linia ei de culoare deasupra:
+// doar numele părții și lecțiile, ca listă numerotată.
 function CurriculumMap({ en }: { en: boolean }) {
-  const t = useT();
   const href = useHref();
-  const { statuses } = useProgress();
 
   return (
     <div className="mt-10 grid gap-10 md:grid-cols-3 md:gap-8">
-      {(Object.keys(parts) as Part[]).map((key, i) => {
+      {(Object.keys(parts) as Part[]).map((key) => {
         const mods = modules.filter((m) => m.part === key);
-        const done = countDone(
-          statuses,
-          mods.map((m) => m.code)
-        );
         return (
-          <div key={key} data-part={key} className="rise border-t-2 border-[var(--part)] pt-4">
-            <div className="flex items-baseline justify-between gap-3">
-              <span className="mono-label text-[var(--part)]">
-                {t("partea", "part")} {i + 1}
-              </span>
-              <span className="mono-label tabular-nums">
-                {done}/{mods.length}
-              </span>
-            </div>
-            <h3 className="display mt-1 text-xl">{en ? parts[key].labelEn : parts[key].label}</h3>
-            <p className="sidenote mt-1.5">{en ? parts[key].goalEn : parts[key].goal}</p>
+          <div key={key} data-part={key} className="border-t-2 border-[var(--part)] pt-4">
+            <h3 className="display text-xl">{en ? parts[key].labelEn : parts[key].label}</h3>
             <ol className="mt-4 border-t border-border">
               {mods.map((m) => (
                 <li key={m.code} className="border-b border-border">
@@ -150,7 +122,6 @@ function CurriculumMap({ en }: { en: boolean }) {
                     <span className="min-w-0 flex-1 text-foreground transition-colors group-hover:text-[var(--part)]">
                       {en ? m.titleEn : m.title}
                     </span>
-                    <StatusMark status={statuses[m.code]} />
                   </Link>
                 </li>
               ))}

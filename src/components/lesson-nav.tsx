@@ -7,12 +7,24 @@ import { countDone, useProgress, type LessonStatus } from "@/lib/progress";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 
 // Semnul de stare de lângă titlul lecției: bifă la cele terminate, un punct
-// la cele în lucru, nimic la restul.
+// la cele în lucru, nimic la restul. Semnul e doar desen, așa că starea e
+// spusă și în text, pentru cititoarele de ecran.
 export function StatusMark({ status, className = "" }: { status?: LessonStatus; className?: string }) {
+  const t = useT();
   if (status === "done")
-    return <Check className={`size-3.5 shrink-0 text-[var(--part)] ${className}`} aria-hidden />;
+    return (
+      <>
+        <Check className={`size-3.5 shrink-0 text-[var(--part)] ${className}`} aria-hidden />
+        <span className="sr-only">{t("terminată", "done")}</span>
+      </>
+    );
   if (status === "reading")
-    return <span className={`size-1.5 shrink-0 rounded-full bg-[var(--part)]/70 ${className}`} aria-hidden />;
+    return (
+      <>
+        <span className={`size-1.5 shrink-0 rounded-full bg-[var(--part)]/70 ${className}`} aria-hidden />
+        <span className="sr-only">{t("în lucru", "in progress")}</span>
+      </>
+    );
   return null;
 }
 
@@ -69,7 +81,7 @@ export function LessonNav({
                           : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                       }`}
                     >
-                      <span className="w-6 shrink-0 num text-[0.72rem] tabular-nums text-[var(--part)] opacity-80">
+                      <span className="w-6 shrink-0 num text-[0.72rem] tabular-nums text-[var(--part)]">
                         {lessonNumber(m.code)}
                       </span>
                       <span className="min-w-0 flex-1 truncate">{en ? m.titleEn : m.title}</span>

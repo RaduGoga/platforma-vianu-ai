@@ -256,9 +256,11 @@ html {
     font-weight: 600;
     color: var(--part);
   }
-  /* pe o bandă în culoarea părții, eticheta trece pe crem */
+  /* pe o bandă în culoarea părții, eticheta trece pe alb: cremul nu are
+     contrast destul la mărimea asta pe verde și pe ocru, așa că rămâne doar
+     pentru linia de lângă rezumat */
   .band .kicker {
-    color: var(--cream);
+    color: #ffffff;
   }
 
   /* notă de margine */
@@ -446,6 +448,10 @@ html {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
   border-radius: 6px;
+}
+/* pe banda colorată a lecției, verdele s-ar pierde în fundal */
+.band .focus-ring:focus-visible {
+  outline-color: var(--cream);
 }
 
 /* sari peste navbar direct la conținut; ascuns până primește focus */

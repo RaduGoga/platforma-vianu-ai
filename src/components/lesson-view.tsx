@@ -84,7 +84,7 @@ export function LessonView({
         <div className="mx-auto max-w-7xl px-5 pb-12 pt-8">
           <Link
             href={href("/programa")}
-            className="focus-ring inline-flex items-center gap-1.5 text-sm text-white/75 transition-colors hover:text-white"
+            className="focus-ring inline-flex min-h-8 items-center gap-1.5 text-sm text-white underline-offset-4 hover:underline"
           >
             <ArrowLeft className="size-4" aria-hidden /> {t("Cuprins", "Contents")}
           </Link>
@@ -105,7 +105,7 @@ export function LessonView({
 
           <h1 className="display mt-4 text-4xl text-white sm:text-6xl">{title}</h1>
 
-          <p className="serif mt-6 max-w-3xl border-l-2 border-[var(--cream)] pl-5 text-lg leading-relaxed text-white/85">
+          <p className="serif mt-6 max-w-3xl border-l-2 border-[var(--cream)] pl-5 text-lg leading-relaxed text-white/95">
             {en ? m.summaryEn ?? m.summary : m.summary}
           </p>
         </div>

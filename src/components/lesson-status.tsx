@@ -77,7 +77,7 @@ export function LessonStatusControl({ code }: { code: string }) {
             tabIndex={selected ? 0 : -1}
             onClick={() => setStatus(code, o.value)}
             onKeyDown={(e) => onKeyDown(e, i)}
-            className={`relative z-10 inline-flex min-h-8 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-3.5 text-[13px] font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 ${
+            className={`relative z-10 inline-flex min-h-8 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-3.5 text-[13px] font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--part)] ${
               selected
                 ? done
                   ? "text-primary-foreground"
@@ -120,7 +120,7 @@ export function LessonDoneRow({
           <button
             type="button"
             onClick={() => setStatus(code, "reading")}
-            className="focus-ring text-sm text-muted-foreground underline-offset-4 hover:underline"
+            className="focus-ring inline-flex min-h-8 items-center text-sm text-muted-foreground underline-offset-4 hover:underline"
           >
             {t("Anulează", "Undo")}
           </button>

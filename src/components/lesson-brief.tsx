@@ -45,9 +45,9 @@ export function LessonBrief({ m, toc }: { m: Module; toc: TocEntry[] }) {
                 <li key={p.code} data-part={p.part}>
                   <Link
                     href={href(`/programa/${p.slug}`)}
-                    className="focus-ring group flex items-baseline gap-2 text-sm"
+                    className="focus-ring group flex min-h-8 items-baseline gap-2 py-1.5 text-sm"
                   >
-                    <span className="shrink-0 num text-xs tabular-nums text-[var(--part)]/80">
+                    <span className="shrink-0 num text-xs tabular-nums text-[var(--part)]">
                       {t("Lecția", "Lesson")} {lessonNumber(p.code)}
                     </span>
                     <span className="text-foreground transition-colors group-hover:text-[var(--part)]">

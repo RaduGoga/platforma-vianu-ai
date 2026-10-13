@@ -46,9 +46,11 @@ export function Echipa() {
         {t("Echipa noastră", "Our team")}
       </h2>
 
+      {/* fiecare card e un subgrid peste patru rânduri comune (poză, nume, notă,
+          linkuri), ca un nume pe două rânduri să nu decaleze restul cardului */}
       <div className="mt-7 grid gap-4 sm:grid-cols-3">
         {team.map((p) => (
-          <div key={p.name} className="card flex flex-col p-5">
+          <div key={p.name} className="card row-span-4 grid grid-rows-subgrid gap-y-0 p-5">
             {p.photo ? (
               <Image
                 src={p.photo}
@@ -67,12 +69,12 @@ export function Echipa() {
             )}
 
             <div className="display mt-4 text-lg leading-snug">{p.name}</div>
-            <p className="mt-2 flex-1 text-sm leading-relaxed text-[var(--muted)]">
+            <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
               {en ? p.noteEn : p.note}
             </p>
 
             {(p.linkedin || p.github) && (
-              <div className="mt-4 flex items-center gap-1">
+              <div className="mt-4 flex items-end gap-1">
                 {p.linkedin && (
                   <Social href={p.linkedin} label={`LinkedIn — ${p.name}`}>
                     <LinkedInIcon />

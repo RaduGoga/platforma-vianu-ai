@@ -2,20 +2,15 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { countDone, getLast, useProgress, PROGRESS_EVENT, type LastLesson } from "@/lib/progress";
+import { getLast, PROGRESS_EVENT, type LastLesson } from "@/lib/progress";
 import { useHref, useT } from "@/components/lang-provider";
-import { lessonNumber, modules } from "@/data/curriculum";
+import { lessonNumber } from "@/data/curriculum";
 
 // Apare pe pagina de start doar dacă ai deschis deja o lecție.
 export function ContinueCard() {
   const [last, setLast] = useState<LastLesson | null>(null);
   const t = useT();
   const href = useHref();
-  const { statuses } = useProgress();
-  const done = countDone(
-    statuses,
-    modules.map((m) => m.code)
-  );
 
   useEffect(() => {
     const sync = () => setLast(getLast());
@@ -36,12 +31,6 @@ export function ContinueCard() {
       <Link href={href(`/programa/${last.slug}`)} className="link-amber focus-ring font-medium">
         {t("Lecția", "Lesson")} {lessonNumber(last.code) ?? last.code} · {last.title}
       </Link>
-      {done > 0 && (
-        <span className="tabular-nums">
-          {" "}
-          · {done}/{modules.length} {t("terminate", "done")}
-        </span>
-      )}
     </p>
   );
 }

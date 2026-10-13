@@ -118,7 +118,9 @@
   --part: var(--part-deep);
   --part-ink: var(--part-deep-ink);
   --part-tint: var(--part-deep-tint);
+}
 
+:root {
   /* cerneala de corp pentru lecții și texte lungi (un singur token, ca să se
      poata schimba dintr-un loc, ex. la un dark mode) */
   --prose: #33342d;

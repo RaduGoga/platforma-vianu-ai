@@ -30,8 +30,8 @@ export function HomeView() {
             </h1>
             <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
               {t(
-                "Platforma clubului de AI de la Colegiul Național de Informatică \"Tudor Vianu\".",
-                "The AI club platform at \"Tudor Vianu\" National College of Computer Science."
+                "Platforma clubului de AI de la Colegiul Național de Informatică „Tudor Vianu”.",
+                "The AI club platform at “Tudor Vianu” National College of Computer Science."
               )}
             </p>
             <div className="mt-8">
@@ -47,7 +47,7 @@ export function HomeView() {
             <figcaption className="caption mt-3 flex flex-wrap items-baseline gap-x-2">
               <span>
                 {t(
-                  "Mută pragul și vezi cum se schimbă precizia și recall-ul.",
+                  "Mută pragul și vezi cum se schimbă precizia și recall-\u2060ul.",
                   "Move the threshold and watch precision and recall change."
                 )}
               </span>
@@ -65,7 +65,9 @@ export function HomeView() {
       {/* HARTA: cele trei părți ale programei, cu lecțiile și progresul tău */}
       <section className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
         <div className="max-w-2xl">
-          <span className="num text-sm text-primary/50">01</span>
+          <span className="kicker">
+            {modules.length} {t("de lecții", "lessons")}
+          </span>
           <h2 className="display mt-2 text-3xl sm:text-4xl">{t("Programa, în trei părți", "The syllabus, in three parts")}</h2>
           <p className="serif mt-3 text-lg leading-relaxed text-[color:var(--prose)]">
             {t(
@@ -80,16 +82,16 @@ export function HomeView() {
       {/* CE E ÎNĂUNTRU: două rânduri cu exemple reale din lecții */}
       <section className="mx-auto max-w-6xl px-5">
         <Row
-          n="02"
+          from="S4"
           title={t("Lecții clare, cu snippeturi de cod", "Clear lessons, with code snippets")}
           body={t(
-            "Fiecare modul are lecția lui: explicația, codul, și resursele la sfârșit.",
+            "Fiecare modul are lecția lui: explicația, codul și resursele la sfârșit.",
             "Every module has its lesson: the explanation, the code, and the resources at the end."
           )}
           visual={<CodeSample t={t} />}
         />
         <Row
-          n="03"
+          from="S11"
           flip
           title={t("Greșeli de evitat", "Mistakes to avoid")}
           body={t(
@@ -180,23 +182,39 @@ function CurriculumMap({ en }: { en: boolean }) {
   );
 }
 
+// Un rând cu un exemplu luat dintr-o lecție; eticheta de sus duce la lecția
+// din care e luat.
 function Row({
-  n,
+  from,
   title,
   body,
   visual,
   flip = false,
 }: {
-  n: string;
+  from: string;
   title: string;
   body: string;
   visual: React.ReactNode;
   flip?: boolean;
 }) {
+  const t = useT();
+  const href = useHref();
+  const { lang } = useLang();
+  const m = modules.find((x) => x.code === from);
+
   return (
     <div className="rise grid items-center gap-8 border-t border-border py-16 lg:grid-cols-2 lg:gap-16 lg:py-20">
       <div className={flip ? "lg:order-2" : ""}>
-        <span className="num text-sm text-primary/50">{n}</span>
+        {m && (
+          <Link
+            href={href(`/programa/${m.slug}`)}
+            data-part={m.part}
+            className="kicker focus-ring inline-flex items-center gap-1 text-[var(--part)] hover:underline"
+          >
+            {t("Din lecția", "From lesson")} {lessonNumber(m.code)} · {lang === "en" ? m.titleEn : m.title}
+            <ArrowUpRight className="size-3" aria-hidden />
+          </Link>
+        )}
         <h2 className="display mt-2 text-3xl sm:text-4xl">{title}</h2>
         <p className="serif mt-3 max-w-md text-lg leading-relaxed text-[color:var(--prose)]">{body}</p>
       </div>
@@ -243,9 +261,7 @@ function PitfallSample({ t }: { t: (ro: string, en: string) => string }) {
 
   return (
     <div className="rounded-xl border border-border bg-card p-6">
-      <div className="mono-label">
-        {t("Lecția", "Lesson")} {lessonNumber("S11")} · {t("greșeli comune", "common mistakes")}
-      </div>
+      <div className="mono-label">{t("Greșeli comune", "Common mistakes")}</div>
       <ul className="mt-4 space-y-3">
         {items.map((p, i) => (
           <li key={i} className="sidenote flex gap-3">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useT } from "@/components/lang-provider";
 
 // Pragul de clasificare, de mișcat cu mâna: scorurile unui model pe o axă,
@@ -43,11 +43,11 @@ function makePoints(): Pt[] {
   return pts;
 }
 
-const W = 640;
+// Lățimea desenului urmează lățimea cutiei, ca o unitate din viewBox să fie
+// un pixel: așa textul rămâne de 11px și pe telefon, în loc să se micșoreze
+// odată cu desenul. Pe server și la prima randare pornim de la 640.
+const W0 = 640;
 const H = 210;
-const X0 = 74;
-const X1 = W - 16;
-const xOf = (s: number) => Math.round((X0 + s * (X1 - X0)) * 100) / 100;
 const fmt = (x: number) => (Number.isFinite(x) ? x.toFixed(2) : "–");
 
 export function ThresholdFigure() {
@@ -55,6 +55,22 @@ export function ThresholdFigure() {
   const id = useId();
   const [thr, setThr] = useState(0.5);
   const points = useMemo(() => makePoints(), []);
+  const boxRef = useRef<HTMLDivElement>(null);
+  const [W, setW] = useState(W0);
+
+  useEffect(() => {
+    const el = boxRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(([entry]) => {
+      setW(Math.round(Math.min(W0, Math.max(280, entry.contentRect.width))));
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const X0 = W < 420 ? 60 : 74;
+  const X1 = W - 16;
+  const xOf = (v: number) => Math.round((X0 + v * (X1 - X0)) * 100) / 100;
 
   let tp = 0,
     fp = 0,
@@ -73,60 +89,64 @@ export function ThresholdFigure() {
 
   const laneY = (p: Pt) => Math.round(((p.positive ? 44 : 112) + p.jitter * 44) * 100) / 100;
   const tx = xOf(thr);
+  // eticheta pragului nu iese din desen când pragul e lângă margini
+  const labelX = Math.min(Math.max(tx, X0 + 30), X1 - 30);
 
   return (
     <div className="rounded-xl border border-border bg-card p-4 sm:p-5">
-      <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" role="img" aria-labelledby={`${id}-title`}>
-        <title id={`${id}-title`}>
-          {t("Scorurile modelului pe o axă, cu pragul de decizie", "Model scores on an axis, with the decision threshold")}
-        </title>
+      <div ref={boxRef}>
+        <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" role="img" aria-labelledby={`${id}-title`}>
+          <title id={`${id}-title`}>
+            {t("Scorurile modelului pe o axă, cu pragul de decizie", "Model scores on an axis, with the decision threshold")}
+          </title>
 
-        {/* zona prezisă pozitiv */}
-        <rect x={tx} y={28} width={Math.max(0, X1 + 8 - tx)} height={140} fill="var(--primary)" opacity={0.06} />
+          {/* zona prezisă pozitiv */}
+          <rect x={tx} y={28} width={Math.max(0, X1 + 8 - tx)} height={140} fill="var(--primary)" opacity={0.06} />
 
-        {/* etichetele rândurilor */}
-        <text x={X0 - 10} y={70} textAnchor="end" className="fill-[color:var(--faint)]" fontSize={11} fontFamily="var(--font-sans)">
-          {t("pozitive", "positive")}
-        </text>
-        <text x={X0 - 10} y={138} textAnchor="end" className="fill-[color:var(--faint)]" fontSize={11} fontFamily="var(--font-sans)">
-          {t("negative", "negative")}
-        </text>
+          {/* etichetele rândurilor */}
+          <text x={X0 - 10} y={70} textAnchor="end" className="fill-[color:var(--faint)]" fontSize={11} fontFamily="var(--font-sans)">
+            {t("pozitive", "positive")}
+          </text>
+          <text x={X0 - 10} y={138} textAnchor="end" className="fill-[color:var(--faint)]" fontSize={11} fontFamily="var(--font-sans)">
+            {t("negative", "negative")}
+          </text>
 
-        {/* axa scorului */}
-        <line x1={X0} x2={X1} y1={178} y2={178} stroke="var(--border-strong)" strokeWidth={1} />
-        {[0, 0.25, 0.5, 0.75, 1].map((v) => (
-          <g key={v}>
-            <line x1={xOf(v)} x2={xOf(v)} y1={178} y2={183} stroke="var(--border-strong)" />
-            <text x={xOf(v)} y={198} textAnchor="middle" fontSize={11} fontFamily="var(--font-sans)" className="fill-[color:var(--faint)]">
-              {v.toFixed(2)}
-            </text>
-          </g>
-        ))}
+          {/* axa scorului */}
+          <line x1={X0} x2={X1} y1={178} y2={178} stroke="var(--border-strong)" strokeWidth={1} />
+          {[0, 0.25, 0.5, 0.75, 1].map((v) => (
+            <g key={v}>
+              <line x1={xOf(v)} x2={xOf(v)} y1={178} y2={183} stroke="var(--border-strong)" />
+              <text x={xOf(v)} y={198} textAnchor="middle" fontSize={11} fontFamily="var(--font-sans)" className="fill-[color:var(--faint)]">
+                {v.toFixed(2)}
+              </text>
+            </g>
+          ))}
 
-        {/* punctele */}
-        {points.map((p, i) => {
-          const pred = p.score >= thr;
-          const color = p.positive ? "var(--primary)" : "var(--clay)";
-          return (
-            <circle
-              key={i}
-              cx={xOf(p.score)}
-              cy={laneY(p)}
-              r={5.5}
-              fill={pred ? color : "var(--card)"}
-              stroke={color}
-              strokeWidth={1.5}
-              opacity={p.positive === pred ? 1 : 0.55}
-            />
-          );
-        })}
+          {/* punctele */}
+          {points.map((p, i) => {
+            const pred = p.score >= thr;
+            const color = p.positive ? "var(--primary)" : "var(--clay)";
+            return (
+              <circle
+                key={i}
+                cx={xOf(p.score)}
+                cy={laneY(p)}
+                r={5.5}
+                fill={pred ? color : "var(--card)"}
+                stroke={color}
+                strokeWidth={1.5}
+                opacity={p.positive === pred ? 1 : 0.55}
+              />
+            );
+          })}
 
-        {/* pragul */}
-        <line x1={tx} x2={tx} y1={26} y2={178} stroke="var(--foreground)" strokeWidth={1.5} strokeDasharray="3 3" />
-        <text x={tx} y={18} textAnchor="middle" fontSize={11.5} fontWeight={600} fontFamily="var(--font-display)" className="fill-[color:var(--foreground)]">
-          {t("prag", "threshold")} {thr.toFixed(2)}
-        </text>
-      </svg>
+          {/* pragul */}
+          <line x1={tx} x2={tx} y1={26} y2={178} stroke="var(--foreground)" strokeWidth={1.5} strokeDasharray="3 3" />
+          <text x={labelX} y={18} textAnchor="middle" fontSize={11.5} fontWeight={600} fontFamily="var(--font-display)" className="fill-[color:var(--foreground)]">
+            {t("prag", "threshold")} {thr.toFixed(2)}
+          </text>
+        </svg>
+      </div>
 
       <label htmlFor={`${id}-range`} className="mt-3 flex items-center gap-3">
         <span className="mono-label shrink-0">{t("prag", "threshold")}</span>

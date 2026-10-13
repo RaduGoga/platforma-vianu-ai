@@ -90,7 +90,7 @@ export function LessonToc({ entries, variant }: { entries: TocEntry[]; variant: 
   }
 
   return (
-    <nav aria-label={t("Pe pagina asta", "On this page")} className="hidden xl:block">
+    <nav aria-label={t("Pe pagina asta", "On this page")} className="hidden h-full xl:block">
       <div className="scroll-fara-bara sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pb-8">
         <div className="mono-label mb-3">{t("Pe pagina asta", "On this page")}</div>
         <ul ref={listRef} className="relative border-l border-border">

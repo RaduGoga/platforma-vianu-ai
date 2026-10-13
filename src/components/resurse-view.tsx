@@ -146,7 +146,7 @@ export function ResurseView() {
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-10 lg:grid-cols-[200px_1fr] lg:gap-14">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-10 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-14">
         {/* colecțiile, ca un cuprins de bibliotecă */}
         <aside className="hidden lg:block">
           <nav className="scroll-fara-bara sticky top-20 max-h-[calc(100vh-6rem)] space-y-0.5 overflow-y-auto pb-8 pr-2 text-sm">

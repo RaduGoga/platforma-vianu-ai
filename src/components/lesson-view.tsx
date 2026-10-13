@@ -139,7 +139,7 @@ export function LessonView({
                 <section
                   key={i}
                   id={sectionIds[i]}
-                  className="mt-14 scroll-mt-24 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8"
+                  className="mt-14 scroll-mt-24 lg:grid lg:grid-cols-[4rem_minmax(0,1fr)] lg:gap-8"
                 >
                   <div className="numeral mb-3 text-4xl lg:mb-0 lg:text-5xl">
                     {String(i + 1).padStart(2, "0")}
@@ -153,7 +153,7 @@ export function LessonView({
 
             </>
           ) : (
-            <section className="lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">
+            <section className="lg:grid lg:grid-cols-[4rem_minmax(0,1fr)] lg:gap-8">
               <div className="numeral mb-3 text-4xl lg:mb-0 lg:text-5xl">§</div>
               <div>
                 <h2 className="display text-2xl sm:text-3xl">{t("Ce se întâmplă", "What happens")}</h2>
@@ -181,7 +181,7 @@ export function LessonView({
           )}
 
           {resources.length > 0 && (
-            <section id="resurse" className="mt-14 scroll-mt-24 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">
+            <section id="resurse" className="mt-14 scroll-mt-24 lg:grid lg:grid-cols-[4rem_minmax(0,1fr)] lg:gap-8">
               <div className="kicker mb-4 lg:mb-0 lg:pt-1">{t("Dacă vrei mai mult", "If you want more")}</div>
               <div>
                 <ul className="divide-y divide-border border-y border-border">
@@ -252,7 +252,7 @@ function PracticeList({ code, problems }: { code: string; problems: PracticeProb
   const done = new Set(solved[code] ?? []);
 
   return (
-    <section id="probleme" className="mt-14 scroll-mt-24 lg:grid lg:grid-cols-[4rem_1fr] lg:gap-8">
+    <section id="probleme" className="mt-14 scroll-mt-24 lg:grid lg:grid-cols-[4rem_minmax(0,1fr)] lg:gap-8">
       <div className="mb-4 lg:mb-0 lg:pt-1">
         <div className="kicker">{t("Probleme practice", "Practice problems")}</div>
         <div className="mono-label mt-1 tabular-nums">

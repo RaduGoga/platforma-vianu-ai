@@ -366,8 +366,8 @@ html {
     font-weight: 600;
   }
   /* numele de funcții și de variabile din text, la mono, pe un fond abia
-     vizibil: se recunosc fără să rupă rândul. Doar clasa, nu orice <code>,
-     ca blocurile de cod din <pre> să nu fie atinse. */
+     vizibil. Doar clasa, nu orice <code>, ca blocurile de cod din <pre> să
+     nu fie atinse. */
   .inline-code {
     font-family: var(--font-mono);
     font-size: 0.88em;
@@ -375,7 +375,13 @@ html {
     background: var(--secondary);
     padding: 0.08em 0.35em;
     border-radius: 5px;
-    white-space: nowrap;
+    /* o bucată întreagă: dacă nu mai încape pe rând, trece cu totul pe rândul
+       următor; se rupe în interior doar când e mai lată decât coloana (un nume
+       lung pe telefon). Line-height-ul mic o ține în rândul paragrafului. */
+    display: inline-block;
+    max-width: 100%;
+    line-height: 1.35;
+    overflow-wrap: break-word;
   }
 
   /* fiecare bloc din corpul lecției stă în coloana de text; doar figurile late

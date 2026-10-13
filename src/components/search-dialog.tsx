@@ -38,6 +38,67 @@ function rank(entries: SearchEntry[], query: string) {
     .map((x) => x.e);
 }
 
+// Fragmentul de text din jurul primei potriviri, cu termenii căutați îngroșați
+// și „…” acolo unde textul e tăiat (indexul păstrează doar primele 180 de
+// caractere din fiecare secțiune).
+function Snippet({ text, terms }: { text: string; terms: string[] }) {
+  const chars = [...text];
+  // forma pliată, caracter cu caracter, ca pozițiile să se potrivească cu textul
+  const pos: number[] = [];
+  let flat = "";
+  chars.forEach((c, i) => {
+    const f = fold(c);
+    flat += f;
+    for (let k = 0; k < f.length; k++) pos.push(i);
+  });
+
+  const hit = new Array<boolean>(chars.length).fill(false);
+  let first = -1;
+  for (const term of terms) {
+    for (let at = flat.indexOf(term); at !== -1; at = flat.indexOf(term, at + 1)) {
+      for (let k = at; k < at + term.length; k++) hit[pos[k]] = true;
+      if (first === -1 || pos[at] < first) first = pos[at];
+    }
+  }
+
+  let from = Math.max(0, first - 40);
+  if (from > 0) {
+    const space = chars.indexOf(" ", from);
+    from = space !== -1 && space < first ? space + 1 : from;
+  }
+  let to = Math.min(chars.length, from + 130);
+  if (to < chars.length) {
+    const space = chars.lastIndexOf(" ", to);
+    to = space > from ? space : to;
+  }
+  const cut = to < chars.length || text.length >= 180;
+
+  const parts: React.ReactNode[] = [];
+  for (let i = from; i < to; ) {
+    let j = i;
+    while (j < to && hit[j] === hit[i]) j++;
+    const piece = chars.slice(i, j).join("");
+    parts.push(
+      hit[i] ? (
+        <b key={i} className="font-semibold text-foreground">
+          {piece}
+        </b>
+      ) : (
+        piece
+      )
+    );
+    i = j;
+  }
+
+  return (
+    <span className="mt-0.5 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
+      {from > 0 && "…"}
+      {parts}
+      {cut && "…"}
+    </span>
+  );
+}
+
 // pe server nu știm platforma, deci scurtătura se afișează abia după hidratare
 const noSubscribe = () => () => {};
 const isMac = () => /Mac|iPhone|iPad/.test(navigator.platform);
@@ -72,6 +133,7 @@ export function SearchDialog({ compact = false }: { compact?: boolean }) {
   }, [open, index]);
 
   const results = index ? rank(index.filter((e) => e.lang === lang), query) : [];
+  const terms = fold(query).split(/\s+/).filter(Boolean);
   const active = Math.min(cursor, Math.max(0, results.length - 1));
 
   const go = (e: SearchEntry) => {
@@ -202,7 +264,7 @@ export function SearchDialog({ compact = false }: { compact?: boolean }) {
                         e.title
                       )}
                     </span>
-                    {e.text && <span className="mt-0.5 line-clamp-1 block text-xs text-muted-foreground">{e.text}</span>}
+                    {e.text && <Snippet text={e.text} terms={terms} />}
                   </span>
                 </li>
               ))

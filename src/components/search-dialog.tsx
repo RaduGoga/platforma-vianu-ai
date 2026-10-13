@@ -116,7 +116,11 @@ export function SearchDialog({ compact = false }: { compact?: boolean }) {
   const mac = useSyncExternalStore(noSubscribe, isMac, unknown);
   const listRef = useRef<HTMLUListElement>(null);
 
+  // în navbar sunt montate două căutări (una pentru telefon, una pentru
+  // desktop, ascunsă din CSS); ⌘K o deschide doar pe cea mare, altfel ar
+  // apărea două ferestre una peste alta
   useEffect(() => {
+    if (compact) return;
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
@@ -125,7 +129,7 @@ export function SearchDialog({ compact = false }: { compact?: boolean }) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [compact]);
 
   useEffect(() => {
     if (!open || index) return;
@@ -213,32 +217,34 @@ export function SearchDialog({ compact = false }: { compact?: boolean }) {
               className="min-h-14 w-full bg-transparent text-base outline-none placeholder:text-[color:var(--faint)]"
               role="combobox"
               aria-expanded={results.length > 0}
-              aria-controls="search-results"
+              aria-controls={results.length > 0 ? "search-results" : undefined}
               aria-activedescendant={results[active] ? `search-opt-${active}` : undefined}
               autoComplete="off"
             />
             <kbd className="hidden num text-[0.68rem] text-[color:var(--faint)] sm:block">esc</kbd>
           </div>
 
-          <ul
-            id="search-results"
-            ref={listRef}
-            role="listbox"
-            className="scroll-fara-bara max-h-[60vh] overflow-y-auto py-2"
-          >
-            {query.trim() === "" ? (
-              <li className="px-4 py-4 text-sm text-muted-foreground">
-                {t(
-                  "Caută după titlu, după secțiune sau după orice cuvânt din text.",
-                  "Search by title, by section or by any word in the text."
-                )}
-              </li>
-            ) : results.length === 0 ? (
-              <li className="px-4 py-4 text-sm text-muted-foreground">
-                {t("N-am găsit nimic pentru", "Nothing found for")} „{query.trim()}”.
-              </li>
-            ) : (
-              results.map((e, i) => (
+          {/* lista cu rol de listbox apare doar când are opțiuni; mesajele de
+              început și de „nimic găsit” stau în afara ei */}
+          {query.trim() === "" ? (
+            <p className="px-4 py-6 text-sm text-muted-foreground">
+              {t(
+                "Caută după titlu, după secțiune sau după orice cuvânt din text.",
+                "Search by title, by section or by any word in the text."
+              )}
+            </p>
+          ) : results.length === 0 ? (
+            <p className="px-4 py-6 text-sm text-muted-foreground" role="status">
+              {t("N-am găsit nimic pentru", "Nothing found for")} „{query.trim()}”.
+            </p>
+          ) : (
+            <ul
+              id="search-results"
+              ref={listRef}
+              role="listbox"
+              className="scroll-fara-bara max-h-[60vh] overflow-y-auto py-2"
+            >
+              {results.map((e, i) => (
                 <li
                   key={`${e.slug}-${e.id}`}
                   id={`search-opt-${i}`}
@@ -267,9 +273,9 @@ export function SearchDialog({ compact = false }: { compact?: boolean }) {
                     {e.text && <Snippet text={e.text} terms={terms} />}
                   </span>
                 </li>
-              ))
-            )}
-          </ul>
+              ))}
+            </ul>
+          )}
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

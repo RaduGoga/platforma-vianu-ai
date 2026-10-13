@@ -1,11 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { useRef } from "react";
-import { ArrowUpRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import { setStatus, useProgress, type LessonStatus } from "@/lib/progress";
-import { useHref, useT } from "@/components/lang-provider";
-import { lessonNumber } from "@/data/curriculum";
+import { useT } from "@/components/lang-provider";
 
 const OPTIONS: { value: LessonStatus; ro: string; en: string }[] = [
   { value: "none", ro: "Neîncepută", en: "Not started" },
@@ -94,16 +92,10 @@ export function LessonStatusControl({ code }: { code: string }) {
   );
 }
 
-// Rândul de la capătul lecției: un singur buton, apoi pasul următor.
-export function LessonDoneRow({
-  code,
-  next,
-}: {
-  code: string;
-  next: { slug: string; title: string; titleEn: string; code: string } | null;
-}) {
+// Rândul de la capătul lecției: un singur buton. Lecția următoare e chiar
+// dedesubt, în navigarea dintre lecții, așa că nu o mai repetăm aici.
+export function LessonDoneRow({ code }: { code: string }) {
   const t = useT();
-  const href = useHref();
   const { statuses } = useProgress();
   const done = statuses[code] === "done";
 
@@ -134,15 +126,6 @@ export function LessonDoneRow({
           <Check className="size-4" aria-hidden />
           {t("Am terminat lecția", "I'm done with this lesson")}
         </button>
-      )}
-      {next && (
-        <Link
-          href={href(`/programa/${next.slug}`)}
-          className="link-amber focus-ring ml-auto inline-flex items-center gap-1 text-sm font-medium"
-        >
-          {t("Urmează", "Up next")}: {t("Lecția", "Lesson")} {lessonNumber(next.code)}
-          <ArrowUpRight className="size-3.5" aria-hidden />
-        </Link>
       )}
     </div>
   );

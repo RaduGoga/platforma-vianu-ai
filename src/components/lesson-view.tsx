@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import type { Lesson, LessonSection, PracticeProblem } from "@/data/lesson-types";
 import type { Module } from "@/data/curriculum";
 import { lessonNumber } from "@/data/curriculum";
@@ -207,9 +207,9 @@ export function LessonView({
             </section>
           )}
 
-          {lesson && <LessonDoneRow code={m.code} next={next} />}
+          {lesson && <LessonDoneRow code={m.code} />}
 
-          <nav className="mt-10 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
+          <nav aria-label={t("Lecția anterioară și următoarea", "Previous and next lesson")} className="mt-12 grid gap-4 sm:grid-cols-2">
             {prev ? (
               <Link href={href(`/programa/${prev.slug}`)} className="focus-ring group py-2">
                 <span className="mono-label inline-flex items-center gap-1">
@@ -225,7 +225,7 @@ export function LessonView({
             {next ? (
               <Link href={href(`/programa/${next.slug}`)} className="focus-ring group py-2 sm:text-right">
                 <span className="mono-label inline-flex w-full items-center justify-start gap-1 sm:justify-end">
-                  {t("Lecția", "Lesson")} {lessonNumber(next.code)} <ArrowUpRight className="size-3" aria-hidden />
+                  {t("Lecția", "Lesson")} {lessonNumber(next.code)} <ArrowRight className="size-3" aria-hidden />
                 </span>
                 <div className="display mt-1 text-lg transition-colors group-hover:text-[var(--part)]">
                   {en ? next.titleEn : next.title}

@@ -33,7 +33,7 @@ export function PageHeader({
     <header className="border-b border-border">
       <div className={`mx-auto ${WIDTH[width]} px-5 pb-10 pt-16 lg:pt-20`}>
         <div className="kicker">{en && eyebrowEn ? eyebrowEn : eyebrow}</div>
-        <h1 className="display mt-4 text-5xl leading-[0.98] sm:text-6xl lg:text-7xl">
+        <h1 className="display mt-4 text-5xl sm:text-6xl lg:text-7xl">
           {en && titleEn ? titleEn : title}
         </h1>
         {intro && (

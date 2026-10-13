@@ -68,7 +68,7 @@ export function Echipa() {
               </span>
             )}
 
-            <div className="display mt-4 text-lg leading-snug">{p.name}</div>
+            <div className="display mt-4 text-lg">{p.name}</div>
             <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
               {en ? p.noteEn : p.note}
             </p>

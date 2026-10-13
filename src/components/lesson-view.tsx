@@ -103,7 +103,7 @@ export function LessonView({
             )}
           </div>
 
-          <h1 className="display mt-4 text-4xl leading-[1] text-white sm:text-6xl">{title}</h1>
+          <h1 className="display mt-4 text-4xl text-white sm:text-6xl">{title}</h1>
 
           <p className="serif mt-6 max-w-3xl border-l-2 border-[var(--cream)] pl-5 text-lg leading-relaxed text-white/85">
             {en ? m.summaryEn ?? m.summary : m.summary}

@@ -284,7 +284,7 @@ function ResourceRow({
       className="focus-ring group block border-b border-border py-4"
     >
       <div className="flex items-baseline gap-3">
-        <h3 className="display text-base leading-snug text-foreground transition-colors group-hover:text-primary">
+        <h3 className="display text-base text-foreground transition-colors group-hover:text-primary">
           {r.title}
         </h3>
         <span className="ml-auto inline-flex shrink-0 items-center gap-1 text-xs text-[var(--faint)] transition-colors group-hover:text-primary">

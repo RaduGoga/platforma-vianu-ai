@@ -199,7 +199,9 @@ html {
   color: var(--accent-ink);
 }
 
-/* ————— tipografie ————— */
+/* ————— titluri —————
+   Stau în afara stratului `components`: așa line-height-ul lor rămâne și
+   lângă o mărime ca `text-6xl`, care altfel ar aduce line-height-ul ei. */
 /* Montserrat e geometric și mai lat decât un grotesk: are nevoie de mai
    puțin tracking negativ și de ceva aer în plus pe linie, altfel se
    lipesc contraformele rotunde. */
@@ -216,9 +218,6 @@ html {
   letter-spacing: -0.03em;
   line-height: 1.02;
 }
-.serif {
-  font-family: var(--font-sans);
-}
 
 /* titlu cu personalitate, folosit punctual (secțiunea echipei).
    Bricolage e un grotesc lat, deci suportă tracking negativ ca Montserrat. */
@@ -229,18 +228,6 @@ html {
   line-height: 1.05;
 }
 
-/* etichetă de secțiune: aceeași familie ca titlurile, fără versale rărite —
-   altfel sare din pagină ca un element de alt design */
-.kicker {
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--part);
-}
-/* pe o bandă în culoarea părții, eticheta trece pe crem */
-.band .kicker {
-  color: var(--cream);
-}
 /* numeral de secțiune, discret, în culoarea părții; la fontul titlurilor, nu
    la mono: mono-ul în afara codului e un tic de design generat */
 .numeral {
@@ -251,137 +238,161 @@ html {
   line-height: 1;
 }
 
-/* notă de margine */
-.sidenote {
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: #4a4b45;
-}
+/* Clasele de mai jos stau în stratul `components`, sub utilitarele Tailwind:
+   așa un `text-[var(--part)]` pus lângă `.mono-label` chiar schimbă culoarea.
+   În afara unui strat, ar fi câștigat ele mereu. */
+@layer components {
+  /* ————— tipografie ————— */
+  .serif {
+    font-family: var(--font-sans);
+  }
 
-/* numere mici de etichetă (numărul lecției, pașii): fontul titlurilor, cifre
-   de lățime egală ca să stea aliniate în liste */
-.num {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
 
-/* etichetă mică, discretă: aceeași familie ca textul, nu mono (numele
-   clasei a rămas, ca să nu schimbăm toate componentele deodată) */
-.mono-label {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--faint);
-}
+  /* etichetă de secțiune: aceeași familie ca titlurile, fără versale rărite —
+     altfel sare din pagină ca un element de alt design */
+  .kicker {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--part);
+  }
+  /* pe o bandă în culoarea părții, eticheta trece pe crem */
+  .band .kicker {
+    color: var(--cream);
+  }
 
-/* linkuri din text */
-.link-amber {
-  color: var(--part);
-  text-decoration: none;
-  box-shadow: inset 0 -1.5px 0 0 color-mix(in srgb, var(--part) 35%, transparent);
-  transition: box-shadow 0.2s ease;
-}
-.link-amber:hover {
-  box-shadow: inset 0 -2px 0 0 var(--part);
-}
+  /* notă de margine */
+  .sidenote {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: #4a4b45;
+  }
 
-/* Coloana de module derulează doar pe ecrane scunde, iar bara desenată de
-   browser era gri, lată și, pe ecranele obișnuite, fără nimic de derulat.
-   O ascundem: rotița și tastatura funcționează în continuare. */
-.scroll-fara-bara {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.scroll-fara-bara::-webkit-scrollbar {
-  display: none;
-}
+  /* numere mici de etichetă (numărul lecției, pașii): fontul titlurilor, cifre
+     de lățime egală ca să stea aliniate în liste */
+  .num {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
 
-.toc-leader {
-  flex: 1;
-  margin: 0 0.6rem 0.3rem;
-  border-bottom: 1.5px dotted var(--border-strong);
-}
+  /* etichetă mică, discretă: aceeași familie ca textul, nu mono (numele
+     clasei a rămas, ca să nu schimbăm toate componentele deodată) */
+  .mono-label {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--faint);
+  }
 
-/* ————— carduri saasframe: bordură subțire, colț rotund, umbră moale ————— */
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  transition: border-color 0.18s ease;
-}
-.card:hover {
-  border-color: color-mix(in srgb, var(--part) 35%, var(--border));
-}
+  /* linkuri din text */
+  .link-amber {
+    color: var(--part);
+    text-decoration: none;
+    box-shadow: inset 0 -1.5px 0 0 color-mix(in srgb, var(--part) 35%, transparent);
+    transition: box-shadow 0.2s ease;
+  }
+  .link-amber:hover {
+    box-shadow: inset 0 -2px 0 0 var(--part);
+  }
 
-.chip {
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 500;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 0.2rem 0.6rem;
-  color: var(--muted-foreground);
-  white-space: nowrap;
-  background: var(--card);
-}
-/* chip cu accent, pentru codul de modul */
-.code-chip {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--accent-ink);
-  background: var(--accent-tint);
-  padding: 0.25rem 0.55rem;
-  border-radius: 7px;
-}
+  /* Coloana de module derulează doar pe ecrane scunde, iar bara desenată de
+     browser era gri, lată și, pe ecranele obișnuite, fără nimic de derulat.
+     O ascundem: rotița și tastatura funcționează în continuare. */
+  .scroll-fara-bara {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scroll-fara-bara::-webkit-scrollbar {
+    display: none;
+  }
 
-/* ————— corpul lecției, la sans, aerisit ————— */
-.lesson-prose {
-  font-family: var(--font-sans);
-  font-size: 1.075rem;
-  line-height: 1.72;
-  color: var(--prose);
-}
-.lesson-prose p {
-  margin-bottom: 1.05rem;
-}
-.lesson-prose strong {
-  color: var(--foreground);
-  font-weight: 600;
-}
-/* numele de funcții și de variabile din text, la mono, pe un fond abia
-   vizibil: se recunosc fără să rupă rândul. Doar clasa, nu orice <code>,
-   ca blocurile de cod din <pre> să nu fie atinse. */
-.inline-code {
-  font-family: var(--font-mono);
-  font-size: 0.88em;
-  color: var(--foreground);
-  background: var(--secondary);
-  padding: 0.08em 0.35em;
-  border-radius: 5px;
-  white-space: nowrap;
-}
+  .toc-leader {
+    flex: 1;
+    margin: 0 0.6rem 0.3rem;
+    border-bottom: 1.5px dotted var(--border-strong);
+  }
 
-/* fiecare bloc din corpul lecției stă în coloana de text; doar figurile late
-   (explicațiile la scroll) ies din ea și iau tot articolul */
-.lesson-body > * {
-  max-width: var(--measure);
-}
-.lesson-body > .wide {
-  max-width: none;
-}
+  /* ————— carduri saasframe: bordură subțire, colț rotund, umbră moale ————— */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color 0.18s ease;
+  }
+  .card:hover {
+    border-color: color-mix(in srgb, var(--part) 35%, var(--border));
+  }
 
-/* legenda unui bloc de cod sau a unei figuri: mică și liniștită, ca să nu
-   concureze cu textul */
-.caption {
-  font-family: var(--font-sans);
-  font-size: 0.84rem;
-  line-height: 1.5;
-  color: var(--muted-foreground);
+  .chip {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+    color: var(--muted-foreground);
+    white-space: nowrap;
+    background: var(--card);
+  }
+  /* chip cu accent, pentru codul de modul */
+  .code-chip {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent-ink);
+    background: var(--accent-tint);
+    padding: 0.25rem 0.55rem;
+    border-radius: 7px;
+  }
+
+  /* ————— corpul lecției, la sans, aerisit ————— */
+  .lesson-prose {
+    font-family: var(--font-sans);
+    font-size: 1.075rem;
+    line-height: 1.72;
+    color: var(--prose);
+  }
+  .lesson-prose p {
+    margin-bottom: 1.05rem;
+  }
+  .lesson-prose strong {
+    color: var(--foreground);
+    font-weight: 600;
+  }
+  /* numele de funcții și de variabile din text, la mono, pe un fond abia
+     vizibil: se recunosc fără să rupă rândul. Doar clasa, nu orice <code>,
+     ca blocurile de cod din <pre> să nu fie atinse. */
+  .inline-code {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    color: var(--foreground);
+    background: var(--secondary);
+    padding: 0.08em 0.35em;
+    border-radius: 5px;
+    white-space: nowrap;
+  }
+
+  /* fiecare bloc din corpul lecției stă în coloana de text; doar figurile late
+     (explicațiile la scroll) ies din ea și iau tot articolul */
+  .lesson-body > * {
+    max-width: var(--measure);
+  }
+  .lesson-body > .wide {
+    max-width: none;
+  }
+
+  /* legenda unui bloc de cod sau a unei figuri: mică și liniștită, ca să nu
+     concureze cu textul */
+  .caption {
+    font-family: var(--font-sans);
+    font-size: 0.84rem;
+    line-height: 1.5;
+    color: var(--muted-foreground);
+  }
 }
 
 /* ————— mișcare —————

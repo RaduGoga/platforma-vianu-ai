@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { ContinueCard } from "@/components/continue-card";
 import { useHref, useLang, useT } from "@/components/lang-provider";
 import { CodeBlock } from "@/components/code-block";
-import { ThresholdFigure } from "@/components/figures/threshold";
 import { StatusMark } from "@/components/lesson-nav";
 import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
 import { countDone, useProgress } from "@/lib/progress";
@@ -16,13 +15,12 @@ export function HomeView() {
   const href = useHref();
   const { lang } = useLang();
   const en = lang === "en";
-  const evaluare = modules.find((m) => m.code === "S11");
 
   return (
     <>
-      {/* HERO: titlul și, lângă el, o figură din lecții pe care o poți mișca */}
+      {/* HERO: titlul, o frază și intrarea în curs */}
       <section className="border-b border-border">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 pb-16 pt-14 lg:grid-cols-[1fr_1.1fr] lg:gap-16 lg:pb-20 lg:pt-20">
+        <div className="mx-auto max-w-6xl px-5 pb-16 pt-16 lg:pb-20 lg:pt-24">
           <div>
             <CircuitRule />
             <h1 className="display-xl mt-7 text-6xl sm:text-7xl" translate="no">
@@ -41,24 +39,6 @@ export function HomeView() {
             </div>
             <ContinueCard />
           </div>
-
-          <figure className="rise">
-            <ThresholdFigure />
-            <figcaption className="caption mt-3 flex flex-wrap items-baseline gap-x-2">
-              <span>
-                {t(
-                  "Mută pragul și vezi cum se schimbă precizia și recall-\u2060ul.",
-                  "Move the threshold and watch precision and recall change."
-                )}
-              </span>
-              {evaluare && (
-                <Link href={href(`/programa/${evaluare.slug}`)} className="link-amber focus-ring inline-flex items-center gap-1">
-                  {t("Din lecția", "From lesson")} {lessonNumber(evaluare.code)}
-                  <ArrowUpRight className="size-3" aria-hidden />
-                </Link>
-              )}
-            </figcaption>
-          </figure>
         </div>
       </section>
 

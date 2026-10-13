@@ -87,7 +87,9 @@ export function CodeBlock({
           type="button"
           onClick={copy}
           aria-label={copied ? t("Copiat", "Copied") : t("Copiază codul", "Copy code")}
-          className="focus-ring absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-md border border-white/15 bg-white/5 px-2 py-1 text-xs text-[color:var(--code-fg)] opacity-70 transition hover:bg-white/10 hover:opacity-100"
+          // fundal opac, cu o umbră în culoarea codului spre stânga: o linie lungă
+          // trece pe sub buton fără să se vadă prin el
+          className="focus-ring absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-md border border-white/15 bg-[color:var(--code-bg)] px-2 py-1 text-xs text-[color:var(--code-fg)]/70 shadow-[-12px_0_10px_2px_var(--code-bg)] transition-colors hover:bg-[color:color-mix(in_srgb,var(--code-bg),white_8%)] hover:text-[color:var(--code-fg)]"
         >
           {copied ? (
             <>

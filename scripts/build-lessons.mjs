@@ -1,7 +1,7 @@
 // Citește content/lessons/Lectia_N.{ro,en}.md și generează lessons.ts + lessons-en.ts.
 // Ordinea lecțiilor vine din curriculum.ts (ordinea modulelor).
 // Rulează automat înainte de dev/build; manual: npm run lessons
-import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync, unlinkSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseLesson } from "./lessons-io.mjs";
@@ -9,10 +9,9 @@ import { parseLesson } from "./lessons-io.mjs";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const contentDir = join(root, "content", "lessons");
 const dataDir = join(root, "src", "data");
-const notebookDir = join(root, "public", "notebooks");
 
 // ordinea codurilor din curriculum (ordinea în care apar în fișier), plus
-// slug-ul și titlul fiecărui modul, pentru notebook-uri
+// slug-ul, titlul și partea fiecărui modul, pentru indexul de căutare
 const curriculum = readFileSync(join(dataDir, "curriculum.ts"), "utf8");
 const order = [...curriculum.matchAll(/code:\s*"([^"]+)"/g)].map((m) => m[1]);
 const slugs = [...curriculum.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
@@ -69,102 +68,6 @@ writeFileSync(
   "utf8"
 );
 console.log(`Generat lessons.ts + lessons-en.ts din ${order.length} lecții.`);
-
-// ————— notebook-uri Jupyter —————
-// Fiecare lecție cu cod devine un .ipynb în public/notebooks: textul în
-// celule markdown, codul în celule de cod, în aceeași ordine ca pe pagină.
-// Se deschid în Colab sau se descarcă; lecțiile fără cod nu primesc notebook.
-
-function blockToMd(b, lang) {
-  if ("p" in b) return b.p;
-  if ("list" in b) return b.list.map((x) => `- ${x}`).join("\n");
-  if ("steps" in b) return b.steps.map((x, i) => `${i + 1}. ${x}`).join("\n");
-  if ("note" in b) return `> **${lang === "en" ? "Remember" : "Reține"}:** ${b.note}`;
-  if ("formula" in b) return `**${b.formula}**${b.explain ? `\n\n${b.explain}` : ""}`;
-  return "";
-}
-
-// Comenzile de terminal din lecții (pip install, python --version) primesc `!`,
-// ca să ruleze și dintr-o celulă de notebook, nu doar din terminal.
-const SHELL = /^(python3?|pip3?|jupyter|sudo|brew|apt|cd)\b/;
-function asCell(code) {
-  const lines = code.split("\n");
-  const shell = lines.filter((l) => l.trim()).every((l) => SHELL.test(l.trim()));
-  return shell ? lines.map((l) => (l.trim() ? `!${l}` : l)).join("\n") : code;
-}
-
-function cell(type, source, id) {
-  const base = { cell_type: type, id, metadata: {}, source: type === "code" ? asCell(source) : source };
-  return type === "code" ? { ...base, execution_count: null, outputs: [] } : base;
-}
-
-function toNotebook({ lesson, number, title, lang }) {
-  const cells = [];
-  let n = 0;
-  const nextId = () => `cell-${++n}`;
-  const nota =
-    lang === "en"
-      ? "The cells below are the code from the lesson, in order. Some of them expect data you load yourself (`df`, `X_train`, `y_train`)."
-      : "Celulele de mai jos sunt codul din lecție, în ordine. Unele presupun date pe care le încarci tu (`df`, `X_train`, `y_train`).";
-  cells.push(
-    cell("markdown", `# ${lang === "en" ? "Lesson" : "Lecția"} ${number} · ${title}\n\n${lesson.intro}\n\n*${nota}*`, nextId())
-  );
-  lesson.sections.forEach((s, i) => {
-    let md = `## ${String(i + 1).padStart(2, "0")} · ${s.heading}`;
-    const flush = () => {
-      if (md) cells.push(cell("markdown", md, nextId()));
-      md = "";
-    };
-    for (const b of s.blocks ?? []) {
-      if ("code" in b) {
-        flush();
-        cells.push(cell("code", b.code, nextId()));
-        if (b.caption) md = `*${b.caption}*`;
-      } else {
-        // figurile interactive n-au echivalent în notebook
-        const piece = blockToMd(b, lang);
-        if (piece) md += (md ? "\n\n" : "") + piece;
-      }
-    }
-    flush();
-  });
-  return {
-    cells,
-    metadata: {
-      kernelspec: { display_name: "Python 3", language: "python", name: "python3" },
-      language_info: { name: "python" },
-    },
-    nbformat: 4,
-    nbformat_minor: 5,
-  };
-}
-
-mkdirSync(notebookDir, { recursive: true });
-for (const f of readdirSync(notebookDir)) if (f.endsWith(".ipynb")) unlinkSync(join(notebookDir, f));
-
-const generated = [];
-for (const lang of ["ro", "en"]) {
-  loadLessons(lang).forEach((lesson, i) => {
-    const hasCode = lesson.sections.some((s) => (s.blocks ?? []).some((b) => "code" in b));
-    if (!hasCode) return;
-    const file = `${slugs[i]}.${lang}.ipynb`;
-    const nb = toNotebook({ lesson, number: i + 1, title: lang === "en" ? titlesEn[i] : titles[i], lang });
-    writeFileSync(join(notebookDir, file), JSON.stringify(nb, null, 1) + "\n", "utf8");
-    generated.push(`${slugs[i]}.${lang}`);
-  });
-}
-
-writeFileSync(
-  join(dataDir, "notebooks.ts"),
-  `// AUTO-GENERAT de scripts/build-lessons.mjs — NU edita direct.
-// Lecțiile care au notebook în public/notebooks (cele cu cel puțin un bloc de cod).
-export const notebooks = new Set<string>(${JSON.stringify(generated, null, 2)});
-
-export const hasNotebook = (slug: string, lang: string) => notebooks.has(\`\${slug}.\${lang}\`);
-`,
-  "utf8"
-);
-console.log(`Generat ${generated.length} notebook-uri în public/notebooks.`);
 
 // ————— indexul de căutare —————
 // O intrare pe secțiune (plus una pe lecție, pentru titlu), cu un fragment de

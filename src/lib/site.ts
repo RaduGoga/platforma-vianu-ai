@@ -3,6 +3,3 @@
 // sitemap.xml și robots.txt — dacă ar fi scris separat în fiecare, ar ajunge
 // inevitabil să spună lucruri diferite.
 export const SITE_URL = "https://vianu-ai.ro";
-
-// Notebook-urile generate din lecții stau în public/notebooks.
-export const notebookPath = (slug: string, lang: string) => `/notebooks/${slug}.${lang}.ipynb`;

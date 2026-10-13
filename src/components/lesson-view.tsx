@@ -160,7 +160,7 @@ export function LessonView({
                 <ul className="mt-5 space-y-3">
                   {topics.map((tp, i) => (
                     <li key={i} className="sidenote flex gap-3">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--part)]" />
                       {tp}
                     </li>
                   ))}
@@ -174,8 +174,8 @@ export function LessonView({
           )}
 
           {checkpoint && (
-            <div className="mt-12 border-l-2 border-primary bg-[color:color-mix(in_srgb,var(--primary)_6%,var(--card))] p-5">
-              <div className="display text-primary">{t("Punct de control", "Checkpoint")}</div>
+            <div className="mt-12 border-l-2 border-[var(--part)] bg-[color:color-mix(in_srgb,var(--part)_6%,var(--card))] p-5">
+              <div className="display text-[var(--part)]">{t("Punct de control", "Checkpoint")}</div>
               <p className="serif mt-1 text-[color:var(--prose)]">{checkpoint}</p>
             </div>
           )}
@@ -193,7 +193,7 @@ export function LessonView({
                         rel="noopener noreferrer"
                         className="focus-ring group flex items-baseline justify-between gap-3 py-2.5"
                       >
-                        <span className="text-sm text-foreground transition-colors group-hover:text-primary">
+                        <span className="text-sm text-foreground transition-colors group-hover:text-[var(--part)]">
                           {r.title}
                         </span>
                         <span className="mono-label inline-flex shrink-0 items-center gap-1 text-muted-foreground">
@@ -215,7 +215,7 @@ export function LessonView({
                 <span className="mono-label inline-flex items-center gap-1">
                   <ArrowLeft className="size-3" aria-hidden /> {t("Lecția", "Lesson")} {lessonNumber(prev.code)}
                 </span>
-                <div className="display mt-1 text-lg transition-colors group-hover:text-primary">
+                <div className="display mt-1 text-lg transition-colors group-hover:text-[var(--part)]">
                   {en ? prev.titleEn : prev.title}
                 </div>
               </Link>
@@ -227,7 +227,7 @@ export function LessonView({
                 <span className="mono-label inline-flex w-full items-center justify-start gap-1 sm:justify-end">
                   {t("Lecția", "Lesson")} {lessonNumber(next.code)} <ArrowUpRight className="size-3" aria-hidden />
                 </span>
-                <div className="display mt-1 text-lg transition-colors group-hover:text-primary">
+                <div className="display mt-1 text-lg transition-colors group-hover:text-[var(--part)]">
                   {en ? next.titleEn : next.title}
                 </div>
               </Link>
@@ -277,8 +277,8 @@ function PracticeList({ code, problems }: { code: string; problems: PracticeProb
                     aria-hidden
                     className={`inline-flex size-[18px] items-center justify-center rounded-[5px] border transition-colors duration-150 ${
                       isDone
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : "border-[color:var(--border-strong)] bg-card group-hover/check:border-primary"
+                        ? "border-[var(--part)] bg-[var(--part)] text-primary-foreground"
+                        : "border-[color:var(--border-strong)] bg-card group-hover/check:border-[var(--part)]"
                     }`}
                   >
                     <Check
@@ -291,13 +291,13 @@ function PracticeList({ code, problems }: { code: string; problems: PracticeProb
                     href={pr.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`focus-ring group flex min-w-0 flex-1 items-baseline justify-between gap-3 py-1 text-sm transition-colors group-hover:text-primary ${
+                    className={`focus-ring group flex min-w-0 flex-1 items-baseline justify-between gap-3 py-1 text-sm transition-colors group-hover:text-[var(--part)] ${
                       isDone ? "text-muted-foreground" : "text-foreground"
                     }`}
                   >
-                    <span className="transition-colors group-hover:text-primary">{pr.title}</span>
+                    <span className="transition-colors group-hover:text-[var(--part)]">{pr.title}</span>
                     <ArrowUpRight
-                      className="size-3.5 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+                      className="size-3.5 shrink-0 text-muted-foreground transition-colors group-hover:text-[var(--part)]"
                       aria-hidden
                     />
                   </a>
@@ -333,7 +333,7 @@ function SectionBody({ section }: { section: LessonSection }) {
               <ul key={i} className="my-4 space-y-2">
                 {b.list.map((li, j) => (
                   <li key={j} className="serif flex gap-3 leading-relaxed text-[color:var(--prose)]">
-                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/70" />
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--part)]/70" />
                     <span>{renderInline(li)}</span>
                   </li>
                 ))}
@@ -344,7 +344,7 @@ function SectionBody({ section }: { section: LessonSection }) {
               <ol key={i} className="my-4 space-y-2.5">
                 {b.steps.map((st, j) => (
                   <li key={j} className="serif flex gap-3 leading-relaxed text-[color:var(--prose)]">
-                    <span className="mt-0.5 num text-xs text-primary">
+                    <span className="mt-0.5 num text-xs text-[var(--part)]">
                       {String(j + 1).padStart(2, "0")}
                     </span>
                     <span>{renderInline(st)}</span>

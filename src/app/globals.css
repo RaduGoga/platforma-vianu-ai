@@ -278,13 +278,13 @@ html {
 
 /* linkuri din text */
 .link-amber {
-  color: var(--primary);
+  color: var(--part);
   text-decoration: none;
-  box-shadow: inset 0 -1.5px 0 0 color-mix(in srgb, var(--primary) 35%, transparent);
+  box-shadow: inset 0 -1.5px 0 0 color-mix(in srgb, var(--part) 35%, transparent);
   transition: box-shadow 0.2s ease;
 }
 .link-amber:hover {
-  box-shadow: inset 0 -2px 0 0 var(--primary);
+  box-shadow: inset 0 -2px 0 0 var(--part);
 }
 
 /* Coloana de module derulează doar pe ecrane scunde, iar bara desenată de
@@ -312,7 +312,7 @@ html {
   transition: border-color 0.18s ease;
 }
 .card:hover {
-  border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
+  border-color: color-mix(in srgb, var(--part) 35%, var(--border));
 }
 
 .chip {

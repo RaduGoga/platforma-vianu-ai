@@ -19,7 +19,7 @@ export function NotebookLink({ slug }: { slug: string }) {
       <a
         href={notebookPath(slug, nbLang)}
         download={`${slug}.${nbLang}.ipynb`}
-        className="focus-ring inline-flex min-h-8 items-center gap-1.5 rounded-full border border-border bg-card px-3.5 text-[13px] font-medium text-foreground transition-colors hover:border-primary hover:text-primary"
+        className="focus-ring inline-flex min-h-8 items-center gap-1.5 rounded-full border border-border bg-card px-3.5 text-[13px] font-medium text-foreground transition-colors hover:border-[var(--part)] hover:text-[var(--part)]"
       >
         <Download className="size-3.5" aria-hidden />
         {t("Descarcă notebook-ul", "Download the notebook")}

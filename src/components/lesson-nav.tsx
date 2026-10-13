@@ -10,9 +10,9 @@ import { useHref, useLang, useT } from "@/components/lang-provider";
 // la cele în lucru, nimic la restul.
 export function StatusMark({ status, className = "" }: { status?: LessonStatus; className?: string }) {
   if (status === "done")
-    return <Check className={`size-3.5 shrink-0 text-primary ${className}`} aria-hidden />;
+    return <Check className={`size-3.5 shrink-0 text-[var(--part)] ${className}`} aria-hidden />;
   if (status === "reading")
-    return <span className={`size-1.5 shrink-0 rounded-full bg-primary/70 ${className}`} aria-hidden />;
+    return <span className={`size-1.5 shrink-0 rounded-full bg-[var(--part)]/70 ${className}`} aria-hidden />;
   return null;
 }
 
@@ -100,7 +100,7 @@ export function LessonNav({
     <details className="group mb-8 rounded-xl border border-border bg-card lg:hidden">
       <summary className="focus-ring flex cursor-pointer list-none items-center justify-between gap-3 p-4">
         <span className="flex min-w-0 items-center gap-2.5">
-          <List className="size-4 shrink-0 text-primary" aria-hidden />
+          <List className="size-4 shrink-0 text-[var(--part)]" aria-hidden />
           <span className="min-w-0">
             <span className="mono-label block">{t("Toate lecțiile", "All lessons")}</span>
             {current && (

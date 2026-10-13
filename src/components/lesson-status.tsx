@@ -59,7 +59,7 @@ export function LessonStatusControl({ code }: { code: string }) {
       <span
         aria-hidden
         className={`absolute inset-y-[3px] left-[3px] w-[calc((100%-6px)/3)] rounded-full shadow-[0_1px_2px_rgba(15,18,17,0.12)] transition-[transform,background-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
-          done ? "bg-primary" : "bg-card"
+          done ? "bg-[var(--part)]" : "bg-card"
         }`}
         style={{ transform: `translateX(${index * 100}%)` }}
       />
@@ -111,8 +111,8 @@ export function LessonDoneRow({
     <div className="mt-16 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-border pt-8">
       {done ? (
         <>
-          <span className="inline-flex items-center gap-2 text-sm font-medium text-[color:var(--accent-ink)]">
-            <span className="inline-flex size-5 items-center justify-center rounded-full bg-primary text-primary-foreground">
+          <span className="inline-flex items-center gap-2 text-sm font-medium text-[var(--part-ink)]">
+            <span className="inline-flex size-5 items-center justify-center rounded-full bg-[var(--part)] text-primary-foreground">
               <Check className="size-3" aria-hidden />
             </span>
             {t("Lecție terminată", "Lesson done")}
@@ -129,7 +129,7 @@ export function LessonDoneRow({
         <button
           type="button"
           onClick={() => setStatus(code, "done")}
-          className="focus-ring inline-flex min-h-10 items-center gap-2 rounded-full bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-[color:var(--accent-ink)]"
+          className="focus-ring inline-flex min-h-10 items-center gap-2 rounded-full bg-[var(--part)] px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-[var(--part-ink)]"
         >
           <Check className="size-4" aria-hidden />
           {t("Am terminat lecția", "I'm done with this lesson")}

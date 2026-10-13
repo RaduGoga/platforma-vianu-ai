@@ -30,7 +30,7 @@ export function LessonBrief({ m, toc }: { m: Module; toc: TocEntry[] }) {
           <ul className="mt-3 space-y-2">
             {topics.map((tp, i) => (
               <li key={i} className="sidenote flex gap-3">
-                <span className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
+                <span className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--part)]" aria-hidden />
                 {tp}
               </li>
             ))}
@@ -42,15 +42,15 @@ export function LessonBrief({ m, toc }: { m: Module; toc: TocEntry[] }) {
           {prereqs.length > 0 ? (
             <ul className="mt-3 space-y-2">
               {prereqs.map((p) => (
-                <li key={p.code}>
+                <li key={p.code} data-part={p.part}>
                   <Link
                     href={href(`/programa/${p.slug}`)}
                     className="focus-ring group flex items-baseline gap-2 text-sm"
                   >
-                    <span className="shrink-0 num text-xs tabular-nums text-primary/80">
+                    <span className="shrink-0 num text-xs tabular-nums text-[var(--part)]/80">
                       {t("Lecția", "Lesson")} {lessonNumber(p.code)}
                     </span>
-                    <span className="text-foreground transition-colors group-hover:text-primary">
+                    <span className="text-foreground transition-colors group-hover:text-[var(--part)]">
                       {en ? p.titleEn : p.title}
                     </span>
                     <StatusMark status={statuses[p.code]} className="self-center" />

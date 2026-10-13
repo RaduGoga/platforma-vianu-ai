@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import { modules, parts, lessonNumber, type Part } from "@/data/curriculum";
 import { lessonByModule } from "@/data/lessons";
 import { lessonByModuleEn } from "@/data/lessons-en";
@@ -84,14 +83,16 @@ export function ProgramaList() {
                       <span className="toc-leader hidden sm:block" aria-hidden />
                       {lesson && (
                         <span className="ml-auto hidden shrink-0 sm:block">
-                          <Badge variant="secondary">{lesson.duration}</Badge>
+                          <span className="rounded-full bg-[var(--part-tint)] px-2.5 py-0.5 text-xs font-medium text-[var(--part-ink)]">
+                            {lesson.duration}
+                          </span>
                         </span>
                       )}
                     </Link>
 
                     {m.checkpoint && (
-                      <div className="flex items-center gap-3 border-b border-border bg-[color-mix(in_srgb,var(--primary)_5%,transparent)] py-3 pl-1">
-                        <span className="ml-1 h-2 w-2 rotate-45 bg-primary" aria-hidden />
+                      <div className="flex items-center gap-3 border-b border-border bg-[color-mix(in_srgb,var(--part)_5%,transparent)] py-3 pl-1">
+                        <span className="ml-1 h-2 w-2 rotate-45 bg-[var(--part)]" aria-hidden />
                         <span className="text-xs text-muted-foreground">
                           {en ? m.checkpointEn ?? m.checkpoint : m.checkpoint}
                         </span>

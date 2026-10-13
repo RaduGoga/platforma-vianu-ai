@@ -23,7 +23,7 @@ export async function generateMetadata({
 export default function ProgramaPage() {
   return (
     <>
-      <PageHeader eyebrow="Cuprins" eyebrowEn="Contents" title="Lecții" titleEn="Lessons" />
+      <PageHeader eyebrow="Cuprins" eyebrowEn="Contents" title="Lecții" titleEn="Lessons" width="4xl" />
 
       <div className="mx-auto max-w-4xl px-5 py-14">
         <ProgramaList />

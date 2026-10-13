@@ -29,6 +29,7 @@ export default function DesprePage() {
         title="Vianu AI"
         intro="Clubul de AI din cadrul Colegiului Național de Informatică Tudor Vianu"
         introEn="The AI club at Tudor Vianu National College of Computer Science"
+        width="3xl"
       />
       <DespreView />
     </>

@@ -17,10 +17,10 @@ function useActiveId(key: string) {
 
   useEffect(() => {
     const ids = key ? key.split("|") : [];
-    let ticking = false;
+    let frame = 0;
 
     const update = () => {
-      ticking = false;
+      frame = 0;
       const line = Math.min(window.innerHeight * 0.3, 240) + 48;
       let current = ids[0] ?? null;
       for (const id of ids) {
@@ -34,9 +34,8 @@ function useActiveId(key: string) {
       setActive(current);
     };
     const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(update);
+      if (frame) return;
+      frame = requestAnimationFrame(update);
     };
 
     update();
@@ -45,6 +44,7 @@ function useActiveId(key: string) {
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(frame);
     };
   }, [key]);
 

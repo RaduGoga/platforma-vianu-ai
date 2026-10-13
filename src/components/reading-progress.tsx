@@ -14,10 +14,10 @@ export function ReadingProgress({ part }: { part?: Part }) {
   const fill = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let ticking = false;
+    let frame = 0;
 
     const update = () => {
-      ticking = false;
+      frame = 0;
       const el = fill.current;
       if (!el) return;
       const h = document.documentElement;
@@ -29,9 +29,8 @@ export function ReadingProgress({ part }: { part?: Part }) {
 
     // un singur update pe cadru, oricâte evenimente de scroll ar veni
     const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(update);
+      if (frame) return;
+      frame = requestAnimationFrame(update);
     };
 
     update();
@@ -40,6 +39,7 @@ export function ReadingProgress({ part }: { part?: Part }) {
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      cancelAnimationFrame(frame);
     };
   }, []);
 

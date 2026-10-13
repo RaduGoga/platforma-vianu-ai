@@ -22,10 +22,22 @@ export interface Progress {
   solved: Record<string, number[]>;
 }
 
+// Copia din memorie a tot ce am scris în sesiunea asta. Dacă localStorage e
+// blocat (mod privat, cotă plină), bifele și starea țin măcar cât e pagina
+// deschisă, în loc să sară înapoi imediat după click.
+const memory = new Map<string, string>();
+
 function read<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
+  let raw = memory.get(key) ?? null;
+  if (!memory.has(key)) {
+    try {
+      raw = window.localStorage.getItem(key);
+    } catch {
+      // stocare blocată: rămâne ce e în memorie, adică nimic
+    }
+  }
   try {
-    const raw = window.localStorage.getItem(key);
     return raw ? (JSON.parse(raw) as T) : fallback;
   } catch {
     return fallback;
@@ -34,10 +46,12 @@ function read<T>(key: string, fallback: T): T {
 
 function write(key: string, value: unknown) {
   if (typeof window === "undefined") return;
+  const raw = JSON.stringify(value);
+  memory.set(key, raw);
   try {
-    window.localStorage.setItem(key, JSON.stringify(value));
+    window.localStorage.setItem(key, raw);
   } catch {
-    // stocare blocată (mod privat, cotă plină): starea rămâne doar în memorie
+    // stocare blocată: starea rămâne doar în memorie
   }
   cache = null;
   window.dispatchEvent(new Event(PROGRESS_EVENT));
@@ -89,11 +103,17 @@ function subscribe(onChange: () => void) {
     cache = null;
     onChange();
   };
+  // alt tab a scris în localStorage: valoarea de acolo e mai nouă decât copia
+  const onStorage = (e: StorageEvent) => {
+    if (e.key === null) memory.clear();
+    else memory.delete(e.key);
+    handle();
+  };
   window.addEventListener(PROGRESS_EVENT, handle);
-  window.addEventListener("storage", handle);
+  window.addEventListener("storage", onStorage);
   return () => {
     window.removeEventListener(PROGRESS_EVENT, handle);
-    window.removeEventListener("storage", handle);
+    window.removeEventListener("storage", onStorage);
   };
 }
 

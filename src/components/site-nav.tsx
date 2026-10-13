@@ -9,6 +9,7 @@ import { useHref, useT } from "@/components/lang-provider";
 import { LangToggle } from "@/components/lang-toggle";
 import { ReadingProgress } from "@/components/reading-progress";
 import { SearchDialog } from "@/components/search-dialog";
+import { modules } from "@/data/curriculum";
 
 const links = [
   { href: "/programa", ro: "Lecții", en: "Lessons" },
@@ -25,10 +26,11 @@ export function SiteNav() {
   const path = pathname.replace(/^\/(ro|en)(?=\/|$)/, "") || "/";
   // bara de progres apare doar pe pagina unei lecții
   const peLectie = path.startsWith("/programa/");
+  const lectie = peLectie ? modules.find((m) => `/programa/${m.slug}` === path) : undefined;
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background">
-      {peLectie && <ReadingProgress />}
+      {peLectie && <ReadingProgress part={lectie?.part} />}
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
         <Link href={href("/")} className="focus-ring flex shrink-0 items-center gap-2.5" aria-label="Vianu AI">
           <Image

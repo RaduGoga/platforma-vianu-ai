@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import type { Part } from "@/data/curriculum";
 
 // Bara de progres la citit. Se randează în interiorul navbarului (care e
 // `sticky`, deci e containing block), ancorată de marginea lui de jos — așa nu
@@ -9,7 +10,7 @@ import { useEffect, useRef } from "react";
 // Varianta veche stătea la `top: 57px` fix, dar navbarul are 61px și z-50 față
 // de z-40 al barei: odată lipită, intra sub navbar și dispărea. De aici părea
 // că nu se mișcă decât când te întorceai sus.
-export function ReadingProgress() {
+export function ReadingProgress({ part }: { part?: Part }) {
   const fill = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,10 +44,10 @@ export function ReadingProgress() {
   }, []);
 
   return (
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px]" aria-hidden>
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px]" data-part={part} aria-hidden>
       <div
         ref={fill}
-        className="h-full w-full origin-left bg-primary transition-none"
+        className="h-full w-full origin-left bg-[var(--part)] transition-none"
         style={{ transform: "scaleX(0)" }}
       />
     </div>

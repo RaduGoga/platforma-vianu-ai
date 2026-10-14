@@ -49,8 +49,7 @@
 
   /* `@theme inline` substituie valorile în utilitare și nu emite custom
      properties, așa că var(--font-display) din CSS-ul scris de mână nu s-ar
-     rezolva. Le declarăm și aici. Depind de variabilele next/font, care de
-     asta stau pe <html> (vezi layout.tsx). */
+     rezolva. Le declarăm și aici. Depind de variabilele din fonts.css. */
   --font-display: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
   --font-fun: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;

@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat, Schibsted_Grotesk, JetBrains_Mono, Bricolage_Grotesque } from "next/font/google";
 import { notFound } from "next/navigation";
+import "../fonts.css";
 import "../globals.css";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
@@ -8,37 +8,6 @@ import { ScrollTop } from "@/components/scroll-top";
 import { LangProvider } from "@/components/lang-provider";
 import { LOCALES, isLocale, altLanguages, type Locale } from "@/lib/i18n";
 import { SITE_URL } from "@/lib/site";
-
-// latin-ext e obligatoriu: ă, ș, ț nu sunt în subsetul "latin", iar fără el
-// site-ul cade pe fontul de sistem exact pe diacriticele românești.
-const montserrat = Montserrat({
-  subsets: ["latin", "latin-ext"],
-  weight: ["500", "600", "700", "800"],
-  variable: "--font-montserrat",
-  display: "swap",
-});
-
-const schibsted = Schibsted_Grotesk({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-schibsted",
-  display: "swap",
-});
-
-// accent cu personalitate, folosit doar pe titlul echipei
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin", "latin-ext"],
-  weight: ["700"],
-  variable: "--font-bricolage",
-  display: "swap",
-});
-
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
 
 const COPY = {
   ro: {
@@ -113,10 +82,9 @@ export default async function LangLayout({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
 
-  // Variabilele next/font stau pe <html>, nu pe <body>: `--font-sans` &co. sunt
-  // declarate la :root, iar o custom property se rezolvă acolo unde e declarată.
+  // fonturile și variabilele lor (--font-montserrat &co.) vin din fonts.css
   return (
-    <html lang={lang} className={`${montserrat.variable} ${schibsted.variable} ${jetbrains.variable} ${bricolage.variable}`}>
+    <html lang={lang}>
       {/* extensiile de browser (Grammarly &co.) injectează atribute pe body
           înainte să hidrateze React; fără asta apare un warning de hidratare
           care nu vine din codul nostru */}

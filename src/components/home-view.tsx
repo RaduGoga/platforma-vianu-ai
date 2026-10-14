@@ -14,20 +14,21 @@ export function HomeView() {
 
   return (
     <>
-      {/* HERO: titlul, o frază și intrarea în curs */}
+      {/* HERO: titlul, o frază și intrarea în curs, pe axa paginii; ornamentul
+          de cablaj e simetric, așa că deasupra titlului stă ca un blazon */}
       <section className="border-b border-border">
-        <div className="mx-auto max-w-6xl px-5 pb-16 pt-16 lg:pb-20 lg:pt-24">
+        <div className="mx-auto flex max-w-3xl flex-col items-center px-5 pb-16 pt-16 text-center sm:pb-20 sm:pt-24 lg:pb-24 lg:pt-28">
           <CircuitRule />
-          <h1 className="display-xl mt-7 text-6xl sm:text-7xl" translate="no">
+          <h1 className="display-xl mt-8 text-6xl sm:text-8xl" translate="no">
             Vianu AI
           </h1>
-          <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
+          <p className="mt-6 max-w-md text-balance text-lg leading-relaxed text-muted-foreground">
             {t(
               "Platforma clubului de AI de la Colegiul Național de Informatică „Tudor Vianu”.",
               "The AI club platform at “Tudor Vianu” National College of Computer Science."
             )}
           </p>
-          <div className="mt-8">
+          <div className="mt-9">
             <Button asChild size="lg" className="rounded-full px-7">
               <Link href={href("/programa")}>{t("Deschide cursul", "Open the course")}</Link>
             </Button>
@@ -38,7 +39,9 @@ export function HomeView() {
 
       {/* PROGRAMA: cele trei părți, fiecare cu lecțiile ei */}
       <section className="mx-auto max-w-6xl px-5 py-16 lg:py-20">
-        <h2 className="display text-3xl sm:text-4xl">{t("Programa, în trei părți", "The syllabus, in three parts")}</h2>
+        <h2 className="display text-center text-3xl sm:text-4xl">
+          {t("Programa, în trei părți", "The syllabus, in three parts")}
+        </h2>
         <CurriculumMap en={en} />
       </section>
     </>

@@ -36,6 +36,19 @@ Dacă îți alegi modelul după scorul public, ajungi să te potrivești pe acea
 > [!NOTE]
 > Apărarea e o validare locală serioasă. Îți ții o parte din datele de antrenament deoparte, ca test propriu, și te încrezi în scorul de acolo mai mult decât în leaderboardul public. La final alegi submisiile pe scorul local, nu pe cel public.
 
+## Regulile de la ONIA
+Din regulamentul olimpiadei, câteva lucruri pe care e bine să le știi dinainte:
+
+- Proba durează patru ore.
+- Soluția unei probleme are două părți: fișierul cu răspunsul și codul Python care l-a produs. Le trimiți pe amândouă pe platformă.
+- Numărul de submisii e limitat, iar între două submisii trebuie să treacă un timp minim. Le afli odată cu subiectele.
+- Scorul din timpul probei e provizoriu, calculat pe o parte din datele de test. Cel final se calculează pe tot setul.
+- La fiecare problemă alegi două submisii. Doar ele intră în clasamentul final.
+- Contul pe platform.olimpiada-ai.ro trebuie creat și activat înainte de termenul anunțat. După termen nu te mai poți înscrie.
+
+> [!NOTE]
+> Pragul minim pentru etapa națională e 60% din punctajul total.
+
 ## Unde te antrenezi
 Trei platforme pe care găsești probleme:
 
@@ -48,7 +61,7 @@ MLCompete (platform.olimpiada-ai.ro) și Nitro AI Judge (judge.nitro-ai.org) sun
 
 1. Intră într-o competiție de antrenament și citește ce metrică se punctează.
 2. Descarcă datele și deschide fișierul de exemplu de submisie, ca să vezi exact ce coloane și ce format cere.
-3. Produ un fișier în același format, chiar și cu răspunsuri la întâmplare.
+3. Produ un fișier în același format, chiar și cu răspunsuri la întâmplare. Cel mai simplu e să încarci chiar fișierul de exemplu, neschimbat.
 4. Încarcă-l și uită-te la scor.
 
 > [!NOTE]
@@ -56,3 +69,4 @@ MLCompete (platform.olimpiada-ai.ro) și Nitro AI Judge (judge.nitro-ai.org) sun
 
 # @practice
 - Orice problemă cu fișier de submisie de exemplu
+- [Titanic pe Kaggle](https://www.kaggle.com/competitions/titanic)

@@ -4,7 +4,7 @@ duration: ~1 week
 ---
 
 # @intro
-So far you've learned pieces: Python, NumPy, Pandas. This module ties them together. It brings no new theory, only the order in which things get done. That matters, because most olympiad mistakes don't come from the model, they come from steps taken in the wrong order. A pipeline you can run end to end in twenty minutes is the most valuable tool you bring into a contest.
+So far you've learned pieces: Python, NumPy, Pandas, EDA and preprocessing. This module ties them together. It brings no new theory, only the order in which things get done. That matters, because most olympiad mistakes don't come from the model, they come from steps taken in the wrong order. A pipeline you can run end to end in twenty minutes is the most valuable tool you bring into a contest.
 
 ## The six steps, in order
 Every tabular contest problem looks the same from above. You read the data. You split it. You build a baseline. You preprocess. You train and validate. You write the submission.
@@ -19,7 +19,7 @@ The order isn't a suggestion. Each step assumes the previous one was done correc
 - Write the submission file and check it before uploading.
 
 ## Step 1: read and look
-The first thing after reading is checking that the data looks the way you think it does. How many rows, which columns, what type each one is, what the target looks like. This isn't full analysis, that comes in the next module. It's just confirming you didn't read the file wrong.
+The first thing after reading is checking that the data looks the way you think it does. How many rows, which columns, what type each one is, what the target looks like. This isn't full analysis, that's what the EDA lesson is for. It's just confirming you didn't read the file wrong.
 
 ```
 import pandas as pd
@@ -40,7 +40,8 @@ This is where most points are lost. You need a slice of the data the model has n
 ```
 from sklearn.model_selection import train_test_split
 
-X = train.drop(columns=["target"])
+# the id is just a row number, not information about the row
+X = train.drop(columns=["id", "target"])
 y = train["target"]
 
 X_tr, X_val, y_tr, y_val = train_test_split(
@@ -116,7 +117,7 @@ At the end you retrain on all the training data, not just the eighty percent sli
 
 ```
 model.fit(X, y)
-pred = model.predict(test)
+pred = model.predict(test.drop(columns=["id"]))
 
 sub = pd.DataFrame({"id": test["id"], "target": pred})
 sub.to_csv("submission.csv", index=False)
@@ -130,12 +131,27 @@ assert list(sub.columns) == ["id", "target"]
 assert sub["target"].isna().sum() == 0
 ```
 
+Safer still is to start from the sample file in the statement: you read it, check that the rows are in the same order as in test, change only the target column and save it. That way the column names and their order are exactly what's asked for.
+
+```
+sub = pd.read_csv("sample_submission.csv")
+assert (sub["id"] == test["id"]).all()
+sub["target"] = pred
+sub.to_csv("submission.csv", index=False)
+```
+
+If the metric is AUC or log loss, you submit probabilities, not classes: `model.predict_proba(...)[:, 1]` gives you the probability of the positive class.
+
 ## What this looks like on contest day
 You spend the first hour on the pipeline above, with a simple model. You already have a valid submission and a score on the leaderboard. From there you improve, with the safety net that whatever happens, something is submitted.
 
 The reverse order, where you spend two hours on a good model and only then start on the submission, is the most common way to finish a contest with zero points for code that almost worked.
 
+At ONIA you also submit the code that produced the file, and the platform runs it without internet access. Before every submission, run Restart Kernel and Run All Cells, to make sure the notebook works from scratch, and read the data with relative paths. Near the end you pick the two submissions that count: usually the best one on local validation and a safer one, with a simpler model.
+
 # @practice
 - Take an archive problem from MLCompete and write the pipeline end to end in an hour, with a simple model.
 - Run the same pipeline once with scaling before the split and once after, and compare the validation scores.
 - Write yourself a template notebook with the six steps, to copy at the start of any problem.
+- [House Prices on Kaggle](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques)
+- [Kaggle Learn: Intermediate Machine Learning](https://www.kaggle.com/learn/intermediate-machine-learning)

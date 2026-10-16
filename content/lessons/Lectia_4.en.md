@@ -7,11 +7,12 @@ duration: ~2 weeks
 NumPy is Python's library for numeric computing: it works with arrays of numbers and runs operations much faster than an ordinary loop. Pandas is built on top of NumPy and adds labels: named columns, an index on rows, tables like in a spreadsheet. You'll use both on almost every contest problem, whatever the model.
 
 ## Install
-Neither comes with Python. You install them once, in the project's virtual environment.
+Neither comes with Python. You install them once, in the project's virtual environment, together with Matplotlib, Seaborn and Pillow, which you use for charts and images.
 
 ```
 pip install numpy
 pip install pandas
+pip install matplotlib seaborn pillow
 ```
 caption: Run these in a terminal, in the project folder.
 
@@ -146,6 +147,8 @@ np.concatenate([[1, 2], [3, 4]]) # [1, 2, 3, 4]
 Real data has names: an age column, a score column, a class column. Pandas adds labels on top of NumPy, in two structures: Series (a single column, with an index) and DataFrame (a whole table, several columns). It's the structure most contest datasets arrive in.
 
 ```
+import pandas as pd
+
 s = pd.Series([10, 20, 30], index=["a", "b", "c"])
 print(s["b"])     # 20
 
@@ -178,9 +181,12 @@ Real data almost always has gaps, duplicate rows or wrong types, and a model tra
 
 ```
 df.isna().sum()          # how many values are missing per column
-df.dropna()               # removes rows with any gap
-df["score"].fillna(df["score"].mean())   # fills gaps with the mean
+df_complete = df.dropna() # removes rows with any gap
+# fills gaps with the mean
+df["score"] = df["score"].fillna(df["score"].mean())
 ```
+
+`dropna` and `fillna` don't change the data in place, they return a new copy, so you have to store it in a variable. Without `=`, the line does nothing.
 
 > [!NOTE]
 > Choose between `dropna` and `fillna` based on how many rows you have and what the gap means: if few values are missing, you can drop them; if many are missing, dropping throws away too much good data with them.
@@ -203,6 +209,13 @@ df.groupby("class")["score"].mean()      # mean score per class
 df.groupby("class").size()               # how many rows each class has
 ```
 
+With `agg` you compute several statistics at once, and `transform` returns the result on every row, so you can put it back into the table as a new column.
+
+```
+df.groupby("class")["score"].agg(["mean", "std", "count"])
+df["class_mean"] = df.groupby("class")["score"].transform("mean")
+```
+
 merge stitches two tables together on a common column. how says what you do with the rows that have no match: left keeps everything from the left, inner keeps only the matches. When the tables have the same columns and you just want to stack one under the other, use `pd.concat()` instead of merge.
 
 ```
@@ -211,6 +224,12 @@ pd.concat([df1, df2])   # stacks df2 under df1, same columns
 ```
 
 pivot_table reshapes a long table into a wide one, with a column turned into a header. It's handy for reports and for spotting patterns across two dimensions at once.
+
+```
+# mean score per class (rows) and year (columns)
+df.pivot_table(index="class", columns="year",
+               values="score", aggfunc="mean")
+```
 
 ## Other operations you'll use constantly
 `sort_values()` sorts a DataFrame by a column. `value_counts()` counts how many times each distinct value shows up, the first check when you want to see if a class is imbalanced.
@@ -239,3 +258,67 @@ At the end, you write the result back to disk with `to_csv`, in the exact format
 ```
 df.to_csv("result.csv", index=False)
 ```
+
+## Charts: Matplotlib and Seaborn
+A chart shows you in a few seconds what you wouldn't notice in a table: a skewed distribution, an impossible value, two columns that rise together. Matplotlib is the base library, and Seaborn is built on top of it and draws statistical charts in a single line.
+
+```
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# line: how a value changes over time
+plt.plot(df["day"], df["temperature"])
+plt.show()
+
+# bars: how many rows each category has
+df["city"].value_counts().plot(kind="bar")
+plt.show()
+
+# histogram: the distribution of a column
+plt.hist(df["age"], bins=30)
+plt.show()
+
+# scatter: the relationship between two columns
+plt.scatter(df["area"], df["price"])
+plt.show()
+```
+
+Seaborn adds the box plot, good for spotting outliers, and the heatmap, good for the correlation matrix.
+
+```
+# box plot: median, quartiles and the values that don't fit
+sns.boxplot(x="class", y="score", data=df)
+plt.show()
+
+# heatmap: the correlations between columns, as colours
+sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="coolwarm")
+plt.show()
+```
+
+> [!NOTE]
+> Put `plt.show()` after every chart. Otherwise the charts in the same cell get drawn on top of each other.
+
+## Images as arrays
+To a computer, a colour image is an array of numbers with the shape (height, width, 3): three channels, red, green and blue, with values from 0 to 255. You read it with Pillow and turn it into a NumPy array, and from there everything you saw above works.
+
+```
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+
+# convert("RGB") drops the transparency channel, if there is one
+img = Image.open("photo.png").convert("RGB")
+a = np.array(img)
+print(a.shape, a.dtype)                  # (height, width, 3) uint8
+
+gray = np.array(img.convert("L"))        # black and white, one channel
+small = np.array(img.resize((64, 64)))   # the same size for every picture
+
+plt.imshow(a)
+plt.show()
+```
+
+# @practice
+- [numpy-100](https://github.com/rougier/numpy-100)
+- [Kaggle Learn: Pandas](https://www.kaggle.com/learn/pandas)
+- [Kaggle Learn: Data Visualization](https://www.kaggle.com/learn/data-visualization)

@@ -16,6 +16,24 @@ df["varsta"].hist(bins=30)
 df["tinta"].value_counts()     # câte exemple din fiecare clasă
 ```
 
+## Outlieri: valori ieșite din tipar
+Un outlier e o valoare mult mai mare sau mai mică decât restul coloanei. Poate fi o eroare, ca vârsta de 200, sau poate fi chiar ce cauți, ca o anomalie la un senzor. Îl vezi cel mai repede pe un box plot. Regula clasică îl numără ca outlier dacă e cu mai mult de 1,5 IQR sub prima cuartilă sau peste a treia, unde IQR e distanța dintre cuartila 1 și cuartila 3.
+
+```
+q1, q3 = df["pret"].quantile([0.25, 0.75])
+iqr = q3 - q1
+jos, sus = q1 - 1.5 * iqr, q3 + 1.5 * iqr
+outlieri = df[(df["pret"] < jos) | (df["pret"] > sus)]
+print(len(outlieri))
+```
+
+Ce faci cu ei depinde de cauză. Erorile le corectezi sau le scoți. Valorile reale, dar extreme, le poți tăia la o limită cu `clip`, iar o coloană cu coadă lungă spre dreapta, ca prețurile sau veniturile, o aduci la o formă mai echilibrată cu `np.log1p`.
+
+```
+df["pret"] = df["pret"].clip(upper=sus)
+df["venit_log"] = np.log1p(df["venit"])
+```
+
 ## Clase dezechilibrate: de ce contează devreme
 Dacă prezici o clasă care apare în 2% din cazuri (fraudă, o boală rară), un model care spune mereu nu are 98% acuratețe și e complet inutil. De asta te uiți la echilibrul claselor de la început: schimbă ce metrică folosești și cum îți împarți datele.
 
@@ -29,12 +47,16 @@ Corelația măsoară cât de mult merg două coloane împreună, de la -1 (inver
 df.corr(numeric_only=True)     # matricea de corelații între coloane
 ```
 
+Implicit e corelația Pearson, care prinde doar legăturile liniare. Cu `df.corr(method="spearman", numeric_only=True)` prinzi și coloanele care cresc împreună fără să fie pe o linie dreaptă.
+
 Corelația nu înseamnă cauzalitate. Două lucruri pot crește împreună fără ca unul să-l provoace pe celălalt. E doar un indiciu unde să te uiți, nu o concluzie.
 
 ## Valori lipsă: întâi de ce, apoi cum
 Înainte să umpli o valoare lipsă, întreabă-te de ce lipsește. Uneori lipsa e o eroare de colectare. Alteori lipsa e chiar informație: un câmp gol la venit poate însemna că persoana a refuzat să răspundă, ceea ce e semnificativ. În cazul ăsta, adaugă o coloană separată care marchează lipsa.
 
 Umplerea (imputarea) se face cu media, mediana sau valoarea cea mai frecventă, ori cu un model. Mediana e mai sigură ca media când sunt outlieri, pentru că nu e trasă de valorile extreme.
+
+În exemplele de aici, `X_train` e partea din date pe care antrenezi, iar `X_val` partea pe care verifici modelul. Cum le obții vezi în lecția următoare.
 
 ```
 from sklearn.impute import SimpleImputer
@@ -43,8 +65,17 @@ X_train = imp.transform(X_train)
 X_val = imp.transform(X_val)    # aceiași parametri, învățați pe train
 ```
 
+Coloana care marchează lipsa o adaugă `SimpleImputer` singur, dacă îi dai `add_indicator=True`.
+
+La serii în timp, ca citirile unui senzor, golul se completează de obicei cu ultima valoare cunoscută. Sortezi întâi după timp, apoi folosești `ffill`.
+
+```
+df = df.sort_values("timp")
+df["temperatura"] = df["temperatura"].ffill()
+```
+
 ## Scalarea: ce metodă și când
-Multe modele măsoară distanțe (kNN, K-Means) sau folosesc gradient (regresie, rețele). Pentru ele, o coloană cu valori mari (venitul, în mii) domină una cu valori mici (vârsta, zeci) doar prin scală, nu prin importanță. Scalarea le aduce la aceeași măsură. Sunt două metode uzuale, și alegerea depinde de formă datelor.
+Multe modele măsoară distanțe (kNN, K-Means) sau folosesc gradient (regresie, rețele). Pentru ele, o coloană cu valori mari (venitul, în mii) domină una cu valori mici (vârsta, zeci) doar prin scală, nu prin importanță. Scalarea le aduce la aceeași măsură. Arborii de decizie și Random Forest nu au nevoie de ea, pentru că despart datele pe praguri. Sunt două metode uzuale, și alegerea depinde de forma datelor.
 
 > [!FORMULA]
 > z = (x - μ) / σ
@@ -64,6 +95,15 @@ X_val = sc.transform(X_val)          # aplică aceiași μ și σ
 ```
 from sklearn.preprocessing import MinMaxScaler
 sc = MinMaxScaler().fit(X_train)   # învață min și max pe TRAIN
+X_train = sc.transform(X_train)
+X_val = sc.transform(X_val)
+```
+
+Când coloana are outlieri, a treia variantă, `RobustScaler`, e mai sigură: scade mediana și împarte la IQR, așa că un punct extrem nu strică scala pentru restul.
+
+```
+from sklearn.preprocessing import RobustScaler
+sc = RobustScaler().fit(X_train)   # învață mediana și IQR pe TRAIN
 X_train = sc.transform(X_train)
 X_val = sc.transform(X_val)
 ```
@@ -104,6 +144,13 @@ enc = BinaryEncoder(cols=["cod_postal"])
 df_encoded = enc.fit_transform(df["cod_postal"])
 ```
 
+`BinaryEncoder` vine din pachetul `category_encoders`, nu din scikit-learn, așa că s-ar putea să nu fie instalat la concurs. O alternativă cu Pandas simplu e frequency encoding: înlocuiești categoria cu de câte ori apare.
+
+```
+frecventa = df["cod_postal"].value_counts()
+df["cod_postal_frecventa"] = df["cod_postal"].map(frecventa)
+```
+
 Target encoding merge și mai departe: înlocuiește fiecare categorie cu media țintei pentru acea categorie, o singură coloană indiferent de câte categorii sunt. Cel mai puternic la cardinalitate foarte mare, dar și cel mai expus la scurgere de date.
 
 ```
@@ -115,3 +162,28 @@ X_val_enc = enc.transform(X_val[["cod_postal"]])
 
 > [!NOTE]
 > Ordinal, binary și target encoding se învață tot doar pe train, la fel ca imputarea și scalarea. Altfel informație din validare/test se scurge în encoding și scorul tău minte.
+
+## Coloane noi din cele existente
+De multe ori modelul învață mai bine dintr-o coloană construită de tine decât din datele brute. Asta e feature engineering. Trei tipare apar des: statistici pe grup, ferestre glisante pe serii și bucăți dintr-o dată calendaristică.
+
+```
+# media și deviația pe grup, puse pe fiecare rând
+df["medie_oras"] = df.groupby("oras")["suprafata"].transform("mean")
+df["std_oras"] = df.groupby("oras")["suprafata"].transform("std")
+
+# fereastră glisantă: media ultimelor 5 citiri, pe fiecare senzor
+df = df.sort_values(["senzor", "timp"])
+medie_5 = lambda s: s.rolling(5, min_periods=1).mean()
+df["temp_5"] = df.groupby("senzor")["temperatura"].transform(medie_5)
+
+# bucăți dintr-o dată calendaristică
+df["data"] = pd.to_datetime(df["data"])
+df["luna"] = df["data"].dt.month
+df["zi_saptamana"] = df["data"].dt.dayofweek
+```
+
+Dacă statistica pe grup e calculată din țintă, e de fapt target encoding și se învață doar pe train, ca mai sus.
+
+# @practice
+- [Kaggle Learn: Data Cleaning](https://www.kaggle.com/learn/data-cleaning)
+- [Kaggle Learn: Feature Engineering](https://www.kaggle.com/learn/feature-engineering)

@@ -26,7 +26,7 @@ a, b, c = 1, 2, 3
 x = y = 0
 ```
 
-Operatorii de atribuire pe scurt (`+=`, `-=`, `*=`, `//=`) modifica valoarea si apoi o pun in variabila respectivă.
+Operatorii de atribuire pe scurt (`+=`, `-=`, `*=`, `//=`) modifică valoarea și apoi o pun în variabila respectivă.
 
 ```
 total = 0
@@ -54,7 +54,7 @@ print(str(42) + "!")   # "42!"
 ```
 
 > [!NOTE]
-> `0`, `0.0`, `""`, `[]`, `{}`, `set()` și `None` sunt toate „false" când le pui într-un `if`. O listă goală e falsă, orice altceva e adevărat.
+> `0`, `0.0`, `""`, `[]`, `{}`, `set()` și `None` sunt toate „false" când le pui într-un `if`. O listă goală e falsă, una cu elemente e adevărată.
 
 ## Cele patru structuri de date
 Aproape tot ce scrii folosește una dintre astea.
@@ -83,9 +83,9 @@ Dicționarele nu se citesc doar cu `d["cheie"]`, care aruncă eroare dacă cheia
 
 ```
 note = {
-	"Radu" : 4,
-	"Stefan" : 10,
-	"Victor" : 8
+    "Radu": 4,
+    "Stefan": 10,
+    "Victor": 8
 }
 print(note["Stefan"]) # 10
 print(note.get("Radu")) # 4
@@ -398,6 +398,8 @@ print(imparte(10, 0))   # mesaj, apoi None
 
 Cele mai dese excepții la concurs: `ValueError` (o conversie eșuată, gen `int("abc")`), `KeyError` (o cheie care nu există într-un dicționar), `IndexError` (un indice în afara listei), `FileNotFoundError` (o cale greșită la date).
 
+Când apare una, citește mesajul de jos în sus: ultima linie îți spune tipul erorii și motivul, iar mai sus săgeata arată linia de cod care a picat.
+
 > [!NOTE]
 > Nu prinde excepții cu `except:` gol. Ascunde orice greșeală, inclusiv pe cele pe care ar trebui să le vezi. Prinde exact tipul pe care îl aștepți, de exemplu `except ValueError:`.
 
@@ -494,3 +496,8 @@ random.shuffle(scoruri)       # amestecă lista pe loc
 
 > [!NOTE]
 > Pune `random.seed(...)` la începutul scriptului, o singură dată. Fără el, rulezi codul de două ori și iei rezultate diferite, ceea ce face imposibil să compari corect două idei.
+
+`random.seed` controlează doar modulul `random`. NumPy are generatorul lui, pe care îl fixezi cu `np.random.seed(42)`, iar funcțiile și modelele din scikit-learn primesc `random_state=42`, cum o să vezi la împărțirea datelor.
+
+# @practice
+- [Kaggle Learn: Python](https://www.kaggle.com/learn/python)

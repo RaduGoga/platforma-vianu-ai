@@ -14,10 +14,10 @@ export const lessons: Lesson[] = [
         "heading": "Ce e AI și unde se folosește",
         "blocks": [
           {
-            "p": "La bază, inteligența artificială înseamnă orice tehnologie care simulează funcții umane. În loc să urmeze reguli stricte, îi arăți mai multe exemple și o lași să găsească singură regulile, prin diverși algoritmi. Nu e ceva magic, ChatGPT nu „gândește\". Partea asta, de învățat din exemple, se numește machine learning și reprezintă aproape tot ce faci la olimpiadă."
+            "p": "La bază, inteligența artificială înseamnă orice tehnologie care simulează funcții umane. De cele mai multe ori, în loc să urmeze reguli stricte, îi arăți mai multe exemple și o lași să găsească singură regulile, prin diverși algoritmi. Nu e ceva magic, ChatGPT nu „gândește\". Partea asta, de învățat din exemple, se numește machine learning și reprezintă aproape tot ce faci la olimpiadă."
           },
           {
-            "p": "În sfera AI merită menționată și o anumită terminologie. Data science se referă la toate domeniile cu care avem de-a face în AI: matematică, informatică și altele. Matematica e baza și se folosește în absolut tot ce vom face, dar nu trebuie neapărat învățată în detaliu ca să rezolvi probleme sau să faci proiecte. Anumiți algoritmi clasici de informatică sunt și ei folosiți, BFS și DFS de exemplu, în anumite arii ale AI-ului. Machine learningul, menționat mai sus, se împarte la rândul lui în mai multe categorii: învățare supervizată, nesupervizată, reinforcement learning și, uneori, self-supervised."
+            "p": "În sfera AI merită menționată și o anumită terminologie. Data science înseamnă să scoți informație utilă din date, cu ajutorul matematicii (mai ales al statisticii) și al informaticii. Matematica e baza și se folosește în absolut tot ce vom face, dar nu trebuie neapărat învățată în detaliu ca să rezolvi probleme sau să faci proiecte. Anumiți algoritmi clasici de informatică sunt și ei folosiți, BFS și DFS de exemplu, în anumite arii ale AI-ului. Machine learningul, menționat mai sus, se împarte la rândul lui în mai multe categorii: învățare supervizată, nesupervizată, reinforcement learning și, uneori, self-supervised."
           },
           {
             "p": "Poate ajuta câteva exemple. Ca să deosebești un email spam de unul normal cu reguli scrise de mână, ar trebui să scrii sute de condiții de tipul „dacă conține cuvântul X\". Cu machine learning, îi dai câteva mii de emailuri deja marcate ca spam sau nu, iar modelul învață singur ce combinații de cuvinte prezic spamul. Câteva taskuri clasice de AI includ, dar nu se limitează la:"
@@ -53,7 +53,7 @@ export const lessons: Lesson[] = [
             "p": "O bibliotecă e cod scris de altcineva, pe care îl imporți și îl folosești. La taskuri de AI scopul nu e să înveți pe de rost cum se scriu algoritmii sau modelele, ci să le înțelegi, să știi când se folosesc și să le adaptezi la problema respectivă, împreună cu alte metode."
           },
           {
-            "note": "E bine să instalezi o versiune stabilă de Python, de exemplu 3.11, care e bine susținută de biblioteci."
+            "note": "E bine să instalezi o versiune stabilă de Python, de exemplu 3.11, care e bine susținută de biblioteci. E și versiunea de pe calculatoarele de la olimpiadă."
           }
         ]
       },
@@ -65,9 +65,9 @@ export const lessons: Lesson[] = [
           },
           {
             "list": [
-              "Windows: intră pe python.org/downloads, descarcă ultima versiune 3.11 sau mai nouă și rulează instalatorul. La primul ecran bifează „Add python.exe to PATH\" înainte de Install Now, altfel terminalul nu va găsi Python după instalare.",
-              "macOS: descarcă tot de pe python.org/downloads fișierul .pkg și parcurge instalatorul. Dacă ai deja Homebrew, merge la fel de bine brew install python@3.11.",
-              "Linux (Ubuntu/Debian): deschide un terminal și rulează sudo apt update && sudo apt install python3 python3-pip python3-venv."
+              "Windows: intră pe python.org/downloads, descarcă versiunea 3.11 și rulează instalatorul. La primul ecran bifează „Add python.exe to PATH\" înainte de Install Now, altfel terminalul nu va găsi Python după instalare.",
+              "macOS: descarcă tot de pe python.org/downloads fișierul .pkg și parcurge instalatorul. Dacă ai deja Homebrew, merge la fel de bine `brew install python@3.11`.",
+              "Linux (Ubuntu/Debian): deschide un terminal și rulează `sudo apt update && sudo apt install python3 python3-pip python3-venv`."
             ]
           },
           {
@@ -78,7 +78,7 @@ export const lessons: Lesson[] = [
             "caption": "Dacă amândouă îți dau un număr de versiune, Python și pip sunt instalate."
           },
           {
-            "p": "Pe Windows, dacă python nu e recunoscut, încearcă py --version; dacă nici pip nu răspunde, încearcă pip3 sau python -m pip --version."
+            "p": "Pe Windows, dacă `python` nu e recunoscut, încearcă `py --version`; dacă nici `pip` nu răspunde, încearcă `pip3` sau `python -m pip --version`."
           },
           {
             "p": "Cu Python instalat, treci la mediul de lucru propriu-zis. Un mediu virtual e o cutie separată pentru bibliotecile unui proiect, ca să nu se bată cap în cap cu altele instalate global. Îl creezi o dată pe proiect și lucrezi mereu în el."
@@ -86,17 +86,39 @@ export const lessons: Lesson[] = [
           {
             "steps": [
               "Deschide un terminal în folderul unde lucrezi.",
-              "Scrie pip install jupyterlab și apasă Enter.",
-              "Scrie jupyter lab și apasă Enter: ți se deschide automat un tab de browser cu interfața."
+              "Creează mediul virtual cu `python -m venv .venv`, apoi activează-l: `.venv\\Scripts\\activate` pe Windows, `source .venv/bin/activate` pe macOS și Linux. Activarea o repeți de fiecare dată când deschizi un terminal nou.",
+              "Scrie `pip install jupyterlab` și apasă Enter.",
+              "Scrie `jupyter lab` și apasă Enter: ți se deschide automat un tab de browser cu interfața."
             ]
           },
           {
             "note": "Poți folosi și VS Code, dar la anumite concursuri nu e disponibil. De asemenea, Google Colab e o variantă bună când lucrezi de pe un calculator care nu e al tău."
           }
         ]
+      },
+      {
+        "heading": "La concurs",
+        "blocks": [
+          {
+            "p": "La olimpiadă lucrezi pe calculatoarele centrului de concurs, cu Windows, JupyterLab, Python 3.11 și Firefox. În sală nu ai voie cu notițe sau cărți, iar pe internet ai acces doar la platforma de concurs și la documentația oficială a limbajului și a pachetelor permise, de exemplu docs.python.org, numpy.org/doc, pandas.pydata.org/docs sau scikit-learn.org. Lista exactă o anunță comisia."
+          },
+          {
+            "p": "De asta merită să te obișnuiești de acum să cauți în documentație, nu pe Google. Ai ajutor și direct în notebook: scrii numele unei funcții urmat de `?`, de exemplu `pd.read_csv?`, sau apeși Shift+Tab între parantezele ei și vezi ce argumente primește."
+          },
+          {
+            "note": "Câteva taste din JupyterLab care îți câștigă timp: Shift+Enter rulează celula și trece la următoarea, Esc apoi A sau B adaugă o celulă deasupra sau dedesubt, Esc apoi M transformă celula în text. Înainte să trimiți o soluție, rulează Kernel → Restart Kernel and Run All Cells, ca să fii sigur că notebook-ul merge de la zero."
+          }
+        ]
       }
     ],
-    "practice": []
+    "practice": [
+      {
+        "title": "Prima submisie pe MLCompete"
+      },
+      {
+        "title": "Caută în documentația pandas ce face argumentul sep din read_csv, fără Google"
+      }
+    ]
   },
   {
     "moduleCode": "S2",
@@ -158,6 +180,27 @@ export const lessons: Lesson[] = [
         ]
       },
       {
+        "heading": "Regulile de la ONIA",
+        "blocks": [
+          {
+            "p": "Din regulamentul olimpiadei, câteva lucruri pe care e bine să le știi dinainte:"
+          },
+          {
+            "list": [
+              "Proba durează patru ore.",
+              "Soluția unei probleme are două părți: fișierul cu răspunsul și codul Python care l-a produs. Le trimiți pe amândouă pe platformă.",
+              "Numărul de submisii e limitat, iar între două submisii trebuie să treacă un timp minim. Le afli odată cu subiectele.",
+              "Scorul din timpul probei e provizoriu, calculat pe o parte din datele de test. Cel final se calculează pe tot setul.",
+              "La fiecare problemă alegi două submisii. Doar ele intră în clasamentul final.",
+              "Contul pe platform.olimpiada-ai.ro trebuie creat și activat înainte de termenul anunțat. După termen nu te mai poți înscrie."
+            ]
+          },
+          {
+            "note": "Pragul minim pentru etapa națională e 60% din punctajul total."
+          }
+        ]
+      },
+      {
         "heading": "Unde te antrenezi",
         "blocks": [
           {
@@ -182,7 +225,7 @@ export const lessons: Lesson[] = [
             "steps": [
               "Intră într-o competiție de antrenament și citește ce metrică se punctează.",
               "Descarcă datele și deschide fișierul de exemplu de submisie, ca să vezi exact ce coloane și ce format cere.",
-              "Produ un fișier în același format, chiar și cu răspunsuri la întâmplare.",
+              "Produ un fișier în același format, chiar și cu răspunsuri la întâmplare. Cel mai simplu e să încarci chiar fișierul de exemplu, neschimbat.",
               "Încarcă-l și uită-te la scor."
             ]
           },
@@ -195,6 +238,10 @@ export const lessons: Lesson[] = [
     "practice": [
       {
         "title": "Orice problemă cu fișier de submisie de exemplu"
+      },
+      {
+        "title": "Titanic pe Kaggle",
+        "url": "https://www.kaggle.com/competitions/titanic"
       }
     ]
   },
@@ -219,7 +266,7 @@ export const lessons: Lesson[] = [
             "code": "a, b, c = 1, 2, 3\nx = y = 0"
           },
           {
-            "p": "Operatorii de atribuire pe scurt (`+=`, `-=`, `*=`, `//=`) modifica valoarea si apoi o pun in variabila respectivă."
+            "p": "Operatorii de atribuire pe scurt (`+=`, `-=`, `*=`, `//=`) modifică valoarea și apoi o pun în variabila respectivă."
           },
           {
             "code": "total = 0\nfor s in [1, 2, 3]:\n    total += s   # total = total + s"
@@ -237,7 +284,7 @@ export const lessons: Lesson[] = [
             "code": "print(7 / 2)          # 3.5\nprint(7 // 2)         # 3\nprint(7 % 2)           # 1\nprint(int(3.9))        # 3, trunchiază\nprint(round(3.9))      # 4, rotunjește\nprint(str(42) + \"!\")   # \"42!\""
           },
           {
-            "note": "`0`, `0.0`, `\"\"`, `[]`, `{}`, `set()` și `None` sunt toate „false\" când le pui într-un `if`. O listă goală e falsă, orice altceva e adevărat."
+            "note": "`0`, `0.0`, `\"\"`, `[]`, `{}`, `set()` și `None` sunt toate „false\" când le pui într-un `if`. O listă goală e falsă, una cu elemente e adevărată."
           }
         ]
       },
@@ -268,7 +315,7 @@ export const lessons: Lesson[] = [
             "p": "Dicționarele nu se citesc doar cu `d[\"cheie\"]`, care aruncă eroare dacă cheia lipsește. `.get(\"cheie\", implicit)` întoarce o valoare implicită."
           },
           {
-            "code": "note = {\n\t\"Radu\" : 4,\n\t\"Stefan\" : 10,\n\t\"Victor\" : 8\n}\nprint(note[\"Stefan\"]) # 10\nprint(note.get(\"Radu\")) # 4"
+            "code": "note = {\n    \"Radu\": 4,\n    \"Stefan\": 10,\n    \"Victor\": 8\n}\nprint(note[\"Stefan\"]) # 10\nprint(note.get(\"Radu\")) # 4"
           },
           {
             "p": "Dicționarele pot conține alte dicționare."
@@ -475,6 +522,9 @@ export const lessons: Lesson[] = [
             "p": "Cele mai dese excepții la concurs: `ValueError` (o conversie eșuată, gen `int(\"abc\")`), `KeyError` (o cheie care nu există într-un dicționar), `IndexError` (un indice în afara listei), `FileNotFoundError` (o cale greșită la date)."
           },
           {
+            "p": "Când apare una, citește mesajul de jos în sus: ultima linie îți spune tipul erorii și motivul, iar mai sus săgeata arată linia de cod care a picat."
+          },
+          {
             "note": "Nu prinde excepții cu `except:` gol. Ascunde orice greșeală, inclusiv pe cele pe care ar trebui să le vezi. Prinde exact tipul pe care îl aștepți, de exemplu `except ValueError:`."
           },
           {
@@ -545,11 +595,19 @@ export const lessons: Lesson[] = [
           },
           {
             "note": "Pune `random.seed(...)` la începutul scriptului, o singură dată. Fără el, rulezi codul de două ori și iei rezultate diferite, ceea ce face imposibil să compari corect două idei."
+          },
+          {
+            "p": "`random.seed` controlează doar modulul `random`. NumPy are generatorul lui, pe care îl fixezi cu `np.random.seed(42)`, iar funcțiile și modelele din scikit-learn primesc `random_state=42`, cum o să vezi la împărțirea datelor."
           }
         ]
       }
     ],
-    "practice": []
+    "practice": [
+      {
+        "title": "Kaggle Learn: Python",
+        "url": "https://www.kaggle.com/learn/python"
+      }
+    ]
   },
   {
     "moduleCode": "S4",
@@ -560,10 +618,10 @@ export const lessons: Lesson[] = [
         "heading": "Instalare",
         "blocks": [
           {
-            "p": "Ambele sunt biblioteci externe, nu vin cu Python. Le instalezi o singură dată, în mediul virtual al proiectului."
+            "p": "Ambele sunt biblioteci externe, nu vin cu Python. Le instalezi o singură dată, în mediul virtual al proiectului, împreună cu Matplotlib, Seaborn și Pillow, pe care le folosești la grafice și imagini."
           },
           {
-            "code": "pip install numpy\npip install pandas",
+            "code": "pip install numpy\npip install pandas\npip install matplotlib seaborn pillow",
             "caption": "Rulează comenzile astea în terminal, în folderul proiectului."
           }
         ]
@@ -686,7 +744,7 @@ export const lessons: Lesson[] = [
             "p": "Datele reale au nume: coloana vârstă, coloana scor, coloana clasă. Pandas adaugă etichete peste NumPy, în două structuri: Series (o singură coloană, cu index) și DataFrame (un tabel întreg, mai multe coloane). E structura în care ajung mai toate seturile de concurs."
           },
           {
-            "code": "s = pd.Series([10, 20, 30], index=[\"a\", \"b\", \"c\"])\nprint(s[\"b\"])     # 20\n\ndf = pd.DataFrame({\"nume\": [\"Ana\", \"Bogdan\"], \"scor\": [9.2, 8.7]})"
+            "code": "import pandas as pd\n\ns = pd.Series([10, 20, 30], index=[\"a\", \"b\", \"c\"])\nprint(s[\"b\"])     # 20\n\ndf = pd.DataFrame({\"nume\": [\"Ana\", \"Bogdan\"], \"scor\": [9.2, 8.7]})"
           },
           {
             "p": "Un DataFrame e practic un dicționar de Series, câte una pentru fiecare coloană. Citești un fișier CSV cu o singură linie, apoi te uiți la el înainte de orice: primele rânduri, tipurile coloanelor, câte valori lipsesc."
@@ -714,7 +772,10 @@ export const lessons: Lesson[] = [
             "p": "Datele reale au aproape mereu goluri, valori duplicate sau tipuri greșite, și un model antrenat pe date murdare dă predicții proaste. `isna()` marchează unde lipsește o valoare, `dropna()` scoate rândurile cu goluri, `fillna(valoare)` le completează."
           },
           {
-            "code": "df.isna().sum()          # câte valori lipsesc pe fiecare coloană\ndf.dropna()               # scoate rândurile cu orice gol\ndf[\"scor\"].fillna(df[\"scor\"].mean())   # completează golurile cu media"
+            "code": "df.isna().sum()          # câte valori lipsesc pe fiecare coloană\ndf_complet = df.dropna()  # scoate rândurile cu orice gol\n# completează golurile cu media\ndf[\"scor\"] = df[\"scor\"].fillna(df[\"scor\"].mean())"
+          },
+          {
+            "p": "`dropna` și `fillna` nu schimbă datele pe loc, ci întorc o copie nouă, așa că trebuie s-o pui într-o variabilă. Fără `=`, linia nu are niciun efect."
           },
           {
             "note": "Alege între `dropna` și `fillna` în funcție de câte rânduri ai și de ce înseamnă lipsa: dacă lipsesc puține valori, le poți arunca; dacă lipsesc multe, arunci prea multe date bune odată cu ele."
@@ -737,6 +798,12 @@ export const lessons: Lesson[] = [
             "code": "df.groupby(\"clasa\")[\"scor\"].mean()      # media scorului pe fiecare clasă\ndf.groupby(\"clasa\").size()             # câte rânduri are fiecare clasă"
           },
           {
+            "p": "Cu `agg` calculezi mai multe statistici deodată, iar `transform` întoarce rezultatul pe fiecare rând, ca să-l poți pune înapoi în tabel ca o coloană nouă."
+          },
+          {
+            "code": "df.groupby(\"clasa\")[\"scor\"].agg([\"mean\", \"std\", \"count\"])\ndf[\"media_clasei\"] = df.groupby(\"clasa\")[\"scor\"].transform(\"mean\")"
+          },
+          {
             "p": "merge lipește două tabele după o coloană comună. how spune ce faci cu rândurile fără pereche: left păstrează tot din stânga, inner doar potrivirile. Când tabelele au aceleași coloane și vrei doar să le pui unul sub altul, folosești `pd.concat()` în loc de merge."
           },
           {
@@ -744,6 +811,9 @@ export const lessons: Lesson[] = [
           },
           {
             "p": "pivot_table rearanjează un tabel lung într-unul lat, cu o coloană devenită antet. E util la rapoarte și la văzut tipare pe două dimensiuni deodată."
+          },
+          {
+            "code": "# media scorului pe clasă (rânduri) și an (coloane)\ndf.pivot_table(index=\"clasa\", columns=\"an\",\n               values=\"scor\", aggfunc=\"mean\")"
           }
         ]
       },
@@ -775,9 +845,53 @@ export const lessons: Lesson[] = [
             "code": "df.to_csv(\"rezultat.csv\", index=False)"
           }
         ]
+      },
+      {
+        "heading": "Grafice: Matplotlib și Seaborn",
+        "blocks": [
+          {
+            "p": "Un grafic îți arată în câteva secunde ce într-un tabel n-ai observa: o distribuție strâmbă, o valoare imposibilă, două coloane care cresc împreună. Matplotlib e biblioteca de bază, iar Seaborn e construit peste ea și face graficele statistice dintr-o singură linie."
+          },
+          {
+            "code": "import matplotlib.pyplot as plt\nimport seaborn as sns\n\n# linie: cum se schimbă o valoare în timp\nplt.plot(df[\"zi\"], df[\"temperatura\"])\nplt.show()\n\n# bare: câte rânduri are fiecare categorie\ndf[\"oras\"].value_counts().plot(kind=\"bar\")\nplt.show()\n\n# histogramă: distribuția unei coloane\nplt.hist(df[\"varsta\"], bins=30)\nplt.show()\n\n# scatter: legătura dintre două coloane\nplt.scatter(df[\"suprafata\"], df[\"pret\"])\nplt.show()"
+          },
+          {
+            "p": "Seaborn adaugă box plotul, bun ca să vezi outlierii, și heatmap-ul, bun pentru matricea de corelații."
+          },
+          {
+            "code": "# box plot: mediana, cuartilele și valorile ieșite din tipar\nsns.boxplot(x=\"clasa\", y=\"scor\", data=df)\nplt.show()\n\n# heatmap: corelațiile dintre coloane, pe culori\nsns.heatmap(df.corr(numeric_only=True), annot=True, cmap=\"coolwarm\")\nplt.show()"
+          },
+          {
+            "note": "Pune `plt.show()` după fiecare grafic. Altfel, graficele din aceeași celulă se desenează unul peste altul."
+          }
+        ]
+      },
+      {
+        "heading": "Imagini ca array-uri",
+        "blocks": [
+          {
+            "p": "Pentru calculator, o imagine color e un array de numere cu forma (înălțime, lățime, 3): trei canale, roșu, verde și albastru, cu valori de la 0 la 255. O citești cu Pillow și o transformi în array NumPy, iar de acolo merge tot ce ai văzut mai sus."
+          },
+          {
+            "code": "from PIL import Image\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# convert(\"RGB\") scoate canalul de transparență, dacă există\nimg = Image.open(\"poza.png\").convert(\"RGB\")\na = np.array(img)\nprint(a.shape, a.dtype)                 # (înălțime, lățime, 3) uint8\n\ngri = np.array(img.convert(\"L\"))        # alb-negru, un singur canal\nmica = np.array(img.resize((64, 64)))   # aceeași mărime pentru toate\n\nplt.imshow(a)\nplt.show()"
+          }
+        ]
       }
     ],
-    "practice": []
+    "practice": [
+      {
+        "title": "numpy-100",
+        "url": "https://github.com/rougier/numpy-100"
+      },
+      {
+        "title": "Kaggle Learn: Pandas",
+        "url": "https://www.kaggle.com/learn/pandas"
+      },
+      {
+        "title": "Kaggle Learn: Data Visualization",
+        "url": "https://www.kaggle.com/learn/data-visualization"
+      }
+    ]
   },
   {
     "moduleCode": "S6",
@@ -795,6 +909,23 @@ export const lessons: Lesson[] = [
           },
           {
             "code": "df[\"varsta\"].hist(bins=30)\ndf[\"tinta\"].value_counts()     # câte exemple din fiecare clasă"
+          }
+        ]
+      },
+      {
+        "heading": "Outlieri: valori ieșite din tipar",
+        "blocks": [
+          {
+            "p": "Un outlier e o valoare mult mai mare sau mai mică decât restul coloanei. Poate fi o eroare, ca vârsta de 200, sau poate fi chiar ce cauți, ca o anomalie la un senzor. Îl vezi cel mai repede pe un box plot. Regula clasică îl numără ca outlier dacă e cu mai mult de 1,5 IQR sub prima cuartilă sau peste a treia, unde IQR e distanța dintre cuartila 1 și cuartila 3."
+          },
+          {
+            "code": "q1, q3 = df[\"pret\"].quantile([0.25, 0.75])\niqr = q3 - q1\njos, sus = q1 - 1.5 * iqr, q3 + 1.5 * iqr\noutlieri = df[(df[\"pret\"] < jos) | (df[\"pret\"] > sus)]\nprint(len(outlieri))"
+          },
+          {
+            "p": "Ce faci cu ei depinde de cauză. Erorile le corectezi sau le scoți. Valorile reale, dar extreme, le poți tăia la o limită cu `clip`, iar o coloană cu coadă lungă spre dreapta, ca prețurile sau veniturile, o aduci la o formă mai echilibrată cu `np.log1p`."
+          },
+          {
+            "code": "df[\"pret\"] = df[\"pret\"].clip(upper=sus)\ndf[\"venit_log\"] = np.log1p(df[\"venit\"])"
           }
         ]
       },
@@ -819,6 +950,9 @@ export const lessons: Lesson[] = [
             "code": "df.corr(numeric_only=True)     # matricea de corelații între coloane"
           },
           {
+            "p": "Implicit e corelația Pearson, care prinde doar legăturile liniare. Cu `df.corr(method=\"spearman\", numeric_only=True)` prinzi și coloanele care cresc împreună fără să fie pe o linie dreaptă."
+          },
+          {
             "p": "Corelația nu înseamnă cauzalitate. Două lucruri pot crește împreună fără ca unul să-l provoace pe celălalt. E doar un indiciu unde să te uiți, nu o concluzie."
           }
         ]
@@ -833,7 +967,19 @@ export const lessons: Lesson[] = [
             "p": "Umplerea (imputarea) se face cu media, mediana sau valoarea cea mai frecventă, ori cu un model. Mediana e mai sigură ca media când sunt outlieri, pentru că nu e trasă de valorile extreme."
           },
           {
+            "p": "În exemplele de aici, `X_train` e partea din date pe care antrenezi, iar `X_val` partea pe care verifici modelul. Cum le obții vezi în lecția următoare."
+          },
+          {
             "code": "from sklearn.impute import SimpleImputer\nimp = SimpleImputer(strategy=\"median\").fit(X_train)\nX_train = imp.transform(X_train)\nX_val = imp.transform(X_val)    # aceiași parametri, învățați pe train"
+          },
+          {
+            "p": "Coloana care marchează lipsa o adaugă `SimpleImputer` singur, dacă îi dai `add_indicator=True`."
+          },
+          {
+            "p": "La serii în timp, ca citirile unui senzor, golul se completează de obicei cu ultima valoare cunoscută. Sortezi întâi după timp, apoi folosești `ffill`."
+          },
+          {
+            "code": "df = df.sort_values(\"timp\")\ndf[\"temperatura\"] = df[\"temperatura\"].ffill()"
           }
         ]
       },
@@ -841,7 +987,7 @@ export const lessons: Lesson[] = [
         "heading": "Scalarea: ce metodă și când",
         "blocks": [
           {
-            "p": "Multe modele măsoară distanțe (kNN, K-Means) sau folosesc gradient (regresie, rețele). Pentru ele, o coloană cu valori mari (venitul, în mii) domină una cu valori mici (vârsta, zeci) doar prin scală, nu prin importanță. Scalarea le aduce la aceeași măsură. Sunt două metode uzuale, și alegerea depinde de formă datelor."
+            "p": "Multe modele măsoară distanțe (kNN, K-Means) sau folosesc gradient (regresie, rețele). Pentru ele, o coloană cu valori mari (venitul, în mii) domină una cu valori mici (vârsta, zeci) doar prin scală, nu prin importanță. Scalarea le aduce la aceeași măsură. Arborii de decizie și Random Forest nu au nevoie de ea, pentru că despart datele pe praguri. Sunt două metode uzuale, și alegerea depinde de forma datelor."
           },
           {
             "formula": "z = (x - μ) / σ",
@@ -856,6 +1002,12 @@ export const lessons: Lesson[] = [
           },
           {
             "code": "from sklearn.preprocessing import MinMaxScaler\nsc = MinMaxScaler().fit(X_train)   # învață min și max pe TRAIN\nX_train = sc.transform(X_train)\nX_val = sc.transform(X_val)"
+          },
+          {
+            "p": "Când coloana are outlieri, a treia variantă, `RobustScaler`, e mai sigură: scade mediana și împarte la IQR, așa că un punct extrem nu strică scala pentru restul."
+          },
+          {
+            "code": "from sklearn.preprocessing import RobustScaler\nsc = RobustScaler().fit(X_train)   # învață mediana și IQR pe TRAIN\nX_train = sc.transform(X_train)\nX_val = sc.transform(X_val)"
           },
           {
             "note": "Regula de bază a preprocesării: învață parametrii (medie, deviație, mediană, min, max) doar pe setul de antrenare, apoi aplică-i pe validare și test. Niciodată invers. Altfel test-ul se scurge în antrenare și scorul tău e o minciună."
@@ -893,6 +1045,12 @@ export const lessons: Lesson[] = [
             "code": "from category_encoders import BinaryEncoder\nenc = BinaryEncoder(cols=[\"cod_postal\"])\ndf_encoded = enc.fit_transform(df[\"cod_postal\"])"
           },
           {
+            "p": "`BinaryEncoder` vine din pachetul `category_encoders`, nu din scikit-learn, așa că s-ar putea să nu fie instalat la concurs. O alternativă cu Pandas simplu e frequency encoding: înlocuiești categoria cu de câte ori apare."
+          },
+          {
+            "code": "frecventa = df[\"cod_postal\"].value_counts()\ndf[\"cod_postal_frecventa\"] = df[\"cod_postal\"].map(frecventa)"
+          },
+          {
             "p": "Target encoding merge și mai departe: înlocuiește fiecare categorie cu media țintei pentru acea categorie, o singură coloană indiferent de câte categorii sunt. Cel mai puternic la cardinalitate foarte mare, dar și cel mai expus la scurgere de date."
           },
           {
@@ -902,14 +1060,37 @@ export const lessons: Lesson[] = [
             "note": "Ordinal, binary și target encoding se învață tot doar pe train, la fel ca imputarea și scalarea. Altfel informație din validare/test se scurge în encoding și scorul tău minte."
           }
         ]
+      },
+      {
+        "heading": "Coloane noi din cele existente",
+        "blocks": [
+          {
+            "p": "De multe ori modelul învață mai bine dintr-o coloană construită de tine decât din datele brute. Asta e feature engineering. Trei tipare apar des: statistici pe grup, ferestre glisante pe serii și bucăți dintr-o dată calendaristică."
+          },
+          {
+            "code": "# media și deviația pe grup, puse pe fiecare rând\ndf[\"medie_oras\"] = df.groupby(\"oras\")[\"suprafata\"].transform(\"mean\")\ndf[\"std_oras\"] = df.groupby(\"oras\")[\"suprafata\"].transform(\"std\")\n\n# fereastră glisantă: media ultimelor 5 citiri, pe fiecare senzor\ndf = df.sort_values([\"senzor\", \"timp\"])\nmedie_5 = lambda s: s.rolling(5, min_periods=1).mean()\ndf[\"temp_5\"] = df.groupby(\"senzor\")[\"temperatura\"].transform(medie_5)\n\n# bucăți dintr-o dată calendaristică\ndf[\"data\"] = pd.to_datetime(df[\"data\"])\ndf[\"luna\"] = df[\"data\"].dt.month\ndf[\"zi_saptamana\"] = df[\"data\"].dt.dayofweek"
+          },
+          {
+            "p": "Dacă statistica pe grup e calculată din țintă, e de fapt target encoding și se învață doar pe train, ca mai sus."
+          }
+        ]
       }
     ],
-    "practice": []
+    "practice": [
+      {
+        "title": "Kaggle Learn: Data Cleaning",
+        "url": "https://www.kaggle.com/learn/data-cleaning"
+      },
+      {
+        "title": "Kaggle Learn: Feature Engineering",
+        "url": "https://www.kaggle.com/learn/feature-engineering"
+      }
+    ]
   },
   {
     "moduleCode": "S5",
     "duration": "~1 săptămână",
-    "intro": "Până acum ai învățat bucăți: Python, NumPy, Pandas. Modulul ăsta le leagă. Nu aduce teorie nouă, ci ordinea în care se fac lucrurile. Contează, pentru că majoritatea greșelilor de la olimpiadă nu vin din model, ci din pași făcuți în ordine greșită. Un pipeline pe care îl poți rula cap-coadă în douăzeci de minute e cea mai valoroasă unealtă pe care o duci în concurs.",
+    "intro": "Până acum ai învățat bucăți: Python, NumPy, Pandas, EDA și preprocesare. Modulul ăsta le leagă. Nu aduce teorie nouă, ci ordinea în care se fac lucrurile. Contează, pentru că majoritatea greșelilor de la olimpiadă nu vin din model, ci din pași făcuți în ordine greșită. Un pipeline pe care îl poți rula cap-coadă în douăzeci de minute e cea mai valoroasă unealtă pe care o duci în concurs.",
     "sections": [
       {
         "heading": "Cei șase pași, în ordine",
@@ -936,7 +1117,7 @@ export const lessons: Lesson[] = [
         "heading": "Pasul 1: citești și te uiți",
         "blocks": [
           {
-            "p": "Primul lucru după citire e să verifici că datele arată cum crezi. Câte rânduri, ce coloane, ce tip are fiecare, cum arată ținta. Nu e analiză completă, aia vine în modulul următor. E doar verificarea că n-ai citit greșit fișierul."
+            "p": "Primul lucru după citire e să verifici că datele arată cum crezi. Câte rânduri, ce coloane, ce tip are fiecare, cum arată ținta. Nu e analiză completă, pentru asta ai lecția de EDA. E doar verificarea că n-ai citit greșit fișierul."
           },
           {
             "code": "import pandas as pd\n\ntrain = pd.read_csv(\"train.csv\")\ntest = pd.read_csv(\"test.csv\")\n\nprint(train.shape, test.shape)\nprint(train.dtypes)\nprint(train[\"target\"].value_counts())"
@@ -953,7 +1134,7 @@ export const lessons: Lesson[] = [
             "p": "Aici se pierd cele mai multe puncte. Ai nevoie de o parte din date pe care modelul să n-o fi văzut niciodată, ca să estimezi cinstit cât de bun e. Împărțirea se face înainte de orice transformare."
           },
           {
-            "code": "from sklearn.model_selection import train_test_split\n\nX = train.drop(columns=[\"target\"])\ny = train[\"target\"]\n\nX_tr, X_val, y_tr, y_val = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)"
+            "code": "from sklearn.model_selection import train_test_split\n\n# id-ul e doar un număr de rând, nu o informație despre el\nX = train.drop(columns=[\"id\", \"target\"])\ny = train[\"target\"]\n\nX_tr, X_val, y_tr, y_val = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)"
           },
           {
             "p": "Parametrul stratify păstrează aceeași proporție de clase în ambele bucăți. Fără el, pe o problemă dezechilibrată poți nimeri o validare care nu conține deloc clasa rară, iar scorul devine fără sens."
@@ -1018,13 +1199,22 @@ export const lessons: Lesson[] = [
             "p": "La final reantrenezi pe toate datele de antrenare, nu doar pe bucata de optzeci la sută. Ai folosit validarea ca să alegi, acum nu mai ai motiv să arunci acele exemple."
           },
           {
-            "code": "model.fit(X, y)\npred = model.predict(test)\n\nsub = pd.DataFrame({\"id\": test[\"id\"], \"target\": pred})\nsub.to_csv(\"submission.csv\", index=False)"
+            "code": "model.fit(X, y)\npred = model.predict(test.drop(columns=[\"id\"]))\n\nsub = pd.DataFrame({\"id\": test[\"id\"], \"target\": pred})\nsub.to_csv(\"submission.csv\", index=False)"
           },
           {
             "p": "Înainte de upload, trei verificări care au salvat multe concursuri: numărul de rânduri e egal cu al fișierului de test, numele coloanelor sunt exact cele cerute în enunț, și nu ai valori lipsă în predicții."
           },
           {
             "code": "assert len(sub) == len(test)\nassert list(sub.columns) == [\"id\", \"target\"]\nassert sub[\"target\"].isna().sum() == 0"
+          },
+          {
+            "p": "Și mai sigur e să pornești de la fișierul de exemplu din enunț: îl citești, verifici că rândurile sunt în aceeași ordine ca în test, schimbi doar coloana țintă și îl salvezi. Așa, numele și ordinea coloanelor sunt sigur cele cerute."
+          },
+          {
+            "code": "sub = pd.read_csv(\"sample_submission.csv\")\nassert (sub[\"id\"] == test[\"id\"]).all()\nsub[\"target\"] = pred\nsub.to_csv(\"submission.csv\", index=False)"
+          },
+          {
+            "p": "Dacă metrica e AUC sau log loss, trimiți probabilități, nu clase: `model.predict_proba(...)[:, 1]` îți dă probabilitatea clasei pozitive."
           }
         ]
       },
@@ -1036,6 +1226,9 @@ export const lessons: Lesson[] = [
           },
           {
             "p": "Ordinea inversă, în care lucrezi două ore la un model bun și abia apoi te apuci de submisie, e cel mai frecvent mod de a termina concursul cu zero puncte pentru cod care mergea aproape."
+          },
+          {
+            "p": "La ONIA trimiți și codul care a produs fișierul, iar platforma îl rulează fără acces la internet. Înainte de fiecare submisie rulează Restart Kernel and Run All Cells, ca să fii sigur că notebook-ul merge de la zero, și citește datele cu căi relative. Spre final alegi cele două submisii care contează: de obicei cea mai bună pe validarea locală și una mai sigură, cu un model mai simplu."
           }
         ]
       }
@@ -1049,6 +1242,14 @@ export const lessons: Lesson[] = [
       },
       {
         "title": "Scrie-ți un notebook șablon cu cei șase pași, pe care să-l copiezi la începutul oricărei probleme."
+      },
+      {
+        "title": "House Prices pe Kaggle",
+        "url": "https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques"
+      },
+      {
+        "title": "Kaggle Learn: Intermediate Machine Learning",
+        "url": "https://www.kaggle.com/learn/intermediate-machine-learning"
       }
     ]
   },

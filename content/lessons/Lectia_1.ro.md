@@ -7,9 +7,9 @@ duration: ~2h
 Firesc, prima întrebare e ce înseamnă mai exact inteligența artificială. Cu atâta confuzie în jurul termenului, e important să clarificăm întâi asta și abia apoi să pregătim mediul de lucru.
 
 ## Ce e AI și unde se folosește
-La bază, inteligența artificială înseamnă orice tehnologie care simulează funcții umane. În loc să urmeze reguli stricte, îi arăți mai multe exemple și o lași să găsească singură regulile, prin diverși algoritmi. Nu e ceva magic, ChatGPT nu „gândește". Partea asta, de învățat din exemple, se numește machine learning și reprezintă aproape tot ce faci la olimpiadă.
+La bază, inteligența artificială înseamnă orice tehnologie care simulează funcții umane. De cele mai multe ori, în loc să urmeze reguli stricte, îi arăți mai multe exemple și o lași să găsească singură regulile, prin diverși algoritmi. Nu e ceva magic, ChatGPT nu „gândește". Partea asta, de învățat din exemple, se numește machine learning și reprezintă aproape tot ce faci la olimpiadă.
 
-În sfera AI merită menționată și o anumită terminologie. Data science se referă la toate domeniile cu care avem de-a face în AI: matematică, informatică și altele. Matematica e baza și se folosește în absolut tot ce vom face, dar nu trebuie neapărat învățată în detaliu ca să rezolvi probleme sau să faci proiecte. Anumiți algoritmi clasici de informatică sunt și ei folosiți, BFS și DFS de exemplu, în anumite arii ale AI-ului. Machine learningul, menționat mai sus, se împarte la rândul lui în mai multe categorii: învățare supervizată, nesupervizată, reinforcement learning și, uneori, self-supervised.
+În sfera AI merită menționată și o anumită terminologie. Data science înseamnă să scoți informație utilă din date, cu ajutorul matematicii (mai ales al statisticii) și al informaticii. Matematica e baza și se folosește în absolut tot ce vom face, dar nu trebuie neapărat învățată în detaliu ca să rezolvi probleme sau să faci proiecte. Anumiți algoritmi clasici de informatică sunt și ei folosiți, BFS și DFS de exemplu, în anumite arii ale AI-ului. Machine learningul, menționat mai sus, se împarte la rândul lui în mai multe categorii: învățare supervizată, nesupervizată, reinforcement learning și, uneori, self-supervised.
 
 Poate ajuta câteva exemple. Ca să deosebești un email spam de unul normal cu reguli scrise de mână, ar trebui să scrii sute de condiții de tipul „dacă conține cuvântul X". Cu machine learning, îi dai câteva mii de emailuri deja marcate ca spam sau nu, iar modelul învață singur ce combinații de cuvinte prezic spamul. Câteva taskuri clasice de AI includ, dar nu se limitează la:
 
@@ -33,14 +33,14 @@ Python e limbajul standard în care se scrie cod de inteligență artificială. 
 O bibliotecă e cod scris de altcineva, pe care îl imporți și îl folosești. La taskuri de AI scopul nu e să înveți pe de rost cum se scriu algoritmii sau modelele, ci să le înțelegi, să știi când se folosesc și să le adaptezi la problema respectivă, împreună cu alte metode.
 
 > [!NOTE]
-> E bine să instalezi o versiune stabilă de Python, de exemplu 3.11, care e bine susținută de biblioteci.
+> E bine să instalezi o versiune stabilă de Python, de exemplu 3.11, care e bine susținută de biblioteci. E și versiunea de pe calculatoarele de la olimpiadă.
 
 ## Mediul de lucru: Python, pip și Jupyter Lab
 Înainte să scrii cod, ai nevoie de trei lucruri instalate pe calculator: Python, pip (care vine automat cu el) și Jupyter Lab. Jupyter Lab, VS Code și Google Colab sunt medii în care poți scrie notebookuri de Python, care îți permit să scrii codul pe bucăți și să îl execuți modular.
 
-- Windows: intră pe python.org/downloads, descarcă ultima versiune 3.11 sau mai nouă și rulează instalatorul. La primul ecran bifează „Add python.exe to PATH" înainte de Install Now, altfel terminalul nu va găsi Python după instalare.
-- macOS: descarcă tot de pe python.org/downloads fișierul .pkg și parcurge instalatorul. Dacă ai deja Homebrew, merge la fel de bine brew install python@3.11.
-- Linux (Ubuntu/Debian): deschide un terminal și rulează sudo apt update && sudo apt install python3 python3-pip python3-venv.
+- Windows: intră pe python.org/downloads, descarcă versiunea 3.11 și rulează instalatorul. La primul ecran bifează „Add python.exe to PATH" înainte de Install Now, altfel terminalul nu va găsi Python după instalare.
+- macOS: descarcă tot de pe python.org/downloads fișierul .pkg și parcurge instalatorul. Dacă ai deja Homebrew, merge la fel de bine `brew install python@3.11`.
+- Linux (Ubuntu/Debian): deschide un terminal și rulează `sudo apt update && sudo apt install python3 python3-pip python3-venv`.
 
 Pip vine inclus cu Python începând din versiunea 3.4, deci nu-l instalezi separat. Ca să confirmi că merg amândouă, deschide un terminal (Command Prompt sau PowerShell pe Windows, Terminal pe macOS și Linux) și rulează:
 
@@ -50,14 +50,26 @@ pip --version
 ```
 caption: Dacă amândouă îți dau un număr de versiune, Python și pip sunt instalate.
 
-Pe Windows, dacă python nu e recunoscut, încearcă py --version; dacă nici pip nu răspunde, încearcă pip3 sau python -m pip --version.
+Pe Windows, dacă `python` nu e recunoscut, încearcă `py --version`; dacă nici `pip` nu răspunde, încearcă `pip3` sau `python -m pip --version`.
 
 Cu Python instalat, treci la mediul de lucru propriu-zis. Un mediu virtual e o cutie separată pentru bibliotecile unui proiect, ca să nu se bată cap în cap cu altele instalate global. Îl creezi o dată pe proiect și lucrezi mereu în el.
 
 1. Deschide un terminal în folderul unde lucrezi.
-2. Scrie pip install jupyterlab și apasă Enter.
-3. Scrie jupyter lab și apasă Enter: ți se deschide automat un tab de browser cu interfața.
+2. Creează mediul virtual cu `python -m venv .venv`, apoi activează-l: `.venv\Scripts\activate` pe Windows, `source .venv/bin/activate` pe macOS și Linux. Activarea o repeți de fiecare dată când deschizi un terminal nou.
+3. Scrie `pip install jupyterlab` și apasă Enter.
+4. Scrie `jupyter lab` și apasă Enter: ți se deschide automat un tab de browser cu interfața.
 
 > [!NOTE]
 > Poți folosi și VS Code, dar la anumite concursuri nu e disponibil. De asemenea, Google Colab e o variantă bună când lucrezi de pe un calculator care nu e al tău.
 
+## La concurs
+La olimpiadă lucrezi pe calculatoarele centrului de concurs, cu Windows, JupyterLab, Python 3.11 și Firefox. În sală nu ai voie cu notițe sau cărți, iar pe internet ai acces doar la platforma de concurs și la documentația oficială a limbajului și a pachetelor permise, de exemplu docs.python.org, numpy.org/doc, pandas.pydata.org/docs sau scikit-learn.org. Lista exactă o anunță comisia.
+
+De asta merită să te obișnuiești de acum să cauți în documentație, nu pe Google. Ai ajutor și direct în notebook: scrii numele unei funcții urmat de `?`, de exemplu `pd.read_csv?`, sau apeși Shift+Tab între parantezele ei și vezi ce argumente primește.
+
+> [!NOTE]
+> Câteva taste din JupyterLab care îți câștigă timp: Shift+Enter rulează celula și trece la următoarea, Esc apoi A sau B adaugă o celulă deasupra sau dedesubt, Esc apoi M transformă celula în text. Înainte să trimiți o soluție, rulează Kernel → Restart Kernel and Run All Cells, ca să fii sigur că notebook-ul merge de la zero.
+
+# @practice
+- Prima submisie pe MLCompete
+- Caută în documentația pandas ce face argumentul sep din read_csv, fără Google

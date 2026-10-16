@@ -14,10 +14,10 @@ export const lessonsEn: Lesson[] = [
         "heading": "What AI is and where it's used",
         "blocks": [
           {
-            "p": "At its core, artificial intelligence means any technology that simulates human functions. Instead of following strict rules, you show it many examples and let it find the rules on its own, through various algorithms. It isn't magic: ChatGPT doesn't \"think\". The part about learning from examples is called machine learning, and it's almost everything you do at the olympiad."
+            "p": "At its core, artificial intelligence means any technology that simulates human functions. Most of the time, instead of following strict rules, you show it many examples and let it find the rules on its own, through various algorithms. It isn't magic: ChatGPT doesn't \"think\". The part about learning from examples is called machine learning, and it's almost everything you do at the olympiad."
           },
           {
-            "p": "Some terminology is worth mentioning too. Data science covers all the fields involved in AI: mathematics, computer science and others. Mathematics is the foundation and shows up in absolutely everything we do, but you don't have to learn it in depth to solve problems or build projects. Some classic computer science algorithms are used as well, BFS and DFS for example, in certain areas of AI. Machine learning, mentioned above, splits into several categories of its own: supervised learning, unsupervised learning, reinforcement learning and, sometimes, self-supervised."
+            "p": "Some terminology is worth mentioning too. Data science means getting useful information out of data, using mathematics (statistics above all) and computer science. Mathematics is the foundation and shows up in absolutely everything we do, but you don't have to learn it in depth to solve problems or build projects. Some classic computer science algorithms are used as well, BFS and DFS for example, in certain areas of AI. Machine learning, mentioned above, splits into several categories of its own: supervised learning, unsupervised learning, reinforcement learning and, sometimes, self-supervised."
           },
           {
             "p": "A few examples help. To tell a spam email from a normal one with hand-written rules, you'd have to write hundreds of conditions of the form \"if it contains the word X\". With machine learning, you give it a few thousand emails already marked as spam or not, and the model learns by itself which combinations of words predict spam. A few classic AI tasks include, but aren't limited to:"
@@ -53,7 +53,7 @@ export const lessonsEn: Lesson[] = [
             "p": "A library is code written by someone else that you import and use. In AI tasks the goal isn't to memorize how algorithms or models are written, but to understand them, to know when each one applies, and to adapt them to the problem at hand alongside other methods."
           },
           {
-            "note": "Install a stable version of Python, 3.11 for example, which is well supported by libraries."
+            "note": "Install a stable version of Python, 3.11 for example, which is well supported by libraries. It's also the version on the olympiad computers."
           }
         ]
       },
@@ -65,9 +65,9 @@ export const lessonsEn: Lesson[] = [
           },
           {
             "list": [
-              "Windows: go to python.org/downloads, download the latest 3.11 or newer and run the installer. On the first screen tick \"Add python.exe to PATH\" before Install Now, otherwise the terminal won't find Python afterwards.",
-              "macOS: download the .pkg file from python.org/downloads as well and step through the installer. If you already have Homebrew, brew install python@3.11 works just as well.",
-              "Linux (Ubuntu/Debian): open a terminal and run sudo apt update && sudo apt install python3 python3-pip python3-venv."
+              "Windows: go to python.org/downloads, download version 3.11 and run the installer. On the first screen tick \"Add python.exe to PATH\" before Install Now, otherwise the terminal won't find Python afterwards.",
+              "macOS: download the .pkg file from python.org/downloads as well and step through the installer. If you already have Homebrew, `brew install python@3.11` works just as well.",
+              "Linux (Ubuntu/Debian): open a terminal and run `sudo apt update && sudo apt install python3 python3-pip python3-venv`."
             ]
           },
           {
@@ -78,7 +78,7 @@ export const lessonsEn: Lesson[] = [
             "caption": "If both print a version number, Python and pip are installed."
           },
           {
-            "p": "On Windows, if python isn't recognized, try py --version; if pip doesn't answer either, try pip3 or python -m pip --version."
+            "p": "On Windows, if `python` isn't recognized, try `py --version`; if `pip` doesn't answer either, try `pip3` or `python -m pip --version`."
           },
           {
             "p": "With Python installed, move on to the working environment itself. A virtual environment is a separate box for one project's libraries, so they don't clash with others installed globally. You create it once per project and always work inside it."
@@ -86,12 +86,27 @@ export const lessonsEn: Lesson[] = [
           {
             "steps": [
               "Open a terminal in the folder you're working in.",
-              "Type pip install jupyterlab and press Enter.",
-              "Type jupyter lab and press Enter: a browser tab opens automatically with the interface."
+              "Create the virtual environment with `python -m venv .venv`, then activate it: `.venv\\Scripts\\activate` on Windows, `source .venv/bin/activate` on macOS and Linux. You repeat the activation every time you open a new terminal.",
+              "Type `pip install jupyterlab` and press Enter.",
+              "Type `jupyter lab` and press Enter: a browser tab opens automatically with the interface."
             ]
           },
           {
             "note": "You can use VS Code too, but at some contests it isn't available. Google Colab is also a good option when you're working from a computer that isn't yours."
+          }
+        ]
+      },
+      {
+        "heading": "At the contest",
+        "blocks": [
+          {
+            "p": "At the olympiad you work on the contest centre's computers, with Windows, JupyterLab, Python 3.11 and Firefox. You can't bring notes or books into the room, and online you can only reach the contest platform and the official documentation of the language and the allowed packages, for example docs.python.org, numpy.org/doc, pandas.pydata.org/docs or scikit-learn.org. The exact list is announced by the committee."
+          },
+          {
+            "p": "That's why it's worth getting used to searching the documentation now, not Google. You also get help right inside the notebook: type a function's name followed by `?`, for example `pd.read_csv?`, or press Shift+Tab inside its parentheses to see which arguments it takes."
+          },
+          {
+            "note": "A few JupyterLab keys that save time: Shift+Enter runs the cell and moves to the next one, Esc then A or B adds a cell above or below, Esc then M turns the cell into text. Before you submit a solution, run Kernel → Restart Kernel and Run All Cells, to make sure the notebook works from scratch."
           }
         ]
       }
@@ -99,6 +114,9 @@ export const lessonsEn: Lesson[] = [
     "practice": [
       {
         "title": "First submission on MLCompete"
+      },
+      {
+        "title": "Find in the pandas documentation what the sep argument of read_csv does, without Google"
       }
     ]
   },
@@ -162,6 +180,27 @@ export const lessonsEn: Lesson[] = [
         ]
       },
       {
+        "heading": "The ONIA rules",
+        "blocks": [
+          {
+            "p": "From the olympiad rules, a few things worth knowing in advance:"
+          },
+          {
+            "list": [
+              "The contest lasts four hours.",
+              "A problem's solution has two parts: the file with your answer and the Python code that produced it. You submit both on the platform.",
+              "The number of submissions is limited, and a minimum amount of time has to pass between two of them. You find out both together with the problems.",
+              "The score you see during the contest is provisional, computed on part of the test data. The final one is computed on the whole set.",
+              "For each problem you pick two submissions. Only those count in the final ranking.",
+              "Your account on platform.olimpiada-ai.ro has to be created and activated before the announced deadline. After it, you can't sign up anymore."
+            ]
+          },
+          {
+            "note": "The minimum score to qualify for the national stage is 60% of the total."
+          }
+        ]
+      },
+      {
         "heading": "Where you train",
         "blocks": [
           {
@@ -186,7 +225,7 @@ export const lessonsEn: Lesson[] = [
             "steps": [
               "Enter a training competition and read which metric is scored.",
               "Download the data and open the sample submission file, to see exactly which columns and which format it asks for.",
-              "Produce a file in the same format, even with random answers.",
+              "Produce a file in the same format, even with random answers. The simplest is to upload the sample file itself, unchanged.",
               "Upload it and look at the score."
             ]
           },
@@ -199,6 +238,10 @@ export const lessonsEn: Lesson[] = [
     "practice": [
       {
         "title": "Any problem with a sample submission file"
+      },
+      {
+        "title": "Titanic on Kaggle",
+        "url": "https://www.kaggle.com/competitions/titanic"
       }
     ]
   },
@@ -241,7 +284,7 @@ export const lessonsEn: Lesson[] = [
             "code": "print(7 / 2)          # 3.5\nprint(7 // 2)         # 3\nprint(7 % 2)           # 1\nprint(int(3.9))        # 3, truncates\nprint(round(3.9))      # 4, rounds\nprint(str(42) + \"!\")   # \"42!\""
           },
           {
-            "note": "`0`, `0.0`, `\"\"`, `[]`, `{}`, `set()` and `None` are all \"false\" when you put them in an `if`. An empty list is false, everything else is true."
+            "note": "`0`, `0.0`, `\"\"`, `[]`, `{}`, `set()` and `None` are all \"false\" when you put them in an `if`. An empty list is false, one with elements is true."
           }
         ]
       },
@@ -272,7 +315,7 @@ export const lessonsEn: Lesson[] = [
             "p": "Dictionaries aren't only read with `d[\"key\"]`, which raises an error if the key is missing. `.get(\"key\", default)` returns a default value instead."
           },
           {
-            "code": "grades = {\n\t\"Radu\": 4,\n\t\"Stefan\": 10,\n\t\"Victor\": 8\n}\nprint(grades[\"Stefan\"])   # 10\nprint(grades.get(\"Radu\")) # 4"
+            "code": "grades = {\n    \"Radu\": 4,\n    \"Stefan\": 10,\n    \"Victor\": 8\n}\nprint(grades[\"Stefan\"])   # 10\nprint(grades.get(\"Radu\")) # 4"
           },
           {
             "p": "Dictionaries can contain other dictionaries."
@@ -479,6 +522,9 @@ export const lessonsEn: Lesson[] = [
             "p": "The exceptions you'll hit most in contests: `ValueError` (a failed conversion, like `int(\"abc\")`), `KeyError` (a key that doesn't exist in a dictionary), `IndexError` (an index outside the list), `FileNotFoundError` (a wrong path to the data)."
           },
           {
+            "p": "When one shows up, read the message from the bottom up: the last line tells you the type of error and why, and further up the arrow points to the line of code that failed."
+          },
+          {
             "note": "Don't catch exceptions with a bare `except:`. It hides every mistake, including the ones you should actually see. Catch the exact type you expect, for example `except ValueError:`."
           },
           {
@@ -549,11 +595,19 @@ export const lessonsEn: Lesson[] = [
           },
           {
             "note": "Set `random.seed(...)` once, at the start of the script. Without it, running the code twice gives different results, which makes it impossible to fairly compare two ideas."
+          },
+          {
+            "p": "`random.seed` only controls the `random` module. NumPy has its own generator, which you fix with `np.random.seed(42)`, and scikit-learn functions and models take `random_state=42`, as you'll see when splitting data."
           }
         ]
       }
     ],
-    "practice": []
+    "practice": [
+      {
+        "title": "Kaggle Learn: Python",
+        "url": "https://www.kaggle.com/learn/python"
+      }
+    ]
   },
   {
     "moduleCode": "S4",
@@ -564,10 +618,10 @@ export const lessonsEn: Lesson[] = [
         "heading": "Install",
         "blocks": [
           {
-            "p": "Neither comes with Python. You install them once, in the project's virtual environment."
+            "p": "Neither comes with Python. You install them once, in the project's virtual environment, together with Matplotlib, Seaborn and Pillow, which you use for charts and images."
           },
           {
-            "code": "pip install numpy\npip install pandas",
+            "code": "pip install numpy\npip install pandas\npip install matplotlib seaborn pillow",
             "caption": "Run these in a terminal, in the project folder."
           }
         ]
@@ -690,7 +744,7 @@ export const lessonsEn: Lesson[] = [
             "p": "Real data has names: an age column, a score column, a class column. Pandas adds labels on top of NumPy, in two structures: Series (a single column, with an index) and DataFrame (a whole table, several columns). It's the structure most contest datasets arrive in."
           },
           {
-            "code": "s = pd.Series([10, 20, 30], index=[\"a\", \"b\", \"c\"])\nprint(s[\"b\"])     # 20\n\ndf = pd.DataFrame({\"name\": [\"Ana\", \"Bogdan\"], \"score\": [9.2, 8.7]})"
+            "code": "import pandas as pd\n\ns = pd.Series([10, 20, 30], index=[\"a\", \"b\", \"c\"])\nprint(s[\"b\"])     # 20\n\ndf = pd.DataFrame({\"name\": [\"Ana\", \"Bogdan\"], \"score\": [9.2, 8.7]})"
           },
           {
             "p": "A DataFrame is basically a dictionary of Series, one per column. You read a CSV file in one line, then look at it before anything: the first rows, the column types, how many values are missing."
@@ -718,7 +772,10 @@ export const lessonsEn: Lesson[] = [
             "p": "Real data almost always has gaps, duplicate rows or wrong types, and a model trained on dirty data makes bad predictions. `isna()` flags where a value is missing, `dropna()` removes rows with gaps, `fillna(value)` fills them in."
           },
           {
-            "code": "df.isna().sum()          # how many values are missing per column\ndf.dropna()               # removes rows with any gap\ndf[\"score\"].fillna(df[\"score\"].mean())   # fills gaps with the mean"
+            "code": "df.isna().sum()          # how many values are missing per column\ndf_complete = df.dropna() # removes rows with any gap\n# fills gaps with the mean\ndf[\"score\"] = df[\"score\"].fillna(df[\"score\"].mean())"
+          },
+          {
+            "p": "`dropna` and `fillna` don't change the data in place, they return a new copy, so you have to store it in a variable. Without `=`, the line does nothing."
           },
           {
             "note": "Choose between `dropna` and `fillna` based on how many rows you have and what the gap means: if few values are missing, you can drop them; if many are missing, dropping throws away too much good data with them."
@@ -741,6 +798,12 @@ export const lessonsEn: Lesson[] = [
             "code": "df.groupby(\"class\")[\"score\"].mean()      # mean score per class\ndf.groupby(\"class\").size()               # how many rows each class has"
           },
           {
+            "p": "With `agg` you compute several statistics at once, and `transform` returns the result on every row, so you can put it back into the table as a new column."
+          },
+          {
+            "code": "df.groupby(\"class\")[\"score\"].agg([\"mean\", \"std\", \"count\"])\ndf[\"class_mean\"] = df.groupby(\"class\")[\"score\"].transform(\"mean\")"
+          },
+          {
             "p": "merge stitches two tables together on a common column. how says what you do with the rows that have no match: left keeps everything from the left, inner keeps only the matches. When the tables have the same columns and you just want to stack one under the other, use `pd.concat()` instead of merge."
           },
           {
@@ -748,6 +811,9 @@ export const lessonsEn: Lesson[] = [
           },
           {
             "p": "pivot_table reshapes a long table into a wide one, with a column turned into a header. It's handy for reports and for spotting patterns across two dimensions at once."
+          },
+          {
+            "code": "# mean score per class (rows) and year (columns)\ndf.pivot_table(index=\"class\", columns=\"year\",\n               values=\"score\", aggfunc=\"mean\")"
           }
         ]
       },
@@ -779,9 +845,53 @@ export const lessonsEn: Lesson[] = [
             "code": "df.to_csv(\"result.csv\", index=False)"
           }
         ]
+      },
+      {
+        "heading": "Charts: Matplotlib and Seaborn",
+        "blocks": [
+          {
+            "p": "A chart shows you in a few seconds what you wouldn't notice in a table: a skewed distribution, an impossible value, two columns that rise together. Matplotlib is the base library, and Seaborn is built on top of it and draws statistical charts in a single line."
+          },
+          {
+            "code": "import matplotlib.pyplot as plt\nimport seaborn as sns\n\n# line: how a value changes over time\nplt.plot(df[\"day\"], df[\"temperature\"])\nplt.show()\n\n# bars: how many rows each category has\ndf[\"city\"].value_counts().plot(kind=\"bar\")\nplt.show()\n\n# histogram: the distribution of a column\nplt.hist(df[\"age\"], bins=30)\nplt.show()\n\n# scatter: the relationship between two columns\nplt.scatter(df[\"area\"], df[\"price\"])\nplt.show()"
+          },
+          {
+            "p": "Seaborn adds the box plot, good for spotting outliers, and the heatmap, good for the correlation matrix."
+          },
+          {
+            "code": "# box plot: median, quartiles and the values that don't fit\nsns.boxplot(x=\"class\", y=\"score\", data=df)\nplt.show()\n\n# heatmap: the correlations between columns, as colours\nsns.heatmap(df.corr(numeric_only=True), annot=True, cmap=\"coolwarm\")\nplt.show()"
+          },
+          {
+            "note": "Put `plt.show()` after every chart. Otherwise the charts in the same cell get drawn on top of each other."
+          }
+        ]
+      },
+      {
+        "heading": "Images as arrays",
+        "blocks": [
+          {
+            "p": "To a computer, a colour image is an array of numbers with the shape (height, width, 3): three channels, red, green and blue, with values from 0 to 255. You read it with Pillow and turn it into a NumPy array, and from there everything you saw above works."
+          },
+          {
+            "code": "from PIL import Image\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# convert(\"RGB\") drops the transparency channel, if there is one\nimg = Image.open(\"photo.png\").convert(\"RGB\")\na = np.array(img)\nprint(a.shape, a.dtype)                  # (height, width, 3) uint8\n\ngray = np.array(img.convert(\"L\"))        # black and white, one channel\nsmall = np.array(img.resize((64, 64)))   # the same size for every picture\n\nplt.imshow(a)\nplt.show()"
+          }
+        ]
       }
     ],
-    "practice": []
+    "practice": [
+      {
+        "title": "numpy-100",
+        "url": "https://github.com/rougier/numpy-100"
+      },
+      {
+        "title": "Kaggle Learn: Pandas",
+        "url": "https://www.kaggle.com/learn/pandas"
+      },
+      {
+        "title": "Kaggle Learn: Data Visualization",
+        "url": "https://www.kaggle.com/learn/data-visualization"
+      }
+    ]
   },
   {
     "moduleCode": "S6",
@@ -799,6 +909,23 @@ export const lessonsEn: Lesson[] = [
           },
           {
             "code": "df[\"age\"].hist(bins=30)\ndf[\"target\"].value_counts()     # how many examples per class"
+          }
+        ]
+      },
+      {
+        "heading": "Outliers: values that don't fit",
+        "blocks": [
+          {
+            "p": "An outlier is a value much larger or smaller than the rest of the column. It can be an error, like an age of 200, or it can be exactly what you're looking for, like an anomaly in a sensor. You spot it fastest on a box plot. The classic rule counts a value as an outlier if it's more than 1.5 IQR below the first quartile or above the third, where IQR is the distance between quartile 1 and quartile 3."
+          },
+          {
+            "code": "q1, q3 = df[\"price\"].quantile([0.25, 0.75])\niqr = q3 - q1\nlow, high = q1 - 1.5 * iqr, q3 + 1.5 * iqr\noutliers = df[(df[\"price\"] < low) | (df[\"price\"] > high)]\nprint(len(outliers))"
+          },
+          {
+            "p": "What you do with them depends on the cause. You fix or drop errors. Real but extreme values you can cap at a limit with `clip`, and a column with a long right tail, like prices or incomes, you bring to a more balanced shape with `np.log1p`."
+          },
+          {
+            "code": "df[\"price\"] = df[\"price\"].clip(upper=high)\ndf[\"income_log\"] = np.log1p(df[\"income\"])"
           }
         ]
       },
@@ -823,6 +950,9 @@ export const lessonsEn: Lesson[] = [
             "code": "df.corr(numeric_only=True)     # correlation matrix between columns"
           },
           {
+            "p": "By default it's Pearson correlation, which only catches linear relationships. `df.corr(method=\"spearman\", numeric_only=True)` also catches columns that rise together without lying on a straight line."
+          },
+          {
             "p": "Correlation doesn't mean causation. Two things can rise together without one causing the other. It's a hint of where to look, not a conclusion."
           }
         ]
@@ -837,7 +967,19 @@ export const lessonsEn: Lesson[] = [
             "p": "Filling in (imputation) uses the mean, the median or the most frequent value, or a model. The median is safer than the mean when there are outliers, because it isn't pulled by extreme values."
           },
           {
+            "p": "In the examples here, `X_train` is the part of the data you train on and `X_val` the part you check the model on. You'll see how to get them in the next lesson."
+          },
+          {
             "code": "from sklearn.impute import SimpleImputer\nimp = SimpleImputer(strategy=\"median\").fit(X_train)\nX_train = imp.transform(X_train)\nX_val = imp.transform(X_val)    # same parameters, learned on train"
+          },
+          {
+            "p": "`SimpleImputer` adds the column that flags the gap by itself, if you give it `add_indicator=True`."
+          },
+          {
+            "p": "In time series, like a sensor's readings, a gap is usually filled with the last known value. You sort by time first, then use `ffill`."
+          },
+          {
+            "code": "df = df.sort_values(\"time\")\ndf[\"temperature\"] = df[\"temperature\"].ffill()"
           }
         ]
       },
@@ -845,7 +987,7 @@ export const lessonsEn: Lesson[] = [
         "heading": "Scaling: which method and when",
         "blocks": [
           {
-            "p": "Many models measure distances (kNN, K-Means) or use gradients (regression, neural networks). For them, a column with large values (income, in thousands) dominates one with small values (age, tens) purely by scale, not by importance. Scaling brings them to the same measure. There are two common methods, and the choice depends on the shape of the data."
+            "p": "Many models measure distances (kNN, K-Means) or use gradients (regression, neural networks). For them, a column with large values (income, in thousands) dominates one with small values (age, tens) purely by scale, not by importance. Scaling brings them to the same measure. Decision trees and Random Forest don't need it, because they split the data on thresholds. There are two common methods, and the choice depends on the shape of the data."
           },
           {
             "formula": "z = (x - μ) / σ",
@@ -860,6 +1002,12 @@ export const lessonsEn: Lesson[] = [
           },
           {
             "code": "from sklearn.preprocessing import MinMaxScaler\nsc = MinMaxScaler().fit(X_train)   # learns min and max on TRAIN\nX_train = sc.transform(X_train)\nX_val = sc.transform(X_val)"
+          },
+          {
+            "p": "When a column has outliers, a third option, `RobustScaler`, is safer: it subtracts the median and divides by the IQR, so one extreme point doesn't wreck the scale for everything else."
+          },
+          {
+            "code": "from sklearn.preprocessing import RobustScaler\nsc = RobustScaler().fit(X_train)   # learns the median and IQR on TRAIN\nX_train = sc.transform(X_train)\nX_val = sc.transform(X_val)"
           },
           {
             "note": "The basic rule of preprocessing: learn the parameters (mean, deviation, median, min, max) only on the training set, then apply them to validation and test. Never the other way around. Otherwise test leaks into training and your score is a lie."
@@ -897,6 +1045,12 @@ export const lessonsEn: Lesson[] = [
             "code": "from category_encoders import BinaryEncoder\nenc = BinaryEncoder(cols=[\"zip_code\"])\ndf_encoded = enc.fit_transform(df[\"zip_code\"])"
           },
           {
+            "p": "`BinaryEncoder` comes from the `category_encoders` package, not from scikit-learn, so it might not be installed at the contest. An alternative with plain Pandas is frequency encoding: you replace the category with how many times it shows up."
+          },
+          {
+            "code": "freq = df[\"zip_code\"].value_counts()\ndf[\"zip_code_freq\"] = df[\"zip_code\"].map(freq)"
+          },
+          {
             "p": "Target encoding goes further: it replaces each category with the mean of the target for that category, a single column regardless of how many categories there are. The most powerful option at very high cardinality, but also the most exposed to data leakage."
           },
           {
@@ -906,14 +1060,37 @@ export const lessonsEn: Lesson[] = [
             "note": "Ordinal, binary and target encoding are all learned only on train too, same as imputation and scaling. Otherwise information from validation/test leaks into the encoding and your score lies."
           }
         ]
+      },
+      {
+        "heading": "New columns from the ones you have",
+        "blocks": [
+          {
+            "p": "Often the model learns better from a column you build yourself than from the raw data. That's feature engineering. Three patterns show up often: statistics per group, sliding windows over series, and pieces of a calendar date."
+          },
+          {
+            "code": "# mean and deviation per group, put on every row\ndf[\"city_mean\"] = df.groupby(\"city\")[\"area\"].transform(\"mean\")\ndf[\"city_std\"] = df.groupby(\"city\")[\"area\"].transform(\"std\")\n\n# sliding window: the mean of the last 5 readings, per sensor\ndf = df.sort_values([\"sensor\", \"time\"])\nmean_5 = lambda s: s.rolling(5, min_periods=1).mean()\ndf[\"temp_5\"] = df.groupby(\"sensor\")[\"temperature\"].transform(mean_5)\n\n# pieces of a calendar date\ndf[\"date\"] = pd.to_datetime(df[\"date\"])\ndf[\"month\"] = df[\"date\"].dt.month\ndf[\"weekday\"] = df[\"date\"].dt.dayofweek"
+          },
+          {
+            "p": "If the group statistic is computed from the target, it's really target encoding and you learn it only on train, as above."
+          }
+        ]
       }
     ],
-    "practice": []
+    "practice": [
+      {
+        "title": "Kaggle Learn: Data Cleaning",
+        "url": "https://www.kaggle.com/learn/data-cleaning"
+      },
+      {
+        "title": "Kaggle Learn: Feature Engineering",
+        "url": "https://www.kaggle.com/learn/feature-engineering"
+      }
+    ]
   },
   {
     "moduleCode": "S5",
     "duration": "~1 week",
-    "intro": "So far you've learned pieces: Python, NumPy, Pandas. This module ties them together. It brings no new theory, only the order in which things get done. That matters, because most olympiad mistakes don't come from the model, they come from steps taken in the wrong order. A pipeline you can run end to end in twenty minutes is the most valuable tool you bring into a contest.",
+    "intro": "So far you've learned pieces: Python, NumPy, Pandas, EDA and preprocessing. This module ties them together. It brings no new theory, only the order in which things get done. That matters, because most olympiad mistakes don't come from the model, they come from steps taken in the wrong order. A pipeline you can run end to end in twenty minutes is the most valuable tool you bring into a contest.",
     "sections": [
       {
         "heading": "The six steps, in order",
@@ -940,7 +1117,7 @@ export const lessonsEn: Lesson[] = [
         "heading": "Step 1: read and look",
         "blocks": [
           {
-            "p": "The first thing after reading is checking that the data looks the way you think it does. How many rows, which columns, what type each one is, what the target looks like. This isn't full analysis, that comes in the next module. It's just confirming you didn't read the file wrong."
+            "p": "The first thing after reading is checking that the data looks the way you think it does. How many rows, which columns, what type each one is, what the target looks like. This isn't full analysis, that's what the EDA lesson is for. It's just confirming you didn't read the file wrong."
           },
           {
             "code": "import pandas as pd\n\ntrain = pd.read_csv(\"train.csv\")\ntest = pd.read_csv(\"test.csv\")\n\nprint(train.shape, test.shape)\nprint(train.dtypes)\nprint(train[\"target\"].value_counts())"
@@ -957,7 +1134,7 @@ export const lessonsEn: Lesson[] = [
             "p": "This is where most points are lost. You need a slice of the data the model has never seen, so you can honestly estimate how good it is. The split happens before any transformation."
           },
           {
-            "code": "from sklearn.model_selection import train_test_split\n\nX = train.drop(columns=[\"target\"])\ny = train[\"target\"]\n\nX_tr, X_val, y_tr, y_val = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)"
+            "code": "from sklearn.model_selection import train_test_split\n\n# the id is just a row number, not information about the row\nX = train.drop(columns=[\"id\", \"target\"])\ny = train[\"target\"]\n\nX_tr, X_val, y_tr, y_val = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)"
           },
           {
             "p": "The stratify argument keeps the same class proportions in both halves. Without it, on an imbalanced problem you can land a validation set that contains none of the rare class at all, and the score becomes meaningless."
@@ -1022,13 +1199,22 @@ export const lessonsEn: Lesson[] = [
             "p": "At the end you retrain on all the training data, not just the eighty percent slice. You used validation to choose; now there's no reason to throw those examples away."
           },
           {
-            "code": "model.fit(X, y)\npred = model.predict(test)\n\nsub = pd.DataFrame({\"id\": test[\"id\"], \"target\": pred})\nsub.to_csv(\"submission.csv\", index=False)"
+            "code": "model.fit(X, y)\npred = model.predict(test.drop(columns=[\"id\"]))\n\nsub = pd.DataFrame({\"id\": test[\"id\"], \"target\": pred})\nsub.to_csv(\"submission.csv\", index=False)"
           },
           {
             "p": "Before uploading, three checks that have saved many contests: the row count matches the test file, the column names are exactly what the statement asks for, and there are no missing values in the predictions."
           },
           {
             "code": "assert len(sub) == len(test)\nassert list(sub.columns) == [\"id\", \"target\"]\nassert sub[\"target\"].isna().sum() == 0"
+          },
+          {
+            "p": "Safer still is to start from the sample file in the statement: you read it, check that the rows are in the same order as in test, change only the target column and save it. That way the column names and their order are exactly what's asked for."
+          },
+          {
+            "code": "sub = pd.read_csv(\"sample_submission.csv\")\nassert (sub[\"id\"] == test[\"id\"]).all()\nsub[\"target\"] = pred\nsub.to_csv(\"submission.csv\", index=False)"
+          },
+          {
+            "p": "If the metric is AUC or log loss, you submit probabilities, not classes: `model.predict_proba(...)[:, 1]` gives you the probability of the positive class."
           }
         ]
       },
@@ -1040,6 +1226,9 @@ export const lessonsEn: Lesson[] = [
           },
           {
             "p": "The reverse order, where you spend two hours on a good model and only then start on the submission, is the most common way to finish a contest with zero points for code that almost worked."
+          },
+          {
+            "p": "At ONIA you also submit the code that produced the file, and the platform runs it without internet access. Before every submission, run Restart Kernel and Run All Cells, to make sure the notebook works from scratch, and read the data with relative paths. Near the end you pick the two submissions that count: usually the best one on local validation and a safer one, with a simpler model."
           }
         ]
       }
@@ -1053,6 +1242,14 @@ export const lessonsEn: Lesson[] = [
       },
       {
         "title": "Write yourself a template notebook with the six steps, to copy at the start of any problem."
+      },
+      {
+        "title": "House Prices on Kaggle",
+        "url": "https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques"
+      },
+      {
+        "title": "Kaggle Learn: Intermediate Machine Learning",
+        "url": "https://www.kaggle.com/learn/intermediate-machine-learning"
       }
     ]
   },

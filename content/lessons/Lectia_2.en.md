@@ -36,6 +36,19 @@ If you pick your model by the public score, you end up fitting that small slice 
 > [!NOTE]
 > The defence is serious local validation. You keep part of the training data aside as your own test set, and trust the score from there more than the public leaderboard. At the end you pick your submissions by the local score, not the public one.
 
+## The ONIA rules
+From the olympiad rules, a few things worth knowing in advance:
+
+- The contest lasts four hours.
+- A problem's solution has two parts: the file with your answer and the Python code that produced it. You submit both on the platform.
+- The number of submissions is limited, and a minimum amount of time has to pass between two of them. You find out both together with the problems.
+- The score you see during the contest is provisional, computed on part of the test data. The final one is computed on the whole set.
+- For each problem you pick two submissions. Only those count in the final ranking.
+- Your account on platform.olimpiada-ai.ro has to be created and activated before the announced deadline. After it, you can't sign up anymore.
+
+> [!NOTE]
+> The minimum score to qualify for the national stage is 60% of the total.
+
 ## Where you train
 Three platforms where you'll find problems:
 
@@ -48,7 +61,7 @@ MLCompete (platform.olimpiada-ai.ro) and Nitro AI Judge (judge.nitro-ai.org) are
 
 1. Enter a training competition and read which metric is scored.
 2. Download the data and open the sample submission file, to see exactly which columns and which format it asks for.
-3. Produce a file in the same format, even with random answers.
+3. Produce a file in the same format, even with random answers. The simplest is to upload the sample file itself, unchanged.
 4. Upload it and look at the score.
 
 > [!NOTE]
@@ -56,3 +69,4 @@ MLCompete (platform.olimpiada-ai.ro) and Nitro AI Judge (judge.nitro-ai.org) are
 
 # @practice
 - Any problem with a sample submission file
+- [Titanic on Kaggle](https://www.kaggle.com/competitions/titanic)

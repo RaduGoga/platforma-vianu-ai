@@ -7,11 +7,12 @@ duration: ~2 săptămâni
 NumPy e biblioteca pentru calcul numeric în Python: lucrează cu array-uri de numere și face operațiile mult mai rapid decât o buclă obișnuită. Pandas e construit peste NumPy și adaugă etichete: coloane cu nume, rânduri cu index, tabele ca într-un Excel. Le folosești pe amândouă în aproape orice problemă din concurs, indiferent de model.
 
 ## Instalare
-Ambele sunt biblioteci externe, nu vin cu Python. Le instalezi o singură dată, în mediul virtual al proiectului.
+Ambele sunt biblioteci externe, nu vin cu Python. Le instalezi o singură dată, în mediul virtual al proiectului, împreună cu Matplotlib, Seaborn și Pillow, pe care le folosești la grafice și imagini.
 
 ```
 pip install numpy
 pip install pandas
+pip install matplotlib seaborn pillow
 ```
 caption: Rulează comenzile astea în terminal, în folderul proiectului.
 
@@ -146,6 +147,8 @@ np.concatenate([[1, 2], [3, 4]]) # [1, 2, 3, 4]
 Datele reale au nume: coloana vârstă, coloana scor, coloana clasă. Pandas adaugă etichete peste NumPy, în două structuri: Series (o singură coloană, cu index) și DataFrame (un tabel întreg, mai multe coloane). E structura în care ajung mai toate seturile de concurs.
 
 ```
+import pandas as pd
+
 s = pd.Series([10, 20, 30], index=["a", "b", "c"])
 print(s["b"])     # 20
 
@@ -178,9 +181,12 @@ Datele reale au aproape mereu goluri, valori duplicate sau tipuri greșite, și 
 
 ```
 df.isna().sum()          # câte valori lipsesc pe fiecare coloană
-df.dropna()               # scoate rândurile cu orice gol
-df["scor"].fillna(df["scor"].mean())   # completează golurile cu media
+df_complet = df.dropna()  # scoate rândurile cu orice gol
+# completează golurile cu media
+df["scor"] = df["scor"].fillna(df["scor"].mean())
 ```
+
+`dropna` și `fillna` nu schimbă datele pe loc, ci întorc o copie nouă, așa că trebuie s-o pui într-o variabilă. Fără `=`, linia nu are niciun efect.
 
 > [!NOTE]
 > Alege între `dropna` și `fillna` în funcție de câte rânduri ai și de ce înseamnă lipsa: dacă lipsesc puține valori, le poți arunca; dacă lipsesc multe, arunci prea multe date bune odată cu ele.
@@ -203,6 +209,13 @@ df.groupby("clasa")["scor"].mean()      # media scorului pe fiecare clasă
 df.groupby("clasa").size()             # câte rânduri are fiecare clasă
 ```
 
+Cu `agg` calculezi mai multe statistici deodată, iar `transform` întoarce rezultatul pe fiecare rând, ca să-l poți pune înapoi în tabel ca o coloană nouă.
+
+```
+df.groupby("clasa")["scor"].agg(["mean", "std", "count"])
+df["media_clasei"] = df.groupby("clasa")["scor"].transform("mean")
+```
+
 merge lipește două tabele după o coloană comună. how spune ce faci cu rândurile fără pereche: left păstrează tot din stânga, inner doar potrivirile. Când tabelele au aceleași coloane și vrei doar să le pui unul sub altul, folosești `pd.concat()` în loc de merge.
 
 ```
@@ -211,6 +224,12 @@ pd.concat([df1, df2])   # pune df2 sub df1, aceleași coloane
 ```
 
 pivot_table rearanjează un tabel lung într-unul lat, cu o coloană devenită antet. E util la rapoarte și la văzut tipare pe două dimensiuni deodată.
+
+```
+# media scorului pe clasă (rânduri) și an (coloane)
+df.pivot_table(index="clasa", columns="an",
+               values="scor", aggfunc="mean")
+```
 
 ## Alte operații frecvente
 `sort_values()` sortează un DataFrame după o coloană. `value_counts()` numără de câte ori apare fiecare valoare distinctă, prima verificare când vrei să vezi dacă o clasă e dezechilibrată.
@@ -239,3 +258,67 @@ La final, scrii rezultatul înapoi pe disc cu `to_csv`, exact formatul pe care �
 ```
 df.to_csv("rezultat.csv", index=False)
 ```
+
+## Grafice: Matplotlib și Seaborn
+Un grafic îți arată în câteva secunde ce într-un tabel n-ai observa: o distribuție strâmbă, o valoare imposibilă, două coloane care cresc împreună. Matplotlib e biblioteca de bază, iar Seaborn e construit peste ea și face graficele statistice dintr-o singură linie.
+
+```
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# linie: cum se schimbă o valoare în timp
+plt.plot(df["zi"], df["temperatura"])
+plt.show()
+
+# bare: câte rânduri are fiecare categorie
+df["oras"].value_counts().plot(kind="bar")
+plt.show()
+
+# histogramă: distribuția unei coloane
+plt.hist(df["varsta"], bins=30)
+plt.show()
+
+# scatter: legătura dintre două coloane
+plt.scatter(df["suprafata"], df["pret"])
+plt.show()
+```
+
+Seaborn adaugă box plotul, bun ca să vezi outlierii, și heatmap-ul, bun pentru matricea de corelații.
+
+```
+# box plot: mediana, cuartilele și valorile ieșite din tipar
+sns.boxplot(x="clasa", y="scor", data=df)
+plt.show()
+
+# heatmap: corelațiile dintre coloane, pe culori
+sns.heatmap(df.corr(numeric_only=True), annot=True, cmap="coolwarm")
+plt.show()
+```
+
+> [!NOTE]
+> Pune `plt.show()` după fiecare grafic. Altfel, graficele din aceeași celulă se desenează unul peste altul.
+
+## Imagini ca array-uri
+Pentru calculator, o imagine color e un array de numere cu forma (înălțime, lățime, 3): trei canale, roșu, verde și albastru, cu valori de la 0 la 255. O citești cu Pillow și o transformi în array NumPy, iar de acolo merge tot ce ai văzut mai sus.
+
+```
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+
+# convert("RGB") scoate canalul de transparență, dacă există
+img = Image.open("poza.png").convert("RGB")
+a = np.array(img)
+print(a.shape, a.dtype)                 # (înălțime, lățime, 3) uint8
+
+gri = np.array(img.convert("L"))        # alb-negru, un singur canal
+mica = np.array(img.resize((64, 64)))   # aceeași mărime pentru toate
+
+plt.imshow(a)
+plt.show()
+```
+
+# @practice
+- [numpy-100](https://github.com/rougier/numpy-100)
+- [Kaggle Learn: Pandas](https://www.kaggle.com/learn/pandas)
+- [Kaggle Learn: Data Visualization](https://www.kaggle.com/learn/data-visualization)

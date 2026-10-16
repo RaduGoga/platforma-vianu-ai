@@ -7,9 +7,9 @@ duration: ~2h
 Naturally, the first question is what artificial intelligence actually means. With so much confusion around the term, it's worth clearing that up first and only then setting up your working environment.
 
 ## What AI is and where it's used
-At its core, artificial intelligence means any technology that simulates human functions. Instead of following strict rules, you show it many examples and let it find the rules on its own, through various algorithms. It isn't magic: ChatGPT doesn't "think". The part about learning from examples is called machine learning, and it's almost everything you do at the olympiad.
+At its core, artificial intelligence means any technology that simulates human functions. Most of the time, instead of following strict rules, you show it many examples and let it find the rules on its own, through various algorithms. It isn't magic: ChatGPT doesn't "think". The part about learning from examples is called machine learning, and it's almost everything you do at the olympiad.
 
-Some terminology is worth mentioning too. Data science covers all the fields involved in AI: mathematics, computer science and others. Mathematics is the foundation and shows up in absolutely everything we do, but you don't have to learn it in depth to solve problems or build projects. Some classic computer science algorithms are used as well, BFS and DFS for example, in certain areas of AI. Machine learning, mentioned above, splits into several categories of its own: supervised learning, unsupervised learning, reinforcement learning and, sometimes, self-supervised.
+Some terminology is worth mentioning too. Data science means getting useful information out of data, using mathematics (statistics above all) and computer science. Mathematics is the foundation and shows up in absolutely everything we do, but you don't have to learn it in depth to solve problems or build projects. Some classic computer science algorithms are used as well, BFS and DFS for example, in certain areas of AI. Machine learning, mentioned above, splits into several categories of its own: supervised learning, unsupervised learning, reinforcement learning and, sometimes, self-supervised.
 
 A few examples help. To tell a spam email from a normal one with hand-written rules, you'd have to write hundreds of conditions of the form "if it contains the word X". With machine learning, you give it a few thousand emails already marked as spam or not, and the model learns by itself which combinations of words predict spam. A few classic AI tasks include, but aren't limited to:
 
@@ -33,14 +33,14 @@ Python is the standard language for writing artificial intelligence code. Not be
 A library is code written by someone else that you import and use. In AI tasks the goal isn't to memorize how algorithms or models are written, but to understand them, to know when each one applies, and to adapt them to the problem at hand alongside other methods.
 
 > [!NOTE]
-> Install a stable version of Python, 3.11 for example, which is well supported by libraries.
+> Install a stable version of Python, 3.11 for example, which is well supported by libraries. It's also the version on the olympiad computers.
 
 ## Your working setup: Python, pip and Jupyter Lab
 Before you write any code you need three things installed: Python, pip (which comes with it automatically) and Jupyter Lab. Jupyter Lab, VS Code and Google Colab are environments where you can write Python notebooks, which let you write code in pieces and run it one piece at a time.
 
-- Windows: go to python.org/downloads, download the latest 3.11 or newer and run the installer. On the first screen tick "Add python.exe to PATH" before Install Now, otherwise the terminal won't find Python afterwards.
-- macOS: download the .pkg file from python.org/downloads as well and step through the installer. If you already have Homebrew, brew install python@3.11 works just as well.
-- Linux (Ubuntu/Debian): open a terminal and run sudo apt update && sudo apt install python3 python3-pip python3-venv.
+- Windows: go to python.org/downloads, download version 3.11 and run the installer. On the first screen tick "Add python.exe to PATH" before Install Now, otherwise the terminal won't find Python afterwards.
+- macOS: download the .pkg file from python.org/downloads as well and step through the installer. If you already have Homebrew, `brew install python@3.11` works just as well.
+- Linux (Ubuntu/Debian): open a terminal and run `sudo apt update && sudo apt install python3 python3-pip python3-venv`.
 
 Pip ships with Python from version 3.4 on, so you don't install it separately. To confirm both work, open a terminal (Command Prompt or PowerShell on Windows, Terminal on macOS and Linux) and run:
 
@@ -50,16 +50,26 @@ pip --version
 ```
 caption: If both print a version number, Python and pip are installed.
 
-On Windows, if python isn't recognized, try py --version; if pip doesn't answer either, try pip3 or python -m pip --version.
+On Windows, if `python` isn't recognized, try `py --version`; if `pip` doesn't answer either, try `pip3` or `python -m pip --version`.
 
 With Python installed, move on to the working environment itself. A virtual environment is a separate box for one project's libraries, so they don't clash with others installed globally. You create it once per project and always work inside it.
 
 1. Open a terminal in the folder you're working in.
-2. Type pip install jupyterlab and press Enter.
-3. Type jupyter lab and press Enter: a browser tab opens automatically with the interface.
+2. Create the virtual environment with `python -m venv .venv`, then activate it: `.venv\Scripts\activate` on Windows, `source .venv/bin/activate` on macOS and Linux. You repeat the activation every time you open a new terminal.
+3. Type `pip install jupyterlab` and press Enter.
+4. Type `jupyter lab` and press Enter: a browser tab opens automatically with the interface.
 
 > [!NOTE]
 > You can use VS Code too, but at some contests it isn't available. Google Colab is also a good option when you're working from a computer that isn't yours.
 
+## At the contest
+At the olympiad you work on the contest centre's computers, with Windows, JupyterLab, Python 3.11 and Firefox. You can't bring notes or books into the room, and online you can only reach the contest platform and the official documentation of the language and the allowed packages, for example docs.python.org, numpy.org/doc, pandas.pydata.org/docs or scikit-learn.org. The exact list is announced by the committee.
+
+That's why it's worth getting used to searching the documentation now, not Google. You also get help right inside the notebook: type a function's name followed by `?`, for example `pd.read_csv?`, or press Shift+Tab inside its parentheses to see which arguments it takes.
+
+> [!NOTE]
+> A few JupyterLab keys that save time: Shift+Enter runs the cell and moves to the next one, Esc then A or B adds a cell above or below, Esc then M turns the cell into text. Before you submit a solution, run Kernel → Restart Kernel and Run All Cells, to make sure the notebook works from scratch.
+
 # @practice
 - First submission on MLCompete
+- Find in the pandas documentation what the sep argument of read_csv does, without Google

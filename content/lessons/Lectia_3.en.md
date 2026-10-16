@@ -54,7 +54,7 @@ print(str(42) + "!")   # "42!"
 ```
 
 > [!NOTE]
-> `0`, `0.0`, `""`, `[]`, `{}`, `set()` and `None` are all "false" when you put them in an `if`. An empty list is false, everything else is true.
+> `0`, `0.0`, `""`, `[]`, `{}`, `set()` and `None` are all "false" when you put them in an `if`. An empty list is false, one with elements is true.
 
 ## The four data structures
 Almost everything you write uses one of these.
@@ -83,9 +83,9 @@ Dictionaries aren't only read with `d["key"]`, which raises an error if the key 
 
 ```
 grades = {
-	"Radu": 4,
-	"Stefan": 10,
-	"Victor": 8
+    "Radu": 4,
+    "Stefan": 10,
+    "Victor": 8
 }
 print(grades["Stefan"])   # 10
 print(grades.get("Radu")) # 4
@@ -398,6 +398,8 @@ print(divide(10, 0))   # message, then None
 
 The exceptions you'll hit most in contests: `ValueError` (a failed conversion, like `int("abc")`), `KeyError` (a key that doesn't exist in a dictionary), `IndexError` (an index outside the list), `FileNotFoundError` (a wrong path to the data).
 
+When one shows up, read the message from the bottom up: the last line tells you the type of error and why, and further up the arrow points to the line of code that failed.
+
 > [!NOTE]
 > Don't catch exceptions with a bare `except:`. It hides every mistake, including the ones you should actually see. Catch the exact type you expect, for example `except ValueError:`.
 
@@ -494,3 +496,8 @@ random.shuffle(scores)        # shuffles the list in place
 
 > [!NOTE]
 > Set `random.seed(...)` once, at the start of the script. Without it, running the code twice gives different results, which makes it impossible to fairly compare two ideas.
+
+`random.seed` only controls the `random` module. NumPy has its own generator, which you fix with `np.random.seed(42)`, and scikit-learn functions and models take `random_state=42`, as you'll see when splitting data.
+
+# @practice
+- [Kaggle Learn: Python](https://www.kaggle.com/learn/python)
